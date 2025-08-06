@@ -1,13 +1,11 @@
-import React from 'react';
 import { 
   Phone, 
   Mail, 
   MapPin,
-  ArrowRight,
-  Heart
+  ArrowRight
 } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
-import { getThemeColor } from '../config/colors';
+import { useTheme } from '../../contexts/ThemeContext';
+import { getThemeColor } from '../../config/colors';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();

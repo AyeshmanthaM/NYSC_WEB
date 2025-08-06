@@ -1,6 +1,5 @@
-import React from 'react';
-import { Clock, Users, Award, ArrowRight } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
+import { Clock, Users, ArrowRight } from 'lucide-react';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const PopularCourses = () => {
   const { isDark } = useTheme();

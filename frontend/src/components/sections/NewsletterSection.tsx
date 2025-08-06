@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, CheckCircle, ArrowRight } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
-import { getThemeColor } from '../config/colors';
+import { useTheme } from '../../contexts/ThemeContext';
+import { getThemeColor } from '../../config/colors';
 
 const NewsletterSection = () => {
   const [email, setEmail] = useState('');

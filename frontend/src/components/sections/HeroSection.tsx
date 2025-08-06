@@ -1,7 +1,6 @@
-import React from 'react';
 import { ArrowRight } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
-import HeroParticleMesh from './HeroParticleMesh';
+import { useTheme } from '../../contexts/ThemeContext';
+import HeroParticleMesh from '../ui/HeroParticleMesh';
 
 const HeroSection = () => {
   const { isDark } = useTheme();

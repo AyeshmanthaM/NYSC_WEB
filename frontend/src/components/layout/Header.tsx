@@ -5,7 +5,7 @@ import {
   Trophy, Music, GraduationCap, Star,
   UserPlus, Lightbulb, Heart, HandHeart, Mail
 } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -172,6 +172,21 @@ const Header = () => {
 
             {/* Center Section - Desktop Navigation */}
             <div className="hidden lg:flex items-center absolute left-1/2 transform -translate-x-1/2 max-w-fit">
+              
+               {/* Top thick border line */}
+              <div className={`absolute -top-3 left-0 right-0 h-0.5 transition-all duration-500 ${
+                isScrolled == false
+                  ? 'opacity-70 bg-gradient-to-r from-transparent via-[#1aa79e] to-transparent transform scale-x-100' 
+                  : 'opacity-0 transform scale-x-0'
+              }`} />
+              
+              {/* Bottom thick border line */}
+              <div className={`absolute -bottom-3 left-0 right-0 h-0.5 transition-all duration-500 delay-100 ${
+                isScrolled == false
+                  ? 'opacity-70 bg-gradient-to-r from-transparent via-[#f38621] to-transparent transform scale-x-100' 
+                  : 'opacity-0 transform scale-x-0'
+              }`} />
+
               {Object.entries(dropdownItems).map(([item, subitems]) => (
                 <div
                   key={item}

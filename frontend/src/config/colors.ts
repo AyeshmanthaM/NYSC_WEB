@@ -138,7 +138,7 @@ export const colorConfig = {
 // Helper function to get theme-based color
 export const getThemeColor = (colorPath: string, isDark: boolean): string => {
   const keys = colorPath.split('.');
-  let color = colorConfig as any;
+  let color = colorConfig as Record<string, unknown>;
   
   for (const key of keys) {
     color = color[key];

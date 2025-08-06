@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Quote, Star } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
-import { getThemeColor } from '../config/colors';
+import { useTheme } from '../../contexts/ThemeContext';
+import { getThemeColor } from '../../config/colors';
 
 const TestimonialsSection = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);

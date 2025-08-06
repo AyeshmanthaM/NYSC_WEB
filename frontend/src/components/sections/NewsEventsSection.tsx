@@ -1,7 +1,6 @@
-import React from 'react';
 import { Calendar, Clock, MapPin, ArrowRight, Newspaper, Users } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
-import { getThemeColor } from '../config/colors';
+import { useTheme } from '../../contexts/ThemeContext';
+import { getThemeColor } from '../../config/colors';
 
 const NewsEventsSection = () => {
   const { isDark } = useTheme();

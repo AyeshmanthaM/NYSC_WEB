@@ -1,20 +1,18 @@
-import React from 'react';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { useTheme } from './contexts/ThemeContext';
 import { getThemeColor } from './config/colors';
-import AnimatedBackground from './components/AnimatedBackground';
-import Header from './components/Header';
-import HeroSection from './components/HeroSection';
-import KeyServiceAreas from './components/KeyServiceAreas';
-import MembershipCounter from './components/MembershipCounter';
-import YouthOfferings from './components/YouthOfferings';
-import LeadersSection from './components/LeadersSection';
-import PopularCourses from './components/PopularCourses';
-import ServicesSection from './components/ServicesSection';
-import TestimonialsSection from './components/TestimonialsSection';
-import NewsEventsSection from './components/NewsEventsSection';
-import NewsletterSection from './components/NewsletterSection';
-import Footer from './components/Footer';
+import AnimatedBackground from './components/ui/AnimatedBackground';
+import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
+import HeroSection from './components/sections/HeroSection';
+import KeyServiceAreas from './components/sections/KeyServiceAreas';
+import YouthOfferings from './components/sections/YouthOfferings';
+import LeadersSection from './components/sections/LeadersSection';
+import PopularCourses from './components/sections/PopularCourses';
+import ServicesSection from './components/sections/ServicesSection';
+import TestimonialsSection from './components/sections/TestimonialsSection';
+import NewsEventsSection from './components/sections/NewsEventsSection';
+import NewsletterSection from './components/sections/NewsletterSection';
 
 const AppContent = () => {
   const { isDark } = useTheme();
@@ -30,15 +28,31 @@ const AppContent = () => {
       <div className="relative z-10 w-full max-w-full overflow-x-hidden">
         <Header />
         <HeroSection />
-        <KeyServiceAreas />
-        <MembershipCounter />
-        <YouthOfferings />
-        <LeadersSection />
-        <PopularCourses />
-        <ServicesSection />
-        <TestimonialsSection />
-        <NewsEventsSection />
-        <NewsletterSection />
+        
+        {/* Add spacing wrapper for better flow */}
+        <div className="py-8">
+          <KeyServiceAreas />
+        </div>
+        
+        {/* Group related sections with proper spacing */}
+        <div className="space-y-16">
+          <YouthOfferings />
+          <PopularCourses />
+          <ServicesSection />
+        </div>
+        
+        {/* Leadership and testimonials */}
+        <div className="mt-16">
+          <LeadersSection />
+          <TestimonialsSection />
+        </div>
+        
+        {/* News and newsletter before footer */}
+        <div className="mt-16">
+          <NewsEventsSection />
+          <NewsletterSection />
+        </div>
+        
         <Footer />
       </div>
     </div>

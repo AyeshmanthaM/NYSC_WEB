@@ -1,7 +1,6 @@
-import React from 'react';
-import { Award, ArrowRight, Crown, Building, Shield } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
-import { getThemeColor } from '../config/colors';
+import { Award, Crown, Building, Shield } from 'lucide-react';
+import { useTheme } from '../../contexts/ThemeContext';
+import { getThemeColor } from '../../config/colors';
 
 const LeadersSection = () => {
   const { isDark } = useTheme();

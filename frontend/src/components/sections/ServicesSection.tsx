@@ -1,4 +1,3 @@
-import React from 'react';
 import { 
   Trophy, 
   Palette, 
@@ -9,8 +8,8 @@ import {
   ArrowRight,
   Sparkles
 } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
-import { getThemeColor } from '../config/colors';
+import { useTheme } from '../../contexts/ThemeContext';
+import { getThemeColor } from '../../config/colors';
 
 const ServicesSection = () => {
   const { isDark } = useTheme();

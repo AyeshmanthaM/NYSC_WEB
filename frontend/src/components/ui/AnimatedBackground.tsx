@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { useTheme } from '../contexts/ThemeContext';
-import { colorConfig } from '../config/colors';
+import { useTheme } from '../../contexts/ThemeContext';
+import { colorConfig } from '../../config/colors';
 
 const AnimatedBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
