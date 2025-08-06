@@ -76,29 +76,29 @@ const Header = () => {
   }, []);
 
   const dropdownItems = {
-    About: [
-      { label: 'Our Story', icon: Users },
-      { label: 'Vision & Mission', icon: Target },
-      { label: 'Leadership', icon: Award },
-      { label: 'Annual Reports', icon: FileText }
+    'Youth Club': [
+      { label: 'About Clubs', icon: FileText },
+      { label: 'Register Club', icon: UserPlus },
+      { label: 'Find Clubs', icon: Users },
+      { label: 'Club Activities', icon: Trophy }
     ],
-    Programs: [
-      { label: 'Sports Programs', icon: Trophy },
-      { label: 'Cultural Activities', icon: Music },
-      { label: 'Training Centers', icon: GraduationCap },
-      { label: 'Youth Awards', icon: Star }
+    Divisions: [
+      { label: 'Sports Development', icon: Trophy },
+      { label: 'Cultural Affairs', icon: Music },
+      { label: 'Education & Training', icon: GraduationCap },
+      { label: 'International Relations', icon: Star }
     ],
     Services: [
-      { label: 'Youth Clubs', icon: UserPlus },
+      { label: 'Youth Awards', icon: Award },
       { label: 'Skill Development', icon: Lightbulb },
-      { label: 'Mentorship', icon: Heart },
-      { label: 'Community Service', icon: HandHeart }
+      { label: 'Career Guidance', icon: Target },
+      { label: 'Volunteer Programs', icon: HandHeart }
     ],
-    Contact: [
-      { label: 'General Inquiries', icon: Mail },
-      { label: 'Support Center', icon: Heart },
-      { label: 'Media Relations', icon: FileText },
-      { label: 'Partner With Us', icon: HandHeart }
+    'Our Centers': [
+      { label: 'Training Centers', icon: GraduationCap },
+      { label: 'District Offices', icon: Users },
+      { label: 'Youth Centers', icon: Heart },
+      { label: 'Contact Info', icon: Mail }
     ]
   };
 
@@ -145,33 +145,28 @@ const Header = () => {
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 w-full max-w-full transition-all duration-300`}>
       
-      <div className="w-full max-w-full px-4 sm:px-6 py-4 relative z-10">
-        <div className="h-20 flex justify-center">
+      <div className="w-full max-w-full px-4 sm:px-10 py-4 relative z-10">
+        <div className="h-24 flex justify-center">
           {/* Fixed Width Navigation Bar for Large Screens */}
-          <div className={`navigation-container flex items-center justify-between h-full px-4 sm:px-6 py-3 mx-2 sm:mx-4 rounded-xl transition-all duration-300 w-full max-w-7xl ${
+          <div className={`navigation-container flex items-center justify-between h-full mx-2 sm:mx-4 rounded-xl transition-all duration-300 w-full max-w-7xl ${
             isScrolled 
               ? isDark 
                 ? 'bg-gray-900/30 backdrop-blur-md border border-gray-700/50 shadow-sm'
                 : 'bg-white/30 backdrop-blur-md border border-gray-200/50 shadow-sm'
-              : 'bg-white/10 backdrop-blur-md border border-white/20'
+              : 'bg-transparent border border-transparent'
           }`}>
             {/* Left Section - Logo */}
-            <div className="flex items-center">
+            <div className="flex items-center h-full ml-4">
               <a 
                 href="#" 
-                className="flex items-center space-x-3 px-4 py-2 rounded-lg transition-all duration-200 hover:bg-white/5 group"
+                className="flex items-center h-full py-2 px-2 rounded-lg transition-all duration-200 hover:bg-white/5 group"
                 aria-label="NYSC Home"
               >
-                <div className="w-10 h-10 bg-gradient-to-br from-[#1aa79e] to-[#f38621] rounded-full flex items-center justify-center shadow-lg transition-all duration-200 group-hover:scale-110 group-hover:shadow-xl">
-                  <span className="text-white font-bold text-base transition-transform duration-200 group-hover:scale-105">N</span>
-                </div>
-                <span className={`font-bold text-xl transition-all duration-200 group-hover:scale-105 ${
-                  isScrolled 
-                    ? isDark ? 'text-white' : 'text-gray-900'
-                    : 'text-white'
-                }`}>
-                  NYSC
-                </span>
+                <img 
+                  src="/src/assets/svg/profile_NYSC.svg" 
+                  alt="NYSC Logo" 
+                  className="h-full w-auto max-h-16 object-contain transition-all duration-200 group-hover:scale-105"
+                />
               </a>
             </div>
 
@@ -194,7 +189,9 @@ const Header = () => {
                           ? isDark
                             ? 'text-gray-300 hover:text-white hover:bg-gray-700'
                             : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                          : 'text-white/90 hover:text-white hover:bg-white/10'
+                          : isDark
+                            ? 'text-white/90 hover:text-white hover:bg-white/10'
+                            : 'text-gray-800 hover:text-gray-900 hover:bg-gray-100/20'
                     }`}
                     aria-expanded={activeDropdown === item}
                     aria-haspopup="true"
@@ -255,7 +252,7 @@ const Header = () => {
             </div>
 
             {/* Right Section - Utilities */}
-            <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
+            <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0 mr-4">
               {/* Enhanced Search with Animation */}
               <div className="relative flex items-center">
                 {isSearchOpen ? (
@@ -315,7 +312,9 @@ const Header = () => {
                           ? isDark
                             ? 'text-gray-300 hover:text-white hover:bg-gray-700'
                             : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                          : 'text-white/90 hover:text-white hover:bg-white/10'
+                          : isDark
+                            ? 'text-white/90 hover:text-white hover:bg-white/10'
+                            : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100/20'
                       }`}
                       aria-label="Open search"
                     >
@@ -332,7 +331,7 @@ const Header = () => {
                       <span className={`text-xs font-medium mr-2 ${
                         isScrolled 
                           ? isDark ? 'text-gray-400' : 'text-gray-500'
-                          : 'text-white/70'
+                          : isDark ? 'text-white/70' : 'text-gray-600'
                       }`}>
                         Lang:
                       </span>
@@ -347,7 +346,9 @@ const Header = () => {
                                 ? isDark
                                   ? 'text-gray-300 hover:text-white hover:bg-gray-700'
                                   : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                                : 'text-white/90 hover:text-white hover:bg-white/10'
+                                : isDark
+                                  ? 'text-white/90 hover:text-white hover:bg-white/10'
+                                  : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100/20'
                           }`}
                           aria-label={`Switch to ${lang === 'EN' ? 'English' : lang === 'SI' ? 'Sinhala' : 'Tamil'}`}
                           aria-pressed={currentLang === lang}
@@ -373,7 +374,9 @@ const Header = () => {
                   ? isDark
                     ? 'text-gray-300 hover:text-white hover:bg-gray-700'
                     : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                  : 'text-white/90 hover:text-white hover:bg-white/10'
+                  : isDark
+                    ? 'text-white/90 hover:text-white hover:bg-white/10'
+                    : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100/20'
               }`}
               aria-label={`Switch to ${isDark ? 'light' : 'dark'} theme`}
             >
@@ -393,7 +396,9 @@ const Header = () => {
                   ? isDark
                     ? 'text-gray-300 hover:text-white hover:bg-gray-700'
                     : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                  : 'text-white/90 hover:text-white hover:bg-white/10'
+                  : isDark
+                    ? 'text-white/90 hover:text-white hover:bg-white/10'
+                    : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100/20'
               }`}
               aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMobileMenuOpen}
