@@ -105,17 +105,11 @@ const AppContent = () => {
         <PopularCourses />
         <ServicesSection />
 
-        {/* Leadership and testimonials */}
-        <div className="mt-16">
-          
-          <TestimonialsSection />
-        </div>
-
+        {/* Leadership and testimonials */} 
+        <TestimonialsSection />
+        
         {/* News and newsletter before footer */}
-        <div className="mt-16">
-          <NewsEventsSection />
-          <NewsletterSection />
-        </div>
+        <NewsEventsSection />
 
         <Footer />
       </div>
