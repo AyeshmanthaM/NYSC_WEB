@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { ChevronRight, Quote, Star, PenTool, Plus } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Quote, Star, PenTool, Plus } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 
 const TestimonialsSection = () => {
@@ -192,7 +192,7 @@ const TestimonialsSection = () => {
                     setCurrentTestimonial(index);
                   } else {
                     // Open testimonial in modal or navigate to detail page
-                    console.log('View full testimonial:', testimonial.name);
+                    // TODO: Implement modal or detail page navigation
                   }
                 }}
               >

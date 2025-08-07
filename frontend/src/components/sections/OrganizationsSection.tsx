@@ -1,28 +1,30 @@
 import { ExternalLink, Plus } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const OrganizationsSection = () => {
   const { isDark } = useTheme();
+  const { t } = useLanguage();
 
   const organizations = [
     {
       id: 1,
-      title: 'Youth Club',
-      description: 'Sri Lanka Youth Club Movement Implemented by Sri Lanka Federation of Youth Clubs.',
+      title: t('organizations.youthClub.title'),
+      description: t('organizations.youthClub.description'),
       image: '/images/organizations/club2.png',
       link: 'https://www.nysc.lk/page/view/youth-club'
     },
     {
       id: 2,
-      title: 'Youth Services Limited',
-      description: 'Encouraging and improving the economic power of youth by providing essential services',
+      title: t('organizations.youthServices.title'),
+      description: t('organizations.youthServices.description'),
       image: '/images/organizations/youth-service-logo.png',
       link: 'https://www.nysc.lk/page/view/youth-services-limited'
     },
     {
       id: 3,
-      title: 'NYSCO',
-      description: 'Young entrepreneurs can improve their ideas and services to increase the productivity and revenue',
+      title: t('organizations.nysco.title'),
+      description: t('organizations.nysco.description'),
       image: '/images/organizations/nysco.png',
       link: 'https://www.nysc.lk/page/view/nysco'
     }
@@ -69,14 +71,14 @@ const OrganizationsSection = () => {
               ? 'bg-gradient-to-r from-[#1aa79e]/20 to-[#f38621]/20 text-[#1aa79e] border border-[#1aa79e]/30'
               : 'bg-gradient-to-r from-[#1aa79e]/10 to-[#f38621]/10 text-[#1aa79e] border border-[#1aa79e]/20'
           }`}>
-            Sri Lanka Youth
+            {t('organizations.badge')}
           </span>
           <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold leading-tight ${
             isDark ? 'text-white' : 'text-gray-900'
           }`}>
-            Our Other
+            {t('organizations.title')}
             <span className="block bg-gradient-to-r from-[#1aa79e] to-[#f38621] bg-clip-text text-transparent">
-              Organizations
+              {t('organizations.titleHighlight')}
             </span>
           </h2>
         </div>
@@ -128,7 +130,7 @@ const OrganizationsSection = () => {
                       ? 'bg-gradient-to-r from-[#1aa79e] to-[#f38621] text-white hover:shadow-lg hover:shadow-[#1aa79e]/30'
                       : 'bg-gradient-to-r from-[#1aa79e] to-[#f38621] text-white hover:shadow-lg hover:shadow-[#1aa79e]/30'
                   } group-hover:scale-105`}>
-                    Explore more
+                    {t('organizations.exploreMore')}
                     <Plus className="w-4 h-4 transition-transform duration-300 group-hover:rotate-90" />
                   </div>
                 </div>

@@ -1,5 +1,6 @@
 import { ArrowRight, Briefcase, Heart, Globe, BookOpen, Users, Lightbulb, Star, TrendingUp } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface YouthOfferingsProps {
   extraTopSpace?: number;
@@ -7,55 +8,56 @@ interface YouthOfferingsProps {
 
 const YouthOfferings = ({ extraTopSpace = 0 }: YouthOfferingsProps) => {
   const { isDark } = useTheme();
+  const { t } = useLanguage();
 
   const offerings = [
     {
       id: 1,
-      title: 'Career Development',
-      description: 'Professional skills training and career guidance programs',
+      title: t('youthOfferings.careerTitle'),
+      description: t('youthOfferings.careerDescription'),
       icon: Briefcase,
       link: '#',
-      features: ['Job Training', 'Career Counseling', 'Internships']
+      features: t('youthOfferings.careerFeatures') as string[]
     },
     {
       id: 2,
-      title: 'Volunteer Programs',
-      description: 'Community service and social development initiatives',
+      title: t('youthOfferings.volunteerTitle'),
+      description: t('youthOfferings.volunteerDescription'),
       icon: Heart,
       link: '#',
-      features: ['Community Service', 'Social Projects', 'Environmental Work']
+      features: t('youthOfferings.volunteerFeatures') as string[]
     },
     {
       id: 3,
-      title: 'International Exchange',
-      description: 'Global youth exchange and cultural programs',
+      title: t('youthOfferings.internationalTitle'),
+      description: t('youthOfferings.internationalDescription'),
       icon: Globe,
       link: '#',
-      features: ['Exchange Programs', 'Cultural Tours', 'Global Networks']
+      features: t('youthOfferings.internationalFeatures') as string[]
     },
     {
       id: 4,
-      title: 'Educational Support',
-      description: 'Scholarships and educational assistance programs',
+      title: t('youthOfferings.educationalTitle'),
+      description: t('youthOfferings.educationalDescription'),
       icon: BookOpen,
       link: '#',
-      features: ['Scholarships', 'Tutoring', 'Study Materials']
+      features: t('youthOfferings.educationalFeatures') as string[]
     },
     {
       id: 5,
-      title: 'Youth Clubs',
-      description: 'Join or establish youth clubs in your area',
+      title: t('youthOfferings.clubsTitle'),
+      description: t('youthOfferings.clubsDescription'),
       icon: Users,
       link: '#',
-      features: ['Club Formation', 'Activities', 'Networking']
+      features: t('youthOfferings.clubsFeatures') as string[]
     },
     {
       id: 6,
-      title: 'Innovation Hub',
-      description: 'Entrepreneurship and innovation support',
+      title: t('youthOfferings.innovationTitle'),
+      description: t('youthOfferings.innovationDescription'),
       icon: Lightbulb,
       link: '#',
-      features: ['Startup Support', 'Mentorship', 'Funding Access']
+      features: t('youthOfferings.innovationFeatures') as string[]
     }
   ];
 
@@ -72,20 +74,20 @@ const YouthOfferings = ({ extraTopSpace = 0 }: YouthOfferingsProps) => {
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#1aa79e]/10 to-[#f38621]/10 border border-[#1aa79e]/20 mb-6">
             <Star className={`w-4 h-4 ${isDark ? 'text-[#1aa79e]' : 'text-[#1aa79e]'}`} />
-            <span className={`text-sm font-medium ${isDark ? 'text-[#1aa79e]' : 'text-[#1aa79e]'}`}>Youth Programs</span>
+            <span className={`text-sm font-medium ${isDark ? 'text-[#1aa79e]' : 'text-[#1aa79e]'}`}>{t('youthOfferings.badgeText')}</span>
           </div>
           <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight ${
             isDark ? 'text-white' : 'text-gray-900'
           }`}>
-            What We Offer to
+            {t('youthOfferings.title')}
             <span className="block bg-gradient-to-r from-[#1aa79e] to-[#f38621] bg-clip-text text-transparent">
-              Youth
+              {t('youthOfferings.titleHighlight')}
             </span>
           </h2>
           <p className={`text-lg max-w-2xl mx-auto leading-relaxed ${
             isDark ? 'text-gray-300' : 'text-gray-600'
           }`}>
-            Comprehensive programs and opportunities designed to unlock your potential
+            {t('youthOfferings.subtitle')}
           </p>
         </div>
 
@@ -143,7 +145,7 @@ const YouthOfferings = ({ extraTopSpace = 0 }: YouthOfferingsProps) => {
                       className={`inline-flex items-center px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg bg-gradient-to-r from-[#1aa79e] to-[#f38621] text-white font-semibold text-xs sm:text-sm transition-all duration-300 hover:shadow-lg hover:shadow-[#1aa79e]/25 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#1aa79e]/50 focus:ring-offset-2 ${isDark ? 'focus:ring-offset-gray-800' : 'focus:ring-offset-white'} transform active:scale-95`}
                       aria-label={`Learn more about ${offering.title}`}
                     >
-                      Learn More
+                      {t('youthOfferings.learnMore')}
                       <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 ml-1 sm:ml-2 transition-transform duration-300 group-hover:translate-x-2" />
                     </a>
                   </div>

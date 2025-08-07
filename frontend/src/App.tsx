@@ -1,4 +1,5 @@
 import { ThemeProvider } from './contexts/ThemeContext';
+import { LanguageProvider } from './contexts/LanguageContext';
 import { useTheme } from './contexts/ThemeContext';
 import { getThemeColor } from './config/colors';
 import { useRef, useEffect, useState } from 'react';
@@ -14,7 +15,6 @@ import PopularCourses from './components/sections/PopularCourses';
 import ServicesSection from './components/sections/ServicesSection';
 import TestimonialsSection from './components/sections/TestimonialsSection';
 import NewsEventsSection from './components/sections/NewsEventsSection';
-import NewsletterSection from './components/sections/NewsletterSection';
 
 const AppContent = () => {
   const { isDark } = useTheme();
@@ -55,9 +55,6 @@ const AppContent = () => {
   // We need to compensate more to prevent the YouthOfferings from moving
   const hoverCompensation = isCardHovered ? 30 : 0; //<--- 30 is depend by card hight
   const marginOffset = baseMarginOffset + hoverCompensation;
-
-  // Debug logging
-  // console.log('Hover state:', isCardHovered, 'MarginOffset:', marginOffset);
 
   return (
     <div className={`min-h-screen w-full max-w-full overflow-x-hidden relative transition-colors duration-300 ${getThemeColor('background', isDark)
@@ -120,7 +117,9 @@ const AppContent = () => {
 function App() {
   return (
     <ThemeProvider>
-      <AppContent />
+      <LanguageProvider>
+        <AppContent />
+      </LanguageProvider>
     </ThemeProvider>
   );
 }

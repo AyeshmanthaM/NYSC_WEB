@@ -1,12 +1,15 @@
 import { Award, Crown, Building, Shield, Facebook, Twitter, Instagram, Linkedin, Eye, ArrowRight } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const LeadersSection = () => {
   const { isDark } = useTheme();
+  const { t } = useLanguage();
+  
   const leaders = [
     {
-      name: 'Hon. Sunil Kumara Gamage',
-      position: 'Minister Of Youth Affairs and Sports',
+      name: t('leaders.minister.name'),
+      position: t('leaders.minister.position'),
       image: '/images/leaders/sunil-kumara-gamage.jpg',
       socialLinks: {
         facebook: '#',
@@ -18,8 +21,8 @@ const LeadersSection = () => {
       color: 'from-purple-600 to-purple-700'
     },
     {
-      name: 'Hon. Eranga Gunasekara',
-      position: 'Deputy Minister Of Youth Affairs',
+      name: t('leaders.deputyMinister.name'),
+      position: t('leaders.deputyMinister.position'),
       image: '/images/leaders/eranga-gunasekara.jpg',
       socialLinks: {
         facebook: '#',
@@ -31,8 +34,8 @@ const LeadersSection = () => {
       color: 'from-blue-600 to-blue-700'
     },
     {
-      name: 'Mr. A.H.M.U.Aruna Bandara',
-      position: 'Secretary',
+      name: t('leaders.secretary.name'),
+      position: t('leaders.secretary.position'),
       image: '/images/leaders/aruna-bandara.jpg',
       socialLinks: {
         facebook: '#',
@@ -44,8 +47,8 @@ const LeadersSection = () => {
       color: 'from-green-600 to-green-700'
     },
     {
-      name: 'Attorney at Law Mr. Supun Wijerathna',
-      position: 'Chairman/Director General',
+      name: t('leaders.chairman.name'),
+      position: t('leaders.chairman.position'),
       image: '/images/leaders/supun-wijerathna.jpg',
       socialLinks: {
         facebook: '#',
@@ -88,17 +91,17 @@ const LeadersSection = () => {
               ? 'bg-gradient-to-r from-[#1aa79e]/20 to-[#f38621]/20 text-[#1aa79e] border border-[#1aa79e]/30'
               : 'bg-gradient-to-r from-[#1aa79e]/10 to-[#f38621]/10 text-[#1aa79e] border border-[#1aa79e]/20'
           }`}>
-            Get To Know
+            {t('leaders.badge')}
           </span>
           <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 ${
             isDark ? 'text-white' : 'text-gray-900'
           }`}>
-            Our Leaders
+            {t('leaders.title')}
           </h2>
           <p className={`text-lg mb-6 max-w-2xl mx-auto ${
             isDark ? 'text-gray-300' : 'text-gray-600'
           }`}>
-            We Have Powerful Leaders With Great Vision On Sri Lankan Youth
+            {t('leaders.subtitle')}
           </p>
         </div>
 
@@ -227,12 +230,12 @@ const LeadersSection = () => {
               <h3 className={`text-xl font-bold mb-3 ${
                 isDark ? 'text-white' : 'text-gray-900'
               }`}>
-                Meet Our Board of Directors
+                {t('leaders.directorsTitle')}
               </h3>
               <p className={`text-sm mb-6 max-w-md mx-auto ${
                 isDark ? 'text-gray-400' : 'text-gray-600'
               }`}>
-                Discover the visionary leaders shaping the future of Sri Lankan youth development
+                {t('leaders.directorsDescription')}
               </p>
               
               {/* Enhanced Button */}
@@ -242,7 +245,7 @@ const LeadersSection = () => {
                 
                 {/* Button content */}
                 <div className="relative flex items-center px-10 py-4 bg-gradient-to-r from-[#1aa79e] to-[#f38621] rounded-full text-white font-semibold transition-all duration-300 group-hover:scale-105 shadow-lg">
-                  <span className="text-base">View All Directors</span>
+                  <span className="text-base">{t('leaders.viewAllDirectors')}</span>
                 </div>
               </button>
               

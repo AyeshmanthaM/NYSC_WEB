@@ -1,5 +1,6 @@
 import { ArrowRight } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { useEffect, useState } from 'react';
 import HeroParticleMesh from '../ui/HeroParticleMesh';
 
@@ -9,6 +10,7 @@ interface HeroSectionProps {
 
 const HeroSection = ({ extraBottomSpace = 0 }: HeroSectionProps) => {
   const { isDark } = useTheme();
+  const { t } = useLanguage();
   const [viewportHeight, setViewportHeight] = useState(0);
   
   useEffect(() => {
@@ -58,7 +60,7 @@ const HeroSection = ({ extraBottomSpace = 0 }: HeroSectionProps) => {
               <span className={`text-sm font-semibold tracking-wider uppercase ${
                 isDark ? 'text-gray-300' : 'text-gray-600'
               }`}>
-                AN EMPOWERED SRI LANKA YOUTH
+                {t('hero.subtitle')}
               </span>
             </div>
 
@@ -66,15 +68,15 @@ const HeroSection = ({ extraBottomSpace = 0 }: HeroSectionProps) => {
             <h1 className={`text-4xl md:text-5xl lg:text-6xl font-bold leading-tight ${
               isDark ? 'text-white' : 'text-gray-900'
             }`}>
-              NATIONAL YOUTH SERVICES COUNCIL OF 
-              <span className="bg-gradient-to-r from-[#1aa79e] to-[#f38621] bg-clip-text text-transparent"> SRI LANKA</span>
+              {t('hero.title')} 
+              <span className="bg-gradient-to-r from-[#1aa79e] to-[#f38621] bg-clip-text text-transparent"> {t('hero.titleHighlight')}</span>
             </h1>
 
             {/* Description */}
             <p className={`text-lg md:text-xl leading-relaxed ${
               isDark ? 'text-gray-300' : 'text-gray-600'
             }`}>
-              Youth of Sri Lanka are also having an undertaking for economic and social upliftment of the country.
+              {t('hero.description')}
             </p>
 
             {/* Stats */}
@@ -84,7 +86,7 @@ const HeroSection = ({ extraBottomSpace = 0 }: HeroSectionProps) => {
                   50K+
                 </div>
                 <div className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                  Active Members
+                  {t('hero.statsActiveMembers')}
                 </div>
               </div>
               <div className="text-center">
@@ -92,7 +94,7 @@ const HeroSection = ({ extraBottomSpace = 0 }: HeroSectionProps) => {
                   200+
                 </div>
                 <div className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                  Youth Clubs
+                  {t('hero.statsYouthClubs')}
                 </div>
               </div>
               <div className="text-center">
@@ -100,7 +102,7 @@ const HeroSection = ({ extraBottomSpace = 0 }: HeroSectionProps) => {
                   25
                 </div>
                 <div className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                  Districts
+                  {t('hero.statsDistricts')}
                 </div>
               </div>
             </div>
@@ -109,7 +111,7 @@ const HeroSection = ({ extraBottomSpace = 0 }: HeroSectionProps) => {
             <div className="flex flex-col sm:flex-row gap-4">
               <button className="group relative inline-flex items-center justify-center px-8 py-4 font-semibold text-white transition-all duration-200 bg-gradient-to-r from-[#1aa79e] to-[#f38621] rounded-full hover:scale-105 hover:shadow-2xl">
                 <span className="relative flex items-center">
-                  Join With Us
+                  {t('hero.joinButton')}
                   <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
                 </span>
               </button>
@@ -122,7 +124,7 @@ const HeroSection = ({ extraBottomSpace = 0 }: HeroSectionProps) => {
                     : 'border-gray-300 text-gray-700 hover:bg-gray-50'
                 }`}
               >
-                Youth Statement to COP28
+                {t('hero.youthStatement')}
               </a>
             </div>
           </div>

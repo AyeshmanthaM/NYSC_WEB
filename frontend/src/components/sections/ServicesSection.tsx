@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { ExternalLink, Users, Vote, Zap, Music, Theater, Trophy } from 'lucide-react';
 
 interface ServiceItem {
@@ -18,99 +19,64 @@ interface ServiceItem {
 
 const InteractiveServicesSection = () => {
   const { isDark } = useTheme();
+  const { t } = useLanguage();
   const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
   const [isAnimating, setIsAnimating] = useState(false);
 
   const services: ServiceItem[] = [
     {
       id: 'youth-club',
-      title: 'Youth Club',
-      description: 'Join our vibrant youth communities across Sri Lanka. Connect, learn, and grow with like-minded young people in your area.',
+      title: t('services.youthClub.title'),
+      description: t('services.youthClub.description'),
       link: 'https://www.nysc.lk/page/view/youth-club',
       icon: Users,
       stats: { members: 15000, programs: 250, achievements: 180 },
-      features: [
-        'Community Building',
-        'Leadership Training',
-        'Social Activities',
-        'Volunteer Opportunities',
-        'Networking Events'
-      ]
+      features: t('services.youthClub.features') as string[]
     },
     {
       id: 'youth-parliament',
-      title: 'Youth Parliament',
-      description: 'Participate in democratic processes and develop your political awareness through our youth parliament program.',
+      title: t('services.youthParliament.title'),
+      description: t('services.youthParliament.description'),
       link: 'https://www.nysc.lk/page/view/youth-parliment',
       icon: Vote,
       stats: { members: 500, programs: 12, achievements: 25 },
-      features: [
-        'Democratic Participation',
-        'Public Speaking',
-        'Policy Making',
-        'Civic Education',
-        'Leadership Skills'
-      ]
+      features: t('services.youthParliament.features') as string[]
     },
     {
       id: 'youth-dancing',
-      title: 'Youth Dancing Team',
-      description: 'Express yourself through traditional and modern dance forms. Join our talented dancing teams and showcase Sri Lankan culture.',
+      title: t('services.youthDancing.title'),
+      description: t('services.youthDancing.description'),
       link: 'https://www.nysc.lk/page/view/youth-dancing-team',
       icon: Zap,
       stats: { members: 2500, programs: 80, achievements: 120 },
-      features: [
-        'Traditional Dance',
-        'Modern Choreography',
-        'Cultural Performances',
-        'Competition Training',
-        'International Shows'
-      ]
+      features: t('services.youthDancing.features') as string[]
     },
     {
       id: 'youth-music',
-      title: 'Youth Music Band',
-      description: 'Discover your musical talents with our youth music bands. Learn instruments, compose, and perform across various genres.',
+      title: t('services.youthMusic.title'),
+      description: t('services.youthMusic.description'),
       link: 'https://www.nysc.lk/page/view/youth-music-band',
       icon: Music,
       stats: { members: 1800, programs: 60, achievements: 95 },
-      features: [
-        'Instrumental Training',
-        'Vocal Development',
-        'Music Composition',
-        'Live Performances',
-        'Recording Opportunities'
-      ]
+      features: t('services.youthMusic.features') as string[]
     },
     {
       id: 'youth-drama',
-      title: 'Youth Drama Team',
-      description: 'Explore the world of theater and dramatic arts. Develop acting skills and participate in meaningful productions.',
+      title: t('services.youthDrama.title'),
+      description: t('services.youthDrama.description'),
       link: 'https://www.nysc.lk/page/view/youth-drama-team',
       icon: Theater,
       stats: { members: 1200, programs: 40, achievements: 60 },
-      features: [
-        'Acting Workshops',
-        'Script Writing',
-        'Stage Production',
-        'Character Development',
-        'Theater Festivals'
-      ]
+      features: t('services.youthDrama.features') as string[]
     },
     {
       id: 'youth-sports',
-      title: 'Youth Sports',
-      description: 'Stay active and competitive with our comprehensive sports programs. From traditional games to modern athletics.',
+      title: t('services.youthSports.title'),
+      description: t('services.youthSports.description'),
       link: 'https://www.nysc.lk/page/view/sports',
       icon: Trophy,
       stats: { members: 8500, programs: 150, achievements: 300 },
-      features: [
-        'Athletic Training',
-        'Team Sports',
-        'Individual Competitions',
-        'Fitness Programs',
-        'International Tournaments'
-      ]
+      features: t('services.youthSports.features') as string[]
     }
   ];
 
@@ -154,17 +120,17 @@ const InteractiveServicesSection = () => {
               ? 'bg-gradient-to-r from-[#1aa79e]/20 to-[#f38621]/20 text-[#1aa79e] border border-[#1aa79e]/30'
               : 'bg-gradient-to-r from-[#1aa79e]/10 to-[#f38621]/10 text-[#1aa79e] border border-[#1aa79e]/20'
           }`}>
-            Interactive Services
+            {t('services.badge')}
           </span>
           <h2 className={`text-2xl md:text-3xl lg:text-4xl font-bold mb-3 ${
             isDark ? 'text-white' : 'text-gray-900'
           }`}>
-            Discover Our Youth Programs
+            {t('services.title')}
           </h2>
           <p className={`text-base mb-6 max-w-2xl mx-auto ${
             isDark ? 'text-gray-300' : 'text-gray-600'
           }`}>
-            Click on any service tile to explore detailed information and opportunities
+            {t('services.subtitle')}
           </p>
         </div>
 
@@ -182,7 +148,7 @@ const InteractiveServicesSection = () => {
                 isDark ? 'services-tab--dark' : ''
               }`}
             >
-              {service.title.replace('Youth ', '')}
+              {service.title}
             </button>
           ))}
         </div>
@@ -233,7 +199,7 @@ const InteractiveServicesSection = () => {
                         <div className={`services-stats__label ${
                           isDark ? 'services-stats__label--dark' : 'services-stats__label--light'
                         }`}>
-                          Members
+                          {t('services.stats.members')}
                         </div>
                       </div>
                       <div className="services-stats__item">
@@ -243,7 +209,7 @@ const InteractiveServicesSection = () => {
                         <div className={`services-stats__label ${
                           isDark ? 'services-stats__label--dark' : 'services-stats__label--light'
                         }`}>
-                          Programs
+                          {t('services.stats.programs')}
                         </div>
                       </div>
                       <div className="services-stats__item">
@@ -253,7 +219,7 @@ const InteractiveServicesSection = () => {
                         <div className={`services-stats__label ${
                           isDark ? 'services-stats__label--dark' : 'services-stats__label--light'
                         }`}>
-                          Awards
+                          {t('services.stats.awards')}
                         </div>
                       </div>
                     </div>
@@ -263,7 +229,7 @@ const InteractiveServicesSection = () => {
                       <h4 className={`services-features__title ${
                         isDark ? 'services-features__title--dark' : 'services-features__title--light'
                       }`}>
-                        Key Features
+                        {t('services.keyFeatures')}
                       </h4>
                       <div className="services-features__list">
                         {selectedService.features.map((feature, index) => (
@@ -290,7 +256,7 @@ const InteractiveServicesSection = () => {
                             isDark ? 'services-button--primary-dark' : 'services-button--primary-light'
                           }`}
                         >
-                          <span className="services-button__text">Learn More</span>
+                          <span className="services-button__text">{t('services.learnMore')}</span>
                           <ExternalLink className="services-button__icon" />
                         </a>
                       </div>
@@ -350,7 +316,7 @@ const InteractiveServicesSection = () => {
                       <div className={`services-tile__meta ${
                         isDark ? 'services-tile__meta--dark' : 'services-tile__meta--light'
                       }`}>
-                        {service.stats.members.toLocaleString()}+ members
+                        {service.stats.members.toLocaleString()}+ {t('services.stats.members').toLowerCase()}
                       </div>
                     </div>
 

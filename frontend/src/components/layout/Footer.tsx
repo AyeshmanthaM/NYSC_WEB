@@ -7,11 +7,13 @@ import {
   Bell
 } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { useState } from 'react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const { isDark } = useTheme();
+  const { t } = useLanguage();
   const [email, setEmail] = useState('');
   const [isSubscribed, setIsSubscribed] = useState(false);
 
@@ -28,21 +30,21 @@ const Footer = () => {
 
   
   const quickLinks = [
-    'About NYSC',
-    'Programs',
-    'Youth Clubs',
-    'Downloads',
-    'Annual Reports',
-    'Contact Us'
+    { key: 'links.aboutNYSC', label: t('links.aboutNYSC') },
+    { key: 'links.programs', label: t('links.programs') },
+    { key: 'links.youthClubs', label: t('links.youthClubs') },
+    { key: 'links.downloads', label: t('links.downloads') },
+    { key: 'links.annualReports', label: t('links.annualReports') },
+    { key: 'links.contactUs', label: t('links.contactUs') }
   ];
 
   const programs = [
-    'Sports Excellence',
-    'Cultural Activities',
-    'Leadership Training',
-    'Community Service',
-    'Skill Development',
-    'Youth Awards'
+    { key: 'programsList.sportsExcellence', label: t('programsList.sportsExcellence') },
+    { key: 'programsList.culturalActivities', label: t('programsList.culturalActivities') },
+    { key: 'programsList.leadershipTraining', label: t('programsList.leadershipTraining') },
+    { key: 'programsList.communityService', label: t('programsList.communityService') },
+    { key: 'programsList.skillDevelopment', label: t('programsList.skillDevelopment') },
+    { key: 'programsList.youthAwards', label: t('programsList.youthAwards') }
   ];
 
   return (
@@ -66,10 +68,10 @@ const Footer = () => {
               </div>
               <div className="text-left">
                 <h3 className={`text-2xl font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                  Stay Updated with NYSC News
+                  {t('footer.newsletterTitle')}
                 </h3>
                 <p className={`text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
-                  Get the latest updates on programs, events, and opportunities delivered to your inbox
+                  {t('footer.newsletterDescription')}
                 </p>
               </div>
             </div>
@@ -79,7 +81,7 @@ const Footer = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email address"
+                placeholder={t('footer.emailPlaceholder')}
                 className={`flex-1 px-6 py-4 rounded-2xl border ${
                   isDark 
                     ? 'bg-gray-700/50 border-gray-600 text-white placeholder-gray-400' 
@@ -99,12 +101,12 @@ const Footer = () => {
                 {isSubscribed ? (
                   <>
                     <Mail className="w-5 h-5" />
-                    <span>Subscribed!</span>
+                    <span>{t('footer.subscribedMessage')}</span>
                   </>
                 ) : (
                   <>
                     <Send className="w-5 h-5" />
-                    <span>Subscribe</span>
+                    <span>{t('footer.subscribeButton')}</span>
                   </>
                 )}
               </button>
@@ -126,12 +128,11 @@ const Footer = () => {
             </div>
             
             <p className={`mb-2 leading-relaxed text-lg font-semibold bg-gradient-to-r from-[#1aa79e] to-[#f38621] bg-clip-text text-transparent`}>
-              Empowering Youth Since 1972
+              {t('footer.empoweringYouth')}
             </p>
             
             <p className={`text-sm mb-4 leading-relaxed ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
-              Building stronger communities through youth development, leadership training, 
-              and positive social impact across Sri Lanka.
+              {t('footer.organizationDescription')}
             </p>
             
             {/* Social Media with Monochrome Design */}
@@ -195,7 +196,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className={`text-lg font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'}`}>Quick Links</h3>
+            <h3 className={`text-lg font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'}`}>{t('footer.quickLinks')}</h3>
             <ul className="space-y-3">
               {quickLinks.map((link, index) => (
                 <li key={index}>
@@ -204,7 +205,7 @@ const Footer = () => {
                     className={`${isDark ? 'text-gray-300 hover:text-[#1aa79e]' : 'text-gray-600 hover:text-[#1aa79e]'} transition-colors duration-300 flex items-center space-x-2 group`}
                   >
                     <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all duration-300 text-[#1aa79e]" />
-                    <span>{link}</span>
+                    <span>{link.label}</span>
                   </a>
                 </li>
               ))}
@@ -213,7 +214,7 @@ const Footer = () => {
 
           {/* Programs */}
           <div>
-            <h3 className={`text-lg font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'}`}>Programs</h3>
+            <h3 className={`text-lg font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'}`}>{t('footer.programs')}</h3>
             <ul className="space-y-3">
               {programs.map((program, index) => (
                 <li key={index}>
@@ -222,7 +223,7 @@ const Footer = () => {
                     className={`${isDark ? 'text-gray-300 hover:text-[#f38621]' : 'text-gray-600 hover:text-[#f38621]'} transition-colors duration-300 flex items-center space-x-2 group`}
                   >
                     <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all duration-300 text-[#f38621]" />
-                    <span>{program}</span>
+                    <span>{program.label}</span>
                   </a>
                 </li>
               ))}
@@ -231,7 +232,7 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h3 className={`text-lg font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'}`}>Contact</h3>
+            <h3 className={`text-lg font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'}`}>{t('footer.contact')}</h3>
             <div className="space-y-6">
               <div className="flex items-start space-x-4">
                 <div className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg ${
@@ -244,7 +245,7 @@ const Footer = () => {
                     info@nysc.lk
                   </p>
                   <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                    General inquiries
+                    {t('footer.generalInquiries')}
                   </p>
                 </div>
               </div>
@@ -260,7 +261,7 @@ const Footer = () => {
                     +94 11 234 5678
                   </p>
                   <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                    Mon - Fri, 8:00 AM - 5:00 PM
+                    {t('footer.officeHours')}
                   </p>
                 </div>
               </div>
@@ -273,10 +274,10 @@ const Footer = () => {
                 </div>
                 <div>
                   <p className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                    National Youth Services Council
+                    {t('footer.organizationAddress')}
                   </p>
                   <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                    Maharagama, Sri Lanka
+                    {t('footer.location')}
                   </p>
                 </div>
               </div>
@@ -288,21 +289,21 @@ const Footer = () => {
         <div className={`border-t ${isDark ? 'border-gray-800' : 'border-gray-200'} pt-4 flex flex-col lg:flex-row justify-between items-center gap-8`}>
           <div className="flex flex-col sm:flex-row items-center gap-6">
             <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-              © {currentYear} National Youth Service Council. All rights reserved.
+              © {currentYear} {t('footer.copyright')}
             </p>
             <div className="flex items-center space-x-2">
-              <span className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>Made with</span>
+              <span className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>{t('footer.madeWith')}</span>
               <span className="text-red-500 animate-pulse">♥</span>
-              <span className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>for Sri Lankan Youth</span>
+              <span className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>{t('footer.forYouth')}</span>
             </div>
           </div>
           
           <div className="flex flex-wrap items-center justify-center gap-8">
             {[
-              { label: 'Privacy Policy', href: '#' },
-              { label: 'Terms of Service', href: '#' },
-              { label: 'Accessibility', href: '#' },
-              { label: 'Sitemap', href: '#' }
+              { label: t('footer.privacyPolicy'), href: '#' },
+              { label: t('footer.termsOfService'), href: '#' },
+              { label: t('footer.accessibility'), href: '#' },
+              { label: t('footer.sitemap'), href: '#' }
             ].map((link, index) => (
               <a 
                 key={index}

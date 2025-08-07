@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Trophy, Music, GraduationCap, Briefcase, ChevronRight } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface KeyServiceAreasProps {
   onHoverChange?: (isHovered: boolean) => void;
@@ -8,6 +9,7 @@ interface KeyServiceAreasProps {
 
 const KeyServiceAreas = ({ onHoverChange }: KeyServiceAreasProps) => {
   const { isDark } = useTheme();
+  const { t } = useLanguage();
   const [hoveredId, setHoveredId] = useState<number | null>(null);
   
   // Handle hover state changes
@@ -24,47 +26,47 @@ const KeyServiceAreas = ({ onHoverChange }: KeyServiceAreasProps) => {
   const serviceAreas = [
     {
       id: 1,
-      title: 'Sports',
-      shortDesc: 'Athletic Excellence',
-      description: 'Developing athletic excellence through comprehensive sports programs and competitive training',
+      title: t('keyServices.sportsTitle'),
+      shortDesc: t('keyServices.sportsShortDesc'),
+      description: t('keyServices.sportsDescription'),
       icon: Trophy,
       gradient: 'from-blue-400 via-blue-500 to-cyan-500',
       hoverGradient: 'from-blue-500 via-blue-600 to-cyan-600',
       accentColor: '#3B82F6',
-      stats: '50+ Clubs'
+      stats: t('keyServices.sportsStats')
     },
     {
       id: 2,
-      title: 'Aesthetics',
-      shortDesc: 'Cultural Arts',
-      description: 'Nurturing creativity and artistic expression through music, dance, and visual arts',
+      title: t('keyServices.aestheticsTitle'),
+      shortDesc: t('keyServices.aestheticsShortDesc'),
+      description: t('keyServices.aestheticsDescription'),
       icon: Music,
       gradient: 'from-purple-400 via-purple-500 to-pink-500',
       hoverGradient: 'from-purple-500 via-purple-600 to-pink-600',
       accentColor: '#8B5CF6',
-      stats: '30+ Programs'
+      stats: t('keyServices.aestheticsStats')
     },
     {
       id: 3,
-      title: 'Education',
-      shortDesc: 'Knowledge Growth',
-      description: 'Empowering minds through innovative learning and skill development programs',
+      title: t('keyServices.educationTitle'),
+      shortDesc: t('keyServices.educationShortDesc'),
+      description: t('keyServices.educationDescription'),
       icon: GraduationCap,
       gradient: 'from-emerald-400 via-emerald-500 to-teal-500',
       hoverGradient: 'from-emerald-500 via-emerald-600 to-teal-600',
       accentColor: '#10B981',
-      stats: '100+ Courses'
+      stats: t('keyServices.educationStats')
     },
     {
       id: 4,
-      title: 'Administration',
-      shortDesc: 'Leadership',
-      description: 'Building effective youth organizations through governance and management training',
+      title: t('keyServices.administrationTitle'),
+      shortDesc: t('keyServices.administrationShortDesc'),
+      description: t('keyServices.administrationDescription'),
       icon: Briefcase,
       gradient: 'from-amber-400 via-amber-500 to-orange-500',
       hoverGradient: 'from-amber-500 via-amber-600 to-orange-600',
       accentColor: '#F59E0B',
-      stats: '25 Districts'
+      stats: t('keyServices.administrationStats')
     }
   ];
 
@@ -153,7 +155,7 @@ const KeyServiceAreas = ({ onHoverChange }: KeyServiceAreasProps) => {
                       <span className={`text-xs font-semibold ${
                         isDark ? 'text-blue-400' : 'text-blue-600'
                       }`}>
-                        Learn More
+                        {t('keyServices.learnMore')}
                       </span>
                       <ChevronRight className={`w-4 h-4 transition-transform duration-300 ${
                         isHovered ? 'translate-x-1' : ''

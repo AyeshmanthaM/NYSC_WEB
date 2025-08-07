@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { 
   Search, ChevronDown, Menu, X, Moon, Sun, XCircle,
   Users, Target, Award, FileText,
@@ -6,17 +6,18 @@ import {
   UserPlus, Lightbulb, Heart, HandHeart, Mail
 } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [currentLang, setCurrentLang] = useState('EN');
+  const { currentLanguage, setLanguage, t } = useLanguage();
   const [searchValue, setSearchValue] = useState('');
   const [dropdownTimeout, setDropdownTimeout] = useState<number | null>(null);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const [activeMobileTab, setActiveMobileTab] = useState('About');
+  const [activeMobileTab, setActiveMobileTab] = useState('');
   const searchInputRef = useRef<HTMLInputElement>(null);
   const { isDark, toggleTheme } = useTheme();
 
@@ -75,32 +76,40 @@ const Header = () => {
     };
   }, []);
 
-  const dropdownItems = {
-    'Youth Club': [
-      { label: 'About Clubs', icon: FileText },
-      { label: 'Register Club', icon: UserPlus },
-      { label: 'Find Clubs', icon: Users },
-      { label: 'Club Activities', icon: Trophy }
+  // Initialize mobile tab when language changes
+  useEffect(() => {
+    const dropdownKeys = Object.keys(getDropdownItems());
+    if (dropdownKeys.length > 0 && !activeMobileTab) {
+      setActiveMobileTab(dropdownKeys[0]);
+    }
+  }, [currentLanguage, activeMobileTab]);
+
+  const getDropdownItems = () => ({
+    [t('header.youthClub')]: [
+      { label: t('dropdown.aboutClubs'), icon: FileText },
+      { label: t('dropdown.registerClub'), icon: UserPlus },
+      { label: t('dropdown.findClubs'), icon: Users },
+      { label: t('dropdown.clubActivities'), icon: Trophy }
     ],
-    Divisions: [
-      { label: 'Sports Development', icon: Trophy },
-      { label: 'Cultural Affairs', icon: Music },
-      { label: 'Education & Training', icon: GraduationCap },
-      { label: 'International Relations', icon: Star }
+    [t('header.divisions')]: [
+      { label: t('dropdown.sportsDevelopment'), icon: Trophy },
+      { label: t('dropdown.culturalAffairs'), icon: Music },
+      { label: t('dropdown.educationTraining'), icon: GraduationCap },
+      { label: t('dropdown.internationalRelations'), icon: Star }
     ],
-    Services: [
-      { label: 'Youth Awards', icon: Award },
-      { label: 'Skill Development', icon: Lightbulb },
-      { label: 'Career Guidance', icon: Target },
-      { label: 'Volunteer Programs', icon: HandHeart }
+    [t('header.services')]: [
+      { label: t('dropdown.youthAwards'), icon: Award },
+      { label: t('dropdown.skillDevelopment'), icon: Lightbulb },
+      { label: t('dropdown.careerGuidance'), icon: Target },
+      { label: t('dropdown.volunteerPrograms'), icon: HandHeart }
     ],
-    'Our Centers': [
-      { label: 'Training Centers', icon: GraduationCap },
-      { label: 'District Offices', icon: Users },
-      { label: 'Youth Centers', icon: Heart },
-      { label: 'Contact Info', icon: Mail }
+    [t('header.ourCenters')]: [
+      { label: t('dropdown.trainingCenters'), icon: GraduationCap },
+      { label: t('dropdown.districtOffices'), icon: Users },
+      { label: t('dropdown.youthCenters'), icon: Heart },
+      { label: t('dropdown.contactInfo'), icon: Mail }
     ]
-  };
+  });
 
   // Enhanced dropdown handlers with delay
   const handleDropdownEnter = (item: string) => {
@@ -121,7 +130,7 @@ const Header = () => {
   // Search handlers
   const handleSearchSubmit = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && searchValue.trim()) {
-      console.log('Searching for:', searchValue);
+      // TODO: Implement search functionality
       // Add your search logic here
     }
   };
@@ -187,7 +196,7 @@ const Header = () => {
                   : 'opacity-0 transform scale-x-0'
               }`} />
 
-              {Object.entries(dropdownItems).map(([item, subitems]) => (
+              {Object.entries(getDropdownItems()).map(([item, subitems]) => (
                 <div
                   key={item}
                   className="relative"
@@ -290,7 +299,7 @@ const Header = () => {
                     <input
                       ref={searchInputRef}
                       type="text"
-                      placeholder="Search..."
+                      placeholder={t('header.searchPlaceholder')}
                       value={searchValue}
                       onChange={(e) => setSearchValue(e.target.value)}
                       onKeyDown={handleSearchSubmit}
@@ -348,14 +357,14 @@ const Header = () => {
                           ? isDark ? 'text-gray-400' : 'text-gray-500'
                           : isDark ? 'text-white/70' : 'text-gray-600'
                       }`}>
-                        Lang:
+                        {t('common.language')}:
                       </span>
-                      {['SI', 'TA', 'EN'].map((lang) => (
+                      {[{code: 'si', label: 'SI'}, {code: 'ta', label: 'TA'}, {code: 'en', label: 'EN'}].map((lang) => (
                         <button
-                          key={lang}
-                          onClick={() => setCurrentLang(lang)}
+                          key={lang.code}
+                          onClick={() => setLanguage(lang.code as 'si' | 'ta' | 'en')}
                           className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all duration-200 hover:scale-105 ${
-                            currentLang === lang
+                            currentLanguage === lang.code
                               ? 'bg-[#1aa79e] text-white shadow-md transform scale-105'
                               : isScrolled
                                 ? isDark
@@ -365,10 +374,10 @@ const Header = () => {
                                   ? 'text-white/90 hover:text-white hover:bg-white/10'
                                   : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100/20'
                           }`}
-                          aria-label={`Switch to ${lang === 'EN' ? 'English' : lang === 'SI' ? 'Sinhala' : 'Tamil'}`}
-                          aria-pressed={currentLang === lang}
+                          aria-label={`Switch to ${lang.code === 'en' ? 'English' : lang.code === 'si' ? 'Sinhala' : 'Tamil'}`}
+                          aria-pressed={currentLanguage === lang.code}
                         >
-                          {lang}
+                          {lang.label}
                         </button>
                       ))}
                     </div>
@@ -442,7 +451,7 @@ const Header = () => {
               <div className={`flex items-center justify-between rounded-xl p-1 ${
                 isDark ? 'bg-gray-800/50' : 'bg-gray-100/50'
               }`}>
-                {Object.keys(dropdownItems).map((category) => (
+                {Object.keys(getDropdownItems()).map((category) => (
                   <button
                     key={category}
                     onClick={() => setActiveMobileTab(category)}
@@ -463,7 +472,7 @@ const Header = () => {
             {/* Tab Content */}
             <div className="p-6 pt-4">
               <div className="space-y-1">
-                {dropdownItems[activeMobileTab as keyof typeof dropdownItems].map((item, index) => {
+                {getDropdownItems()[activeMobileTab]?.map((item, index) => {
                   const IconComponent = item.icon;
                   return (
                     <a
@@ -507,28 +516,28 @@ const Header = () => {
                         <Moon className="w-4 h-4 transition-transform duration-300 hover:-rotate-12" />
                       }
                     </div>
-                    <span className="text-sm">Theme</span>
+                    <span className="text-sm">{t('common.theme')}</span>
                   </button>
                   
                   {/* Language Toggle */}
                   <div className={`flex items-center rounded-full p-1 ${
                     isDark ? 'bg-gray-800' : 'bg-gray-100'
                   }`}>
-                    {['SI', 'TA', 'EN'].map((lang) => (
+                    {[{code: 'si', label: 'SI'}, {code: 'ta', label: 'TA'}, {code: 'en', label: 'EN'}].map((lang) => (
                       <button
-                        key={lang}
-                        onClick={() => setCurrentLang(lang)}
+                        key={lang.code}
+                        onClick={() => setLanguage(lang.code as 'si' | 'ta' | 'en')}
                         className={`px-3 py-1 text-xs font-medium rounded-full transition-all duration-200 hover:scale-105 ${
-                          currentLang === lang
+                          currentLanguage === lang.code
                             ? 'bg-[#1aa79e] text-white shadow-md transform scale-105'
                             : isDark 
                               ? 'text-gray-400 hover:text-gray-300' 
                               : 'text-gray-600 hover:text-gray-900'
                         }`}
-                        aria-label={`Switch to ${lang === 'EN' ? 'English' : lang === 'SI' ? 'Sinhala' : 'Tamil'}`}
-                        aria-pressed={currentLang === lang}
+                        aria-label={`Switch to ${lang.code === 'en' ? 'English' : lang.code === 'si' ? 'Sinhala' : 'Tamil'}`}
+                        aria-pressed={currentLanguage === lang.code}
                       >
-                        {lang}
+                        {lang.label}
                       </button>
                     ))}
                   </div>

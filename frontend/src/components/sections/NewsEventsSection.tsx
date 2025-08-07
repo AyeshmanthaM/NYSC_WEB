@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Calendar, MapPin, ArrowRight, Eye, TrendingUp, Clock, Share2, Bookmark, Heart } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 
