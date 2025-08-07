@@ -55,10 +55,10 @@ const Footer = () => {
         }} />
       </div>
 
-      <div className="container mx-auto px-4 pt-20 pb-8 relative z-10">
+      <div className="container mx-auto px-4 pt-10 pb-2 relative z-10">
         
         {/* Newsletter Subscription Section */}
-        <div className={`rounded-3xl p-8 mb-16 ${isDark ? 'bg-gray-800/50 border border-gray-700/50' : 'bg-white/80 border border-gray-200/50'} backdrop-blur-sm shadow-xl`}>
+        <div className={`rounded-3xl p-6 mb-6 ${isDark ? 'bg-gray-800/50 border border-gray-700/50' : 'bg-white/80 border border-gray-200/50'} backdrop-blur-sm shadow-xl`}>
           <div className="max-w-4xl mx-auto text-center">
             <div className="flex items-center justify-center mb-6">
               <div className={`p-4 rounded-2xl ${isDark ? 'bg-[#1aa79e]/20' : 'bg-[#1aa79e]/10'} mr-4`}>
@@ -112,24 +112,24 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-4">
           {/* Company Info */}
           <div className="lg:pr-8">
-            <div className="flex items-center space-x-4 mb-8">
-              <div className="w-24 h-16 flex items-center justify-center">
+            <div className="flex items-center space-x-4 ">
+              <div className="w-32 h-24 flex items-center justify-center">
                 <img 
                   src="/assets/svg/profile_NYSC.svg" 
                   alt="National Youth Services Council Logo"
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain filter drop-shadow-lg"
                 />
               </div>
             </div>
             
-            <p className={`mb-6 leading-relaxed text-lg font-semibold bg-gradient-to-r from-[#1aa79e] to-[#f38621] bg-clip-text text-transparent`}>
+            <p className={`mb-2 leading-relaxed text-lg font-semibold bg-gradient-to-r from-[#1aa79e] to-[#f38621] bg-clip-text text-transparent`}>
               Empowering Youth Since 1972
             </p>
             
-            <p className={`text-sm mb-8 leading-relaxed ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+            <p className={`text-sm mb-4 leading-relaxed ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
               Building stronger communities through youth development, leadership training, 
               and positive social impact across Sri Lanka.
             </p>
@@ -284,9 +284,8 @@ const Footer = () => {
           </div>
         </div>
 
-
         {/* Enhanced Bottom Bar */}
-        <div className={`border-t ${isDark ? 'border-gray-800' : 'border-gray-200'} pt-12 flex flex-col lg:flex-row justify-between items-center gap-8`}>
+        <div className={`border-t ${isDark ? 'border-gray-800' : 'border-gray-200'} pt-4 flex flex-col lg:flex-row justify-between items-center gap-8`}>
           <div className="flex flex-col sm:flex-row items-center gap-6">
             <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
               © {currentYear} National Youth Service Council. All rights reserved.
