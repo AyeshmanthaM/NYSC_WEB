@@ -1,7 +1,11 @@
 import { ArrowRight, Briefcase, Heart, Globe, BookOpen, Users, Lightbulb, Star, TrendingUp } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 
-const YouthOfferings = () => {
+interface YouthOfferingsProps {
+  extraTopSpace?: number;
+}
+
+const YouthOfferings = ({ extraTopSpace = 0 }: YouthOfferingsProps) => {
   const { isDark } = useTheme();
 
   const offerings = [
@@ -64,7 +68,7 @@ const YouthOfferings = () => {
         <div className="absolute -bottom-8 left-20 w-72 h-72 bg-gradient-to-r from-[#1aa79e]/20 to-[#f38621]/20 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
       </div>
       
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style={{ paddingTop: `${extraTopSpace}px` }}>
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#1aa79e]/10 to-[#f38621]/10 border border-[#1aa79e]/20 mb-6">
             <Star className={`w-4 h-4 ${isDark ? 'text-[#1aa79e]' : 'text-[#1aa79e]'}`} />

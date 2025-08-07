@@ -1,12 +1,35 @@
 import { ArrowRight } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useEffect, useState } from 'react';
 import HeroParticleMesh from '../ui/HeroParticleMesh';
 
-const HeroSection = () => {
+interface HeroSectionProps {
+  extraBottomSpace?: number;
+}
+
+const HeroSection = ({ extraBottomSpace = 0 }: HeroSectionProps) => {
   const { isDark } = useTheme();
+  const [viewportHeight, setViewportHeight] = useState(0);
+  
+  useEffect(() => {
+    // Get the viewport height
+    const updateHeight = () => {
+      setViewportHeight(window.innerHeight);
+    };
+    
+    updateHeight();
+    window.addEventListener('resize', updateHeight);
+    
+    return () => window.removeEventListener('resize', updateHeight);
+  }, []);
 
   return (
-    <section className="relative min-h-screen w-full flex items-center justify-center overflow-hidden pt-24">
+    <section 
+      className="relative w-full overflow-hidden"
+      style={{ 
+        minHeight: viewportHeight > 0 ? `${viewportHeight + extraBottomSpace + 100}px` : `calc(100vh + ${extraBottomSpace + 200}px)`,
+      }}
+    >
       {/* Semi-transparent overlay for better text readability */}
       <div className={`absolute inset-0 ${
         isDark 
@@ -17,8 +40,16 @@ const HeroSection = () => {
       {/* Particle Mesh Overlay */}
       <HeroParticleMesh className="z-10" />
 
-      <div className="relative z-10 max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center max-w-7xl mx-auto">
+      {/* Content container - stays centered in viewport */}
+      <div 
+        className="absolute inset-x-0 flex items-center justify-center"
+        style={{ 
+          top: '96px', // Header height
+          height: viewportHeight > 0 ? `${viewportHeight - 96}px` : 'calc(100vh - 96px)'
+        }}
+      >
+        <div className="relative z-10 max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center max-w-7xl mx-auto">
           {/* Left Content */}
           <div className="space-y-8">
             {/* Sub Title */}
@@ -117,6 +148,7 @@ const HeroSection = () => {
               
               {/* Placeholder to maintain grid spacing */}
               <div className="h-96 w-full"></div>
+            </div>
             </div>
           </div>
         </div>

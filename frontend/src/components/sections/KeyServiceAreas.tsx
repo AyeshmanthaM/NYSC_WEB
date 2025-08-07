@@ -2,9 +2,24 @@ import { useState } from 'react';
 import { Trophy, Music, GraduationCap, Briefcase, ChevronRight } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 
-const KeyServiceAreas = () => {
+interface KeyServiceAreasProps {
+  onHoverChange?: (isHovered: boolean) => void;
+}
+
+const KeyServiceAreas = ({ onHoverChange }: KeyServiceAreasProps) => {
   const { isDark } = useTheme();
   const [hoveredId, setHoveredId] = useState<number | null>(null);
+  
+  // Handle hover state changes
+  const handleMouseEnter = (id: number) => {
+    setHoveredId(id);
+    onHoverChange?.(true);
+  };
+  
+  const handleMouseLeave = () => {
+    setHoveredId(null);
+    onHoverChange?.(false);
+  };
 
   const serviceAreas = [
     {
@@ -54,8 +69,8 @@ const KeyServiceAreas = () => {
   ];
 
   return (
-    <section className="relative overflow-hidden">
-      {/* No background - transparent, no padding */}
+    <section className="relative overflow-hidden px-4 sm:px-6 lg:px-8">
+      {/* No background - transparent section */}
   
       <div className="relative z-10 max-w-7xl mx-auto">
  
@@ -69,8 +84,8 @@ const KeyServiceAreas = () => {
               <div
                 key={area.id}
                 className="relative group"
-                onMouseEnter={() => setHoveredId(area.id)}
-                onMouseLeave={() => setHoveredId(null)}
+                onMouseEnter={() => handleMouseEnter(area.id)}
+                onMouseLeave={handleMouseLeave}
                 style={{ animationDelay: `${index * 50}ms` }}
               >
                 {/* Card Container - No background */}
