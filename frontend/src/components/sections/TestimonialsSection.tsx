@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Quote, Star, PenTool, Plus } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const TestimonialsSection = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -9,6 +10,7 @@ const TestimonialsSection = () => {
   const [screenSize, setScreenSize] = useState('lg');
   const sectionRef = useRef<HTMLDivElement>(null);
   const { isDark } = useTheme();
+  const { t } = useLanguage();
 
   const testimonials = [
     {
@@ -131,11 +133,11 @@ const TestimonialsSection = () => {
               : 'bg-gradient-to-r from-[#1aa79e]/10 to-[#f38621]/10 text-[#1aa79e] border border-[#1aa79e]/20'
             } backdrop-blur-md shadow-lg`}>
             <Quote className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 inline mr-1.5 sm:mr-2" />
-            Read Testimonials
+            {t('testimonials.badge')}
           </span>
           <h2 className={`text-xl sm:text-3xl md:text-4xl lg:text-4xl font-bold mb-2 sm:mb-3.5 px-3.5 sm:px-0 ${isDark ? 'text-white' : 'text-gray-900'
             }`}>
-            What Peoples Say About Us
+            {t('testimonials.title')}
           </h2>
         </div>
 
@@ -318,9 +320,9 @@ const TestimonialsSection = () => {
               } shadow-xl`}>
               <div className="flex items-center gap-2">
                 <PenTool className="w-3 h-3 lg:w-4 lg:h-4" />
-                <span className="font-medium text-sm lg:text-base">Write Your Story</span>
+                <span className="font-medium text-sm lg:text-base">{t('testimonials.writeStory')}</span>
               </div>
-              <div className="text-xs opacity-75 mt-1">Click to start writing</div>
+              <div className="text-xs opacity-75 mt-1">{t('testimonials.clickToStart')}</div>
             </div>
             {/* Tooltip arrow */}
             <div className={`absolute top-full right-6 w-0 h-0 border-l-8 border-l-transparent border-r-8 border-r-transparent border-t-8 ${isDark ? 'border-t-gray-800' : 'border-t-white'

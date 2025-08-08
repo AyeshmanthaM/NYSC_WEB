@@ -234,6 +234,110 @@ const translations: Record<Language, Translations> = {
         description: 'Stay active and competitive with our comprehensive sports programs. From traditional games to modern athletics.',
         features: ['Athletic Training', 'Team Sports', 'Individual Competitions', 'Fitness Programs', 'International Tournaments']
       }
+    },
+    popularCourses: {
+      badge: 'Popular Courses',
+      title: 'Start Your Career Journey',
+      subtitle: 'Discover our most popular vocational training programs designed to equip you with industry-relevant skills',
+      viewAllCourses: 'View All Courses',
+      applyNow: 'Apply Now',
+      duration: 'Duration',
+      students: 'students',
+      months: 'Months',
+      fullTime: 'Full Time',
+      partTime: 'Part Time',
+      categories: {
+        hospitality: 'Hospitality',
+        it: 'Information Technology',
+        fashion: 'Design & Fashion',
+        technical: 'Technical Skills',
+        automotive: 'Automotive',
+        beauty: 'Beauty & Wellness'
+      },
+      courses: {
+        hotelManagement: {
+          title: 'Hotel Management and Catering Technology',
+          description: 'Comprehensive program covering hospitality management, food service operations, and tourism industry practices.',
+          institute: 'NYSC Vocational Training Institute'
+        },
+        computerApplications: {
+          title: 'Computer Applications and IT Support',
+          description: 'Learn essential computer skills, software applications, hardware troubleshooting, and network basics.',
+          institute: 'NYSC Technical Training Center'
+        },
+        fashionDesign: {
+          title: 'Fashion Design and Garment Technology',
+          description: 'Creative program focusing on fashion illustration, pattern making, garment construction, and textile knowledge.',
+          institute: 'NYSC Creative Arts Center'
+        },
+        electrical: {
+          title: 'Electrical Installation and Maintenance',
+          description: 'Hands-on training in electrical systems, wiring, safety protocols, and maintenance procedures.',
+          institute: 'NYSC Technical Institute'
+        },
+        automotive: {
+          title: 'Automotive Technology and Repair',
+          description: 'Complete automotive training covering engine diagnostics, repair techniques, and modern vehicle systems.',
+          institute: 'NYSC Technical Training Center'
+        },
+        beautyCulture: {
+          title: 'Beauty Culture and Cosmetology',
+          description: 'Professional beauty training including skincare, makeup artistry, hair styling, and salon management.',
+          institute: 'NYSC Beauty Academy'
+        }
+      }
+    },
+    newsEvents: {
+      news: {
+        badge: 'Breaking Stories',
+        title: 'Latest',
+        titleHighlight: 'News',
+        subtitle: 'Stay informed with the latest developments and success stories from the NYSC community',
+        exploreAll: 'Explore All News',
+        readTime: 'min read',
+        views: 'views',
+        likes: 'likes',
+        clickToRead: 'Click to read',
+        hoverToPreview: 'Hover to preview',
+        trending: 'TRENDING',
+        featured: 'FEATURED',
+        updated: 'Updated',
+        categories: {
+          sport: 'Sport',
+          achievement: 'Achievement',
+          event: 'Event',
+          programLaunch: 'Program Launch',
+          cultural: 'Cultural',
+          environment: 'Environment',
+          technology: 'Technology',
+          leadership: 'Leadership',
+          community: 'Community'
+        }
+      },
+      events: {
+        badge: 'Upcoming Events',
+        title: 'Join',
+        titleHighlight: 'Events',
+        subtitle: 'Discover exciting opportunities to connect, learn, and grow with the NYSC community',
+        viewAll: 'View All Events',
+        nextEvent: 'Next event in',
+        days: 'days',
+        featured: 'Featured',
+        clickToView: 'Click to view',
+        viewDetails: 'View Details',
+        learnMore: 'Learn More',
+        types: {
+          upcoming: 'upcoming',
+          recent: 'recent',
+          past: 'past'
+        }
+      }
+    },
+    testimonials: {
+      badge: 'Read Testimonials',
+      title: 'What Peoples Say About Us',
+      writeStory: 'Write Your Story',
+      clickToStart: 'Click to start writing'
     }
   },
   si: {
@@ -449,6 +553,110 @@ const translations: Record<Language, Translations> = {
       },
       keyFeatures: 'ප්‍රධාන සාධක',
       learnMore: 'වැඩිදුර ඉගෙන ගන්න'
+    },
+    popularCourses: {
+      badge: 'ජනප්‍රිය පාඨමාලා',
+      title: 'ඔබේ වෘත්තීය ගමන ආරම්භ කරන්න',
+      subtitle: 'කර්මාන්ත අදාල කුසලතා වලින් ඔබව සන්නද්ධ කිරීම සඳහා නිර්මාණය කරන ලද අපගේ වඩාත් ජනප්‍රිය වෘත්තීය පුහුණු වැඩසටහන් සොයා ගන්න',
+      viewAllCourses: 'සියලුම පාඨමාලා බලන්න',
+      applyNow: 'දැන් අයදුම් කරන්න',
+      duration: 'කාලය',
+      students: 'සිසුන්',
+      months: 'මාස',
+      fullTime: 'පූර්ණ කාලීන',
+      partTime: 'අර්ධ කාලීන',
+      categories: {
+        hospitality: 'සත්කාරක සේවා',
+        it: 'තොරතුරු තාක්ෂණය',
+        fashion: 'නිර්මාණ සහ විලාසිතා',
+        technical: 'තාක්ෂණික කුසලතා',
+        automotive: 'මෝටර් රථ',
+        beauty: 'රූපලාවන්‍ය සහ සුවතා'
+      },
+      courses: {
+        hotelManagement: {
+          title: 'හෝටල් කළමනාකරණය සහ ආහාර සැපයුම් තාක්ෂණය',
+          description: 'සත්කාරක කළමනාකරණය, ආහාර සේවා මෙහෙයුම් සහ සංචාරක කර්මාන්ත පරිචයන් ආවරණය කරන විස්තීර්ණ වැඩසටහන.',
+          institute: 'ජාතික තරුණ සේවා සභා වෘත්තීය පුහුණු ආයතනය'
+        },
+        computerApplications: {
+          title: 'පරිගණක යෙදුම් සහ තොරතුරු තාක්ෂණ සහාය',
+          description: 'අත්‍යවශ්‍ය පරිගණක කුසලතා, මෘදුකාංග යෙදුම්, දෘඩාංග දෝෂ නිරාකරණය සහ ජාල මූලික කරුණු ඉගෙන ගන්න.',
+          institute: 'ජාතික තරුණ සේවා සභා තාක්ෂණික පුහුණු මධ්‍යස්ථානය'
+        },
+        fashionDesign: {
+          title: 'විලාසිතා නිර්මාණ සහ ඇඟලුම් තාක්ෂණය',
+          description: 'විලාසිතා නිදර්ශන, රටා සෑදීම, ඇඟලුම් ඉදිකිරීම සහ රෙදිපිළි දැනුම කෙරෙහි අවධානය යොමු කරන නිර්මාණාත්මක වැඩසටහන.',
+          institute: 'ජාතික තරුණ සේවා සභා නිර්මාණාත්මක කලා මධ්‍යස්ථානය'
+        },
+        electrical: {
+          title: 'විදුලි ස්ථාපනය සහ නඩත්තු කිරීම',
+          description: 'විදුලි පද්ධති, වයර් කිරීම, ආරක්ෂක ප්‍රෝටෝකෝල සහ නඩත්තු ක්‍රියා පටිපාටි පිළිබඳ ප්‍රායෝගික පුහුණුව.',
+          institute: 'ජාතික තරුණ සේවා සභා තාක්ෂණික ආයතනය'
+        },
+        automotive: {
+          title: 'මෝටර් රථ තාක්ෂණය සහ අලුත්වැඩියාව',
+          description: 'එන්ජින් රෝග විනිශ්චය, අලුත්වැඩියා තාක්ෂණ සහ නවීන වාහන පද්ධති ආවරණය කරන සම්පූර්ණ මෝටර් රථ පුහුණුව.',
+          institute: 'ජාතික තරුණ සේවා සභා තාක්ෂණික පුහුණු මධ්‍යස්ථානය'
+        },
+        beautyCulture: {
+          title: 'රූපලාවන්‍ය සංස්කෘතිය සහ රූපලාවන්‍ය විද්‍යාව',
+          description: 'සම රැකවරණය, වේශ නිරූපණ කලාව, හිසකෙස් මෝස්තර සහ රූපලාවන්‍යාගාර කළමනාකරණය ඇතුළු වෘත්තීය රූපලාවන්‍ය පුහුණුව.',
+          institute: 'ජාතික තරුණ සේවා සභා රූපලාවන්‍ය ඇකඩමිය'
+        }
+      }
+    },
+    newsEvents: {
+      news: {
+        badge: 'නවතම පුවත්',
+        title: 'නවතම',
+        titleHighlight: 'ප්‍රවෘත්ති',
+        subtitle: 'ජාතික තරුණ සේවා සභා ප්‍රජාවේ නවතම සංවර්ධන සහ සාර්ථක කතා සමඟ දැනුවත්ව සිටින්න',
+        exploreAll: 'සියලු ප්‍රවෘත්ති ගවේෂණය කරන්න',
+        readTime: 'මිනිත්තු කියවීම',
+        views: 'නැරඹීම්',
+        likes: 'කැමතියි',
+        clickToRead: 'කියවීමට ක්ලික් කරන්න',
+        hoverToPreview: 'පෙරදසුන සඳහා හෝවර් කරන්න',
+        trending: 'ප්‍රවණතා',
+        featured: 'විශේෂාංග',
+        updated: 'යාවත්කාලීන කළේ',
+        categories: {
+          sport: 'ක්‍රීඩා',
+          achievement: 'ජයග්‍රහණ',
+          event: 'සිදුවීම',
+          programLaunch: 'වැඩසටහන් දියත් කිරීම',
+          cultural: 'සංස්කෘතික',
+          environment: 'පරිසරය',
+          technology: 'තාක්ෂණය',
+          leadership: 'නායකත්වය',
+          community: 'ප්‍රජාව'
+        }
+      },
+      events: {
+        badge: 'ඉදිරි සිදුවීම්',
+        title: 'සම්බන්ධ වන්න',
+        titleHighlight: 'සිදුවීම්',
+        subtitle: 'ජාතික තරුණ සේවා සභා ප්‍රජාව සමඟ සම්බන්ධ වීමට, ඉගෙන ගැනීමට සහ වර්ධනය වීමට ඇති රසවත් අවස්ථා සොයා ගන්න',
+        viewAll: 'සියලු සිදුවීම් බලන්න',
+        nextEvent: 'ඊළඟ සිදුවීම',
+        days: 'දින',
+        featured: 'විශේෂාංග',
+        clickToView: 'බැලීමට ක්ලික් කරන්න',
+        viewDetails: 'විස්තර බලන්න',
+        learnMore: 'වැඩිදුර ඉගෙන ගන්න',
+        types: {
+          upcoming: 'ඉදිරි',
+          recent: 'මෑත',
+          past: 'අතීත'
+        }
+      }
+    },
+    testimonials: {
+      badge: 'සාක්ෂි කියවන්න',
+      title: 'අප ගැන මිනිසුන් පවසන දේ',
+      writeStory: 'ඔබේ කතාව ලියන්න',
+      clickToStart: 'ලිවීම ආරම්භ කිරීමට ක්ලික් කරන්න'
     }
   },
   ta: {
@@ -664,6 +872,110 @@ const translations: Record<Language, Translations> = {
       },
       keyFeatures: 'முக்கிய அம்சங்கள்',
       learnMore: 'மேலும் அறியவும்'
+    },
+    popularCourses: {
+      badge: 'பிரபலமான பாடநெறிகள்',
+      title: 'உங்கள் தொழில் பயணத்தை தொடங்குங்கள்',
+      subtitle: 'தொழில் தொடர்புடைய திறன்களுடன் உங்களை தயார்படுத்த வடிவமைக்கப்பட்ட எங்கள் மிகவும் பிரபலமான தொழில் பயிற்சி திட்டங்களை கண்டறியுங்கள்',
+      viewAllCourses: 'அனைத்து பாடநெறிகளையும் பார்க்கவும்',
+      applyNow: 'இப்போது விண்ணப்பிக்கவும்',
+      duration: 'காலம்',
+      students: 'மாணவர்கள்',
+      months: 'மாதங்கள்',
+      fullTime: 'முழு நேரம்',
+      partTime: 'பகுதி நேரம்',
+      categories: {
+        hospitality: 'விருந்தோம்பல்',
+        it: 'தகவல் தொழில்நுட்பம்',
+        fashion: 'வடிவமைப்பு மற்றும் ஃபேஷன்',
+        technical: 'தொழில்நுட்ப திறன்கள்',
+        automotive: 'வாகனம்',
+        beauty: 'அழகு மற்றும் நலன்'
+      },
+      courses: {
+        hotelManagement: {
+          title: 'ஹோட்டல் மேலாண்மை மற்றும் உணவளிப்பு தொழில்நுட்பம்',
+          description: 'விருந்தோம்பல் மேலாண்மை, உணவு சேவை செயல்பாடுகள் மற்றும் சுற்றுலா தொழில் நடைமுறைகளை உள்ளடக்கிய விரிவான திட்டம்.',
+          institute: 'தேசிய இளைஞர் சேவை சபை தொழில் பயிற்சி நிறுவனம்'
+        },
+        computerApplications: {
+          title: 'கணினி பயன்பாடுகள் மற்றும் ஐடி ஆதரவு',
+          description: 'அத்தியாவசிய கணினி திறன்கள், மென்பொருள் பயன்பாடுகள், வன்பொருள் பிரச்சனை தீர்வு மற்றும் நெட்வொர்க் அடிப்படைகளை கற்றுக்கொள்ளுங்கள்.',
+          institute: 'தேசிய இளைஞர் சேவை சபை தொழில்நுட்ப பயிற்சி மையம்'
+        },
+        fashionDesign: {
+          title: 'ஃபேஷன் வடிவமைப்பு மற்றும் ஆடை தொழில்நுட்பம்',
+          description: 'ஃபேஷன் விளக்கப்படம், பாணி உருவாக்கம், ஆடை கட்டுமானம் மற்றும் துணி அறிவில் கவனம் செலுத்தும் ஆக்கப்பூர்வமான திட்டம்.',
+          institute: 'தேசிய இளைஞர் சேவை சபை ஆக்கப்பூர்வ கலை மையம்'
+        },
+        electrical: {
+          title: 'மின் நிறுவல் மற்றும் பராமரிப்பு',
+          description: 'மின் அமைப்புகள், வயரிங், பாதுகாப்பு நெறிமுறைகள் மற்றும் பராமரிப்பு நடைமுறைகளில் நடைமுறை பயிற்சி.',
+          institute: 'தேசிய இளைஞர் சேவை சபை தொழில்நுட்ப நிறுவனம்'
+        },
+        automotive: {
+          title: 'வாகன தொழில்நுட்பம் மற்றும் பழுது',
+          description: 'இயந்திர கண்டறிதல், பழுது நுட்பங்கள் மற்றும் நவீன வாகன அமைப்புகளை உள்ளடக்கிய முழுமையான வாகன பயிற்சி.',
+          institute: 'தேசிய இளைஞர் சேவை சபை தொழில்நுட்ப பயிற்சி மையம்'
+        },
+        beautyCulture: {
+          title: 'அழகு கலாச்சாரம் மற்றும் அழகுக்கலை',
+          description: 'தோல் பராமரிப்பு, மேக்கப் கலை, முடி வடிவமைப்பு மற்றும் சலூன் மேலாண்மை உள்ளிட்ட தொழில்முறை அழகு பயிற்சி.',
+          institute: 'தேசிய இளைஞர் சேவை சபை அழகு அகாடமி'
+        }
+      }
+    },
+    newsEvents: {
+      news: {
+        badge: 'சமீபத்திய செய்திகள்',
+        title: 'சமீபத்திய',
+        titleHighlight: 'செய்திகள்',
+        subtitle: 'தேசிய இளைஞர் சேவை சபை சமூகத்தின் சமீபத்திய முன்னேற்றங்கள் மற்றும் வெற்றிக் கதைகளுடன் தொடர்பில் இருங்கள்',
+        exploreAll: 'அனைத்து செய்திகளையும் ஆராயுங்கள்',
+        readTime: 'நிமிட வாசிப்பு',
+        views: 'பார்வைகள்',
+        likes: 'விருப்பங்கள்',
+        clickToRead: 'படிக்க கிளிக் செய்யவும்',
+        hoverToPreview: 'முன்னோட்டத்திற்கு ஹோவர் செய்யவும்',
+        trending: 'டிரெண்டிங்',
+        featured: 'சிறப்பு',
+        updated: 'புதுப்பிக்கப்பட்டது',
+        categories: {
+          sport: 'விளையாட்டு',
+          achievement: 'சாதனை',
+          event: 'நிகழ்வு',
+          programLaunch: 'திட்ட தொடக்கம்',
+          cultural: 'கலாச்சாரம்',
+          environment: 'சுற்றுச்சூழல்',
+          technology: 'தொழில்நுட்பம்',
+          leadership: 'தலைமைத்துவம்',
+          community: 'சமூகம்'
+        }
+      },
+      events: {
+        badge: 'வரவிருக்கும் நிகழ்வுகள்',
+        title: 'சேருங்கள்',
+        titleHighlight: 'நிகழ்வுகள்',
+        subtitle: 'தேசிய இளைஞர் சேவை சபை சமூகத்துடன் இணைய, கற்றுக்கொள்ள மற்றும் வளர சுவாரஸ்யமான வாய்ப்புகளை கண்டறியுங்கள்',
+        viewAll: 'அனைத்து நிகழ்வுகளையும் காண்க',
+        nextEvent: 'அடுத்த நிகழ்வு',
+        days: 'நாட்கள்',
+        featured: 'சிறப்பு',
+        clickToView: 'பார்க்க கிளிக் செய்யவும்',
+        viewDetails: 'விவரங்களைக் காண்க',
+        learnMore: 'மேலும் அறிக',
+        types: {
+          upcoming: 'வரவிருக்கும்',
+          recent: 'சமீபத்திய',
+          past: 'கடந்த'
+        }
+      }
+    },
+    testimonials: {
+      badge: 'பரிந்துரைகளைப் படிக்கவும்',
+      title: 'எங்களைப் பற்றி மக்கள் என்ன சொல்கிறார்கள்',
+      writeStory: 'உங்கள் கதையை எழுதுங்கள்',
+      clickToStart: 'எழுத தொடங்க கிளிக் செய்யவும்'
     }
   }
 };

@@ -1,89 +1,91 @@
 import { Clock, Users, ArrowRight, ChevronLeft, ChevronRight, Award, BookOpen, Briefcase, Palette } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { useState, useRef, useEffect } from 'react';
 
 const PopularCourses = () => {
   const { isDark } = useTheme();
+  const { t, currentLanguage } = useLanguage();
   const [currentSlide, setCurrentSlide] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
 
   const courses = [
     {
       id: 1,
-      title: 'Hotel Management and Catering Technology',
-      description: 'Comprehensive program covering hospitality management, food service operations, and tourism industry practices.',
-      category: 'Hospitality',
-      duration: '12 Months',
-      timeType: 'Full Time',
+      title: t('popularCourses.courses.hotelManagement.title'),
+      description: t('popularCourses.courses.hotelManagement.description'),
+      category: t('popularCourses.categories.hospitality'),
+      duration: `12 ${t('popularCourses.months')}`,
+      timeType: t('popularCourses.fullTime'),
       enrolled: 186,
       image: '/images/courses/hotel-management.jpg',
       nvqLevel: 'NVQ 4',
-      institute: 'NYSC Vocational Training Institute',
+      institute: t('popularCourses.courses.hotelManagement.institute'),
       icon: Briefcase
     },
     {
       id: 2,
-      title: 'Computer Applications and IT Support',
-      description: 'Learn essential computer skills, software applications, hardware troubleshooting, and network basics.',
-      category: 'Information Technology',
-      duration: '6 Months',
-      timeType: 'Part Time',
+      title: t('popularCourses.courses.computerApplications.title'),
+      description: t('popularCourses.courses.computerApplications.description'),
+      category: t('popularCourses.categories.it'),
+      duration: `6 ${t('popularCourses.months')}`,
+      timeType: t('popularCourses.partTime'),
       enrolled: 342,
       image: '/images/courses/computer-applications.jpg',
       nvqLevel: 'NVQ 3',
-      institute: 'NYSC Technical Training Center',
+      institute: t('popularCourses.courses.computerApplications.institute'),
       icon: BookOpen
     },
     {
       id: 3,
-      title: 'Fashion Design and Garment Technology',
-      description: 'Creative program focusing on fashion illustration, pattern making, garment construction, and textile knowledge.',
-      category: 'Design & Fashion',
-      duration: '10 Months',
-      timeType: 'Full Time',
+      title: t('popularCourses.courses.fashionDesign.title'),
+      description: t('popularCourses.courses.fashionDesign.description'),
+      category: t('popularCourses.categories.fashion'),
+      duration: `10 ${t('popularCourses.months')}`,
+      timeType: t('popularCourses.fullTime'),
       enrolled: 127,
       image: '/images/courses/fashion-design.jpg',
       nvqLevel: 'NVQ 4',
-      institute: 'NYSC Creative Arts Center',
+      institute: t('popularCourses.courses.fashionDesign.institute'),
       icon: Palette
     },
     {
       id: 4,
-      title: 'Electrical Installation and Maintenance',
-      description: 'Hands-on training in electrical systems, wiring, safety protocols, and maintenance procedures.',
-      category: 'Technical Skills',
-      duration: '8 Months',
-      timeType: 'Full Time',
+      title: t('popularCourses.courses.electrical.title'),
+      description: t('popularCourses.courses.electrical.description'),
+      category: t('popularCourses.categories.technical'),
+      duration: `8 ${t('popularCourses.months')}`,
+      timeType: t('popularCourses.fullTime'),
       enrolled: 203,
       image: '/images/courses/electrical.jpg',
       nvqLevel: 'NVQ 3',
-      institute: 'NYSC Technical Institute',
+      institute: t('popularCourses.courses.electrical.institute'),
       icon: Award
     },
     {
       id: 5,
-      title: 'Automotive Technology and Repair',
-      description: 'Complete automotive training covering engine diagnostics, repair techniques, and modern vehicle systems.',
-      category: 'Automotive',
-      duration: '9 Months',
-      timeType: 'Full Time',
+      title: t('popularCourses.courses.automotive.title'),
+      description: t('popularCourses.courses.automotive.description'),
+      category: t('popularCourses.categories.automotive'),
+      duration: `9 ${t('popularCourses.months')}`,
+      timeType: t('popularCourses.fullTime'),
       enrolled: 158,
       image: '/images/courses/automotive.jpg',
       nvqLevel: 'NVQ 3',
-      institute: 'NYSC Technical Training Center',
+      institute: t('popularCourses.courses.automotive.institute'),
       icon: Award
     },
     {
       id: 6,
-      title: 'Beauty Culture and Cosmetology',
-      description: 'Professional beauty training including skincare, makeup artistry, hair styling, and salon management.',
-      category: 'Beauty & Wellness',
-      duration: '7 Months',
-      timeType: 'Part Time',
+      title: t('popularCourses.courses.beautyCulture.title'),
+      description: t('popularCourses.courses.beautyCulture.description'),
+      category: t('popularCourses.categories.beauty'),
+      duration: `7 ${t('popularCourses.months')}`,
+      timeType: t('popularCourses.partTime'),
       enrolled: 94,
       image: '/images/courses/beauty-culture.jpg',
       nvqLevel: 'NVQ 3',
-      institute: 'NYSC Beauty Academy',
+      institute: t('popularCourses.courses.beautyCulture.institute'),
       icon: Palette
     }
   ];
@@ -305,17 +307,17 @@ const PopularCourses = () => {
               ? 'bg-gradient-to-r from-[#1aa79e]/20 to-[#f38621]/20 text-[#1aa79e] border border-[#1aa79e]/30'
               : 'bg-gradient-to-r from-[#1aa79e]/10 to-[#f38621]/10 text-[#1aa79e] border border-[#1aa79e]/20'
           }`}>
-            Popular Courses
+            {t('popularCourses.badge')}
           </span>
           <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 ${
             isDark ? 'text-white' : 'text-gray-900'
           }`}>
-            Start Your Career Journey
+            {t('popularCourses.title')}
           </h2>
           <p className={`text-lg mb-8 max-w-2xl mx-auto ${
             isDark ? 'text-gray-300' : 'text-gray-600'
           }`}>
-            Discover our most popular vocational training programs designed to equip you with industry-relevant skills
+            {t('popularCourses.subtitle')}
           </p>
         </div>
 
@@ -397,7 +399,7 @@ const PopularCourses = () => {
                             {/* Time Type Badge */}
                             <div className="absolute bottom-4 left-4">
                               <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                                course.timeType === 'Full Time' 
+                                course.timeType === t('popularCourses.fullTime')
                                   ? 'bg-green-100 text-green-700 border border-green-200'
                                   : 'bg-blue-100 text-blue-700 border border-blue-200'
                               }`}>
@@ -448,7 +450,7 @@ const PopularCourses = () => {
                                   isDark ? 'text-gray-400' : 'text-gray-600'
                                 }`}>
                                   <Users className="w-4 h-4 mr-1" />
-                                  <span>{course.enrolled} students</span>
+                                  <span>{course.enrolled} {t('popularCourses.students')}</span>
                                 </div>
                               </div>
                             </div>
@@ -456,7 +458,7 @@ const PopularCourses = () => {
                             {/* Action Button - Pushed to bottom with flex-1 spacer */}
                             <div className="flex-1 flex items-end">
                               <button className="group/btn w-full flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#1aa79e] to-[#f38621] text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                                <span>Apply Now</span>
+                                <span>{t('popularCourses.applyNow')}</span>
                                 <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-200 group-hover/btn:translate-x-1" />
                               </button>
                             </div>
@@ -495,7 +497,7 @@ const PopularCourses = () => {
               ? 'bg-gray-800/80 text-white hover:bg-gray-700 border border-gray-600' 
               : 'bg-white/80 text-gray-700 hover:bg-gray-50 border border-gray-200'
           } shadow-lg hover:shadow-xl backdrop-blur-sm`}>
-            <span>View All Courses</span>
+            <span>{t('popularCourses.viewAllCourses')}</span>
             <ArrowRight className="w-5 h-5 ml-2 transition-transform duration-200 group-hover:translate-x-1" />
           </button>
         </div>

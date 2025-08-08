@@ -20,7 +20,7 @@ interface ServiceItem {
 const InteractiveServicesSection = () => {
   const { isDark } = useTheme();
   const { t } = useLanguage();
-  const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
+  const [selectedServiceId, setSelectedServiceId] = useState<string>('youth-club');
   const [isAnimating, setIsAnimating] = useState(false);
 
   const services: ServiceItem[] = [
@@ -80,19 +80,15 @@ const InteractiveServicesSection = () => {
     }
   ];
 
-  // Initialize with the first service
-  useEffect(() => {
-    if (services.length > 0) {
-      setSelectedService(services[0]);
-    }
-  }, []);
+  // Get the selected service based on the ID
+  const selectedService = services.find(s => s.id === selectedServiceId) || services[0];
 
   const handleServiceClick = (service: ServiceItem) => {
-    if (selectedService?.id === service.id) return;
+    if (selectedServiceId === service.id) return;
     
     setIsAnimating(true);
     setTimeout(() => {
-      setSelectedService(service);
+      setSelectedServiceId(service.id);
       setIsAnimating(false);
     }, 300);
   };
