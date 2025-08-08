@@ -85,31 +85,31 @@ const Header = () => {
   }, [currentLanguage, activeMobileTab]);
 
   const getDropdownItems = () => ({
-    // Streamlined navigation - 4 main sections
-    [t('common.about') || 'About']: [
-      { label: 'Leadership', icon: Shield },
-      { label: t('header.divisions') || 'Divisions', icon: Building2 },
-      { label: 'Our History', icon: FileText },
-      { label: 'Mission & Vision', icon: Target }
+    // Streamlined navigation - 4 main sections with full translations
+    [t('common.about')]: [
+      { label: t('dropdown.leadership'), icon: Shield },
+      { label: t('header.divisions'), icon: Building2 },
+      { label: t('dropdown.ourHistory'), icon: FileText },
+      { label: t('dropdown.mission'), icon: Target }
     ],
-    [t('common.programs') || 'Programs']: [
-      { label: t('dropdown.youthAwards') || 'Youth Awards', icon: Award },
-      { label: t('dropdown.skillDevelopment') || 'Skill Development', icon: Lightbulb },
-      { label: t('dropdown.culturalAffairs') || 'Cultural Programs', icon: Music },
-      { label: 'Youth Parliament', icon: Users },
-      { label: 'Find Courses', icon: GraduationCap }
+    [t('common.programs')]: [
+      { label: t('dropdown.youthAwards'), icon: Award },
+      { label: t('dropdown.skillDevelopment'), icon: Lightbulb },
+      { label: t('dropdown.culturalAffairs'), icon: Music },
+      { label: t('dropdown.youthParliament'), icon: Users },
+      { label: t('dropdown.findCourses'), icon: GraduationCap }
     ],
-    ['News & Events']: [
-      { label: 'Latest News', icon: Newspaper },
-      { label: 'Events', icon: Calendar },
-      { label: 'Achievements', icon: Trophy },
-      { label: 'Photo Gallery', icon: Heart }
+    [t('header.newsEvents')]: [
+      { label: t('dropdown.latestNews'), icon: Newspaper },
+      { label: t('dropdown.events'), icon: Calendar },
+      { label: t('dropdown.achievements'), icon: Trophy },
+      { label: t('dropdown.gallery'), icon: Heart }
     ],
-    ['Resources']: [
-      { label: t('header.ourCenters') || 'Our Centers', icon: MapPin },
-      { label: 'Downloads', icon: Download },
-      { label: t('common.contact') || 'Contact Us', icon: Mail },
-      { label: 'Student Portal', icon: UserPlus }
+    [t('header.resources')]: [
+      { label: t('header.ourCenters'), icon: MapPin },
+      { label: t('dropdown.downloads'), icon: Download },
+      { label: t('dropdown.contact'), icon: Mail },
+      { label: t('dropdown.studentPortal'), icon: UserPlus }
     ]
   });
 

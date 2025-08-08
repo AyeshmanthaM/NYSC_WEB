@@ -37,19 +37,38 @@ const translations: Record<Language, Translations> = {
       divisions: 'Divisions',
       services: 'Services',
       ourCenters: 'Our Centers',
-      searchPlaceholder: 'Search...'
+      searchPlaceholder: 'Search...',
+      newsEvents: 'News & Events',
+      resources: 'Resources'
     },
     dropdown: {
+      // About section
+      leadership: 'Leadership',
+      ourHistory: 'Our History',
+      mission: 'Mission & Vision',
+      // Programs section
+      youthAwards: 'Youth Awards',
+      skillDevelopment: 'Skill Development',
+      culturalAffairs: 'Cultural Programs',
+      youthParliament: 'Youth Parliament',
+      findCourses: 'Find Courses',
+      // News & Events section
+      latestNews: 'Latest News',
+      events: 'Events',
+      achievements: 'Achievements',
+      gallery: 'Photo Gallery',
+      // Resources section
+      downloads: 'Downloads',
+      contact: 'Contact Us',
+      studentPortal: 'Student Portal',
+      // Legacy items (keeping for compatibility)
       aboutClubs: 'About Clubs',
       registerClub: 'Register Club',
       findClubs: 'Find Clubs',
       clubActivities: 'Club Activities',
       sportsDevelopment: 'Sports Development',
-      culturalAffairs: 'Cultural Affairs',
       educationTraining: 'Education & Training',
       internationalRelations: 'International Relations',
-      youthAwards: 'Youth Awards',
-      skillDevelopment: 'Skill Development',
       careerGuidance: 'Career Guidance',
       volunteerPrograms: 'Volunteer Programs',
       trainingCenters: 'Training Centers',
@@ -356,19 +375,38 @@ const translations: Record<Language, Translations> = {
       divisions: 'අංශ',
       services: 'සේවා',
       ourCenters: 'අපගේ මධ්‍යස්ථාන',
-      searchPlaceholder: 'සොයන්න...'
+      searchPlaceholder: 'සොයන්න...',
+      newsEvents: 'පුවත් සහ සිදුවීම්',
+      resources: 'සම්පත්'
     },
     dropdown: {
+      // About section
+      leadership: 'නායකත්වය',
+      ourHistory: 'අපගේ ඉතිහාසය',
+      mission: 'මෙහෙවර සහ දැක්ම',
+      // Programs section
+      youthAwards: 'තරුණ සම්මාන',
+      skillDevelopment: 'නිපුණතා සංවර්ධනය',
+      culturalAffairs: 'සංස්කෘතික වැඩසටහන්',
+      youthParliament: 'තරුණ පාර්ලිමේන්තුව',
+      findCourses: 'පාඨමාලා සොයන්න',
+      // News & Events section
+      latestNews: 'නවතම පුවත්',
+      events: 'සිදුවීම්',
+      achievements: 'ජයග්‍රහණ',
+      gallery: 'ඡායාරූප ගැලරිය',
+      // Resources section
+      downloads: 'බාගැනීම්',
+      contact: 'අප සම්බන්ධ කර ගන්න',
+      studentPortal: 'ශිෂ්‍ය ද්වාරය',
+      // Legacy items (keeping for compatibility)
       aboutClubs: 'සමාජ අමබුව',
       registerClub: 'සමාජ රජිස්ටර් කිරීම',
       findClubs: 'සමාජ සොයා ගන්න',
       clubActivities: 'සමාජ ක්‍රියාකාරකම්',
       sportsDevelopment: 'ක්‍රීඩා සංවර්ධනය',
-      culturalAffairs: 'සාංස්කෘතික ව්‍යාපාර',
       educationTraining: 'අධ්‍යාපන සහ පුහුණුව',
       internationalRelations: 'අන්තර්‍ජාතික සම්බන්ධතා',
-      youthAwards: 'තරුණ සම්මාන',
-      skillDevelopment: 'නිපුණතා සංවර්ධනය',
       careerGuidance: 'කරියර සංවර්ධන මාර්ගදර්ශනය',
       volunteerPrograms: 'ස්වන්නනට සේවා වැඩසටහන්',
       trainingCenters: 'පුහුණු මධ්‍යස්ථාන',
@@ -675,19 +713,38 @@ const translations: Record<Language, Translations> = {
       divisions: 'பிரிவுகள்',
       services: 'சேவைகள்',
       ourCenters: 'எங்கள் மையங்கள்',
-      searchPlaceholder: 'தேடல்...'
+      searchPlaceholder: 'தேடல்...',
+      newsEvents: 'செய்திகள் மற்றும் நிகழ்வுகள்',
+      resources: 'வளங்கள்'
     },
     dropdown: {
+      // About section
+      leadership: 'தலைமை',
+      ourHistory: 'எங்கள் வரலாறு',
+      mission: 'நோக்கம் மற்றும் தொலைநோக்கு',
+      // Programs section
+      youthAwards: 'இளைஞர் விருதுகள்',
+      skillDevelopment: 'திறன் மேம்பாடு',
+      culturalAffairs: 'கலாச்சார திட்டங்கள்',
+      youthParliament: 'இளைஞர் நாடாளுமன்றம்',
+      findCourses: 'பாடநெறிகளைக் கண்டறியுங்கள்',
+      // News & Events section
+      latestNews: 'சமீபத்திய செய்திகள்',
+      events: 'நிகழ்வுகள்',
+      achievements: 'சாதனைகள்',
+      gallery: 'புகைப்படத் தொகுப்பு',
+      // Resources section
+      downloads: 'பதிவிறக்கங்கள்',
+      contact: 'எங்களைத் தொடர்பு கொள்ளுங்கள்',
+      studentPortal: 'மாணவர் போர்டல்',
+      // Legacy items (keeping for compatibility)
       aboutClubs: 'சங்கங்கள் பற்றி',
       registerClub: 'சங்கத்தை பதிவு செய்யுங்கள்',
       findClubs: 'சங்கங்களை கண்டறியுங்கள்',
       clubActivities: 'சங்க நடவடிக்கைகள்',
       sportsDevelopment: 'விளையாட்டு மேம்பாடு',
-      culturalAffairs: 'கலாச்சார விவகாரங்கள்',
       educationTraining: 'கல்வி மற்றும் பயிற்சி',
       internationalRelations: 'சர்வதேச உறவுகள்',
-      youthAwards: 'இளைஞர் விருதுகள்',
-      skillDevelopment: 'திறன் மேம்பாட்டு',
       careerGuidance: 'தொழில் வழிகாட்டுதல்',
       volunteerPrograms: 'தன்னார்வ திட்டங்கள்',
       trainingCenters: 'பயிற்சி மையங்கள்',
