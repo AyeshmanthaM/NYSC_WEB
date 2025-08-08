@@ -251,7 +251,7 @@ const NewsEventsSection = () => {
               {news.slice(0, 4).map((article, index) => (
                 <article
                   key={article.id}
-                  className={`group cursor-pointer rounded-3xl overflow-hidden transition-all duration-500 transform hover:-translate-y-4 hover:scale-105 relative ${getThemeColor('card.primary', isDark)} border ${getThemeColor('border.subtle', isDark)} ${colors.hover.border.brand} ${colors.hover.shadow.brand} backdrop-blur-sm`}
+                  className={`group cursor-pointer rounded-3xl overflow-hidden transition-all duration-500 transform hover:-translate-y-4 hover:scale-105 relative ${getThemeColor('card.primary', isDark)} border ${getThemeColor('border.subtle', isDark)} ${colors?.hover?.border?.brand || 'hover:border-[#1aa79e]'} ${colors?.hover?.shadow?.brand || 'hover:shadow-[#1aa79e]/25'} backdrop-blur-sm`}
                   onMouseEnter={() => setHoveredNews(article.id)}
                   onMouseLeave={() => setHoveredNews(null)}
                   style={{
@@ -471,7 +471,7 @@ const NewsEventsSection = () => {
                 <div className={`p-3 rounded-xl ${getThemeColor('background.gradient.brand', isDark)} backdrop-blur-sm`}>
                   <Calendar className={`w-6 h-6 ${colors.brand.primary.text}`} />
                 </div>
-                <span className={`px-4 py-2 rounded-full text-sm font-medium ${getThemeColor('badge.secondary', isDark)} backdrop-blur-md`}>
+                <span className={`px-4 py-2 rounded-full text-sm font-medium ${getThemeColor('badge.brand', isDark)} backdrop-blur-md`}>
                   {t('newsEvents.events.badge')}
                 </span>
               </div>
@@ -513,12 +513,12 @@ const NewsEventsSection = () => {
                   animationDelay: `${index * 200}ms`
                 }}
               >
-                {/* Featured Badge */}
+                {/* Featured Badge - Positioned like news section */}
                 {event.featured && (
-                  <div className="absolute -top-2 -right-2 z-20">
-                    <div className="bg-gradient-to-r from-[#f38621] to-[#1aa79e] text-white px-3 py-1 rounded-full text-xs font-bold flex items-center space-x-1 animate-pulse">
-                      <Calendar className="w-3 h-3" />
-                      <span>{t('newsEvents.events.featured')}</span>
+                  <div className="absolute right-3 top-3 z-20">
+                    <div className="bg-gradient-to-r from-[#f38621] to-[#1aa79e] text-white px-3 py-1.5 rounded-full text-xs font-bold floating-badge flex items-center space-x-1.5 shadow-lg backdrop-blur-sm">
+                      <span className="text-xs">⭐</span>
+                      <span className="font-extrabold tracking-wide">{t('newsEvents.events.featured')}</span>
                     </div>
                   </div>
                 )}
@@ -571,8 +571,8 @@ const NewsEventsSection = () => {
                     </div>
                   </div>
 
-                  {/* Hover Effect Indicator */}
-                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {/* Hover Effect Indicator - Moved to avoid overlap */}
+                  <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="bg-[#1aa79e]/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-medium">
                       {t('newsEvents.events.clickToView')}
                     </div>

@@ -58,6 +58,10 @@ export const colors = {
       light: 'bg-gray-100',
       dark: 'bg-gray-700'
     },
+    overlay: {
+      light: 'bg-white/80',
+      dark: 'bg-gray-900/80'
+    },
     // Complex gradients
     gradient: {
       light: 'bg-gradient-to-br from-gray-50 to-blue-50',
@@ -151,6 +155,13 @@ export const colors = {
         dark: 'hover:text-gray-200'
       }
     },
+    border: {
+      brand: 'hover:border-[#1aa79e]',
+      subtle: {
+        light: 'hover:border-gray-300',
+        dark: 'hover:border-gray-600'
+      }
+    },
     shadow: {
       brand: 'hover:shadow-[#1aa79e]/25',
       subtle: {
@@ -197,6 +208,10 @@ export const colors = {
       light: 'bg-gradient-to-r from-[#1aa79e]/10 to-[#f38621]/10 text-[#1aa79e] border border-[#1aa79e]/20',
       dark: 'bg-gradient-to-r from-[#1aa79e]/20 to-[#f38621]/20 text-[#1aa79e] border border-[#1aa79e]/30'
     },
+    secondary: {
+      light: 'bg-gray-100 text-gray-700 border border-gray-200',
+      dark: 'bg-gray-800 text-gray-300 border border-gray-600'
+    },
     nvq: 'bg-gradient-to-r from-[#1aa79e] to-[#f38621] text-white',
     fullTime: 'bg-green-100 text-green-700 border border-green-200',
     partTime: 'bg-blue-100 text-blue-700 border border-blue-200',
@@ -205,11 +220,37 @@ export const colors = {
       dark: 'bg-gray-900/80 text-[#1aa79e] border border-[#1aa79e]/20'
     }
   },
+  
+  // Input styles
+  input: {
+    primary: {
+      light: 'bg-white text-gray-900 border-gray-300',
+      dark: 'bg-gray-800 text-white border-gray-600'
+    },
+    secondary: {
+      light: 'bg-gray-50 text-gray-900 border-gray-200',
+      dark: 'bg-gray-900 text-white border-gray-700'
+    }
+  },
+  
+  // Category styles (for badges and tags)
+  category: {
+    category: {
+      light: 'bg-white/90',
+      dark: 'bg-gray-900/80'
+    }
+  },
 
   // Star ratings
   star: {
     filled: 'text-yellow-400 fill-yellow-400',
     empty: 'text-gray-300 fill-none'
+  },
+  
+  // Tooltip styles
+  tooltipArrow: {
+    light: 'border-t-white',
+    dark: 'border-t-gray-800'
   },
 
   // Special effects and animations
@@ -294,6 +335,9 @@ export const colors = {
 
 // Legacy support - keep the old structure for existing code
 export const colorConfig = colors;
+
+// Default export for flexibility
+export default colors;
 
 // Helper function to get theme-based color
 export const getThemeColor = (colorPath: string, isDark: boolean): string => {

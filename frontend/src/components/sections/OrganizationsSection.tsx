@@ -68,7 +68,7 @@ const OrganizationsSection = () => {
           </span>
           <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold leading-tight ${getThemeColor('text.primary', isDark)}`}>
             {t('organizations.title')}
-            <span className={`block ${colors.brand.gradient.text}`}>
+            <span className={`pb-2 block ${colors.brand.gradient.text}`}>
               {t('organizations.titleHighlight')}
             </span>
           </h2>

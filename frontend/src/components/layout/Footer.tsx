@@ -179,7 +179,7 @@ const Footer = () => {
                   key={index}
                   href={social.href}
                   aria-label={social.label}
-                  className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300 transform hover:scale-110 shadow-lg ${getThemeColor('button.secondary', isDark)} hover:${colors.brand.primary.bg} hover:text-white border ${getThemeColor('border.subtle', isDark)} hover:${colors.border.brand.subtle} shadow-md`}
+                  className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300 transform hover:scale-110 shadow-lg ${getThemeColor('button.secondary', isDark)} hover:${colors.brand.primary.bg} hover:text-white border ${getThemeColor('border.subtle', isDark)} hover:${getThemeColor('border.brand.subtle', isDark)} shadow-md`}
                 >
                   {social.icon}
                 </a>

@@ -289,13 +289,15 @@ const PopularCourses = () => {
       </div>
 
       {/* Custom CSS for animations */}
-      <style jsx>{`
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @keyframes float {
           0%, 100% { transform: translateY(0px) translateX(0px); }
           33% { transform: translateY(-20px) translateX(10px); }
           66% { transform: translateY(10px) translateX(-5px); }
         }
-      `}</style>
+        `
+      }} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
@@ -362,7 +364,7 @@ const PopularCourses = () => {
                             
                             {/* Course Category Badge */}
                             <div className="absolute top-4 left-4">
-                              <div className={`flex items-center px-3 py-1.5 rounded-full text-xs font-semibold ${getThemeColor('category.category', isDark)} ${colors.brand.primary.text} backdrop-blur-sm ${colors.border.brand.subtle.light}`}>
+                              <div className={`flex items-center px-3 py-1.5 rounded-full text-xs font-semibold ${getThemeColor('category.category', isDark)} ${colors.brand.primary.text} backdrop-blur-sm border ${getThemeColor('border.brand.subtle', isDark)}`}>
                                 <IconComponent className="w-3 h-3 mr-1" />
                                 {course.category}
                               </div>

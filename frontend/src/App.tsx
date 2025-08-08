@@ -57,7 +57,7 @@ const AppContent = () => {
   const marginOffset = baseMarginOffset + hoverCompensation;
 
   return (
-    <div className={`min-h-screen w-full max-w-full overflow-x-hidden relative transition-colors duration-300 ${getThemeColor('background', isDark)
+    <div className={`min-h-screen w-full max-w-full overflow-x-hidden relative transition-colors duration-300 ${getThemeColor('background.primary', isDark)
       }`}>
       {/* Animated Background */}
       <AnimatedBackground />

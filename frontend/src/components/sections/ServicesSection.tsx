@@ -323,7 +323,8 @@ const InteractiveServicesSection = () => {
       </section>
 
       {/* Modular CSS Styles */}
-      <style jsx>{`
+      <style dangerouslySetInnerHTML={{
+        __html: `
         /* Base Layout Classes */
         .services-grid {
           display: grid;
@@ -1093,7 +1094,8 @@ const InteractiveServicesSection = () => {
             font-size: 0.625rem;
           }
         }
-      `}</style>
+        `
+      }} />
     </>
   );
 };

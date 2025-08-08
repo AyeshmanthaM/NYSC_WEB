@@ -173,7 +173,7 @@ const Header = () => {
                 aria-label="NYSC Home"
               >
                 <img 
-                  src="/src/assets/svg/profile_NYSC.svg" 
+                  src="/assets/svg/profile_NYSC.svg" 
                   alt="NYSC Logo" 
                   className="h-full w-auto max-h-16 object-contain transition-all duration-200 group-hover:scale-105"
                 />
