@@ -112,9 +112,10 @@ const InteractiveServicesSection = () => {
         
         {/* Section Header */}
         <div className="text-center mb-8">
-          <span className={`inline-block px-4 py-2 rounded-full text-sm font-semibold mb-3 ${getThemeColor('badge.brand', isDark)}`}>
-            {t('services.badge')}
-          </span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-nysc-primary/10 to-nysc-secondary/10 border border-nysc-primary/20 mb-3">
+            <Zap className="w-4 h-4 text-nysc-primary" />
+            <span className="text-sm font-medium text-nysc-primary">{t('services.badge')}</span>
+          </div>
           <h2 className={`text-2xl md:text-3xl lg:text-4xl font-bold mb-3 ${getThemeColor('text.primary', isDark)}`}>
             {t('services.title')}
           </h2>

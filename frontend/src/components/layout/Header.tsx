@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { colors, getThemeColor } from '../../config/colors';
+import { getThemeColor } from '../../config/colors';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -186,14 +186,14 @@ const Header = () => {
                {/* Top thick border line */}
               <div className={`absolute -top-3 left-0 right-0 h-0.5 transition-all duration-500 ${
                 isScrolled == false
-                  ? `opacity-70 bg-gradient-to-r from-transparent via-[${colors.raw.nysc.primary}] to-transparent transform scale-x-100` 
+                  ? 'opacity-70 bg-gradient-to-r from-transparent via-nysc-primary to-transparent transform scale-x-100' 
                   : 'opacity-0 transform scale-x-0'
               }`} />
               
               {/* Bottom thick border line */}
               <div className={`absolute -bottom-3 left-0 right-0 h-0.5 transition-all duration-500 delay-100 ${
                 isScrolled == false
-                  ? `opacity-70 bg-gradient-to-r from-transparent via-[${colors.raw.nysc.secondary}] to-transparent transform scale-x-100` 
+                  ? 'opacity-70 bg-gradient-to-r from-transparent via-nysc-secondary to-transparent transform scale-x-100' 
                   : 'opacity-0 transform scale-x-0'
               }`} />
 
@@ -278,14 +278,39 @@ const Header = () => {
 
             {/* Right Section - Utilities */}
             <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0 mr-4">
+              {/* Mobile Language Toggle - Always Visible */}
+              <div className="lg:hidden flex items-center space-x-1 px-1">
+                {[{code: 'si', label: 'SI'}, {code: 'ta', label: 'TA'}, {code: 'en', label: 'EN'}].map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => setLanguage(lang.code as 'si' | 'ta' | 'en')}
+                    className={`min-w-[44px] min-h-[44px] px-3 py-2 text-xs font-medium rounded-lg transition-all duration-200 hover:scale-105 ${
+                      currentLanguage === lang.code
+                        ? 'bg-nysc-primary text-white shadow-md transform scale-105'
+                        : isScrolled
+                          ? isDark
+                            ? 'text-gray-300 hover:text-white hover:bg-gray-700'
+                            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                          : isDark
+                            ? 'text-white/90 hover:text-white hover:bg-white/10'
+                            : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100/20'
+                    }`}
+                    aria-label={`Switch to ${lang.code === 'en' ? 'English' : lang.code === 'si' ? 'Sinhala' : 'Tamil'}`}
+                    aria-pressed={currentLanguage === lang.code}
+                  >
+                    {lang.label}
+                  </button>
+                ))}
+              </div>
+
               {/* Enhanced Search with Animation */}
               <div className="relative flex items-center">
                 {isSearchOpen ? (
                   <div className={`relative flex items-center px-3 py-2 rounded-lg transition-all duration-300 ${
                     isSearchFocused 
                       ? isDark 
-                        ? `bg-gray-700/80 ring-2 ring-[${colors.raw.nysc.primary}]/50` 
-                        : `bg-white/80 ring-2 ring-[${colors.raw.nysc.primary}]/50`
+                        ? 'bg-gray-700/80 ring-2 ring-nysc-primary/50' 
+                        : 'bg-white/80 ring-2 ring-nysc-primary/50'
                       : isDark 
                         ? isScrolled 
                           ? 'bg-gray-800/80' 
@@ -332,7 +357,7 @@ const Header = () => {
                   <>
                     <button
                       onClick={() => setIsSearchOpen(true)}
-                      className={`p-2 rounded-lg transition-all duration-200 hover:scale-110 ${
+                      className={`min-w-[44px] min-h-[44px] p-2 rounded-lg transition-all duration-200 hover:scale-110 ${
                         isScrolled 
                           ? isDark
                             ? 'text-gray-300 hover:text-white hover:bg-gray-700'
@@ -364,9 +389,9 @@ const Header = () => {
                         <button
                           key={lang.code}
                           onClick={() => setLanguage(lang.code as 'si' | 'ta' | 'en')}
-                          className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all duration-200 hover:scale-105 ${
+                          className={`min-w-[44px] min-h-[44px] px-3 py-1.5 text-xs font-medium rounded-lg transition-all duration-200 hover:scale-105 ${
                             currentLanguage === lang.code
-                              ? `${colors.button.primary.base} text-white shadow-md transform scale-105`
+                              ? 'bg-gradient-to-r from-nysc-primary to-nysc-secondary text-white shadow-md transform scale-105'
                               : isScrolled
                                 ? isDark
                                   ? 'text-gray-300 hover:text-white hover:bg-gray-700'
@@ -394,7 +419,7 @@ const Header = () => {
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className={`p-2 sm:p-2.5 rounded-lg transition-all duration-200 hover:scale-110 hover:rotate-12 ${
+              className={`min-w-[44px] min-h-[44px] p-2 sm:p-2.5 rounded-lg transition-all duration-200 hover:scale-110 hover:rotate-12 ${
                 isScrolled 
                   ? isDark
                     ? 'text-gray-300 hover:text-white hover:bg-gray-700'
@@ -416,7 +441,7 @@ const Header = () => {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`lg:hidden p-2 rounded-lg transition-all duration-200 hover:scale-110 ml-1 ${
+              className={`lg:hidden min-w-[44px] min-h-[44px] p-2 rounded-lg transition-all duration-200 hover:scale-110 ml-1 ${
                 isScrolled 
                   ? isDark
                     ? 'text-gray-300 hover:text-white hover:bg-gray-700'
@@ -456,9 +481,9 @@ const Header = () => {
                   <button
                     key={category}
                     onClick={() => setActiveMobileTab(category)}
-                    className={`flex-1 px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                    className={`flex-1 min-h-[44px] px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
                       activeMobileTab === category
-                        ? `${colors.button.primary.base} text-white shadow-md transform scale-105`
+                        ? 'bg-gradient-to-r from-nysc-primary to-nysc-secondary text-white shadow-md transform scale-105'
                         : isDark
                           ? 'text-gray-400 hover:text-gray-300 hover:bg-gray-700/50'
                           : 'text-gray-600 hover:text-gray-900 hover:bg-white/50'
@@ -528,9 +553,9 @@ const Header = () => {
                       <button
                         key={lang.code}
                         onClick={() => setLanguage(lang.code as 'si' | 'ta' | 'en')}
-                        className={`px-3 py-1 text-xs font-medium rounded-full transition-all duration-200 hover:scale-105 ${
+                        className={`min-w-[44px] min-h-[44px] px-3 py-1 text-xs font-medium rounded-full transition-all duration-200 hover:scale-105 ${
                           currentLanguage === lang.code
-                            ? `${colors.button.primary.base} text-white shadow-md transform scale-105`
+                            ? 'bg-gradient-to-r from-nysc-primary to-nysc-secondary text-white shadow-md transform scale-105'
                             : isDark 
                               ? 'text-gray-400 hover:text-gray-300' 
                               : 'text-gray-600 hover:text-gray-900'

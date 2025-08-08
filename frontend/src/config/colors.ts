@@ -46,6 +46,10 @@ export const colors = {
 
   // Background colors
   background: {
+    footer: {
+      light: 'bg-gray-300',
+      dark: 'bg-gray-900'
+    },
     primary: {
       light: 'bg-gray-50',
       dark: 'bg-gray-900'

@@ -1,4 +1,4 @@
-import { Award, Crown, Building, Shield, Facebook, Twitter, Instagram, Linkedin, Eye, ArrowRight } from 'lucide-react';
+import { Award, Crown, Building, Shield, Facebook, Twitter, Instagram, Linkedin, Eye, ArrowRight, Users } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { colors, getThemeColor } from '../../config/colors';
@@ -83,9 +83,10 @@ const LeadersSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className="text-center mb-6">
-          <span className={`inline-block px-4 py-2 rounded-full text-sm font-semibold mb-4 ${getThemeColor('badge.brand', isDark)}`}>
-            {t('leaders.badge')}
-          </span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-nysc-primary/10 to-nysc-secondary/10 border border-nysc-primary/20 mb-4">
+            <Users className="w-4 h-4 text-nysc-primary" />
+            <span className="text-sm font-medium text-nysc-primary">{t('leaders.badge')}</span>
+          </div>
           <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 ${getThemeColor('text.primary', isDark)}`}>
             {t('leaders.title')}
           </h2>

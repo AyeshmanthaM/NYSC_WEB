@@ -1,4 +1,4 @@
-import { ExternalLink, Plus } from 'lucide-react';
+import { ExternalLink, Plus, Building } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { colors, getThemeColor } from '../../config/colors';
@@ -63,9 +63,10 @@ const OrganizationsSection = () => {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Title */}
         <div className="text-center mb-16">
-          <span className={`inline-block px-4 py-2 rounded-full text-sm font-semibold mb-4 ${getThemeColor('badge.brand', isDark)}`}>
-            {t('organizations.badge')}
-          </span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-nysc-primary/10 to-nysc-secondary/10 border border-nysc-primary/20 mb-4">
+            <Building className="w-4 h-4 text-nysc-primary" />
+            <span className="text-sm font-medium text-nysc-primary">{t('organizations.badge')}</span>
+          </div>
           <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold leading-tight ${getThemeColor('text.primary', isDark)}`}>
             {t('organizations.title')}
             <span className={`pb-2 block ${colors.brand.gradient.text}`}>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Calendar, MapPin, ArrowRight, Eye, TrendingUp, Clock, Share2, Bookmark, Heart } from 'lucide-react';
+import { Calendar, MapPin, ArrowRight, Eye, TrendingUp, Clock, Share2, Bookmark, Heart, Send, Bell, Mail, Users } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { colors, getThemeColor } from '../../config/colors';
@@ -12,6 +12,20 @@ const NewsEventsSection = () => {
   const [bookmarkedItems, setBookmarkedItems] = useState<Set<number>>(new Set());
   const [likedItems, setLikedItems] = useState<Set<number>>(new Set());
   const [currentNewsIndex, setCurrentNewsIndex] = useState(0);
+
+  const [email, setEmail] = useState('');
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email.includes('@')) {
+      setIsSubscribed(true);
+      setTimeout(() => {
+        setIsSubscribed(false);
+        setEmail('');
+      }, 3000);
+    }
+  };
 
   // Auto-rotate news for better engagement
   useEffect(() => {
@@ -48,7 +62,7 @@ const NewsEventsSection = () => {
       return newSet;
     });
   };
-  
+
   // Enhanced news data with engagement metrics
   const news = [
     {
@@ -194,7 +208,7 @@ const NewsEventsSection = () => {
 
   return (
     <section className={`py-20 relative overflow-hidden ${getThemeColor('background.gradient.subtle', isDark)}`}>
-      
+
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute inset-0" style={{
@@ -203,7 +217,7 @@ const NewsEventsSection = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
+
         {/* Latest News Section */}
         <div className="mb-20">
           {/* Enhanced Header with Stats */}
@@ -213,9 +227,10 @@ const NewsEventsSection = () => {
                 <div className={`p-3 rounded-xl ${getThemeColor('background.gradient.brand', isDark)} backdrop-blur-sm`}>
                   <TrendingUp className={`w-6 h-6 ${colors.brand.primary.text}`} />
                 </div>
-                <span className={`px-4 py-2 rounded-full text-sm font-medium ${getThemeColor('badge.brand', isDark)} backdrop-blur-md`}>
-                  {t('newsEvents.news.badge')}
-                </span>
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-nysc-primary/10 to-nysc-secondary/10 border border-nysc-primary/20 backdrop-blur-md">
+                  <TrendingUp className="w-4 h-4 text-nysc-primary" />
+                  <span className="text-sm font-medium text-nysc-primary">{t('newsEvents.news.badge')}</span>
+                </div>
               </div>
               <h2 className={`text-5xl font-bold mb-4 ${getThemeColor('text.primary', isDark)} leading-tight`}>
                 {t('newsEvents.news.title')} <span className={colors.brand.gradient.text}>{t('newsEvents.news.titleHighlight')}</span>
@@ -224,18 +239,18 @@ const NewsEventsSection = () => {
                 {t('newsEvents.news.subtitle')}
               </p>
             </div>
-            
+
             {/* Enhanced CTA */}
             <div className="flex flex-col items-start lg:items-end space-y-4">
               <div className={`text-sm ${getThemeColor('text.muted', isDark)}`}>
-                {t('newsEvents.news.updated')} {new Date().toLocaleDateString(currentLanguage === 'si' ? 'si-LK' : currentLanguage === 'ta' ? 'ta-LK' : 'en-US', { 
+                {t('newsEvents.news.updated')} {new Date().toLocaleDateString(currentLanguage === 'si' ? 'si-LK' : currentLanguage === 'ta' ? 'ta-LK' : 'en-US', {
                   weekday: 'long',
                   hour: '2-digit',
                   minute: '2-digit'
                 })}
               </div>
-              <a 
-                href="/news" 
+              <a
+                href="/news"
                 className={`group inline-flex items-center space-x-3 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 ${colors.button.primary.base} ${colors.button.primary.shadow}`}
               >
                 <span>{t('newsEvents.news.exploreAll')}</span>
@@ -247,7 +262,7 @@ const NewsEventsSection = () => {
           {/* Enhanced News Cards */}
           <div className="relative">
             {/* Desktop Grid */}
-            <div className="hidden lg:grid lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <div className="hidden lg:grid lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {news.slice(0, 4).map((article, index) => (
                 <article
                   key={article.id}
@@ -264,14 +279,14 @@ const NewsEventsSection = () => {
                       <div className="relative">
                         {/* Pulsing ring effect */}
                         <div className={`absolute inset-0 ${colors.brand.gradient.primary} rounded-full`}></div>
-                        
+
                         {/* Main trending badge */}
                         <div className={`relative ${colors.button.primary.base} px-3 py-1.5 rounded-full text-xs font-bold flex items-center space-x-1.5 shadow-lg transform hover:scale-110 transition-all duration-300 backdrop-blur-sm`}>
                           <TrendingUp className="w-3.5 h-3.5 animate-bounce" />
                           <span className="font-extrabold tracking-wide">{t('newsEvents.news.trending')}</span>
                           <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
                         </div>
-                        
+
                         {/* Sparkle effects */}
                         <div className="absolute -top-1 -left-1 w-2.5 h-2.5 text-yellow-300 animate-pulse text-xs">✨</div>
                         <div className="absolute -bottom-1 -right-1 w-2 h-2 text-yellow-300 animate-pulse delay-500 text-xs">⭐</div>
@@ -299,10 +314,10 @@ const NewsEventsSection = () => {
                         e.currentTarget.src = '/images/default-news.jpg';
                       }}
                     />
-                    
+
                     {/* Enhanced Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent group-hover:from-black/70 transition-all duration-300" />
-                    
+
                     {/* Category Tag */}
                     <div className="absolute top-4 left-4">
                       <span className={`px-3 py-2 rounded-full text-xs font-bold backdrop-blur-md ${getCategoryColor(article.tag)} shadow-lg transform group-hover:scale-110 transition-transform duration-300`}>
@@ -348,9 +363,9 @@ const NewsEventsSection = () => {
                       <div className={`flex items-center space-x-2 text-xs ${getThemeColor('text.muted', isDark)}`}>
                         <span className="font-medium">{article.publisher}</span>
                         <span>•</span>
-                        <span>{new Date(article.date).toLocaleDateString('en-US', { 
-                          month: 'short', 
-                          day: 'numeric' 
+                        <span>{new Date(article.date).toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric'
                         })}</span>
                       </div>
                     </div>
@@ -360,31 +375,28 @@ const NewsEventsSection = () => {
                       <div className="flex items-center space-x-2">
                         <button
                           onClick={(e) => toggleLike(article.id, e)}
-                          className={`p-2 rounded-full transition-all duration-200 transform hover:scale-110 ${
-                            likedItems.has(article.id)
+                          className={`p-2 rounded-full transition-all duration-200 transform hover:scale-110 ${likedItems.has(article.id)
                               ? 'text-red-500 bg-red-50 dark:bg-red-500/10'
                               : isDark
-                              ? 'text-gray-400 hover:text-red-400 hover:bg-red-500/10'
-                              : 'text-gray-400 hover:text-red-500 hover:bg-red-50'
-                          }`}
+                                ? 'text-gray-400 hover:text-red-400 hover:bg-red-500/10'
+                                : 'text-gray-400 hover:text-red-500 hover:bg-red-50'
+                            }`}
                         >
                           <Heart className={`w-4 h-4 ${likedItems.has(article.id) ? 'fill-current' : ''}`} />
                         </button>
                         <button
                           onClick={(e) => toggleBookmark(article.id, e)}
-                          className={`p-2 rounded-full transition-all duration-200 transform hover:scale-110 ${
-                            bookmarkedItems.has(article.id)
+                          className={`p-2 rounded-full transition-all duration-200 transform hover:scale-110 ${bookmarkedItems.has(article.id)
                               ? 'text-[#1aa79e] bg-[#1aa79e]/10'
                               : isDark
-                              ? 'text-gray-400 hover:text-[#1aa79e] hover:bg-[#1aa79e]/10'
-                              : 'text-gray-400 hover:text-[#1aa79e] hover:bg-[#1aa79e]/10'
-                          }`}
+                                ? 'text-gray-400 hover:text-[#1aa79e] hover:bg-[#1aa79e]/10'
+                                : 'text-gray-400 hover:text-[#1aa79e] hover:bg-[#1aa79e]/10'
+                            }`}
                         >
                           <Bookmark className={`w-4 h-4 ${bookmarkedItems.has(article.id) ? 'fill-current' : ''}`} />
                         </button>
-                        <button className={`p-2 rounded-full transition-all duration-200 transform hover:scale-110 ${
-                          isDark ? 'text-gray-400 hover:text-gray-200 hover:bg-gray-700' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100'
-                        }`}>
+                        <button className={`p-2 rounded-full transition-all duration-200 transform hover:scale-110 ${isDark ? 'text-gray-400 hover:text-gray-200 hover:bg-gray-700' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100'
+                          }`}>
                           <Share2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -421,7 +433,7 @@ const NewsEventsSection = () => {
                         }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                      
+
                       {/* Category Tag */}
                       <div className="absolute top-3 left-3">
                         <span className={`px-3 py-1 rounded-full text-xs font-medium ${getCategoryColor(article.tag)}`}>
@@ -447,9 +459,9 @@ const NewsEventsSection = () => {
                         <div className="flex items-center space-x-2">
                           <span className="font-medium">{article.publisher}</span>
                           <span>•</span>
-                          <span>{new Date(article.date).toLocaleDateString('en-US', { 
-                            month: 'short', 
-                            day: 'numeric' 
+                          <span>{new Date(article.date).toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric'
                           })}</span>
                         </div>
                         <span>{article.readTime}</span>
@@ -471,9 +483,10 @@ const NewsEventsSection = () => {
                 <div className={`p-3 rounded-xl ${getThemeColor('background.gradient.brand', isDark)} backdrop-blur-sm`}>
                   <Calendar className={`w-6 h-6 ${colors.brand.primary.text}`} />
                 </div>
-                <span className={`px-4 py-2 rounded-full text-sm font-medium ${getThemeColor('badge.brand', isDark)} backdrop-blur-md`}>
-                  {t('newsEvents.events.badge')}
-                </span>
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-nysc-primary/10 to-nysc-secondary/10 border border-nysc-primary/20 backdrop-blur-md">
+                  <Calendar className="w-4 h-4 text-nysc-primary" />
+                  <span className="text-sm font-medium text-nysc-primary">{t('newsEvents.events.badge')}</span>
+                </div>
               </div>
               <h2 className={`text-5xl font-bold mb-4 ${getThemeColor('text.primary', isDark)} leading-tight`}>
                 {t('newsEvents.events.title')} <span className={colors.brand.gradient.text}>{t('newsEvents.events.titleHighlight')}</span>
@@ -482,14 +495,14 @@ const NewsEventsSection = () => {
                 {t('newsEvents.events.subtitle')}
               </p>
             </div>
-            
+
             {/* Enhanced CTA */}
             <div className="flex flex-col items-start lg:items-end space-y-4">
               <div className={`text-sm ${getThemeColor('text.muted', isDark)}`}>
                 {t('newsEvents.events.nextEvent')} {Math.ceil((new Date(events[0]?.date || new Date()).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} {t('newsEvents.events.days')}
               </div>
-              <a 
-                href="https://www.nysc.lk/events" 
+              <a
+                href="https://www.nysc.lk/events"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`group inline-flex items-center space-x-3 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 ${colors.button.primary.base} ${colors.button.primary.shadow}`}
@@ -501,7 +514,7 @@ const NewsEventsSection = () => {
           </div>
 
           {/* Enhanced Events Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {events.map((event, index) => (
               <div
                 key={event.id}
@@ -533,19 +546,18 @@ const NewsEventsSection = () => {
                       e.currentTarget.src = '/images/default-event.jpg';
                     }}
                   />
-                  
+
                   {/* Enhanced Gradient Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent group-hover:from-black/80 transition-all duration-300" />
-                  
+
                   {/* Event Type Badge */}
                   <div className="absolute top-4 left-4">
-                    <span className={`px-3 py-2 rounded-full text-xs font-bold backdrop-blur-md shadow-lg transform group-hover:scale-110 transition-transform duration-300 ${
-                      event.type === 'upcoming' 
-                        ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white' 
+                    <span className={`px-3 py-2 rounded-full text-xs font-bold backdrop-blur-md shadow-lg transform group-hover:scale-110 transition-transform duration-300 ${event.type === 'upcoming'
+                        ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white'
                         : event.type === 'recent'
-                        ? 'bg-gradient-to-r from-[#1aa79e] to-blue-600 text-white'
-                        : 'bg-gradient-to-r from-gray-500 to-gray-600 text-white'
-                    }`}>
+                          ? 'bg-gradient-to-r from-[#1aa79e] to-blue-600 text-white'
+                          : 'bg-gradient-to-r from-gray-500 to-gray-600 text-white'
+                      }`}>
                       {t(`newsEvents.events.types.${event.type}`)}
                     </span>
                   </div>
@@ -557,9 +569,9 @@ const NewsEventsSection = () => {
                         <div className="flex items-center space-x-2">
                           <Calendar className={`w-4 h-4 ${colors.brand.primary.text}`} />
                           <span className={`text-sm font-bold ${getThemeColor('text.primary', isDark)}`}>
-                            {new Date(event.date).toLocaleDateString('en-US', { 
-                              weekday: 'short', 
-                              month: 'short', 
+                            {new Date(event.date).toLocaleDateString('en-US', {
+                              weekday: 'short',
+                              month: 'short',
                               day: 'numeric'
                             })}
                           </span>
@@ -602,13 +614,12 @@ const NewsEventsSection = () => {
                           e.stopPropagation();
                           toggleBookmark(event.id, e);
                         }}
-                        className={`p-2 rounded-full transition-all duration-200 transform hover:scale-110 ${
-                          bookmarkedItems.has(event.id)
+                        className={`p-2 rounded-full transition-all duration-200 transform hover:scale-110 ${bookmarkedItems.has(event.id)
                             ? 'text-[#1aa79e] bg-[#1aa79e]/10'
                             : isDark
-                            ? 'text-gray-400 hover:text-[#1aa79e] hover:bg-[#1aa79e]/10'
-                            : 'text-gray-400 hover:text-[#1aa79e] hover:bg-[#1aa79e]/10'
-                        }`}
+                              ? 'text-gray-400 hover:text-[#1aa79e] hover:bg-[#1aa79e]/10'
+                              : 'text-gray-400 hover:text-[#1aa79e] hover:bg-[#1aa79e]/10'
+                          }`}
                       >
                         <Bookmark className={`w-4 h-4 ${bookmarkedItems.has(event.id) ? 'fill-current' : ''}`} />
                       </button>
@@ -617,14 +628,13 @@ const NewsEventsSection = () => {
                           e.stopPropagation();
                           // Share functionality
                         }}
-                        className={`p-2 rounded-full transition-all duration-200 transform hover:scale-110 ${
-                          isDark ? 'text-gray-400 hover:text-[#f38621] hover:bg-[#f38621]/10' : 'text-gray-400 hover:text-[#f38621] hover:bg-[#f38621]/10'
-                        }`}
+                        className={`p-2 rounded-full transition-all duration-200 transform hover:scale-110 ${isDark ? 'text-gray-400 hover:text-[#f38621] hover:bg-[#f38621]/10' : 'text-gray-400 hover:text-[#f38621] hover:bg-[#f38621]/10'
+                          }`}
                       >
                         <Share2 className="w-4 h-4" />
                       </button>
                     </div>
-                    
+
                     {/* Enhanced Action Button */}
                     <div className="flex items-center space-x-2">
                       <span className={`text-sm font-medium ${getThemeColor('text.secondary', isDark)}`}>
@@ -641,6 +651,118 @@ const NewsEventsSection = () => {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* Newsletter Subscription Section - Compact Modern Design */}
+        <div className={`relative rounded-2xl overflow-hidden backdrop-blur-md border ${getThemeColor('border.subtle', isDark)} shadow-lg mt-12 mb-6`}>
+          
+          {/* Subtle Gradient Background */}
+          <div className="absolute inset-0 bg-gradient-to-r from-nysc-primary/10 via-transparent to-nysc-secondary/10" />
+          
+          {/* Minimal Decorative Element */}
+          <div className="absolute -top-6 -right-6 w-32 h-32 bg-nysc-primary/5 rounded-full blur-3xl" />
+          <div className="absolute -bottom-6 -left-6 w-28 h-28 bg-nysc-secondary/5 rounded-full blur-3xl" />
+          
+          <div className="relative z-10 p-6 lg:p-8">
+            <div className="max-w-4xl mx-auto">
+              
+              {/* Compact Header */}
+              <div className="flex flex-col sm:flex-row items-center gap-6 mb-6">
+                
+                {/* Icon and Title Combined */}
+                <div className="flex items-center gap-4 flex-1">
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-nysc-primary to-nysc-secondary shadow-lg flex-shrink-0">
+                    <Bell className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="text-center sm:text-left">
+                    <h3 className={`text-xl lg:text-2xl font-bold ${getThemeColor('text.primary', isDark)}`}>
+                      {t('footer.newsletterTitle')}
+                    </h3>
+                    <p className={`text-sm ${getThemeColor('text.secondary', isDark)} mt-1`}>
+                      {t('footer.newsletterDescription')}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Compact Stats */}
+                <div className="flex items-center gap-4 text-xs">
+                  <div className={`flex items-center gap-1 px-3 py-1.5 rounded-full ${getThemeColor('badge.secondary', isDark)}`}>
+                    <Users className="w-3 h-3 text-nysc-primary" />
+                    <span className="font-medium">10K+</span>
+                  </div>
+                  <div className={`flex items-center gap-1 px-3 py-1.5 rounded-full ${getThemeColor('badge.secondary', isDark)}`}>
+                    <Mail className="w-3 h-3 text-nysc-secondary" />
+                    <span className="font-medium">Weekly</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Streamlined Form */}
+              <form onSubmit={handleSubscribe}>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  
+                  {/* Compact Email Input */}
+                  <div className="relative flex-1">
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder={t('footer.emailPlaceholder')}
+                      className={`w-full px-4 py-3 pl-11 rounded-xl border ${getThemeColor('input.primary', isDark)} focus:outline-none focus:ring-2 focus:ring-nysc-primary/30 focus:border-nysc-primary transition-all duration-300 text-sm`}
+                      required
+                    />
+                    <Mail className={`absolute left-3.5 top-1/2 transform -translate-y-1/2 w-4 h-4 ${getThemeColor('text.muted', isDark)}`} />
+                  </div>
+
+                  {/* Compact Button */}
+                  <button
+                    type="submit"
+                    disabled={isSubscribed}
+                    className={`group px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 min-w-[140px] ${
+                      isSubscribed
+                        ? 'bg-green-500 text-white cursor-not-allowed'
+                        : 'bg-gradient-to-r from-nysc-primary to-nysc-secondary text-white hover:shadow-lg'
+                    }`}
+                  >
+                    {isSubscribed ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white rounded-full flex items-center justify-center">
+                          <div className="w-1.5 h-1.5 bg-white rounded-full" />
+                        </div>
+                        <span>{t('footer.subscribedMessage')}</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                        <span>{t('footer.subscribeButton')}</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                {/* Minimal Footer Info */}
+                <div className="flex flex-wrap items-center justify-between mt-4 text-xs">
+                  <div className="flex items-center gap-3">
+                    <span className={`${getThemeColor('text.muted', isDark)} flex items-center gap-1`}>
+                      <Heart className="w-3 h-3 text-red-400" />
+                      No spam
+                    </span>
+                    <span className={`${getThemeColor('text.muted', isDark)} flex items-center gap-1`}>
+                      <TrendingUp className="w-3 h-3 text-nysc-primary" />
+                      Latest updates
+                    </span>
+                    <span className={`${getThemeColor('text.muted', isDark)} flex items-center gap-1`}>
+                      <Calendar className="w-3 h-3 text-nysc-secondary" />
+                      Events
+                    </span>
+                  </div>
+                  <span className={`${getThemeColor('text.muted', isDark)}`}>
+                    Unsubscribe anytime
+                  </span>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>

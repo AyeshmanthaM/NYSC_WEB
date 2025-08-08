@@ -1,4 +1,4 @@
-import { Clock, Users, ArrowRight, ChevronLeft, ChevronRight, Award, BookOpen, Briefcase, Palette } from 'lucide-react';
+import { Clock, Users, ArrowRight, ChevronLeft, ChevronRight, Award, BookOpen, Briefcase, Palette, GraduationCap } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useState, useRef, useEffect } from 'react';
@@ -119,9 +119,9 @@ const PopularCourses = () => {
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         
         {/* Animated Flowing Waves */}
-        <div className="absolute inset-0">
+        <div className="absolute inset-0 -m-4">
           <svg 
-            className="w-full h-full opacity-10" 
+            className="w-full h-full opacity-10 scale-110" 
             viewBox="0 0 1200 800" 
             xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="xMidYMid slice"
@@ -303,9 +303,10 @@ const PopularCourses = () => {
         
         {/* Section Header */}
         <div className="text-center mb-12">
-          <span className={`inline-block px-4 py-2 rounded-full text-sm font-semibold mb-4 ${getThemeColor('badge.brand', isDark)}`}>
-            {t('popularCourses.badge')}
-          </span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-nysc-primary/10 to-nysc-secondary/10 border border-nysc-primary/20 mb-4">
+            <GraduationCap className="w-4 h-4 text-nysc-primary" />
+            <span className="text-sm font-medium text-nysc-primary">{t('popularCourses.badge')}</span>
+          </div>
           <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 ${getThemeColor('text.primary', isDark)}`}>
             {t('popularCourses.title')}
           </h2>

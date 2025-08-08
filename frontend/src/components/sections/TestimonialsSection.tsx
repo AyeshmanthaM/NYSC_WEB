@@ -128,10 +128,10 @@ const TestimonialsSection = () => {
             transformStyle: 'preserve-3d',
           }}
         >
-          <span className={`inline-block px-2.5 sm:px-3.5 py-1.5 sm:py-1.5 rounded-full text-xs sm:text-sm font-semibold mb-2.5 sm:mb-3.5 ${getThemeColor('badge.brand', isDark)} backdrop-blur-md shadow-lg`}>
-            <Quote className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 inline mr-1.5 sm:mr-2" />
-            {t('testimonials.badge')}
-          </span>
+          <div className="inline-flex items-center gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-1.5 rounded-full bg-gradient-to-r from-nysc-primary/10 to-nysc-secondary/10 border border-nysc-primary/20 backdrop-blur-md shadow-lg mb-2.5 sm:mb-3.5">
+            <Quote className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-nysc-primary" />
+            <span className="text-xs sm:text-sm font-medium text-nysc-primary">{t('testimonials.badge')}</span>
+          </div>
           <h2 className={`text-xl sm:text-3xl md:text-4xl lg:text-4xl font-bold mb-2 sm:mb-3.5 px-3.5 sm:px-0 ${getThemeColor('text.primary', isDark)}`}>
             {t('testimonials.title')}
           </h2>
@@ -308,14 +308,14 @@ const TestimonialsSection = () => {
           {/* Hover tooltip - hidden on mobile */}
           <div className="absolute bottom-full right-0 mb-4 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none hidden sm:block">
             <div className={`px-3 py-2 lg:px-4 lg:py-2 rounded-lg whitespace-nowrap ${getThemeColor('card.secondary', isDark)} shadow-xl`}>
-              <div className="flex items-center gap-2">
-                <PenTool className="w-3 h-3 lg:w-4 lg:h-4" />
+              <div className={`flex items-center gap-2 ${getThemeColor('text.primary', isDark)}`}>
+                <PenTool className={`w-3 h-3 lg:w-4 lg:h-4 ${colors.brand.primary.text}`} />
                 <span className="font-medium text-sm lg:text-base">{t('testimonials.writeStory')}</span>
               </div>
-              <div className="text-xs opacity-75 mt-1">{t('testimonials.clickToStart')}</div>
+              <div className={`text-xs mt-1 ${getThemeColor('text.secondary', isDark)}`}>{t('testimonials.clickToStart')}</div>
             </div>
             {/* Tooltip arrow */}
-            <div className={`absolute top-full right-6 w-0 h-0 border-l-8 border-l-transparent border-r-8 border-r-transparent border-t-8 ${getThemeColor('tooltipArrow', isDark)}`} />
+            <div className={`absolute top-full right-6 w-0 h-0 border-l-8 border-l-transparent border-r-8 border-r-transparent border-t-8 ${isDark ? 'border-t-gray-800' : 'border-t-white'}`} />
           </div>
         </button>
 
