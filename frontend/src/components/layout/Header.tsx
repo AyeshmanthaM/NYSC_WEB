@@ -1,13 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { 
   Search, ChevronDown, Menu, X, Moon, Sun, XCircle,
-  Users, Target, Award, FileText,
-  Trophy, Music, GraduationCap, Star,
-  UserPlus, Lightbulb, Heart, HandHeart, Mail
+  Users, Target, Award, FileText, Download, Building2,
+  Trophy, Music, GraduationCap, Calendar, Newspaper,
+  UserPlus, Lightbulb, Heart, Mail, Shield, MapPin
 } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { getThemeColor } from '../../config/colors';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -86,29 +85,31 @@ const Header = () => {
   }, [currentLanguage, activeMobileTab]);
 
   const getDropdownItems = () => ({
-    [t('header.youthClub')]: [
-      { label: t('dropdown.aboutClubs'), icon: FileText },
-      { label: t('dropdown.registerClub'), icon: UserPlus },
-      { label: t('dropdown.findClubs'), icon: Users },
-      { label: t('dropdown.clubActivities'), icon: Trophy }
+    // Streamlined navigation - 4 main sections
+    [t('common.about') || 'About']: [
+      { label: 'Leadership', icon: Shield },
+      { label: t('header.divisions') || 'Divisions', icon: Building2 },
+      { label: 'Our History', icon: FileText },
+      { label: 'Mission & Vision', icon: Target }
     ],
-    [t('header.divisions')]: [
-      { label: t('dropdown.sportsDevelopment'), icon: Trophy },
-      { label: t('dropdown.culturalAffairs'), icon: Music },
-      { label: t('dropdown.educationTraining'), icon: GraduationCap },
-      { label: t('dropdown.internationalRelations'), icon: Star }
+    [t('common.programs') || 'Programs']: [
+      { label: t('dropdown.youthAwards') || 'Youth Awards', icon: Award },
+      { label: t('dropdown.skillDevelopment') || 'Skill Development', icon: Lightbulb },
+      { label: t('dropdown.culturalAffairs') || 'Cultural Programs', icon: Music },
+      { label: 'Youth Parliament', icon: Users },
+      { label: 'Find Courses', icon: GraduationCap }
     ],
-    [t('header.services')]: [
-      { label: t('dropdown.youthAwards'), icon: Award },
-      { label: t('dropdown.skillDevelopment'), icon: Lightbulb },
-      { label: t('dropdown.careerGuidance'), icon: Target },
-      { label: t('dropdown.volunteerPrograms'), icon: HandHeart }
+    ['News & Events']: [
+      { label: 'Latest News', icon: Newspaper },
+      { label: 'Events', icon: Calendar },
+      { label: 'Achievements', icon: Trophy },
+      { label: 'Photo Gallery', icon: Heart }
     ],
-    [t('header.ourCenters')]: [
-      { label: t('dropdown.trainingCenters'), icon: GraduationCap },
-      { label: t('dropdown.districtOffices'), icon: Users },
-      { label: t('dropdown.youthCenters'), icon: Heart },
-      { label: t('dropdown.contactInfo'), icon: Mail }
+    ['Resources']: [
+      { label: t('header.ourCenters') || 'Our Centers', icon: MapPin },
+      { label: 'Downloads', icon: Download },
+      { label: t('common.contact') || 'Contact Us', icon: Mail },
+      { label: 'Student Portal', icon: UserPlus }
     ]
   });
 
