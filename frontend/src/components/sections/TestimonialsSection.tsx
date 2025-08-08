@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Quote, Star, PenTool, Plus } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { colors, getThemeColor } from '../../config/colors';
 
 const TestimonialsSection = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -94,21 +95,20 @@ const TestimonialsSection = () => {
   return (
     <section
       ref={sectionRef}
-      className={`py-18 relative overflow-hidden ${isDark ? 'bg-gray-900' : 'bg-gray-50'
-        }`}
+      className={`py-18 relative overflow-hidden ${getThemeColor('background.primary', isDark)}`}
       style={{ perspective: '1350px' }}
     >
       {/* Dynamic Background with Lighting Effects */}
       <div className="absolute inset-0">
         {/* Base gradient */}
         <div className="absolute inset-0 opacity-20" style={{
-          background: `radial-gradient(circle at ${50 + mousePosition.x * 20}% ${50 + mousePosition.y * 20}%, #1aa79e 0%, transparent 40%), 
-                       radial-gradient(circle at ${50 - mousePosition.x * 20}% ${50 - mousePosition.y * 20}%, #f38621 0%, transparent 40%)`,
+          background: `radial-gradient(circle at ${50 + mousePosition.x * 20}% ${50 + mousePosition.y * 20}%, ${colors.raw.nysc.primary} 0%, transparent 40%), 
+                       radial-gradient(circle at ${50 - mousePosition.x * 20}% ${50 - mousePosition.y * 20}%, ${colors.raw.nysc.secondary} 0%, transparent 40%)`,
         }} />
 
         {/* Mysterious fog effect */}
         <div className="absolute inset-0 opacity-30" style={{
-          background: `radial-gradient(ellipse at ${50 + mousePosition.x * 30}% bottom, rgba(26, 167, 158, 0.3), transparent 50%)`,
+          background: `radial-gradient(ellipse at ${50 + mousePosition.x * 30}% bottom, ${colors.raw.nysc.primary}4d, transparent 50%)`,
         }} />
 
         {/* Animated light beams */}
@@ -128,15 +128,11 @@ const TestimonialsSection = () => {
             transformStyle: 'preserve-3d',
           }}
         >
-          <span className={`inline-block px-2.5 sm:px-3.5 py-1.5 sm:py-1.5 rounded-full text-xs sm:text-sm font-semibold mb-2.5 sm:mb-3.5 ${isDark
-              ? 'bg-gradient-to-r from-[#1aa79e]/20 to-[#f38621]/20 text-[#1aa79e] border border-[#1aa79e]/30'
-              : 'bg-gradient-to-r from-[#1aa79e]/10 to-[#f38621]/10 text-[#1aa79e] border border-[#1aa79e]/20'
-            } backdrop-blur-md shadow-lg`}>
+          <span className={`inline-block px-2.5 sm:px-3.5 py-1.5 sm:py-1.5 rounded-full text-xs sm:text-sm font-semibold mb-2.5 sm:mb-3.5 ${getThemeColor('badge.brand', isDark)} backdrop-blur-md shadow-lg`}>
             <Quote className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 inline mr-1.5 sm:mr-2" />
             {t('testimonials.badge')}
           </span>
-          <h2 className={`text-xl sm:text-3xl md:text-4xl lg:text-4xl font-bold mb-2 sm:mb-3.5 px-3.5 sm:px-0 ${isDark ? 'text-white' : 'text-gray-900'
-            }`}>
+          <h2 className={`text-xl sm:text-3xl md:text-4xl lg:text-4xl font-bold mb-2 sm:mb-3.5 px-3.5 sm:px-0 ${getThemeColor('text.primary', isDark)}`}>
             {t('testimonials.title')}
           </h2>
         </div>
@@ -198,21 +194,18 @@ const TestimonialsSection = () => {
                   }
                 }}
               >
-                <div className={`relative p-4 sm:p-6 lg:p-8 rounded-xl sm:rounded-2xl ${isDark
-                    ? 'bg-gray-800/80 border border-gray-700/50'
-                    : 'bg-white/90 border border-gray-200/50'
-                  } backdrop-blur-md shadow-2xl hover:shadow-3xl transition-shadow duration-300`}>
+                <div className={`relative p-4 sm:p-6 lg:p-8 rounded-xl sm:rounded-2xl ${getThemeColor('card.primary', isDark)} border ${getThemeColor('border.subtle', isDark)} backdrop-blur-md shadow-2xl hover:shadow-3xl transition-shadow duration-300`}>
 
                   {/* Glowing effect for active card */}
                   {isActive && (
                     <div className="absolute inset-0 rounded-xl sm:rounded-2xl opacity-50">
-                      <div className="absolute inset-0 bg-gradient-to-r from-[#1aa79e] to-[#f38621] blur-xl animate-pulse" />
+                      <div className={`absolute inset-0 ${colors.brand.gradient.primary} blur-xl animate-pulse`} />
                     </div>
                   )}
 
                   {/* Quote Icon with 3D effect - responsive sizing */}
                   <div
-                    className="absolute -top-3 -left-3 sm:-top-4 sm:-left-4 lg:-top-6 lg:-left-6 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-gradient-to-r from-[#1aa79e] to-[#f38621] rounded-full flex items-center justify-center shadow-lg"
+                    className={`absolute -top-3 -left-3 sm:-top-4 sm:-left-4 lg:-top-6 lg:-left-6 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 ${colors.brand.gradient.primary} rounded-full flex items-center justify-center shadow-lg`}
                     style={{ transform: 'translateZ(20px)' }}
                   >
                     <Quote className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" />
@@ -240,7 +233,7 @@ const TestimonialsSection = () => {
                         {[...Array(testimonial.rating)].map((_, i) => (
                           <Star
                             key={i}
-                            className="w-3 h-3 sm:w-4 sm:h-4 fill-yellow-400 text-yellow-400"
+                            className={`w-3 h-3 sm:w-4 sm:h-4 ${colors.star.filled}`}
                             style={{
                               transform: `translateZ(${5 + i * 2}px)`,
                               animationDelay: `${i * 100}ms`
@@ -250,18 +243,16 @@ const TestimonialsSection = () => {
                       </div>
 
                       {/* Quote Text - responsive sizing and line clamping */}
-                      <blockquote className={`text-sm sm:text-base lg:text-lg leading-relaxed mb-3 sm:mb-4 font-medium ${isDark ? 'text-gray-200' : 'text-gray-700'
-                        } ${isActive ? '' : 'line-clamp-2 sm:line-clamp-3'}`}>
+                      <blockquote className={`text-sm sm:text-base lg:text-lg leading-relaxed mb-3 sm:mb-4 font-medium ${getThemeColor('text.secondary', isDark)} ${isActive ? '' : 'line-clamp-2 sm:line-clamp-3'}`}>
                         "{testimonial.quote}"
                       </blockquote>
 
                       {/* Author Info - responsive sizing */}
                       <div className="space-y-0.5">
-                        <h4 className={`text-base sm:text-lg font-bold ${isDark ? 'text-white' : 'text-gray-900'
-                          }`}>
+                        <h4 className={`text-base sm:text-lg font-bold ${getThemeColor('text.primary', isDark)}`}>
                           {testimonial.name}
                         </h4>
-                        <p className="text-[#1aa79e] font-semibold text-xs sm:text-sm">
+                        <p className={`${colors.brand.primary.text} font-semibold text-xs sm:text-sm`}>
                           {testimonial.title}
                         </p>
                       </div>
@@ -285,10 +276,10 @@ const TestimonialsSection = () => {
                 } rounded-full relative`}
               style={{
                 background: index === currentTestimonial
-                  ? 'linear-gradient(90deg, #1aa79e, #f38621)'
+                  ? `linear-gradient(90deg, ${colors.raw.nysc.primary}, ${colors.raw.nysc.secondary})`
                   : isDark ? '#4b5563' : '#d1d5db',
                 boxShadow: index === currentTestimonial
-                  ? '0 4px 20px rgba(26, 167, 158, 0.5)'
+                  ? `0 4px 20px ${colors.raw.nysc.primary}80`
                   : 'none',
                 transform: `translateZ(${index === currentTestimonial ? '10px' : '0'})`,
               }}
@@ -300,24 +291,23 @@ const TestimonialsSection = () => {
       {/* Creative Writer Button - Fixed Position with responsive sizing */}
       <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 lg:bottom-8 lg:right-8 z-50 group">
         <button
-          className="relative w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-full bg-gradient-to-r from-[#1aa79e] to-[#f38621] shadow-2xl hover:shadow-3xl transition-all duration-500 hover:scale-110 group-hover:rotate-90"
+          className={`relative w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-full ${colors.brand.gradient.primary} shadow-2xl hover:shadow-3xl transition-all duration-500 hover:scale-110 group-hover:rotate-90`}
           style={{
             transform: 'translateZ(50px)',
             transformStyle: 'preserve-3d',
           }}
         >
           {/* Pulsing ring effect */}
-          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#1aa79e] to-[#f38621] animate-ping opacity-75" />
+          <div className={`absolute inset-0 rounded-full ${colors.brand.gradient.primary} animate-ping opacity-75`} />
 
           {/* Inner button */}
-          <div className="relative w-full h-full rounded-full bg-gradient-to-r from-[#1aa79e] to-[#f38621] flex items-center justify-center">
+          <div className={`relative w-full h-full rounded-full ${colors.brand.gradient.primary} flex items-center justify-center`}>
             <Plus className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white transition-transform duration-500 group-hover:rotate-180" />
           </div>
 
           {/* Hover tooltip - hidden on mobile */}
           <div className="absolute bottom-full right-0 mb-4 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none hidden sm:block">
-            <div className={`px-3 py-2 lg:px-4 lg:py-2 rounded-lg whitespace-nowrap ${isDark ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'
-              } shadow-xl`}>
+            <div className={`px-3 py-2 lg:px-4 lg:py-2 rounded-lg whitespace-nowrap ${getThemeColor('card.secondary', isDark)} shadow-xl`}>
               <div className="flex items-center gap-2">
                 <PenTool className="w-3 h-3 lg:w-4 lg:h-4" />
                 <span className="font-medium text-sm lg:text-base">{t('testimonials.writeStory')}</span>
@@ -325,8 +315,7 @@ const TestimonialsSection = () => {
               <div className="text-xs opacity-75 mt-1">{t('testimonials.clickToStart')}</div>
             </div>
             {/* Tooltip arrow */}
-            <div className={`absolute top-full right-6 w-0 h-0 border-l-8 border-l-transparent border-r-8 border-r-transparent border-t-8 ${isDark ? 'border-t-gray-800' : 'border-t-white'
-              }`} />
+            <div className={`absolute top-full right-6 w-0 h-0 border-l-8 border-l-transparent border-r-8 border-r-transparent border-t-8 ${getThemeColor('tooltipArrow', isDark)}`} />
           </div>
         </button>
 

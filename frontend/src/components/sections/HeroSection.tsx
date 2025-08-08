@@ -3,6 +3,7 @@ import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useEffect, useState } from 'react';
 import HeroParticleMesh from '../ui/HeroParticleMesh';
+import { colors, getThemeColor } from '../../config/colors';
 
 interface HeroSectionProps {
   extraBottomSpace?: number;
@@ -57,51 +58,45 @@ const HeroSection = ({ extraBottomSpace = 0 }: HeroSectionProps) => {
             {/* Sub Title */}
             <div className="inline-flex items-center space-x-2">
               <div className="w-12 h-0.5 bg-gradient-to-r from-orange-500 to-yellow-500" />
-              <span className={`text-sm font-semibold tracking-wider uppercase ${
-                isDark ? 'text-gray-300' : 'text-gray-600'
-              }`}>
+              <span className={`text-sm font-semibold tracking-wider uppercase ${getThemeColor('text.secondary', isDark)}`}>
                 {t('hero.subtitle')}
               </span>
             </div>
 
             {/* Main Title */}
-            <h1 className={`text-4xl md:text-5xl lg:text-6xl font-bold leading-tight ${
-              isDark ? 'text-white' : 'text-gray-900'
-            }`}>
+            <h1 className={`text-4xl md:text-5xl lg:text-6xl font-bold leading-tight ${getThemeColor('text.primary', isDark)}`}>
               {t('hero.title')} 
-              <span className="bg-gradient-to-r from-[#1aa79e] to-[#f38621] bg-clip-text text-transparent"> {t('hero.titleHighlight')}</span>
+              <span className={colors.brand.gradient.text}> {t('hero.titleHighlight')}</span>
             </h1>
 
             {/* Description */}
-            <p className={`text-lg md:text-xl leading-relaxed ${
-              isDark ? 'text-gray-300' : 'text-gray-600'
-            }`}>
+            <p className={`text-lg md:text-xl leading-relaxed ${getThemeColor('text.secondary', isDark)}`}>
               {t('hero.description')}
             </p>
 
             {/* Stats */}
             <div className="grid grid-cols-3 gap-4">
               <div className="text-center">
-                <div className={`text-3xl font-bold bg-gradient-to-r from-[#1aa79e] to-[#f38621] bg-clip-text text-transparent`}>
+                <div className={`text-3xl font-bold ${colors.brand.gradient.text}`}>
                   50K+
                 </div>
-                <div className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                <div className={`text-sm ${getThemeColor('text.muted', isDark)}`}>
                   {t('hero.statsActiveMembers')}
                 </div>
               </div>
               <div className="text-center">
-                <div className={`text-3xl font-bold bg-gradient-to-r from-[#1aa79e] to-[#f38621] bg-clip-text text-transparent`}>
+                <div className={`text-3xl font-bold ${colors.brand.gradient.text}`}>
                   200+
                 </div>
-                <div className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                <div className={`text-sm ${getThemeColor('text.muted', isDark)}`}>
                   {t('hero.statsYouthClubs')}
                 </div>
               </div>
               <div className="text-center">
-                <div className={`text-3xl font-bold bg-gradient-to-r from-[#1aa79e] to-[#f38621] bg-clip-text text-transparent`}>
+                <div className={`text-3xl font-bold ${colors.brand.gradient.text}`}>
                   25
                 </div>
-                <div className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                <div className={`text-sm ${getThemeColor('text.muted', isDark)}`}>
                   {t('hero.statsDistricts')}
                 </div>
               </div>
@@ -109,7 +104,7 @@ const HeroSection = ({ extraBottomSpace = 0 }: HeroSectionProps) => {
 
             {/* CTA Button */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="group relative inline-flex items-center justify-center px-8 py-4 font-semibold text-white transition-all duration-200 bg-gradient-to-r from-[#1aa79e] to-[#f38621] rounded-full hover:scale-105 hover:shadow-2xl">
+              <button className={`group relative inline-flex items-center justify-center px-8 py-4 font-semibold text-white transition-all duration-200 ${colors.button.primary.base} rounded-full hover:scale-105 hover:shadow-2xl`}>
                 <span className="relative flex items-center">
                   {t('hero.joinButton')}
                   <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
@@ -118,11 +113,7 @@ const HeroSection = ({ extraBottomSpace = 0 }: HeroSectionProps) => {
               
               <a 
                 href="../youthstatements.pdf" 
-                className={`inline-flex items-center justify-center px-8 py-4 font-semibold rounded-full border-2 transition-all duration-200 hover:scale-105 ${
-                  isDark 
-                    ? 'border-gray-600 text-gray-300 hover:bg-gray-800' 
-                    : 'border-gray-300 text-gray-700 hover:bg-gray-50'
-                }`}
+                className={`inline-flex items-center justify-center px-8 py-4 font-semibold rounded-full border-2 transition-all duration-200 hover:scale-105 ${getThemeColor('button.secondary', isDark)}`}
               >
                 {t('hero.youthStatement')}
               </a>
@@ -136,7 +127,7 @@ const HeroSection = ({ extraBottomSpace = 0 }: HeroSectionProps) => {
               <div className="absolute -inset-32 lg:-inset-48 xl:-inset-64 flex items-center justify-center">
                 {/* Decorative Background Circle */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-full h-full bg-gradient-to-br from-[#1aa79e]/10 to-[#f38621]/10 rounded-full blur-3xl" />
+                  <div className={`w-full h-full ${colors.background.gradient.brand.light} rounded-full blur-3xl`} />
                 </div>
                 
                 {/* Youth SVG Illustration - Oversized */}

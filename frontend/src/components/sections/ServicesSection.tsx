@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { ExternalLink, Users, Vote, Zap, Music, Theater, Trophy } from 'lucide-react';
+import { colors, getThemeColor } from '../../config/colors';
 
 interface ServiceItem {
   id: string;
@@ -111,21 +112,13 @@ const InteractiveServicesSection = () => {
         
         {/* Section Header */}
         <div className="text-center mb-8">
-          <span className={`inline-block px-4 py-2 rounded-full text-sm font-semibold mb-3 ${
-            isDark 
-              ? 'bg-gradient-to-r from-[#1aa79e]/20 to-[#f38621]/20 text-[#1aa79e] border border-[#1aa79e]/30'
-              : 'bg-gradient-to-r from-[#1aa79e]/10 to-[#f38621]/10 text-[#1aa79e] border border-[#1aa79e]/20'
-          }`}>
+          <span className={`inline-block px-4 py-2 rounded-full text-sm font-semibold mb-3 ${getThemeColor('badge.brand', isDark)}`}>
             {t('services.badge')}
           </span>
-          <h2 className={`text-2xl md:text-3xl lg:text-4xl font-bold mb-3 ${
-            isDark ? 'text-white' : 'text-gray-900'
-          }`}>
+          <h2 className={`text-2xl md:text-3xl lg:text-4xl font-bold mb-3 ${getThemeColor('text.primary', isDark)}`}>
             {t('services.title')}
           </h2>
-          <p className={`text-base mb-6 max-w-2xl mx-auto ${
-            isDark ? 'text-gray-300' : 'text-gray-600'
-          }`}>
+          <p className={`text-base mb-6 max-w-2xl mx-auto ${getThemeColor('text.secondary', isDark)}`}>
             {t('services.subtitle')}
           </p>
         </div>

@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { colors, getThemeColor } from '../../config/colors';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -185,14 +186,14 @@ const Header = () => {
                {/* Top thick border line */}
               <div className={`absolute -top-3 left-0 right-0 h-0.5 transition-all duration-500 ${
                 isScrolled == false
-                  ? 'opacity-70 bg-gradient-to-r from-transparent via-[#1aa79e] to-transparent transform scale-x-100' 
+                  ? `opacity-70 bg-gradient-to-r from-transparent via-[${colors.raw.nysc.primary}] to-transparent transform scale-x-100` 
                   : 'opacity-0 transform scale-x-0'
               }`} />
               
               {/* Bottom thick border line */}
               <div className={`absolute -bottom-3 left-0 right-0 h-0.5 transition-all duration-500 delay-100 ${
                 isScrolled == false
-                  ? 'opacity-70 bg-gradient-to-r from-transparent via-[#f38621] to-transparent transform scale-x-100' 
+                  ? `opacity-70 bg-gradient-to-r from-transparent via-[${colors.raw.nysc.secondary}] to-transparent transform scale-x-100` 
                   : 'opacity-0 transform scale-x-0'
               }`} />
 
@@ -283,8 +284,8 @@ const Header = () => {
                   <div className={`relative flex items-center px-3 py-2 rounded-lg transition-all duration-300 ${
                     isSearchFocused 
                       ? isDark 
-                        ? 'bg-gray-700/80 ring-2 ring-[#1aa79e]/50' 
-                        : 'bg-white/80 ring-2 ring-[#1aa79e]/50'
+                        ? `bg-gray-700/80 ring-2 ring-[${colors.raw.nysc.primary}]/50` 
+                        : `bg-white/80 ring-2 ring-[${colors.raw.nysc.primary}]/50`
                       : isDark 
                         ? isScrolled 
                           ? 'bg-gray-800/80' 
@@ -365,7 +366,7 @@ const Header = () => {
                           onClick={() => setLanguage(lang.code as 'si' | 'ta' | 'en')}
                           className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all duration-200 hover:scale-105 ${
                             currentLanguage === lang.code
-                              ? 'bg-[#1aa79e] text-white shadow-md transform scale-105'
+                              ? `${colors.button.primary.base} text-white shadow-md transform scale-105`
                               : isScrolled
                                 ? isDark
                                   ? 'text-gray-300 hover:text-white hover:bg-gray-700'
@@ -457,7 +458,7 @@ const Header = () => {
                     onClick={() => setActiveMobileTab(category)}
                     className={`flex-1 px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
                       activeMobileTab === category
-                        ? 'bg-[#1aa79e] text-white shadow-md transform scale-105'
+                        ? `${colors.button.primary.base} text-white shadow-md transform scale-105`
                         : isDark
                           ? 'text-gray-400 hover:text-gray-300 hover:bg-gray-700/50'
                           : 'text-gray-600 hover:text-gray-900 hover:bg-white/50'
@@ -529,7 +530,7 @@ const Header = () => {
                         onClick={() => setLanguage(lang.code as 'si' | 'ta' | 'en')}
                         className={`px-3 py-1 text-xs font-medium rounded-full transition-all duration-200 hover:scale-105 ${
                           currentLanguage === lang.code
-                            ? 'bg-[#1aa79e] text-white shadow-md transform scale-105'
+                            ? `${colors.button.primary.base} text-white shadow-md transform scale-105`
                             : isDark 
                               ? 'text-gray-400 hover:text-gray-300' 
                               : 'text-gray-600 hover:text-gray-900'

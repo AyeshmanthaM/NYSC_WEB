@@ -9,6 +9,7 @@ import {
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useState } from 'react';
+import { colors, getThemeColor } from '../../config/colors';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -48,7 +49,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className={`relative overflow-hidden w-full max-w-full ${isDark ? 'bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800' : 'bg-gradient-to-br from-gray-50 via-white to-gray-100'}`}>
+    <footer className={`relative overflow-hidden w-full max-w-full ${getThemeColor('background.gradient.subtle', isDark)}`}>
       
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
@@ -60,17 +61,17 @@ const Footer = () => {
       <div className="container mx-auto px-4 pt-10 pb-2 relative z-10">
         
         {/* Newsletter Subscription Section */}
-        <div className={`rounded-3xl p-6 mb-6 ${isDark ? 'bg-gray-800/50 border border-gray-700/50' : 'bg-white/80 border border-gray-200/50'} backdrop-blur-sm shadow-xl`}>
+        <div className={`rounded-3xl p-6 mb-6 ${getThemeColor('card.primary', isDark)} border ${getThemeColor('border.subtle', isDark)} backdrop-blur-sm shadow-xl`}>
           <div className="max-w-4xl mx-auto text-center">
             <div className="flex items-center justify-center mb-6">
-              <div className={`p-4 rounded-2xl ${isDark ? 'bg-[#1aa79e]/20' : 'bg-[#1aa79e]/10'} mr-4`}>
-                <Bell className={`w-8 h-8 ${isDark ? 'text-[#1aa79e]' : 'text-[#1aa79e]'}`} />
+              <div className={`p-4 rounded-2xl ${getThemeColor('background.gradient.brand', isDark)} mr-4`}>
+                <Bell className={`w-8 h-8 ${colors.brand.primary.text}`} />
               </div>
               <div className="text-left">
-                <h3 className={`text-2xl font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                <h3 className={`text-2xl font-bold mb-2 ${getThemeColor('text.primary', isDark)}`}>
                   {t('footer.newsletterTitle')}
                 </h3>
-                <p className={`text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+                <p className={`text-lg ${getThemeColor('text.secondary', isDark)}`}>
                   {t('footer.newsletterDescription')}
                 </p>
               </div>
@@ -82,11 +83,7 @@ const Footer = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={t('footer.emailPlaceholder')}
-                className={`flex-1 px-6 py-4 rounded-2xl border ${
-                  isDark 
-                    ? 'bg-gray-700/50 border-gray-600 text-white placeholder-gray-400' 
-                    : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
-                } focus:outline-none focus:ring-2 focus:ring-[#1aa79e] focus:border-transparent transition-all duration-300`}
+                className={`flex-1 px-6 py-4 rounded-2xl border ${getThemeColor('input.primary', isDark)} focus:outline-none focus:ring-2 ${colors.focus.ring.brand} focus:border-transparent transition-all duration-300`}
                 required
               />
               <button
@@ -95,7 +92,7 @@ const Footer = () => {
                 className={`px-8 py-4 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 ${
                   isSubscribed
                     ? 'bg-green-500 text-white cursor-not-allowed'
-                    : 'bg-gradient-to-r from-[#1aa79e] to-[#f38621] text-white shadow-lg shadow-[#1aa79e]/25 hover:shadow-2xl hover:shadow-[#1aa79e]/40'
+                    : `${colors.button.primary.base} ${colors.button.primary.shadow}`
                 }`}
               >
                 {isSubscribed ? (
@@ -127,11 +124,11 @@ const Footer = () => {
               </div>
             </div>
             
-            <p className={`mb-2 leading-relaxed text-lg font-semibold bg-gradient-to-r from-[#1aa79e] to-[#f38621] bg-clip-text text-transparent`}>
+            <p className={`mb-2 leading-relaxed text-lg font-semibold ${colors.brand.gradient.text}`}>
               {t('footer.empoweringYouth')}
             </p>
             
-            <p className={`text-sm mb-4 leading-relaxed ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+            <p className={`text-sm mb-4 leading-relaxed ${getThemeColor('text.secondary', isDark)}`}>
               {t('footer.organizationDescription')}
             </p>
             
@@ -182,11 +179,7 @@ const Footer = () => {
                   key={index}
                   href={social.href}
                   aria-label={social.label}
-                  className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300 transform hover:scale-110 shadow-lg ${
-                    isDark 
-                      ? 'bg-gray-800 hover:bg-[#1aa79e] text-gray-400 hover:text-white border border-gray-700 hover:border-[#1aa79e]' 
-                      : 'bg-white hover:bg-[#1aa79e] text-gray-600 hover:text-white border border-gray-200 hover:border-[#1aa79e] shadow-md'
-                  }`}
+                  className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300 transform hover:scale-110 shadow-lg ${getThemeColor('button.secondary', isDark)} hover:${colors.brand.primary.bg} hover:text-white border ${getThemeColor('border.subtle', isDark)} hover:${colors.border.brand.subtle} shadow-md`}
                 >
                   {social.icon}
                 </a>
@@ -196,15 +189,15 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className={`text-lg font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'}`}>{t('footer.quickLinks')}</h3>
+            <h3 className={`text-lg font-bold mb-6 ${getThemeColor('text.primary', isDark)}`}>{t('footer.quickLinks')}</h3>
             <ul className="space-y-3">
               {quickLinks.map((link, index) => (
                 <li key={index}>
                   <a
                     href="#"
-                    className={`${isDark ? 'text-gray-300 hover:text-[#1aa79e]' : 'text-gray-600 hover:text-[#1aa79e]'} transition-colors duration-300 flex items-center space-x-2 group`}
+                    className={`${getThemeColor('text.secondary', isDark)} ${colors.hover.text.brand} transition-colors duration-300 flex items-center space-x-2 group`}
                   >
-                    <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all duration-300 text-[#1aa79e]" />
+                    <ArrowRight className={`w-4 h-4 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all duration-300 ${colors.brand.primary.text}`} />
                     <span>{link.label}</span>
                   </a>
                 </li>
@@ -214,15 +207,15 @@ const Footer = () => {
 
           {/* Programs */}
           <div>
-            <h3 className={`text-lg font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'}`}>{t('footer.programs')}</h3>
+            <h3 className={`text-lg font-bold mb-6 ${getThemeColor('text.primary', isDark)}`}>{t('footer.programs')}</h3>
             <ul className="space-y-3">
               {programs.map((program, index) => (
                 <li key={index}>
                   <a
                     href="#"
-                    className={`${isDark ? 'text-gray-300 hover:text-[#f38621]' : 'text-gray-600 hover:text-[#f38621]'} transition-colors duration-300 flex items-center space-x-2 group`}
+                    className={`${getThemeColor('text.secondary', isDark)} hover:${colors.brand.secondary.text} transition-colors duration-300 flex items-center space-x-2 group`}
                   >
-                    <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all duration-300 text-[#f38621]" />
+                    <ArrowRight className={`w-4 h-4 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all duration-300 ${colors.brand.secondary.text}`} />
                     <span>{program.label}</span>
                   </a>
                 </li>
@@ -232,51 +225,45 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h3 className={`text-lg font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'}`}>{t('footer.contact')}</h3>
+            <h3 className={`text-lg font-bold mb-6 ${getThemeColor('text.primary', isDark)}`}>{t('footer.contact')}</h3>
             <div className="space-y-6">
               <div className="flex items-start space-x-4">
-                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg ${
-                  isDark ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'
-                }`}>
-                  <Mail className={`w-5 h-5 ${isDark ? 'text-gray-400' : 'text-gray-600'}`} />
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg ${getThemeColor('card.secondary', isDark)} border ${getThemeColor('border.subtle', isDark)}`}>
+                  <Mail className={`w-5 h-5 ${getThemeColor('text.muted', isDark)}`} />
                 </div>
                 <div>
-                  <p className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                  <p className={`font-semibold ${getThemeColor('text.primary', isDark)}`}>
                     info@nysc.lk
                   </p>
-                  <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                  <p className={`text-sm ${getThemeColor('text.muted', isDark)}`}>
                     {t('footer.generalInquiries')}
                   </p>
                 </div>
               </div>
               
               <div className="flex items-start space-x-4">
-                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg ${
-                  isDark ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'
-                }`}>
-                  <Phone className={`w-5 h-5 ${isDark ? 'text-gray-400' : 'text-gray-600'}`} />
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg ${getThemeColor('card.secondary', isDark)} border ${getThemeColor('border.subtle', isDark)}`}>
+                  <Phone className={`w-5 h-5 ${getThemeColor('text.muted', isDark)}`} />
                 </div>
                 <div>
-                  <p className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                  <p className={`font-semibold ${getThemeColor('text.primary', isDark)}`}>
                     +94 11 234 5678
                   </p>
-                  <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                  <p className={`text-sm ${getThemeColor('text.muted', isDark)}`}>
                     {t('footer.officeHours')}
                   </p>
                 </div>
               </div>
               
               <div className="flex items-start space-x-4">
-                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg ${
-                  isDark ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'
-                }`}>
-                  <MapPin className={`w-5 h-5 ${isDark ? 'text-gray-400' : 'text-gray-600'}`} />
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg ${getThemeColor('card.secondary', isDark)} border ${getThemeColor('border.subtle', isDark)}`}>
+                  <MapPin className={`w-5 h-5 ${getThemeColor('text.muted', isDark)}`} />
                 </div>
                 <div>
-                  <p className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                  <p className={`font-semibold ${getThemeColor('text.primary', isDark)}`}>
                     {t('footer.organizationAddress')}
                   </p>
-                  <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                  <p className={`text-sm ${getThemeColor('text.muted', isDark)}`}>
                     {t('footer.location')}
                   </p>
                 </div>
@@ -286,15 +273,15 @@ const Footer = () => {
         </div>
 
         {/* Enhanced Bottom Bar */}
-        <div className={`border-t ${isDark ? 'border-gray-800' : 'border-gray-200'} pt-4 flex flex-col lg:flex-row justify-between items-center gap-8`}>
+        <div className={`border-t ${getThemeColor('border.subtle', isDark)} pt-4 flex flex-col lg:flex-row justify-between items-center gap-8`}>
           <div className="flex flex-col sm:flex-row items-center gap-6">
-            <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+            <p className={`text-sm ${getThemeColor('text.muted', isDark)}`}>
               © {currentYear} {t('footer.copyright')}
             </p>
             <div className="flex items-center space-x-2">
-              <span className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>{t('footer.madeWith')}</span>
+              <span className={`text-xs ${getThemeColor('text.muted', isDark)}`}>{t('footer.madeWith')}</span>
               <span className="text-red-500 animate-pulse">♥</span>
-              <span className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>{t('footer.forYouth')}</span>
+              <span className={`text-xs ${getThemeColor('text.muted', isDark)}`}>{t('footer.forYouth')}</span>
             </div>
           </div>
           
@@ -308,10 +295,10 @@ const Footer = () => {
               <a 
                 key={index}
                 href={link.href} 
-                className={`text-sm ${isDark ? 'text-gray-400 hover:text-[#1aa79e]' : 'text-gray-600 hover:text-[#1aa79e]'} transition-colors duration-300 relative group`}
+                className={`text-sm ${getThemeColor('text.muted', isDark)} ${colors.hover.text.brand} transition-colors duration-300 relative group`}
               >
                 {link.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#1aa79e] to-[#f38621] transition-all duration-300 group-hover:w-full"></span>
+                <span className={`absolute -bottom-1 left-0 w-0 h-0.5 ${colors.brand.gradient.primary} transition-all duration-300 group-hover:w-full`}></span>
               </a>
             ))}
           </div>

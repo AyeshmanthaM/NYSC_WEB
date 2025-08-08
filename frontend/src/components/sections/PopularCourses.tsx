@@ -2,6 +2,7 @@ import { Clock, Users, ArrowRight, ChevronLeft, ChevronRight, Award, BookOpen, B
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useState, useRef, useEffect } from 'react';
+import { colors, getThemeColor } from '../../config/colors';
 
 const PopularCourses = () => {
   const { isDark } = useTheme();
@@ -112,9 +113,7 @@ const PopularCourses = () => {
 
 
   return (
-    <section className={`relative py-16 overflow-hidden ${
-      isDark ? 'bg-gray-800/70' : 'bg-white/80'
-    } backdrop-blur-sm`}>
+    <section className={`relative py-16 overflow-hidden ${getThemeColor('card.secondary', isDark)} backdrop-blur-sm`}>
       
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -129,12 +128,12 @@ const PopularCourses = () => {
           >
             <defs>
               <linearGradient id="waveGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#1aa79e" />
-                <stop offset="100%" stopColor="#f38621" />
+                <stop offset="0%" stopColor={colors.raw.nysc.primary} />
+                <stop offset="100%" stopColor={colors.raw.nysc.secondary} />
               </linearGradient>
               <linearGradient id="waveGradient2" x1="0%" y1="100%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#f38621" />
-                <stop offset="100%" stopColor="#1aa79e" />
+                <stop offset="0%" stopColor={colors.raw.nysc.secondary} />
+                <stop offset="100%" stopColor={colors.raw.nysc.primary} />
               </linearGradient>
             </defs>
             
@@ -171,7 +170,7 @@ const PopularCourses = () => {
             
             {/* Floating Particles */}
             <g className="opacity-30">
-              <circle cx="150" cy="150" r="3" fill="#1aa79e">
+              <circle cx="150" cy="150" r="3" fill={colors.raw.nysc.primary}>
                 <animateTransform
                   attributeName="transform"
                   type="translate"
@@ -182,7 +181,7 @@ const PopularCourses = () => {
                 <animate attributeName="opacity" values="0.3;0.8;0.3" dur="6s" repeatCount="indefinite" />
               </circle>
               
-              <circle cx="900" cy="200" r="4" fill="#f38621">
+              <circle cx="900" cy="200" r="4" fill={colors.raw.nysc.secondary}>
                 <animateTransform
                   attributeName="transform"
                   type="translate"
@@ -193,7 +192,7 @@ const PopularCourses = () => {
                 <animate attributeName="opacity" values="0.4;0.9;0.4" dur="7s" repeatCount="indefinite" />
               </circle>
               
-              <circle cx="300" cy="600" r="2" fill="#1aa79e">
+              <circle cx="300" cy="600" r="2" fill={colors.raw.nysc.primary}>
                 <animateTransform
                   attributeName="transform"
                   type="translate"
@@ -204,7 +203,7 @@ const PopularCourses = () => {
                 <animate attributeName="opacity" values="0.2;0.7;0.2" dur="8s" repeatCount="indefinite" />
               </circle>
               
-              <circle cx="1000" cy="500" r="5" fill="#f38621">
+              <circle cx="1000" cy="500" r="5" fill={colors.raw.nysc.secondary}>
                 <animateTransform
                   attributeName="transform"
                   type="translate"
@@ -221,7 +220,7 @@ const PopularCourses = () => {
         {/* Animated Geometric Shapes */}
         <div className="absolute top-20 left-20">
           <div className={`w-32 h-32 rounded-full blur-2xl opacity-20 animate-pulse ${
-            isDark ? 'bg-[#1aa79e]' : 'bg-[#1aa79e]/40'
+            isDark ? colors.brand.primary.bg : `${colors.brand.primary.bg}/40`
           }`} 
           style={{ 
             animation: 'float 6s ease-in-out infinite, pulse 4s ease-in-out infinite' 
@@ -230,7 +229,7 @@ const PopularCourses = () => {
         
         <div className="absolute bottom-32 right-20">
           <div className={`w-40 h-40 rounded-full blur-3xl opacity-20 animate-pulse ${
-            isDark ? 'bg-[#f38621]' : 'bg-[#f38621]/40'
+            isDark ? colors.brand.secondary.bg : `${colors.brand.secondary.bg}/40`
           }`}
           style={{ 
             animation: 'float 8s ease-in-out infinite reverse, pulse 6s ease-in-out infinite' 
@@ -247,7 +246,7 @@ const PopularCourses = () => {
           >
             <defs>
               <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
-                <path d="M 10 0 L 0 0 0 10" fill="none" stroke={isDark ? '#1aa79e' : '#1aa79e'} strokeWidth="0.2"/>
+                <path d="M 10 0 L 0 0 0 10" fill="none" stroke={colors.raw.nysc.primary} strokeWidth="0.2"/>
               </pattern>
             </defs>
             <rect width="100%" height="100%" fill="url(#grid)" />
@@ -257,9 +256,9 @@ const PopularCourses = () => {
         {/* Animated Learning Icons */}
         <div className="absolute top-40 right-40 opacity-10">
           <svg width="60" height="60" viewBox="0 0 60 60" className="animate-spin" style={{ animationDuration: '20s' }}>
-            <circle cx="30" cy="30" r="25" fill="none" stroke="#1aa79e" strokeWidth="2" strokeDasharray="10,5"/>
-            <circle cx="30" cy="30" r="15" fill="none" stroke="#f38621" strokeWidth="1" strokeDasharray="5,3"/>
-            <circle cx="30" cy="30" r="5" fill="#1aa79e" opacity="0.6">
+            <circle cx="30" cy="30" r="25" fill="none" stroke={colors.raw.nysc.primary} strokeWidth="2" strokeDasharray="10,5"/>
+            <circle cx="30" cy="30" r="15" fill="none" stroke={colors.raw.nysc.secondary} strokeWidth="1" strokeDasharray="5,3"/>
+            <circle cx="30" cy="30" r="5" fill={colors.raw.nysc.primary} opacity="0.6">
               <animate attributeName="r" values="5;8;5" dur="3s" repeatCount="indefinite"/>
             </circle>
           </svg>
@@ -267,7 +266,7 @@ const PopularCourses = () => {
         
         <div className="absolute bottom-40 left-40 opacity-10">
           <svg width="80" height="80" viewBox="0 0 80 80" className="animate-pulse">
-            <polygon points="40,10 55,30 40,50 25,30" fill="none" stroke="#f38621" strokeWidth="2">
+            <polygon points="40,10 55,30 40,50 25,30" fill="none" stroke={colors.raw.nysc.secondary} strokeWidth="2">
               <animateTransform
                 attributeName="transform"
                 type="rotate"
@@ -276,7 +275,7 @@ const PopularCourses = () => {
                 repeatCount="indefinite"
               />
             </polygon>
-            <polygon points="40,20 50,35 40,40 30,35" fill="#1aa79e" opacity="0.4">
+            <polygon points="40,20 50,35 40,40 30,35" fill={colors.raw.nysc.primary} opacity="0.4">
               <animateTransform
                 attributeName="transform"
                 type="rotate"
@@ -302,21 +301,13 @@ const PopularCourses = () => {
         
         {/* Section Header */}
         <div className="text-center mb-12">
-          <span className={`inline-block px-4 py-2 rounded-full text-sm font-semibold mb-4 ${
-            isDark 
-              ? 'bg-gradient-to-r from-[#1aa79e]/20 to-[#f38621]/20 text-[#1aa79e] border border-[#1aa79e]/30'
-              : 'bg-gradient-to-r from-[#1aa79e]/10 to-[#f38621]/10 text-[#1aa79e] border border-[#1aa79e]/20'
-          }`}>
+          <span className={`inline-block px-4 py-2 rounded-full text-sm font-semibold mb-4 ${getThemeColor('badge.brand', isDark)}`}>
             {t('popularCourses.badge')}
           </span>
-          <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 ${
-            isDark ? 'text-white' : 'text-gray-900'
-          }`}>
+          <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 ${getThemeColor('text.primary', isDark)}`}>
             {t('popularCourses.title')}
           </h2>
-          <p className={`text-lg mb-8 max-w-2xl mx-auto ${
-            isDark ? 'text-gray-300' : 'text-gray-600'
-          }`}>
+          <p className={`text-lg mb-8 max-w-2xl mx-auto ${getThemeColor('text.secondary', isDark)}`}>
             {t('popularCourses.subtitle')}
           </p>
         </div>
@@ -327,22 +318,14 @@ const PopularCourses = () => {
           {/* Navigation Arrows */}
           <button
             onClick={prevSlide}
-            className={`absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${
-              isDark 
-                ? 'bg-gray-800/90 text-white hover:bg-gray-700 border border-gray-600' 
-                : 'bg-white/90 text-gray-600 hover:bg-white border border-gray-200'
-            } shadow-lg hover:shadow-xl hover:scale-110 backdrop-blur-sm`}
+            className={`absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${getThemeColor('button.secondary', isDark)} shadow-lg hover:shadow-xl hover:scale-110 backdrop-blur-sm`}
           >
             <ChevronLeft className="w-6 h-6" />
           </button>
 
           <button
             onClick={nextSlide}
-            className={`absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${
-              isDark 
-                ? 'bg-gray-800/90 text-white hover:bg-gray-700 border border-gray-600' 
-                : 'bg-white/90 text-gray-600 hover:bg-white border border-gray-200'
-            } shadow-lg hover:shadow-xl hover:scale-110 backdrop-blur-sm`}
+            className={`absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${getThemeColor('button.secondary', isDark)} shadow-lg hover:shadow-xl hover:scale-110 backdrop-blur-sm`}
           >
             <ChevronRight className="w-6 h-6" />
           </button>
@@ -364,9 +347,7 @@ const PopularCourses = () => {
                       return (
                         <div
                           key={course.id}
-                          className={`group relative rounded-2xl overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-2xl ${
-                            isDark ? 'bg-gray-900/90' : 'bg-white/90'
-                          } border ${isDark ? 'border-gray-700/50' : 'border-gray-200/50'} backdrop-blur-sm`}
+                          className={`group relative rounded-2xl overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-2xl ${getThemeColor('card.primary', isDark)} border ${getThemeColor('border.subtle', isDark)} backdrop-blur-sm`}
                         >
                           {/* Course Image */}
                           <div className="relative h-48 overflow-hidden">
@@ -381,9 +362,7 @@ const PopularCourses = () => {
                             
                             {/* Course Category Badge */}
                             <div className="absolute top-4 left-4">
-                              <div className={`flex items-center px-3 py-1.5 rounded-full text-xs font-semibold ${
-                                isDark ? 'bg-gray-900/80 text-[#1aa79e]' : 'bg-white/90 text-[#1aa79e]'
-                              } backdrop-blur-sm border border-[#1aa79e]/20`}>
+                              <div className={`flex items-center px-3 py-1.5 rounded-full text-xs font-semibold ${getThemeColor('category.category', isDark)} ${colors.brand.primary.text} backdrop-blur-sm ${colors.border.brand.subtle.light}`}>
                                 <IconComponent className="w-3 h-3 mr-1" />
                                 {course.category}
                               </div>
@@ -391,7 +370,7 @@ const PopularCourses = () => {
 
                             {/* NVQ Level Badge */}
                             <div className="absolute top-4 right-4">
-                              <span className="px-3 py-1.5 bg-gradient-to-r from-[#1aa79e] to-[#f38621] text-white text-xs font-bold rounded-full shadow-lg">
+                              <span className={`px-3 py-1.5 ${colors.badge.nvq} text-xs font-bold rounded-full shadow-lg`}>
                                 {course.nvqLevel}
                               </span>
                             </div>
@@ -400,8 +379,8 @@ const PopularCourses = () => {
                             <div className="absolute bottom-4 left-4">
                               <span className={`px-3 py-1 rounded-full text-xs font-medium ${
                                 course.timeType === t('popularCourses.fullTime')
-                                  ? 'bg-green-100 text-green-700 border border-green-200'
-                                  : 'bg-blue-100 text-blue-700 border border-blue-200'
+                                  ? colors.badge.fullTime
+                                  : colors.badge.partTime
                               }`}>
                                 {course.timeType}
                               </span>
@@ -412,27 +391,21 @@ const PopularCourses = () => {
                           <div className="p-6 flex flex-col h-80">
                             {/* Course Title - Fixed height */}
                             <div className="h-14 flex items-start mb-3">
-                              <h3 className={`font-bold text-lg line-clamp-2 leading-tight ${
-                                isDark ? 'text-white' : 'text-gray-900'
-                              } group-hover:text-[#1aa79e] transition-colors duration-300`}>
+                              <h3 className={`font-bold text-lg line-clamp-2 leading-tight ${getThemeColor('text.primary', isDark)} ${colors.hover.text.brand} transition-colors duration-300`}>
                                 {course.title}
                               </h3>
                             </div>
 
                             {/* Course Description - Fixed height */}
                             <div className="h-12 flex items-start mb-4">
-                              <p className={`text-sm line-clamp-2 ${
-                                isDark ? 'text-gray-300' : 'text-gray-600'
-                              }`}>
+                              <p className={`text-sm line-clamp-2 ${getThemeColor('text.secondary', isDark)}`}>
                                 {course.description}
                               </p>
                             </div>
 
                             {/* Institute Name - Fixed height */}
                             <div className="h-8 flex items-center mb-4">
-                              <div className={`text-xs font-medium ${
-                                isDark ? 'text-gray-400' : 'text-gray-500'
-                              }`}>
+                              <div className={`text-xs font-medium ${getThemeColor('text.muted', isDark)}`}>
                                 {course.institute}
                               </div>
                             </div>
@@ -440,15 +413,11 @@ const PopularCourses = () => {
                             {/* Course Stats - Fixed height */}
                             <div className="h-12 flex items-center justify-between mb-6">
                               <div className="flex items-center space-x-4 text-sm">
-                                <div className={`flex items-center ${
-                                  isDark ? 'text-gray-400' : 'text-gray-600'
-                                }`}>
+                                <div className={`flex items-center ${getThemeColor('text.secondary', isDark)}`}>
                                   <Clock className="w-4 h-4 mr-1" />
                                   <span>{course.duration}</span>
                                 </div>
-                                <div className={`flex items-center ${
-                                  isDark ? 'text-gray-400' : 'text-gray-600'
-                                }`}>
+                                <div className={`flex items-center ${getThemeColor('text.secondary', isDark)}`}>
                                   <Users className="w-4 h-4 mr-1" />
                                   <span>{course.enrolled} {t('popularCourses.students')}</span>
                                 </div>
@@ -457,7 +426,7 @@ const PopularCourses = () => {
                             
                             {/* Action Button - Pushed to bottom with flex-1 spacer */}
                             <div className="flex-1 flex items-end">
-                              <button className="group/btn w-full flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#1aa79e] to-[#f38621] text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                              <button className={`group/btn w-full flex items-center justify-center px-6 py-3 ${colors.button.primary.base} font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg`}>
                                 <span>{t('popularCourses.applyNow')}</span>
                                 <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-200 group-hover/btn:translate-x-1" />
                               </button>
@@ -480,7 +449,7 @@ const PopularCourses = () => {
                 onClick={() => goToSlide(index)}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
                   index === currentSlide
-                    ? 'bg-gradient-to-r from-[#1aa79e] to-[#f38621] scale-125'
+                    ? `${colors.brand.gradient.primary} scale-125`
                     : isDark 
                       ? 'bg-gray-600 hover:bg-gray-500'
                       : 'bg-gray-300 hover:bg-gray-400'
@@ -492,11 +461,7 @@ const PopularCourses = () => {
 
         {/* View All Courses Button */}
         <div className="text-center mt-10">
-          <button className={`group inline-flex items-center px-8 py-4 font-semibold rounded-full transition-all duration-300 hover:scale-105 ${
-            isDark 
-              ? 'bg-gray-800/80 text-white hover:bg-gray-700 border border-gray-600' 
-              : 'bg-white/80 text-gray-700 hover:bg-gray-50 border border-gray-200'
-          } shadow-lg hover:shadow-xl backdrop-blur-sm`}>
+          <button className={`group inline-flex items-center px-8 py-4 font-semibold rounded-full transition-all duration-300 hover:scale-105 ${getThemeColor('button.secondary', isDark)} shadow-lg hover:shadow-xl backdrop-blur-sm`}>
             <span>{t('popularCourses.viewAllCourses')}</span>
             <ArrowRight className="w-5 h-5 ml-2 transition-transform duration-200 group-hover:translate-x-1" />
           </button>

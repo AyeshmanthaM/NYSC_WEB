@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Calendar, MapPin, ArrowRight, Eye, TrendingUp, Clock, Share2, Bookmark, Heart } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { colors, getThemeColor } from '../../config/colors';
 
 const NewsEventsSection = () => {
   const { isDark } = useTheme();
@@ -192,9 +193,7 @@ const NewsEventsSection = () => {
   ];
 
   return (
-    <section className={`py-20 relative overflow-hidden ${
-      isDark ? 'bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800' : 'bg-gradient-to-br from-gray-50 via-white to-gray-100'
-    }`}>
+    <section className={`py-20 relative overflow-hidden ${getThemeColor('background.gradient.subtle', isDark)}`}>
       
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-30">
@@ -211,30 +210,24 @@ const NewsEventsSection = () => {
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between mb-12">
             <div className="mb-6 lg:mb-0">
               <div className="flex items-center space-x-3 mb-4">
-                <div className={`p-3 rounded-xl ${isDark ? 'bg-[#1aa79e]/20' : 'bg-[#1aa79e]/10'} backdrop-blur-sm`}>
-                  <TrendingUp className={`w-6 h-6 ${isDark ? 'text-[#1aa79e]' : 'text-[#1aa79e]'}`} />
+                <div className={`p-3 rounded-xl ${getThemeColor('background.gradient.brand', isDark)} backdrop-blur-sm`}>
+                  <TrendingUp className={`w-6 h-6 ${colors.brand.primary.text}`} />
                 </div>
-                <span className={`px-4 py-2 rounded-full text-sm font-medium ${
-                  isDark ? 'bg-[#1aa79e]/20 text-[#1aa79e] border border-[#1aa79e]/30' : 'bg-[#1aa79e]/10 text-[#1aa79e] border border-[#1aa79e]/20'
-                } backdrop-blur-md`}>
+                <span className={`px-4 py-2 rounded-full text-sm font-medium ${getThemeColor('badge.brand', isDark)} backdrop-blur-md`}>
                   {t('newsEvents.news.badge')}
                 </span>
               </div>
-              <h2 className={`text-5xl font-bold mb-4 ${
-                isDark ? 'text-white' : 'text-gray-900'
-              } leading-tight`}>
-                {t('newsEvents.news.title')} <span className="bg-gradient-to-r from-[#1aa79e] to-[#f38621] bg-clip-text text-transparent">{t('newsEvents.news.titleHighlight')}</span>
+              <h2 className={`text-5xl font-bold mb-4 ${getThemeColor('text.primary', isDark)} leading-tight`}>
+                {t('newsEvents.news.title')} <span className={colors.brand.gradient.text}>{t('newsEvents.news.titleHighlight')}</span>
               </h2>
-              <p className={`text-lg ${
-                isDark ? 'text-gray-400' : 'text-gray-600'
-              } max-w-2xl`}>
+              <p className={`text-lg ${getThemeColor('text.secondary', isDark)} max-w-2xl`}>
                 {t('newsEvents.news.subtitle')}
               </p>
             </div>
             
             {/* Enhanced CTA */}
             <div className="flex flex-col items-start lg:items-end space-y-4">
-              <div className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+              <div className={`text-sm ${getThemeColor('text.muted', isDark)}`}>
                 {t('newsEvents.news.updated')} {new Date().toLocaleDateString(currentLanguage === 'si' ? 'si-LK' : currentLanguage === 'ta' ? 'ta-LK' : 'en-US', { 
                   weekday: 'long',
                   hour: '2-digit',
@@ -243,11 +236,7 @@ const NewsEventsSection = () => {
               </div>
               <a 
                 href="/news" 
-                className={`group inline-flex items-center space-x-3 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 ${
-                  isDark 
-                    ? 'bg-gradient-to-r from-[#1aa79e] to-[#f38621] text-white shadow-lg shadow-[#1aa79e]/25 hover:shadow-2xl hover:shadow-[#1aa79e]/40' 
-                    : 'bg-gradient-to-r from-[#1aa79e] to-[#f38621] text-white shadow-lg shadow-[#1aa79e]/25 hover:shadow-2xl hover:shadow-[#1aa79e]/40'
-                }`}
+                className={`group inline-flex items-center space-x-3 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 ${colors.button.primary.base} ${colors.button.primary.shadow}`}
               >
                 <span>{t('newsEvents.news.exploreAll')}</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -262,11 +251,7 @@ const NewsEventsSection = () => {
               {news.slice(0, 4).map((article, index) => (
                 <article
                   key={article.id}
-                  className={`group cursor-pointer rounded-3xl overflow-hidden transition-all duration-500 transform hover:-translate-y-4 hover:scale-105 relative ${
-                    isDark 
-                      ? 'bg-gray-800/90 shadow-xl shadow-gray-900/50 hover:shadow-2xl hover:shadow-[#1aa79e]/20 border border-gray-700/50 hover:border-[#1aa79e]/30' 
-                      : 'bg-white/90 shadow-xl shadow-gray-200/50 hover:shadow-2xl hover:shadow-[#1aa79e]/20 border border-gray-200/50 hover:border-[#1aa79e]/30'
-                  } backdrop-blur-sm`}
+                  className={`group cursor-pointer rounded-3xl overflow-hidden transition-all duration-500 transform hover:-translate-y-4 hover:scale-105 relative ${getThemeColor('card.primary', isDark)} border ${getThemeColor('border.subtle', isDark)} ${colors.hover.border.brand} ${colors.hover.shadow.brand} backdrop-blur-sm`}
                   onMouseEnter={() => setHoveredNews(article.id)}
                   onMouseLeave={() => setHoveredNews(null)}
                   style={{
@@ -278,10 +263,10 @@ const NewsEventsSection = () => {
                     <div className="absolute top-3 right-3 z-30">
                       <div className="relative">
                         {/* Pulsing ring effect */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#1aa79e] to-[#f38621] rounded-full"></div>
+                        <div className={`absolute inset-0 ${colors.brand.gradient.primary} rounded-full`}></div>
                         
                         {/* Main trending badge */}
-                        <div className="relative bg-gradient-to-r from-[#1aa79e] to-[#f38621] text-white px-3 py-1.5 rounded-full text-xs font-bold flex items-center space-x-1.5 shadow-lg transform hover:scale-110 transition-all duration-300 backdrop-blur-sm">
+                        <div className={`relative ${colors.button.primary.base} px-3 py-1.5 rounded-full text-xs font-bold flex items-center space-x-1.5 shadow-lg transform hover:scale-110 transition-all duration-300 backdrop-blur-sm`}>
                           <TrendingUp className="w-3.5 h-3.5 animate-bounce" />
                           <span className="font-extrabold tracking-wide">{t('newsEvents.news.trending')}</span>
                           <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
@@ -349,24 +334,18 @@ const NewsEventsSection = () => {
                   {/* Enhanced Content */}
                   <div className="p-6">
                     {/* Headline */}
-                    <h3 className={`font-bold text-lg mb-3 line-clamp-2 leading-tight transition-all duration-300 ${
-                      isDark ? 'text-white group-hover:text-[#1aa79e]' : 'text-gray-900 group-hover:text-[#1aa79e]'
-                    }`}>
+                    <h3 className={`font-bold text-lg mb-3 line-clamp-2 leading-tight transition-all duration-300 ${getThemeColor('text.primary', isDark)} ${colors.hover.text.brand}`}>
                       {article.title}
                     </h3>
 
                     {/* Summary */}
-                    <p className={`text-sm leading-relaxed mb-4 line-clamp-3 transition-colors ${
-                      isDark ? 'text-gray-300 group-hover:text-gray-200' : 'text-gray-600 group-hover:text-gray-700'
-                    }`}>
+                    <p className={`text-sm leading-relaxed mb-4 line-clamp-3 transition-colors ${getThemeColor('text.secondary', isDark)}`}>
                       {article.summary}
                     </p>
 
                     {/* Enhanced Metadata */}
                     <div className="flex items-center justify-between mb-4">
-                      <div className={`flex items-center space-x-2 text-xs ${
-                        isDark ? 'text-gray-400' : 'text-gray-500'
-                      }`}>
+                      <div className={`flex items-center space-x-2 text-xs ${getThemeColor('text.muted', isDark)}`}>
                         <span className="font-medium">{article.publisher}</span>
                         <span>•</span>
                         <span>{new Date(article.date).toLocaleDateString('en-US', { 
@@ -409,9 +388,7 @@ const NewsEventsSection = () => {
                           <Share2 className="w-4 h-4" />
                         </button>
                       </div>
-                      <div className={`text-xs px-3 py-1 rounded-full ${
-                        isDark ? 'bg-gray-700 text-gray-300' : 'bg-gray-100 text-gray-600'
-                      }`}>
+                      <div className={`text-xs px-3 py-1 rounded-full ${getThemeColor('badge.secondary', isDark)}`}>
                         {hoveredNews === article.id ? t('newsEvents.news.clickToRead') : t('newsEvents.news.hoverToPreview')}
                       </div>
                     </div>
@@ -419,7 +396,7 @@ const NewsEventsSection = () => {
 
                   {/* Hover Glow Effect */}
                   <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-[#1aa79e]/10 via-[#f38621]/10 to-[#1aa79e]/10 blur-xl" />
+                    <div className={`absolute inset-0 rounded-3xl ${colors.background.gradient.brand.light} blur-xl`} />
                   </div>
                 </article>
               ))}
@@ -431,11 +408,7 @@ const NewsEventsSection = () => {
                 {news.map((article) => (
                   <article
                     key={article.id}
-                    className={`group cursor-pointer flex-shrink-0 w-80 rounded-2xl overflow-hidden transition-all duration-300 snap-start ${
-                      isDark 
-                        ? 'bg-gray-800 shadow-lg shadow-gray-900/50' 
-                        : 'bg-white shadow-lg shadow-gray-200/50'
-                    }`}
+                    className={`group cursor-pointer flex-shrink-0 w-80 rounded-2xl overflow-hidden transition-all duration-300 snap-start ${getThemeColor('card.primary', isDark)}`}
                   >
                     {/* Image */}
                     <div className="relative h-48 overflow-hidden">
@@ -460,23 +433,17 @@ const NewsEventsSection = () => {
                     {/* Content */}
                     <div className="p-6">
                       {/* Headline */}
-                      <h3 className={`font-bold text-lg mb-3 line-clamp-2 leading-tight ${
-                        isDark ? 'text-white' : 'text-gray-900'
-                      }`}>
+                      <h3 className={`font-bold text-lg mb-3 line-clamp-2 leading-tight ${getThemeColor('text.primary', isDark)}`}>
                         {article.title}
                       </h3>
 
                       {/* Summary */}
-                      <p className={`text-sm leading-relaxed mb-4 line-clamp-3 ${
-                        isDark ? 'text-gray-300' : 'text-gray-600'
-                      }`}>
+                      <p className={`text-sm leading-relaxed mb-4 line-clamp-3 ${getThemeColor('text.secondary', isDark)}`}>
                         {article.summary}
                       </p>
 
                       {/* Metadata */}
-                      <div className={`flex items-center justify-between text-xs ${
-                        isDark ? 'text-gray-400' : 'text-gray-500'
-                      }`}>
+                      <div className={`flex items-center justify-between text-xs ${getThemeColor('text.muted', isDark)}`}>
                         <div className="flex items-center space-x-2">
                           <span className="font-medium">{article.publisher}</span>
                           <span>•</span>
@@ -501,41 +468,31 @@ const NewsEventsSection = () => {
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between mb-12">
             <div className="mb-6 lg:mb-0">
               <div className="flex items-center space-x-3 mb-4">
-                <div className={`p-3 rounded-xl ${isDark ? 'bg-[#1aa79e]/20' : 'bg-[#1aa79e]/10'} backdrop-blur-sm`}>
-                  <Calendar className={`w-6 h-6 ${isDark ? 'text-[#1aa79e]' : 'text-[#1aa79e]'}`} />
+                <div className={`p-3 rounded-xl ${getThemeColor('background.gradient.brand', isDark)} backdrop-blur-sm`}>
+                  <Calendar className={`w-6 h-6 ${colors.brand.primary.text}`} />
                 </div>
-                <span className={`px-4 py-2 rounded-full text-sm font-medium ${
-                  isDark ? 'bg-[#f38621]/20 text-[#f38621] border border-[#f38621]/30' : 'bg-[#f38621]/10 text-[#f38621] border border-[#f38621]/20'
-                } backdrop-blur-md`}>
+                <span className={`px-4 py-2 rounded-full text-sm font-medium ${getThemeColor('badge.secondary', isDark)} backdrop-blur-md`}>
                   {t('newsEvents.events.badge')}
                 </span>
               </div>
-              <h2 className={`text-5xl font-bold mb-4 ${
-                isDark ? 'text-white' : 'text-gray-900'
-              } leading-tight`}>
-                {t('newsEvents.events.title')} <span className="bg-gradient-to-r from-[#1aa79e] to-[#f38621] bg-clip-text text-transparent">{t('newsEvents.events.titleHighlight')}</span>
+              <h2 className={`text-5xl font-bold mb-4 ${getThemeColor('text.primary', isDark)} leading-tight`}>
+                {t('newsEvents.events.title')} <span className={colors.brand.gradient.text}>{t('newsEvents.events.titleHighlight')}</span>
               </h2>
-              <p className={`text-lg ${
-                isDark ? 'text-gray-400' : 'text-gray-600'
-              } max-w-2xl`}>
+              <p className={`text-lg ${getThemeColor('text.secondary', isDark)} max-w-2xl`}>
                 {t('newsEvents.events.subtitle')}
               </p>
             </div>
             
             {/* Enhanced CTA */}
             <div className="flex flex-col items-start lg:items-end space-y-4">
-              <div className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+              <div className={`text-sm ${getThemeColor('text.muted', isDark)}`}>
                 {t('newsEvents.events.nextEvent')} {Math.ceil((new Date(events[0]?.date || new Date()).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} {t('newsEvents.events.days')}
               </div>
               <a 
                 href="https://www.nysc.lk/events" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`group inline-flex items-center space-x-3 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 ${
-                  isDark 
-                    ? 'bg-gradient-to-r from-[#1aa79e] to-[#f38621] text-white shadow-lg shadow-[#1aa79e]/25 hover:shadow-2xl hover:shadow-[#1aa79e]/40' 
-                    : 'bg-gradient-to-r from-[#1aa79e] to-[#f38621] text-white shadow-lg shadow-[#1aa79e]/25 hover:shadow-2xl hover:shadow-[#1aa79e]/40'
-                }`}
+                className={`group inline-flex items-center space-x-3 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 ${colors.button.primary.base} ${colors.button.primary.shadow}`}
               >
                 <span>{t('newsEvents.events.viewAll')}</span>
                 <Calendar className="w-5 h-5 group-hover:rotate-12 transition-transform" />
@@ -548,11 +505,7 @@ const NewsEventsSection = () => {
             {events.map((event, index) => (
               <div
                 key={event.id}
-                className={`group cursor-pointer rounded-3xl overflow-hidden transition-all duration-500 transform hover:-translate-y-4 hover:scale-105 relative ${
-                  isDark 
-                    ? 'bg-gray-800/90 shadow-xl shadow-gray-900/50 hover:shadow-2xl hover:shadow-[#1aa79e]/20 border border-gray-700/50 hover:border-[#1aa79e]/30' 
-                    : 'bg-white/90 shadow-xl shadow-gray-200/50 hover:shadow-2xl hover:shadow-[#1aa79e]/20 border border-gray-200/50 hover:border-[#1aa79e]/30'
-                } backdrop-blur-sm event-card`}
+                className={`group cursor-pointer rounded-3xl overflow-hidden transition-all duration-500 transform hover:-translate-y-4 hover:scale-105 relative ${getThemeColor('card.primary', isDark)} border ${getThemeColor('border.subtle', isDark)} ${colors.hover.border.brand} ${colors.hover.shadow.brand} backdrop-blur-sm event-card`}
                 onClick={() => window.open(event.link, '_blank')}
                 onMouseEnter={() => setHoveredEvent(event.id)}
                 onMouseLeave={() => setHoveredEvent(null)}
@@ -599,11 +552,11 @@ const NewsEventsSection = () => {
 
                   {/* Enhanced Date Display */}
                   <div className="absolute bottom-4 left-4 right-4">
-                    <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md px-4 py-3 rounded-2xl shadow-lg">
+                    <div className={`${getThemeColor('card.secondary', isDark)} backdrop-blur-md px-4 py-3 rounded-2xl shadow-lg`}>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-2">
-                          <Calendar className="w-4 h-4 text-[#1aa79e]" />
-                          <span className={`text-sm font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                          <Calendar className={`w-4 h-4 ${colors.brand.primary.text}`} />
+                          <span className={`text-sm font-bold ${getThemeColor('text.primary', isDark)}`}>
                             {new Date(event.date).toLocaleDateString('en-US', { 
                               weekday: 'short', 
                               month: 'short', 
@@ -611,7 +564,7 @@ const NewsEventsSection = () => {
                             })}
                           </span>
                         </div>
-                        <div className="text-xs text-[#f38621] font-medium">
+                        <div className={`text-xs ${colors.brand.secondary.text} font-medium`}>
                           {new Date(event.date).getFullYear()}
                         </div>
                       </div>
@@ -629,18 +582,14 @@ const NewsEventsSection = () => {
                 {/* Enhanced Content */}
                 <div className="p-6">
                   {/* Title */}
-                  <h3 className={`font-bold text-lg mb-3 line-clamp-2 leading-tight transition-all duration-300 ${
-                    isDark ? 'text-white group-hover:text-[#1aa79e]' : 'text-gray-900 group-hover:text-[#1aa79e]'
-                  }`}>
+                  <h3 className={`font-bold text-lg mb-3 line-clamp-2 leading-tight transition-all duration-300 ${getThemeColor('text.primary', isDark)} ${colors.hover.text.brand}`}>
                     {event.title}
                   </h3>
 
                   {/* Location with Enhanced Icon */}
-                  <div className={`flex items-center space-x-2 text-sm mb-4 ${
-                    isDark ? 'text-gray-400' : 'text-gray-600'
-                  }`}>
-                    <div className="p-1 rounded-full bg-[#f38621]/10">
-                      <MapPin className="w-4 h-4 text-[#f38621]" />
+                  <div className={`flex items-center space-x-2 text-sm mb-4 ${getThemeColor('text.secondary', isDark)}`}>
+                    <div className={`p-1 rounded-full ${colors.brand.secondary.bg}/10`}>
+                      <MapPin className={`w-4 h-4 ${colors.brand.secondary.text}`} />
                     </div>
                     <span className="font-medium">{event.location}</span>
                   </div>
@@ -678,19 +627,17 @@ const NewsEventsSection = () => {
                     
                     {/* Enhanced Action Button */}
                     <div className="flex items-center space-x-2">
-                      <span className={`text-sm font-medium ${
-                        isDark ? 'text-gray-300' : 'text-gray-700'
-                      }`}>
+                      <span className={`text-sm font-medium ${getThemeColor('text.secondary', isDark)}`}>
                         {hoveredEvent === event.id ? t('newsEvents.events.viewDetails') : t('newsEvents.events.learnMore')}
                       </span>
-                      <ArrowRight className="w-4 h-4 text-[#1aa79e] group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className={`w-4 h-4 ${colors.brand.primary.text} group-hover:translate-x-1 transition-transform`} />
                     </div>
                   </div>
                 </div>
 
                 {/* Hover Glow Effect */}
                 <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                  <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-[#1aa79e]/10 via-[#f38621]/10 to-[#1aa79e]/10 blur-xl" />
+                  <div className={`absolute inset-0 rounded-3xl ${colors.background.gradient.brand.light} blur-xl`} />
                 </div>
               </div>
             ))}

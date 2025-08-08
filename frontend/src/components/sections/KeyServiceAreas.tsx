@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Trophy, Music, GraduationCap, Briefcase, ChevronRight } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { colors, getThemeColor } from '../../config/colors';
 
 interface KeyServiceAreasProps {
   onHoverChange?: (isHovered: boolean) => void;
@@ -93,9 +94,7 @@ const KeyServiceAreas = ({ onHoverChange }: KeyServiceAreasProps) => {
                 {/* Card Container - No background */}
                 <div className={`relative h-full overflow-hidden rounded-2xl transition-all duration-500 transform ${
                   isHovered ? 'scale-105 -translate-y-1' : ''
-                } backdrop-blur-sm border ${
-                  isDark ? 'border-gray-700/50' : 'border-gray-200/50'
-                } shadow-lg hover:shadow-2xl`}>
+                } backdrop-blur-sm border ${getThemeColor('border.subtle', isDark)} shadow-lg hover:shadow-2xl`}>
                   
                   {/* Gradient Background Overlay */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${
@@ -120,46 +119,38 @@ const KeyServiceAreas = ({ onHoverChange }: KeyServiceAreasProps) => {
                       </div>
                       
                       {/* Stats Badge - No background */}
-                      <span className={`text-xs font-semibold px-2 py-1 rounded-full border ${
-                        isDark ? 'border-gray-700 text-gray-400' : 'border-gray-300 text-gray-600'
-                      }`}>
+                      <span className={`text-xs font-semibold px-2 py-1 rounded-full border ${getThemeColor('border.subtle', isDark)} ${getThemeColor('text.muted', isDark)}`}>
                         {area.stats}
                       </span>
                     </div>
                     
                     {/* Title */}
-                    <h3 className={`text-lg font-bold mb-1 transition-colors duration-300 ${
-                      isDark ? 'text-white' : 'text-gray-900'
-                    }`}>
+                    <h3 className={`text-lg font-bold mb-1 transition-colors duration-300 ${getThemeColor('text.primary', isDark)}`}>
                       {area.title}
                     </h3>
                     
                     {/* Short Description */}
-                    <p className={`text-xs font-medium mb-2 ${
-                      isDark ? 'text-gray-400' : 'text-gray-500'
-                    }`}>
+                    <p className={`text-xs font-medium mb-2 ${getThemeColor('text.muted', isDark)}`}>
                       {area.shortDesc}
                     </p>
                     
                     {/* Expandable Description */}
                     <p className={`text-xs leading-relaxed overflow-hidden transition-all duration-500 ${
                       isHovered ? 'max-h-20 opacity-100' : 'max-h-0 opacity-0'
-                    } ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                    } ${getThemeColor('text.secondary', isDark)}`}>
                       {area.description}
                     </p>
                     
                     {/* Action Link */}
                     <div className={`flex items-center justify-between mt-3 pt-3 border-t transition-all duration-500 ${
                       isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
-                    } ${isDark ? 'border-gray-700' : 'border-gray-200'}`}>
-                      <span className={`text-xs font-semibold ${
-                        isDark ? 'text-blue-400' : 'text-blue-600'
-                      }`}>
+                    } ${getThemeColor('border.subtle', isDark)}`}>
+                      <span className={`text-xs font-semibold ${colors.brand.primary.text}`}>
                         {t('keyServices.learnMore')}
                       </span>
                       <ChevronRight className={`w-4 h-4 transition-transform duration-300 ${
                         isHovered ? 'translate-x-1' : ''
-                      } ${isDark ? 'text-blue-400' : 'text-blue-600'}`} />
+                      } ${colors.brand.primary.text}`} />
                     </div>
                   </div>
                   

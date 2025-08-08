@@ -1,6 +1,7 @@
 import { Award, Crown, Building, Shield, Facebook, Twitter, Instagram, Linkedin, Eye, ArrowRight } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { colors, getThemeColor } from '../../config/colors';
 
 const LeadersSection = () => {
   const { isDark } = useTheme();
@@ -62,11 +63,7 @@ const LeadersSection = () => {
   ];
 
   return (
-    <section className={`relative py-16 overflow-hidden ${
-      isDark 
-        ? 'bg-gray-900' 
-        : 'bg-gray-50'
-    }`}>
+    <section className={`relative py-16 overflow-hidden ${getThemeColor('background.primary', isDark)}`}>
       {/* Background Particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className={`absolute top-20 left-10 w-4 h-4 rounded-full ${
@@ -86,21 +83,13 @@ const LeadersSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className="text-center mb-6">
-          <span className={`inline-block px-4 py-2 rounded-full text-sm font-semibold mb-4 ${
-            isDark 
-              ? 'bg-gradient-to-r from-[#1aa79e]/20 to-[#f38621]/20 text-[#1aa79e] border border-[#1aa79e]/30'
-              : 'bg-gradient-to-r from-[#1aa79e]/10 to-[#f38621]/10 text-[#1aa79e] border border-[#1aa79e]/20'
-          }`}>
+          <span className={`inline-block px-4 py-2 rounded-full text-sm font-semibold mb-4 ${getThemeColor('badge.brand', isDark)}`}>
             {t('leaders.badge')}
           </span>
-          <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 ${
-            isDark ? 'text-white' : 'text-gray-900'
-          }`}>
+          <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 ${getThemeColor('text.primary', isDark)}`}>
             {t('leaders.title')}
           </h2>
-          <p className={`text-lg mb-6 max-w-2xl mx-auto ${
-            isDark ? 'text-gray-300' : 'text-gray-600'
-          }`}>
+          <p className={`text-lg mb-6 max-w-2xl mx-auto ${getThemeColor('text.secondary', isDark)}`}>
             {t('leaders.subtitle')}
           </p>
         </div>
@@ -112,11 +101,7 @@ const LeadersSection = () => {
             return (
               <div
                 key={index}
-                className={`group relative rounded-2xl overflow-hidden shadow-xl transition-all duration-500 transform hover:-translate-y-3 hover:scale-105 ${
-                  isDark 
-                    ? 'bg-gray-800/90 border border-gray-700/50 hover:bg-gray-800 hover:shadow-2xl hover:shadow-blue-500/20' 
-                    : 'bg-white/90 border border-gray-200/50 hover:bg-white hover:shadow-2xl hover:shadow-blue-500/20'
-                } backdrop-blur-sm mb-8`}
+                className={`group relative rounded-2xl overflow-hidden shadow-xl transition-all duration-500 transform hover:-translate-y-3 hover:scale-105 ${getThemeColor('card.primary', isDark)} border ${getThemeColor('border.subtle', isDark)} ${getThemeColor('hover.background', isDark)} hover:shadow-2xl hover:shadow-blue-500/20 backdrop-blur-sm mb-8`}
               >
                 {/* Image Container */}
                 <div className="relative h-80 overflow-hidden">
@@ -127,12 +112,8 @@ const LeadersSection = () => {
                   />
                   
                   {/* Icon Badge - Fixed position for consistent alignment */}
-                  <div className={`absolute top-4 right-4 w-12 h-12 rounded-full flex items-center justify-center ${
-                    isDark ? 'bg-gray-900/80' : 'bg-white/90'
-                  } backdrop-blur-sm border border-white/20 transition-all duration-300 group-hover:scale-110`}>
-                    <IconComponent className={`w-6 h-6 ${
-                      isDark ? 'text-[#1aa79e]' : 'text-[#1aa79e]'
-                    }`} />
+                  <div className={`absolute top-4 right-4 w-12 h-12 rounded-full flex items-center justify-center ${getThemeColor('card.secondary', isDark)} backdrop-blur-sm border border-white/20 transition-all duration-300 group-hover:scale-110`}>
+                    <IconComponent className={`w-6 h-6 ${colors.brand.primary.text}`} />
                   </div>
                 </div>
 
@@ -140,18 +121,14 @@ const LeadersSection = () => {
                 <div className="p-6 text-center h-44 flex flex-col">
                   {/* Title with fixed height */}
                   <div className="h-14 flex items-center justify-center mb-3">
-                    <h3 className={`text-base font-bold leading-tight text-center ${
-                      isDark ? 'text-white' : 'text-gray-900'
-                    } group-hover:text-[#1aa79e] transition-colors duration-300`}>
+                    <h3 className={`text-base font-bold leading-tight text-center ${getThemeColor('text.primary', isDark)} ${colors.hover.text.brand} transition-colors duration-300`}>
                       {leader.name}
                     </h3>
                   </div>
                   
                   {/* Position with fixed height */}
                   <div className="h-12 flex items-center justify-center mb-4">
-                    <p className={`text-sm font-medium text-center ${
-                      isDark ? 'text-gray-300' : 'text-gray-600'
-                    }`}>
+                    <p className={`text-sm font-medium text-center ${getThemeColor('text.secondary', isDark)}`}>
                       {leader.position}
                     </p>
                   </div>
