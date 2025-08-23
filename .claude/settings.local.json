@@ -6,7 +6,8 @@
       "Bash(npm install:*)",
       "Bash(curl:*)",
       "Bash(find:*)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "WebFetch(domain:www.nysc.lk)"
     ],
     "deny": []
   }

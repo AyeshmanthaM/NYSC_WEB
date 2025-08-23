@@ -40,9 +40,14 @@ const translations: Record<Language, Translations> = {
       student: 'Student',
       ourCenters: 'Our Centers',
       downloads: 'Downloads',
+      news: 'News',
+      events: 'Events', 
+      about: 'About Us',
+      contact: 'Contact',
       searchPlaceholder: 'Search...',
       newsEvents: 'News & Events',
-      resources: 'Resources'
+      resources: 'Resources',
+      language: 'Language'
     },
     dropdown: {
       // Directors section
@@ -59,6 +64,7 @@ const translations: Record<Language, Translations> = {
       examinationAssessmentDivision: 'Examination and Assessment Division',
       specialProjectDivision: 'Special Project Division',
       // Services section
+      youthClubs: 'Youth Clubs',
       youthServicesLimited: 'Youth Services Limited',
       youthDancingTeam: 'Youth Dancing Team',
       youthMusicBand: 'Youth Music Band',
@@ -81,7 +87,6 @@ const translations: Record<Language, Translations> = {
       youthParliament: 'Youth Parliament',
       findCourses: 'Find Courses',
       // News & Events section
-      latestNews: 'Latest News',
       events: 'Events',
       achievements: 'Achievements',
       gallery: 'Photo Gallery',
@@ -102,7 +107,28 @@ const translations: Record<Language, Translations> = {
       trainingCenters: 'Training Centers',
       districtOffices: 'District Offices',
       youthCenters: 'Youth Centers',
-      contactInfo: 'Contact Info'
+      contactInfo: 'Contact Info',
+      // News section
+      latestNews: 'Latest News',
+      breakingNews: 'Breaking News',
+      newsArchive: 'News Archive',
+      pressReleases: 'Press Releases',
+      // Events section
+      upcomingEvents: 'Upcoming Events',
+      pastEvents: 'Past Events',
+      eventCalendar: 'Event Calendar',
+      workshops: 'Workshops',
+      competitions: 'Competitions',
+      // About section
+      aboutNYSC: 'About NYSC',
+      ourMission: 'Our Mission',
+      ourVision: 'Our Vision',
+      organizationChart: 'Organization Chart',
+      // Contact section
+      contactUs: 'Contact Us',
+      officeLocations: 'Office Locations',
+      headOffice: 'Head Office',
+      regionalOffices: 'Regional Offices'
     },
     footer: {
       newsletterTitle: 'Stay Updated with NYSC News',
@@ -406,9 +432,14 @@ const translations: Record<Language, Translations> = {
       student: 'ශිෂ්‍ය',
       ourCenters: 'අපගේ මධ්‍යස්ථාන',
       downloads: 'බාගැනීම්',
+      news: 'පුවත්',
+      events: 'සිදුවීම්',
+      about: 'අප පිළිබඳව',
+      contact: 'සම්බන්ධතාව',
       searchPlaceholder: 'සොයන්න...',
       newsEvents: 'පුවත් සහ සිදුවීම්',
-      resources: 'සම්පත්'
+      resources: 'සම්පත්',
+      language: 'භාෂාව'
     },
     dropdown: {
       // Directors section
@@ -425,6 +456,7 @@ const translations: Record<Language, Translations> = {
       examinationAssessmentDivision: 'විභාග හා තක්සේරු අංශය',
       specialProjectDivision: 'විශේෂ ව්‍යාපෘති අංශය',
       // Services section
+      youthClubs: 'තරුණ සමාජ',
       youthServicesLimited: 'තරුණ සේවා සීමාසහිත',
       youthDancingTeam: 'තරුණ නර්තන කණ්ඩායම',
       youthMusicBand: 'තරුණ සංගීත කණ්ඩායම',
@@ -447,7 +479,6 @@ const translations: Record<Language, Translations> = {
       youthParliament: 'තරුණ පාර්ලිමේන්තුව',
       findCourses: 'පාඨමාලා සොයන්න',
       // News & Events section
-      latestNews: 'නවතම පුවත්',
       events: 'සිදුවීම්',
       achievements: 'ජයග්‍රහණ',
       gallery: 'ඡායාරූප ගැලරිය',
@@ -468,7 +499,28 @@ const translations: Record<Language, Translations> = {
       trainingCenters: 'පුහුණු මධ්‍යස්ථාන',
       districtOffices: 'ශ්‍රීෂ්ඨමන්ඩල කාර්යාල',
       youthCenters: 'තරුණ මධ්‍යස්ථාන',
-      contactInfo: 'සම්බන්ධතා තොරතුරු'
+      contactInfo: 'සම්බන්ධතා තොරතුරු',
+      // News section
+      latestNews: 'නවතම පුවත්',
+      breakingNews: 'ක්ෂණික පුවත්',
+      newsArchive: 'පුවත් ගබඩාව',
+      pressReleases: 'මාධ්‍ය නිවේදන',
+      // Events section
+      upcomingEvents: 'ඉදිරි සිදුවීම්',
+      pastEvents: 'අතීත සිදුවීම්',
+      eventCalendar: 'සිදුවීම් දින දර්ශනය',
+      workshops: 'වැඩමුළු',
+      competitions: 'තරඟ',
+      // About section
+      aboutNYSC: 'NYSC පිළිබඳව',
+      ourMission: 'අපගේ මෙහෙවර',
+      ourVision: 'අපගේ දැක්ම',
+      organizationChart: 'සංවිධාන ප්‍රස්ථාරය',
+      // Contact section
+      contactUs: 'අප සම්බන්ධ කර ගන්න',
+      officeLocations: 'කාර්යාල ස්ථාන',
+      headOffice: 'ප්‍රධාන කාර්යාලය',
+      regionalOffices: 'ප්‍රාදේශීය කාර්යාල'
     },
     footer: {
       newsletterTitle: 'NYSC පුවත් සමඟ යාවත්කාලීන වන්න',
@@ -772,9 +824,14 @@ const translations: Record<Language, Translations> = {
       student: 'மாணவர்',
       ourCenters: 'எங்கள் மையங்கள்',
       downloads: 'பதிவிறக்கங்கள்',
+      news: 'செய்திகள்',
+      events: 'நிகழ்வுகள்',
+      about: 'எங்களைப் பற்றி',
+      contact: 'தொடர்பு',
       searchPlaceholder: 'தேடல்...',
       newsEvents: 'செய்திகள் மற்றும் நிகழ்வுகள்',
-      resources: 'வளங்கள்'
+      resources: 'வளங்கள்',
+      language: 'மொழி'
     },
     dropdown: {
       // Directors section
@@ -791,6 +848,7 @@ const translations: Record<Language, Translations> = {
       examinationAssessmentDivision: 'பரீட்சை மற்றும் மதிப்பீட்டு பிரிவு',
       specialProjectDivision: 'சிறப்பு திட்ட பிரிவு',
       // Services section
+      youthClubs: 'இளைஞர் சங்கங்கள்',
       youthServicesLimited: 'இளைஞர் சேவைகள் நிறுவனம்',
       youthDancingTeam: 'இளைஞர் நடன குழு',
       youthMusicBand: 'இளைஞர் இசை குழு',
@@ -813,7 +871,6 @@ const translations: Record<Language, Translations> = {
       youthParliament: 'இளைஞர் நாடாளுமன்றம்',
       findCourses: 'பாடநெறிகளைக் கண்டறியுங்கள்',
       // News & Events section
-      latestNews: 'சமீபத்திய செய்திகள்',
       events: 'நிகழ்வுகள்',
       achievements: 'சாதனைகள்',
       gallery: 'புகைப்படத் தொகுப்பு',
@@ -834,7 +891,28 @@ const translations: Record<Language, Translations> = {
       trainingCenters: 'பயிற்சி மையங்கள்',
       districtOffices: 'மாவட்ட அலுவலகங்கள்',
       youthCenters: 'இளைஞர் மையங்கள்',
-      contactInfo: 'தொடர்பு தகவல்'
+      contactInfo: 'தொடர்பு தகவல்',
+      // News section
+      latestNews: 'சமீபத்திய செய்திகள்',
+      breakingNews: 'முக்கிய செய்திகள்',
+      newsArchive: 'செய்தி காப்பகம்',
+      pressReleases: 'பத்திரிகை வெளியீடுகள்',
+      // Events section
+      upcomingEvents: 'வரவிருக்கும் நிகழ்வுகள்',
+      pastEvents: 'கடந்த நிகழ்வுகள்',
+      eventCalendar: 'நிகழ்வு நாட்காட்டி',
+      workshops: 'பட்டறைகள்',
+      competitions: 'போட்டிகள்',
+      // About section
+      aboutNYSC: 'NYSC பற்றி',
+      ourMission: 'எங்கள் நோக்கம்',
+      ourVision: 'எங்கள் தொலைநோக்கு',
+      organizationChart: 'அமைப்பு விளக்கப்படம்',
+      // Contact section
+      contactUs: 'எங்களை தொடர்பு கொள்ளுங்கள்',
+      officeLocations: 'அலுவலக இடங்கள்',
+      headOffice: 'தலைமை அலுவலகம்',
+      regionalOffices: 'பிராந்திய அலுவலகங்கள்'
     },
     footer: {
       newsletterTitle: 'NYSC செய்திகளுடன் புதுப்பித்த நிலையில் இருங்கள்',

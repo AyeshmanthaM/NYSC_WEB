@@ -24,6 +24,12 @@ import AssistantDirectorsPage from './pages/directors/AssistantDirectorsPage';
 import ProvincialDirectorsPage from './pages/directors/ProvincialDirectorsPage';
 import ProvincialAssistantDirectorsPage from './pages/directors/ProvincialAssistantDirectorsPage';
 import DivisionsPage from './pages/divisions/DivisionsPage';
+import FinancePage from './pages/divisions/FinancePage';
+import LegalInvestigationPage from './pages/divisions/LegalInvestigationPage';
+import YouthAwardsPage from './pages/divisions/YouthAwardsPage';
+import InternalAuditPage from './pages/divisions/InternalAuditPage';
+import ExaminationAssessmentPage from './pages/divisions/ExaminationAssessmentPage';
+import SpecialProjectsPage from './pages/divisions/SpecialProjectsPage';
 import ServicesPage from './pages/services/ServicesPage';
 import StudentPage from './pages/student/StudentPage';
 import OurCentersPage from './pages/our-centers/OurCentersPage';
@@ -73,6 +79,12 @@ const AppContent = () => {
           <Route path="/directors/provincial-directors" element={<ProvincialDirectorsPage />} />
           <Route path="/directors/provincial-assistant-directors" element={<ProvincialAssistantDirectorsPage />} />
           <Route path="/divisions" element={<DivisionsPage />} />
+          <Route path="/divisions/finance" element={<FinancePage />} />
+          <Route path="/divisions/legal-investigation" element={<LegalInvestigationPage />} />
+          <Route path="/divisions/youth-awards" element={<YouthAwardsPage />} />
+          <Route path="/divisions/internal-audit" element={<InternalAuditPage />} />
+          <Route path="/divisions/examination-assessment" element={<ExaminationAssessmentPage />} />
+          <Route path="/divisions/special-projects" element={<SpecialProjectsPage />} />
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/student" element={<StudentPage />} />
           <Route path="/our-centers" element={<OurCentersPage />} />
