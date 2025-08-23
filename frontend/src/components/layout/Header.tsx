@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { 
   Search, ChevronDown, Menu, X, Moon, Sun, XCircle,
-  Users, Target, Award, FileText, Download, Building2,
-  Trophy, Music, GraduationCap, Calendar, Newspaper,
-  UserPlus, Lightbulb, Heart, Mail, Shield, MapPin
+  Users, Target, Award, FileText, Download, Crown, UserCheck, UserCog, MapPin,
+  Trophy, Music, GraduationCap, Calendar, Newspaper, Building, Building2,
+  UserPlus, Lightbulb, Heart, Mail, Shield, DollarSign, Scale, FolderOpen,
+  Briefcase, Globe
 } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -23,11 +25,13 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 20);
     };
     
     const handleClickOutside = (event: MouseEvent) => {
-      if (!(event.target as Element).closest('.navigation-container')) {
+      const target = event.target as Element;
+      // Check if click is outside navigation and dropdown areas
+      if (!target.closest('.navigation-container') && !target.closest('[data-dropdown]')) {
         setActiveDropdown(null);
         setIsSearchOpen(false);
       }
@@ -74,7 +78,7 @@ const Header = () => {
         clearTimeout(dropdownTimeout);
       }
     };
-  }, []);
+  }, [activeDropdown, dropdownTimeout]);
 
   // Initialize mobile tab when language changes
   useEffect(() => {
@@ -85,48 +89,91 @@ const Header = () => {
   }, [currentLanguage, activeMobileTab]);
 
   const getDropdownItems = () => ({
-    // Streamlined navigation - 4 main sections with full translations
-    [t('common.about')]: [
-      { label: t('dropdown.leadership'), icon: Shield },
-      { label: t('header.divisions'), icon: Building2 },
-      { label: t('dropdown.ourHistory'), icon: FileText },
-      { label: t('dropdown.mission'), icon: Target }
+    // Official NYSC navigation structure with translations
+    [t('header.directors')]: [
+      { label: t('dropdown.boardOfMembers'), icon: Crown, route: '/directors/board-of-members' },
+      { label: t('dropdown.directors'), icon: Users, route: '/directors/directors' },
+      { label: t('dropdown.deputyDirectors'), icon: UserCheck, route: '/directors/deputy-directors' },
+      { label: t('dropdown.assistantDirectors'), icon: UserCog, route: '/directors/assistant-directors' },
+      { label: t('dropdown.provincialDirectors'), icon: MapPin, route: '/directors/provincial-directors' },
+      { label: t('dropdown.provincialAssistantDirectors'), icon: MapPin, route: '/directors/provincial-assistant-directors' }
     ],
-    [t('common.programs')]: [
-      { label: t('dropdown.youthAwards'), icon: Award },
-      { label: t('dropdown.skillDevelopment'), icon: Lightbulb },
-      { label: t('dropdown.culturalAffairs'), icon: Music },
-      { label: t('dropdown.youthParliament'), icon: Users },
-      { label: t('dropdown.findCourses'), icon: GraduationCap }
+    [t('header.divisions')]: [
+      { label: t('dropdown.financeDivision'), icon: DollarSign, route: '/divisions/finance' },
+      { label: t('dropdown.legalInvestigationDivision'), icon: Scale, route: '/divisions/legal-investigation' },
+      { label: t('dropdown.youthAwards'), icon: Award, route: '/divisions/youth-awards' },
+      { label: t('dropdown.internalAuditDivision'), icon: Shield, route: '/divisions/internal-audit' },
+      { label: t('dropdown.examinationAssessmentDivision'), icon: FolderOpen, route: '/divisions/examination-assessment' },
+      { label: t('dropdown.specialProjectDivision'), icon: Building2, route: '/divisions/special-projects' }
     ],
-    [t('header.newsEvents')]: [
-      { label: t('dropdown.latestNews'), icon: Newspaper },
-      { label: t('dropdown.events'), icon: Calendar },
-      { label: t('dropdown.achievements'), icon: Trophy },
-      { label: t('dropdown.gallery'), icon: Heart }
+    [t('header.services')]: [
+      { label: t('dropdown.youthServicesLimited'), icon: Briefcase, route: '/services/youth-services-limited' },
+      { label: t('dropdown.youthParliament'), icon: Users, route: '/services/youth-parliament' },
+      { label: t('dropdown.youthDancingTeam'), icon: Heart, route: '/services/youth-dancing-team' },
+      { label: t('dropdown.youthMusicBand'), icon: Music, route: '/services/youth-music-band' },
+      { label: t('dropdown.youthDramaTeam'), icon: Globe, route: '/services/youth-drama-team' }
     ],
-    [t('header.resources')]: [
-      { label: t('header.ourCenters'), icon: MapPin },
-      { label: t('dropdown.downloads'), icon: Download },
-      { label: t('dropdown.contact'), icon: Mail },
-      { label: t('dropdown.studentPortal'), icon: UserPlus }
+    [t('header.student')]: [
+      { label: t('dropdown.findCourses'), icon: GraduationCap, route: '/student/find-courses' },
+      { label: t('dropdown.studentPortal'), icon: UserPlus, route: '/student/students-portal' }
+    ],
+    [t('header.ourCenters')]: [
+      { label: t('dropdown.trainingCenters'), icon: Building, route: '/our-centers/training-centers' },
+      { label: t('dropdown.youthCenters'), icon: Users, route: '/our-centers/youth-centers' },
+      { label: t('dropdown.districtOffices'), icon: MapPin, route: '/our-centers/district-offices' },
+      { label: t('dropdown.centerLocator'), icon: MapPin, route: '/our-centers/center-locator' }
+    ],
+    [t('header.downloads')]: [
+      { label: t('dropdown.annualReports'), icon: FileText, route: '/downloads/annual-reports' },
+      { label: t('dropdown.applicationForms'), icon: FileText, route: '/downloads/application-forms' },
+      { label: t('dropdown.policyDocuments'), icon: Shield, route: '/downloads/policy-documents' },
+      { label: t('dropdown.mediaResources'), icon: Download, route: '/downloads/media-resources' }
     ]
   });
 
-  // Enhanced dropdown handlers with delay
+  // Navigation helper - works with translated section names
+  const getMainSectionRoute = (section: string) => {
+    // Map translated section names to routes
+    const routeMap: { [key: string]: string } = {
+      [t('header.directors')]: '/directors',
+      [t('header.divisions')]: '/divisions',
+      [t('header.services')]: '/services',
+      [t('header.student')]: '/student',
+      [t('header.ourCenters')]: '/our-centers',
+      [t('header.downloads')]: '/downloads'
+    };
+    
+    return routeMap[section] || '#';
+  };
+
+  // Enhanced dropdown handlers with better hover mechanics
   const handleDropdownEnter = (item: string) => {
+    // Clear any existing timeout
     if (dropdownTimeout) {
       clearTimeout(dropdownTimeout);
       setDropdownTimeout(null);
     }
+    // Set active dropdown immediately for better responsiveness
     setActiveDropdown(item);
   };
 
   const handleDropdownLeave = () => {
-    const timeout = setTimeout(() => {
+    // Add a small delay before closing to prevent flickering
+    const timeout = window.setTimeout(() => {
       setActiveDropdown(null);
-    }, 150); // 150ms delay before closing
-    setDropdownTimeout(timeout);
+    }, 100); // Reduced delay for better UX
+    setDropdownTimeout(timeout as unknown as number);
+  };
+  
+  // Handle dropdown content hover to keep it open
+  const handleDropdownContentEnter = (item: string) => {
+    // Clear timeout to prevent closing
+    if (dropdownTimeout) {
+      clearTimeout(dropdownTimeout);
+      setDropdownTimeout(null);
+    }
+    // Ensure dropdown stays open
+    setActiveDropdown(item);
   };
 
   // Search handlers
@@ -154,120 +201,157 @@ const Header = () => {
   };
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 w-full max-w-full transition-all duration-300`}>
+    <header className={`fixed top-0 left-0 right-0 z-50 w-full max-w-full transition-all duration-300 ${
+      isScrolled 
+        ? isDark 
+          ? 'bg-slate-900/98 backdrop-blur-lg border-b border-slate-700/50 shadow-lg'
+          : 'bg-white/98 backdrop-blur-lg border-b border-slate-200/50 shadow-lg'
+        : isDark
+          ? 'bg-gradient-to-b from-slate-900/90 to-slate-900/60 backdrop-blur-sm'
+          : 'bg-gradient-to-b from-white/90 to-white/60 backdrop-blur-sm'
+    }`}>
       
-      <div className="w-full max-w-full px-4 sm:px-10 py-4 relative z-10">
-        <div className="h-24 flex justify-center">
-          {/* Fixed Width Navigation Bar for Large Screens */}
-          <div className={`navigation-container flex items-center justify-between h-full mx-2 sm:mx-4 rounded-xl transition-all duration-300 w-full max-w-7xl ${
-            isScrolled 
-              ? isDark 
-                ? 'bg-gray-900/30 backdrop-blur-md border border-gray-700/50 shadow-sm'
-                : 'bg-white/30 backdrop-blur-md border border-gray-200/50 shadow-sm'
-              : 'bg-transparent border border-transparent'
-          }`}>
-            {/* Left Section - Logo */}
-            <div className="flex items-center h-full ml-4">
-              <a 
-                href="#" 
-                className="flex items-center h-full py-2 px-2 rounded-lg transition-all duration-200 hover:bg-white/5 group"
-                aria-label="NYSC Home"
+      {/* Sri Lankan Government Header Bar */}
+      <div className={`w-full h-1 ${
+        isDark 
+          ? 'bg-gradient-to-r from-orange-600 via-green-600 to-orange-600'
+          : 'bg-gradient-to-r from-orange-500 via-green-500 to-orange-500'
+      }`} />
+      
+      <div className="w-full max-w-full px-4 sm:px-6 lg:px-8 py-3 relative z-10">
+        <div className="h-20 flex justify-center">
+          {/* Official Government Navigation Bar */}
+          <div className={`navigation-container flex items-center justify-between h-full w-full max-w-7xl transition-all duration-200`}>
+            {/* Left Section - Official Logo */}
+            <div className="flex items-center h-full">
+              <Link 
+                to="/" 
+                className="flex items-center h-full py-2 px-1 transition-all duration-300 group"
+                aria-label="National Youth Services Council - Home"
               >
-                <img 
-                  src="/assets/svg/profile_NYSC.svg" 
-                  alt="NYSC Logo" 
-                  className="h-full w-auto max-h-16 object-contain transition-all duration-200 group-hover:scale-105"
-                />
-              </a>
+                <div className="flex flex-col justify-center">
+                  <div className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold transition-colors duration-300 ${
+                    isScrolled
+                      ? isDark 
+                        ? 'text-white' 
+                        : 'text-slate-900'
+                      : isDark 
+                        ? 'text-white/95' 
+                        : 'text-slate-800'
+                  }`}>
+                    NYSC
+                  </div>
+                  <div className={`text-xs sm:text-sm md:text-sm lg:text-sm font-medium transition-colors duration-300 ${
+                    isScrolled
+                      ? isDark 
+                        ? 'text-slate-300' 
+                        : 'text-slate-700'
+                      : isDark 
+                        ? 'text-slate-300/90' 
+                        : 'text-slate-600'
+                  }`}>
+                    National Youth Services Council
+                  </div>
+                </div>
+              </Link>
             </div>
 
-            {/* Center Section - Desktop Navigation */}
+            {/* Center Section - Official Government Navigation */}
             <div className="hidden lg:flex items-center absolute left-1/2 transform -translate-x-1/2 max-w-fit">
               
-               {/* Top thick border line */}
-              <div className={`absolute -top-3 left-0 right-0 h-0.5 transition-all duration-500 ${
-                isScrolled == false
-                  ? 'opacity-70 bg-gradient-to-r from-transparent via-nysc-primary to-transparent transform scale-x-100' 
-                  : 'opacity-0 transform scale-x-0'
-              }`} />
-              
-              {/* Bottom thick border line */}
-              <div className={`absolute -bottom-3 left-0 right-0 h-0.5 transition-all duration-500 delay-100 ${
-                isScrolled == false
-                  ? 'opacity-70 bg-gradient-to-r from-transparent via-nysc-secondary to-transparent transform scale-x-100' 
-                  : 'opacity-0 transform scale-x-0'
-              }`} />
-
-              {Object.entries(getDropdownItems()).map(([item, subitems]) => (
-                <div
-                  key={item}
-                  className="relative"
-                  onMouseEnter={() => handleDropdownEnter(item)}
-                  onMouseLeave={handleDropdownLeave}
-                >
-                  <button 
-                    className={`flex items-center space-x-1 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 group hover:scale-105 ${
-                      activeDropdown === item
-                        ? isDark
-                          ? 'bg-gray-700 text-white shadow-md'
-                          : 'bg-gray-100 text-gray-900 shadow-md'
-                        : isScrolled 
-                          ? isDark
-                            ? 'text-gray-300 hover:text-white hover:bg-gray-700'
-                            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                          : isDark
-                            ? 'text-white/90 hover:text-white hover:bg-white/10'
-                            : 'text-gray-800 hover:text-gray-900 hover:bg-gray-100/20'
-                    }`}
-                    aria-expanded={activeDropdown === item}
-                    aria-haspopup="true"
-                    aria-label={`${item} menu`}
+              {/* Official Navigation Container */}
+              <nav className={`flex items-center border-l border-r ${
+                isDark 
+                  ? 'border-slate-600/30' 
+                  : 'border-slate-300/30'
+              } px-2`} role="navigation" aria-label="Main navigation">
+                {Object.entries(getDropdownItems()).map(([item, subitems]) => (
+                  <div
+                    key={item}
+                    className="relative"
+                    onMouseEnter={() => handleDropdownEnter(item)}
+                    onMouseLeave={handleDropdownLeave}
                   >
-                    <span className="transition-transform duration-200 group-hover:translate-x-0.5">{item}</span>
-                    <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${
-                      activeDropdown === item ? 'rotate-180' : 'group-hover:translate-y-0.5'
-                    }`} />
-                  </button>
+                    <Link
+                      to={getMainSectionRoute(item)}
+                      className={`flex items-center justify-center gap-1.5 px-4 py-2.5 text-sm font-semibold transition-all duration-300 border-b-2 ${
+                        activeDropdown === item
+                          ? isScrolled
+                            ? isDark
+                              ? 'bg-slate-700/70 text-white border-orange-400 shadow-sm'
+                              : 'bg-slate-50 text-slate-900 border-orange-500 shadow-sm'
+                            : isDark
+                              ? 'bg-slate-700/40 text-white border-orange-400/70 shadow-sm'
+                              : 'bg-white/40 text-slate-800 border-orange-500/70 shadow-sm'
+                          : isScrolled
+                            ? isDark
+                              ? 'text-slate-100 hover:text-white hover:bg-slate-700/50 border-transparent hover:border-slate-500'
+                              : 'text-slate-800 hover:text-slate-900 hover:bg-slate-100 border-transparent hover:border-slate-400'
+                            : isDark
+                              ? 'text-slate-200/90 hover:text-white hover:bg-slate-700/30 border-transparent hover:border-slate-500/50'
+                              : 'text-slate-700/90 hover:text-slate-900 hover:bg-white/50 border-transparent hover:border-slate-300/50'
+                      }`}
+                      aria-expanded={activeDropdown === item}
+                      aria-haspopup="true"
+                      aria-label={`${item} menu`}
+                    >
+                      <span className="transition-all duration-300 whitespace-nowrap">{item}</span>
+                      <ChevronDown className={`w-3.5 h-3.5 transition-all duration-300 flex-shrink-0 ${
+                        activeDropdown === item ? 'rotate-180' : ''
+                      } ${
+                        isScrolled
+                          ? isDark
+                            ? 'text-slate-100'
+                            : 'text-slate-800'
+                          : isDark
+                            ? 'text-slate-200/90'
+                            : 'text-slate-700/90'
+                      }`} />
+                    </Link>
                   
                   {activeDropdown === item && (
                     <div 
-                      className={`absolute top-full left-0 mt-2 w-56 ${
-                        isDark 
-                          ? 'bg-gray-900/95 border-gray-700' 
-                          : 'bg-white/95 border-gray-200'
-                      } backdrop-blur-xl border rounded-2xl shadow-2xl py-2 animate-fadeIn z-50`}
+                      className={`absolute top-full left-0 mt-1 w-64 ${
+                        isScrolled
+                          ? isDark 
+                            ? 'bg-slate-800 border-slate-600' 
+                            : 'bg-white border-slate-200'
+                          : isDark 
+                            ? 'bg-slate-800/95 border-slate-600/70' 
+                            : 'bg-white/95 border-slate-200/70'
+                      } backdrop-blur-xl border rounded-lg shadow-xl py-2 z-50 transition-all duration-200`}
                       data-dropdown={item}
-                      onMouseEnter={() => handleDropdownEnter(item)}
+                      onMouseEnter={() => handleDropdownContentEnter(item)}
                       onMouseLeave={handleDropdownLeave}
                       role="menu"
                       aria-label={`${item} submenu`}
                     >
-                      <div className="px-3 py-2">
-                        <div className={`text-xs font-semibold uppercase tracking-wider mb-2 ${
-                          isDark ? 'text-gray-400' : 'text-gray-500'
+                      <div className="px-1 py-1">
+                        <div className={`px-4 py-2 text-xs font-bold uppercase tracking-wider border-b ${
+                          isDark ? 'text-orange-400 border-slate-600/50' : 'text-orange-600 border-slate-200'
                         }`}>
                           {item}
                         </div>
-                        {subitems.map((subitem, index) => {
+                        {subitems.map((subitem) => {
                           const IconComponent = subitem.icon;
                           return (
-                            <a
+                            <Link
                               key={subitem.label}
-                              href="#"
-                              className={`flex items-center space-x-3 px-3 py-2.5 text-sm rounded-lg transition-all duration-200 hover:scale-105 hover:translate-x-1 ${
+                              to={subitem.route || '#'}
+                              className={`flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all duration-150 ${
                                 isDark 
-                                  ? 'text-gray-300 hover:bg-gray-800 hover:text-white' 
-                                  : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-                              }`}
+                                  ? 'text-slate-200 hover:bg-slate-700/80 hover:text-white' 
+                                  : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900'
+                              } hover:border-l-4 hover:border-orange-500 hover:pl-3`}
                               role="menuitem"
                               tabIndex={activeDropdown === item ? 0 : -1}
-                              style={{ animationDelay: `${index * 50}ms` }}
+                              onClick={() => setActiveDropdown(null)}
                             >
-                              <IconComponent className={`w-4 h-4 transition-colors duration-200 ${
-                                isDark ? 'text-gray-400' : 'text-gray-500'
+                              <IconComponent className={`w-4 h-4 flex-shrink-0 transition-colors duration-200 ${
+                                isDark ? 'text-slate-400' : 'text-slate-500'
                               }`} />
-                              <span>{subitem.label}</span>
-                            </a>
+                              <span className="flex-1">{subitem.label}</span>
+                            </Link>
                           );
                         })}
                       </div>
@@ -275,26 +359,23 @@ const Header = () => {
                   )}
                 </div>
               ))}
+              </nav>
             </div>
 
-            {/* Right Section - Utilities */}
-            <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0 mr-4">
-              {/* Mobile Language Toggle - Always Visible */}
-              <div className="lg:hidden flex items-center space-x-1 px-1">
+            {/* Right Section - Official Utilities */}
+            <div className="flex items-center space-x-2 flex-shrink-0">
+              {/* Mobile Language Toggle - Official Style */}
+              <div className="lg:hidden flex items-center bg-slate-100 dark:bg-slate-700 rounded-md p-1">
                 {[{code: 'si', label: 'SI'}, {code: 'ta', label: 'TA'}, {code: 'en', label: 'EN'}].map((lang) => (
                   <button
                     key={lang.code}
                     onClick={() => setLanguage(lang.code as 'si' | 'ta' | 'en')}
-                    className={`min-w-[44px] min-h-[44px] px-3 py-2 text-xs font-medium rounded-lg transition-all duration-200 hover:scale-105 ${
+                    className={`min-w-[40px] min-h-[32px] px-2 py-1 text-xs font-bold rounded transition-all duration-200 ${
                       currentLanguage === lang.code
-                        ? 'bg-nysc-primary text-white shadow-md transform scale-105'
-                        : isScrolled
-                          ? isDark
-                            ? 'text-gray-300 hover:text-white hover:bg-gray-700'
-                            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                          : isDark
-                            ? 'text-white/90 hover:text-white hover:bg-white/10'
-                            : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100/20'
+                        ? 'bg-orange-500 text-white shadow-sm'
+                        : isDark
+                          ? 'text-slate-300 hover:text-white hover:bg-slate-600'
+                          : 'text-slate-600 hover:text-slate-900 hover:bg-white'
                     }`}
                     aria-label={`Switch to ${lang.code === 'en' ? 'English' : lang.code === 'si' ? 'Sinhala' : 'Tamil'}`}
                     aria-pressed={currentLanguage === lang.code}
@@ -304,24 +385,20 @@ const Header = () => {
                 ))}
               </div>
 
-              {/* Enhanced Search with Animation */}
+              {/* Official Search */}
               <div className="relative flex items-center">
                 {isSearchOpen ? (
-                  <div className={`relative flex items-center px-3 py-2 rounded-lg transition-all duration-300 ${
+                  <div className={`relative flex items-center px-3 py-2 rounded-md border transition-all duration-200 ${
                     isSearchFocused 
                       ? isDark 
-                        ? 'bg-gray-700/80 ring-2 ring-nysc-primary/50' 
-                        : 'bg-white/80 ring-2 ring-nysc-primary/50'
+                        ? 'bg-slate-700 border-orange-400 ring-1 ring-orange-400/50' 
+                        : 'bg-white border-orange-500 ring-1 ring-orange-500/50'
                       : isDark 
-                        ? isScrolled 
-                          ? 'bg-gray-800/80' 
-                          : 'bg-gray-800/60'
-                        : isScrolled 
-                          ? 'bg-white/80' 
-                          : 'bg-white/60'
+                        ? 'bg-slate-800 border-slate-600' 
+                        : 'bg-white border-slate-300'
                   }`}>
-                    <Search className={`absolute left-3 w-4 h-4 pointer-events-none transition-colors duration-200 ${
-                      isDark ? 'text-gray-400' : 'text-gray-500'
+                    <Search className={`absolute left-3 w-4 h-4 pointer-events-none ${
+                      isDark ? 'text-slate-400' : 'text-slate-500'
                     }`} />
                     <input
                       ref={searchInputRef}
@@ -332,12 +409,10 @@ const Header = () => {
                       onKeyDown={handleSearchSubmit}
                       onFocus={handleSearchFocus}
                       onBlur={handleSearchBlur}
-                      className={`w-32 sm:w-40 lg:w-48 bg-transparent border-0 focus:outline-none text-sm transition-all duration-300 pl-6 ${
+                      className={`w-32 sm:w-40 lg:w-48 bg-transparent border-0 focus:outline-none text-sm pl-6 pr-8 ${
                         isDark 
-                          ? 'text-white placeholder-gray-400' 
-                          : isScrolled 
-                            ? 'text-gray-900 placeholder-gray-500'
-                            : 'text-gray-800 placeholder-gray-600'
+                          ? 'text-white placeholder-slate-400' 
+                          : 'text-slate-900 placeholder-slate-500'
                       }`}
                       aria-label="Search"
                       autoFocus
@@ -345,8 +420,8 @@ const Header = () => {
                     {searchValue && (
                       <button
                         onClick={handleSearchClear}
-                        className={`absolute right-2 p-0.5 rounded-full transition-all duration-200 hover:scale-110 ${
-                          isDark ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'
+                        className={`absolute right-2 p-0.5 rounded transition-colors ${
+                          isDark ? 'text-slate-400 hover:text-slate-300' : 'text-slate-500 hover:text-slate-700'
                         }`}
                         aria-label="Clear search"
                       >
@@ -358,48 +433,44 @@ const Header = () => {
                   <>
                     <button
                       onClick={() => setIsSearchOpen(true)}
-                      className={`min-w-[44px] min-h-[44px] p-2 rounded-lg transition-all duration-200 hover:scale-110 ${
-                        isScrolled 
+                      className={`min-w-[40px] min-h-[40px] p-2 rounded-md border transition-all duration-300 ${
+                        isScrolled
                           ? isDark
-                            ? 'text-gray-300 hover:text-white hover:bg-gray-700'
-                            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                            ? 'text-slate-200 hover:text-white hover:bg-slate-700 border-slate-600 hover:border-slate-500'
+                            : 'text-slate-700 hover:text-slate-900 hover:bg-slate-50 border-slate-300 hover:border-slate-400'
                           : isDark
-                            ? 'text-white/90 hover:text-white hover:bg-white/10'
-                            : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100/20'
+                            ? 'text-slate-300/90 hover:text-white hover:bg-slate-700/50 border-slate-600/50 hover:border-slate-500'
+                            : 'text-slate-600/90 hover:text-slate-900 hover:bg-white/50 border-slate-300/50 hover:border-slate-400'
                       }`}
                       aria-label="Open search"
                     >
                       <Search className="w-4 h-4" />
                     </button>
 
-                    {/* Separator */}
-                    <div className={`hidden lg:block w-px h-6 mx-2 xl:mx-3 transition-all duration-300 ${
-                      isDark ? 'bg-gray-600' : 'bg-gray-300'
-                    } opacity-50`}></div>
+                    {/* Official Separator */}
+                    <div className={`hidden lg:block w-px h-8 mx-3 transition-colors duration-300 ${
+                      isScrolled
+                        ? isDark ? 'bg-slate-600' : 'bg-slate-300'
+                        : isDark ? 'bg-slate-600/60' : 'bg-slate-300/60'
+                    }`}></div>
 
-                    {/* Language Toggle */}
-                    <div className="hidden lg:flex items-center space-x-1 px-1 xl:px-2 transition-all duration-300">
-                      <span className={`text-xs font-medium mr-2 ${
-                        isScrolled 
-                          ? isDark ? 'text-gray-400' : 'text-gray-500'
-                          : isDark ? 'text-white/70' : 'text-gray-600'
+                    {/* Official Language Toggle */}
+                    <div className="hidden lg:flex items-center bg-slate-100 dark:bg-slate-700 rounded-md p-1">
+                      {/* <span className={`text-xs font-semibold mr-2 px-2 ${
+                        isDark ? 'text-slate-400' : 'text-slate-600'
                       }`}>
-                        {t('common.language')}:
-                      </span>
+                       
+                      </span> */}
                       {[{code: 'si', label: 'SI'}, {code: 'ta', label: 'TA'}, {code: 'en', label: 'EN'}].map((lang) => (
                         <button
                           key={lang.code}
                           onClick={() => setLanguage(lang.code as 'si' | 'ta' | 'en')}
-                          className={`min-w-[44px] min-h-[44px] px-3 py-1.5 text-xs font-medium rounded-lg transition-all duration-200 hover:scale-105 ${
+                          className={`min-w-[40px] min-h-[32px] px-2 py-1 text-xs font-bold rounded transition-all duration-200 ${
                             currentLanguage === lang.code
-                              ? 'bg-gradient-to-r from-nysc-primary to-nysc-secondary text-white shadow-md transform scale-105'
-                              : isScrolled
-                                ? isDark
-                                  ? 'text-gray-300 hover:text-white hover:bg-gray-700'
-                                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                                : isDark
-                                  ? 'text-white/90 hover:text-white hover:bg-white/10'
-                                  : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100/20'
+                              ? 'bg-orange-500 text-white shadow-sm'
+                              : isDark
+                                ? 'text-slate-300 hover:text-white hover:bg-slate-600'
+                                : 'text-slate-600 hover:text-slate-900 hover:bg-white'
                           }`}
                           aria-label={`Switch to ${lang.code === 'en' ? 'English' : lang.code === 'si' ? 'Sinhala' : 'Tamil'}`}
                           aria-pressed={currentLanguage === lang.code}
@@ -412,82 +483,86 @@ const Header = () => {
                 )}
               </div>
 
-              {/* Separator */}
-              <div className={`hidden sm:block w-px h-6 mx-2 xl:mx-3 ${
-                isDark ? 'bg-gray-600' : 'bg-gray-300'
-              } opacity-50`}></div>
+              {/* Official Separator */}
+              <div className={`hidden sm:block w-px h-8 mx-3 transition-colors duration-300 ${
+                isScrolled
+                  ? isDark ? 'bg-slate-600' : 'bg-slate-300'
+                  : isDark ? 'bg-slate-600/60' : 'bg-slate-300/60'
+              }`}></div>
 
-            {/* Theme Toggle */}
+            {/* Official Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className={`min-w-[44px] min-h-[44px] p-2 sm:p-2.5 rounded-lg transition-all duration-200 hover:scale-110 hover:rotate-12 ${
-                isScrolled 
+              className={`min-w-[40px] min-h-[40px] p-2 rounded-md border transition-all duration-300 ${
+                isScrolled
                   ? isDark
-                    ? 'text-gray-300 hover:text-white hover:bg-gray-700'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                    ? 'text-slate-200 hover:text-white hover:bg-slate-700 border-slate-600 hover:border-slate-500'
+                    : 'text-slate-700 hover:text-slate-900 hover:bg-slate-50 border-slate-300 hover:border-slate-400'
                   : isDark
-                    ? 'text-white/90 hover:text-white hover:bg-white/10'
-                    : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100/20'
+                    ? 'text-slate-300/90 hover:text-white hover:bg-slate-700/50 border-slate-600/50 hover:border-slate-500'
+                    : 'text-slate-600/90 hover:text-slate-900 hover:bg-white/50 border-slate-300/50 hover:border-slate-400'
               }`}
               aria-label={`Switch to ${isDark ? 'light' : 'dark'} theme`}
             >
               <div className="transition-all duration-300">
                 {isDark ? 
-                  <Sun className="w-4 h-4 transition-transform duration-300 hover:rotate-45" /> : 
-                  <Moon className="w-4 h-4 transition-transform duration-300 hover:-rotate-12" />
+                  <Sun className="w-4 h-4" /> : 
+                  <Moon className="w-4 h-4" />
                 }
               </div>
             </button>
 
-            {/* Mobile Menu Button */}
+            {/* Official Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`lg:hidden min-w-[44px] min-h-[44px] p-2 rounded-lg transition-all duration-200 hover:scale-110 ml-1 ${
-                isScrolled 
-                  ? isDark
-                    ? 'text-gray-300 hover:text-white hover:bg-gray-700'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                  : isDark
-                    ? 'text-white/90 hover:text-white hover:bg-white/10'
-                    : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100/20'
+              className={`lg:hidden min-w-[40px] min-h-[40px] p-2 rounded-md border transition-all duration-300 ml-2 ${
+                isMobileMenuOpen 
+                  ? 'bg-orange-500 text-white border-orange-500' 
+                  : isScrolled
+                    ? isDark
+                      ? 'text-slate-200 hover:text-white hover:bg-slate-700 border-slate-600 hover:border-slate-500'
+                      : 'text-slate-700 hover:text-slate-900 hover:bg-slate-50 border-slate-300 hover:border-slate-400'
+                    : isDark
+                      ? 'text-slate-300/90 hover:text-white hover:bg-slate-700/50 border-slate-600/50 hover:border-slate-500'
+                      : 'text-slate-600/90 hover:text-slate-900 hover:bg-white/50 border-slate-300/50 hover:border-slate-400'
               }`}
               aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMobileMenuOpen}
             >
               <div className="transition-transform duration-200">
                 {isMobileMenuOpen ? 
-                  <X className="w-5 h-5 transition-transform duration-200 hover:rotate-90" /> : 
-                  <Menu className="w-5 h-5 transition-transform duration-200 hover:scale-110" />
+                  <X className="w-5 h-5" /> : 
+                  <Menu className="w-5 h-5" />
                 }
               </div>
-              </button>
+            </button>
             </div>
           </div>
         </div>
 
-        {/* Mobile Menu - Tabbed Interface */}
+        {/* Official Mobile Menu */}
         {isMobileMenuOpen && (
           <div className={`lg:hidden absolute top-full left-0 right-0 mt-2 mx-2 sm:mx-4 max-w-full ${
             isDark 
-              ? 'bg-gray-900/95 border-gray-700' 
-              : 'bg-white/95 border-gray-200'
-          } backdrop-blur-xl border rounded-2xl shadow-2xl animate-slideDown z-40`}>
+              ? 'bg-slate-900/98 border-slate-600' 
+              : 'bg-white/98 border-slate-200'
+          } backdrop-blur-lg border rounded-lg shadow-xl z-40`}>
             
-            {/* Tab Headers */}
-            <div className="p-4 pb-0">
-              <div className={`flex items-center justify-between rounded-xl p-1 ${
-                isDark ? 'bg-gray-800/50' : 'bg-gray-100/50'
+            {/* Official Tab Headers */}
+            <div className="p-3 pb-0">
+              <div className={`flex items-center justify-between border rounded-lg p-1 ${
+                isDark ? 'bg-slate-800/50 border-slate-600' : 'bg-slate-50 border-slate-200'
               }`}>
                 {Object.keys(getDropdownItems()).map((category) => (
                   <button
                     key={category}
                     onClick={() => setActiveMobileTab(category)}
-                    className={`flex-1 min-h-[44px] px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                    className={`flex-1 min-h-[40px] px-2 py-2 text-xs font-bold rounded-md transition-all duration-200 ${
                       activeMobileTab === category
-                        ? 'bg-gradient-to-r from-nysc-primary to-nysc-secondary text-white shadow-md transform scale-105'
+                        ? 'bg-orange-500 text-white shadow-sm'
                         : isDark
-                          ? 'text-gray-400 hover:text-gray-300 hover:bg-gray-700/50'
-                          : 'text-gray-600 hover:text-gray-900 hover:bg-white/50'
+                          ? 'text-slate-400 hover:text-slate-300 hover:bg-slate-700/50'
+                          : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
                     }`}
                   >
                     {category}
@@ -496,24 +571,23 @@ const Header = () => {
               </div>
             </div>
 
-            {/* Tab Content */}
-            <div className="p-6 pt-4">
+            {/* Official Tab Content */}
+            <div className="p-4 pt-3">
               <div className="space-y-1">
-                {getDropdownItems()[activeMobileTab]?.map((item, index) => {
+                {getDropdownItems()[activeMobileTab]?.map((item) => {
                   const IconComponent = item.icon;
                   return (
                     <a
                       key={item.label}
                       href="#"
-                      className={`flex items-center space-x-3 px-3 py-3 text-sm rounded-lg transition-all duration-200 hover:scale-105 hover:translate-x-1 ${
+                      className={`flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-md border-l-4 border-transparent transition-all duration-150 ${
                         isDark 
-                          ? 'text-gray-300 hover:bg-gray-800 hover:text-white' 
-                          : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                          ? 'text-slate-200 hover:bg-slate-800 hover:text-white hover:border-orange-400' 
+                          : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900 hover:border-orange-500'
                       }`}
-                      style={{ animationDelay: `${index * 50}ms` }}
                     >
                       <IconComponent className={`w-4 h-4 transition-colors duration-200 ${
-                        isDark ? 'text-gray-400' : 'text-gray-500'
+                        isDark ? 'text-slate-400' : 'text-slate-500'
                       }`} />
                       <span>{item.label}</span>
                     </a>
@@ -521,45 +595,45 @@ const Header = () => {
                 })}
               </div>
               
-              {/* Bottom Actions */}
-              <div className={`mt-6 pt-6 border-t ${
-                isDark ? 'border-gray-800' : 'border-gray-100'
+              {/* Official Bottom Actions */}
+              <div className={`mt-4 pt-4 border-t ${
+                isDark ? 'border-slate-700' : 'border-slate-200'
               }`}>
                 {/* Theme & Language Row */}
                 <div className="flex items-center justify-between">
-                  {/* Theme Toggle */}
+                  {/* Official Theme Toggle */}
                   <button
                     onClick={toggleTheme}
-                    className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-200 hover:scale-105 ${
+                    className={`flex items-center space-x-2 px-3 py-2 rounded-md border transition-all duration-200 ${
                       isDark 
-                        ? 'text-gray-300 hover:bg-gray-800 hover:text-white' 
-                        : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                        ? 'text-slate-300 hover:bg-slate-800 hover:text-white border-slate-600' 
+                        : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900 border-slate-300'
                     }`}
                     aria-label={`Switch to ${isDark ? 'light' : 'dark'} theme`}
                   >
-                    <div className="transition-transform duration-300">
+                    <div>
                       {isDark ? 
-                        <Sun className="w-4 h-4 transition-transform duration-300 hover:rotate-45" /> : 
-                        <Moon className="w-4 h-4 transition-transform duration-300 hover:-rotate-12" />
+                        <Sun className="w-4 h-4" /> : 
+                        <Moon className="w-4 h-4" />
                       }
                     </div>
-                    <span className="text-sm">{t('common.theme')}</span>
+                    <span className="text-sm font-medium">{t('common.theme')}</span>
                   </button>
                   
-                  {/* Language Toggle */}
-                  <div className={`flex items-center rounded-full p-1 ${
-                    isDark ? 'bg-gray-800' : 'bg-gray-100'
+                  {/* Official Language Toggle */}
+                  <div className={`flex items-center bg-slate-100 dark:bg-slate-700 rounded-md p-1 ${
+                    isDark ? 'bg-slate-800' : 'bg-slate-100'
                   }`}>
                     {[{code: 'si', label: 'SI'}, {code: 'ta', label: 'TA'}, {code: 'en', label: 'EN'}].map((lang) => (
                       <button
                         key={lang.code}
                         onClick={() => setLanguage(lang.code as 'si' | 'ta' | 'en')}
-                        className={`min-w-[44px] min-h-[44px] px-3 py-1 text-xs font-medium rounded-full transition-all duration-200 hover:scale-105 ${
+                        className={`min-w-[36px] min-h-[32px] px-2 py-1 text-xs font-bold rounded transition-all duration-200 ${
                           currentLanguage === lang.code
-                            ? 'bg-gradient-to-r from-nysc-primary to-nysc-secondary text-white shadow-md transform scale-105'
+                            ? 'bg-orange-500 text-white shadow-sm'
                             : isDark 
-                              ? 'text-gray-400 hover:text-gray-300' 
-                              : 'text-gray-600 hover:text-gray-900'
+                              ? 'text-slate-400 hover:text-slate-300' 
+                              : 'text-slate-600 hover:text-slate-900'
                         }`}
                         aria-label={`Switch to ${lang.code === 'en' ? 'English' : lang.code === 'si' ? 'Sinhala' : 'Tamil'}`}
                         aria-pressed={currentLanguage === lang.code}

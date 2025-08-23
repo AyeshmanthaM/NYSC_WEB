@@ -23,3 +23,13 @@ dist-ssr
 *.sln
 *.sw?
 .env
+.bmad-core
+.bmad-infrastructure-devops
+.claude
+.cursor
+web-bundles
+teams
+agents
+expansion-packs
+.claude
+.cloudflare-pages.toml

@@ -1,60 +1,54 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { useTheme } from './contexts/ThemeContext';
 import { getThemeColor } from './config/colors';
-import { useRef, useEffect, useState } from 'react';
 import AnimatedBackground from './components/ui/AnimatedBackground';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
-import HeroSection from './components/sections/HeroSection';
-import KeyServiceAreas from './components/sections/KeyServiceAreas';
-import YouthOfferings from './components/sections/YouthOfferings';
-import OrganizationsSection from './components/sections/OrganizationsSection';
-import LeadersSection from './components/sections/LeadersSection';
-import PopularCourses from './components/sections/PopularCourses';
-import ServicesSection from './components/sections/ServicesSection';
-import TestimonialsSection from './components/sections/TestimonialsSection';
-import NewsEventsSection from './components/sections/NewsEventsSection';
+
+// Pages
+import HomePage from './pages/HomePage';
+import AboutPage from './pages/about/AboutPage';
+import Leadership from './pages/about/Leadership';
+import History from './pages/about/History';
+import MissionVision from './pages/about/MissionVision';
+
+// Official NYSC Structure Pages
+import DirectorsPage from './pages/directors/DirectorsPage';
+import BoardOfMembersPage from './pages/directors/BoardOfMembersPage';
+import ChairmanPage from './pages/directors/ChairmanPage';
+import DirectorsListPage from './pages/directors/DirectorsListPage';
+import DeputyDirectorsPage from './pages/directors/DeputyDirectorsPage';
+import AssistantDirectorsPage from './pages/directors/AssistantDirectorsPage';
+import ProvincialDirectorsPage from './pages/directors/ProvincialDirectorsPage';
+import ProvincialAssistantDirectorsPage from './pages/directors/ProvincialAssistantDirectorsPage';
+import DivisionsPage from './pages/divisions/DivisionsPage';
+import ServicesPage from './pages/services/ServicesPage';
+import StudentPage from './pages/student/StudentPage';
+import OurCentersPage from './pages/our-centers/OurCentersPage';
+import DownloadsPage from './pages/downloads/DownloadsPage';
+
+// Legacy Routes (keeping for now)
+import ProgramsPage from './pages/programs/ProgramsPage';
+import YouthAwards from './pages/programs/YouthAwards';
+import SkillDevelopment from './pages/programs/SkillDevelopment';
+import CulturalPrograms from './pages/programs/CulturalPrograms';
+import YouthParliament from './pages/programs/YouthParliament';
+import FindCourses from './pages/programs/FindCourses';
+import YouthClubs from './pages/services/YouthClubs';
+import NewsEventsPage from './pages/news-events/NewsEventsPage';
+import LatestNews from './pages/news-events/LatestNews';
+import EventsCalendar from './pages/news-events/EventsCalendar';
+import Achievements from './pages/news-events/Achievements';
+import PhotoGallery from './pages/news-events/PhotoGallery';
+import ResourcesPage from './pages/resources/ResourcesPage';
+import Downloads from './pages/resources/Downloads';
+import StudentPortal from './pages/resources/StudentPortal';
+import ContactPage from './pages/contact/ContactPage';
 
 const AppContent = () => {
   const { isDark } = useTheme();
-  const keyServiceRef = useRef<HTMLDivElement>(null);
-  const [serviceAreaHeight, setServiceAreaHeight] = useState(0);
-  const [isCardHovered, setIsCardHovered] = useState(false);
-
-  // Dynamically calculate KeyServiceAreas height
-  useEffect(() => {
-    const calculateHeight = () => {
-      if (keyServiceRef.current) {
-        const height = keyServiceRef.current.offsetHeight;
-        setServiceAreaHeight(height);
-      }
-    };
-
-    // Calculate initially
-    calculateHeight();
-
-    // Recalculate on window resize
-    window.addEventListener('resize', calculateHeight);
-
-    // Recalculate after a short delay to ensure content is loaded
-    const timer = setTimeout(calculateHeight, 100);
-
-    return () => {
-      window.removeEventListener('resize', calculateHeight);
-      clearTimeout(timer);
-    };
-  }, []);
-
-  // Calculate the offset values
-  const halfHeight = Math.round(serviceAreaHeight / 2);
-  const baseMarginOffset = halfHeight > 0 ? halfHeight : 128; // Default to 128px if not calculated yet
-
-  // Add compensation when card is hovered
-  // When scale-105 is applied, the card height increases by ~5%
-  // We need to compensate more to prevent the YouthOfferings from moving
-  const hoverCompensation = isCardHovered ? 30 : 0; //<--- 30 is depend by card hight
-  const marginOffset = baseMarginOffset + hoverCompensation;
 
   return (
     <div className={`min-h-screen w-full max-w-full overflow-x-hidden relative transition-colors duration-300 ${getThemeColor('background.primary', isDark)
@@ -62,51 +56,60 @@ const AppContent = () => {
       {/* Animated Background */}
       <AnimatedBackground />
 
-      {/* ================= home page Content =========================== */}
+      {/* Main Content */}
       <div className="relative z-10 w-full max-w-full overflow-x-hidden">
         <Header />
-
-        {/* Container with continuous background that flows behind KeyServiceAreas */}
-        <div className="relative">
-
-          {/* Content layers on top of background */}
-          <div className="relative">
-
-            {/* Hero Section takes full viewport height and extends down */}
-            <HeroSection extraBottomSpace={marginOffset} />
-
-            {/* KeyServiceAreas floating centered between sections */}
-            <div
-              ref={keyServiceRef}
-              className="relative z-20 transition-all duration-500"
-              style={{
-                marginTop: `-${marginOffset}px`,
-                marginBottom: `-${marginOffset}px`
-              }}
-            >
-              <KeyServiceAreas onHoverChange={setIsCardHovered} />
-            </div>
-
-            {/* Youth Offerings - pass extra top space as prop */}
-            <YouthOfferings extraTopSpace={marginOffset} />
-          </div>
-        </div>
-
-        {/* Organizations Section */}
-        <OrganizationsSection />
-
-        {/* Leaders section */}
-        <LeadersSection />
-
-        {/* popular courses */}
-        <PopularCourses />
-        <ServicesSection />
-
-        {/* Leadership and testimonials */} 
-        <TestimonialsSection />
         
-        {/* News and newsletter before footer */}
-        <NewsEventsSection />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          
+          {/* Official NYSC Structure Routes */}
+          <Route path="/directors" element={<DirectorsPage />} />
+          <Route path="/directors/board-of-members" element={<BoardOfMembersPage />} />
+          <Route path="/directors/chairman" element={<ChairmanPage />} />
+          <Route path="/directors/directors" element={<DirectorsListPage />} />
+          <Route path="/directors/deputy-directors" element={<DeputyDirectorsPage />} />
+          <Route path="/directors/assistant-directors" element={<AssistantDirectorsPage />} />
+          <Route path="/directors/provincial-directors" element={<ProvincialDirectorsPage />} />
+          <Route path="/directors/provincial-assistant-directors" element={<ProvincialAssistantDirectorsPage />} />
+          <Route path="/divisions" element={<DivisionsPage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/student" element={<StudentPage />} />
+          <Route path="/our-centers" element={<OurCentersPage />} />
+          <Route path="/downloads" element={<DownloadsPage />} />
+          
+          {/* About Routes (Legacy) */}
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/about/leadership" element={<Leadership />} />
+          <Route path="/about/history" element={<History />} />
+          <Route path="/about/mission-vision" element={<MissionVision />} />
+          
+          {/* Programs Routes (Legacy) */}
+          <Route path="/programs" element={<ProgramsPage />} />
+          <Route path="/programs/youth-awards" element={<YouthAwards />} />
+          <Route path="/programs/skill-development" element={<SkillDevelopment />} />
+          <Route path="/programs/cultural-programs" element={<CulturalPrograms />} />
+          <Route path="/programs/youth-parliament" element={<YouthParliament />} />
+          <Route path="/programs/find-courses" element={<FindCourses />} />
+          
+          {/* Legacy Services Routes */}
+          <Route path="/services/youth-clubs" element={<YouthClubs />} />
+          
+          {/* News & Events Routes (Legacy) */}
+          <Route path="/news-events" element={<NewsEventsPage />} />
+          <Route path="/news-events/latest-news" element={<LatestNews />} />
+          <Route path="/news-events/events-calendar" element={<EventsCalendar />} />
+          <Route path="/news-events/achievements" element={<Achievements />} />
+          <Route path="/news-events/photo-gallery" element={<PhotoGallery />} />
+          
+          {/* Resources Routes (Legacy) */}
+          <Route path="/resources" element={<ResourcesPage />} />
+          <Route path="/resources/downloads" element={<Downloads />} />
+          <Route path="/resources/student-portal" element={<StudentPortal />} />
+          
+          {/* Contact Routes */}
+          <Route path="/contact" element={<ContactPage />} />
+        </Routes>
 
         <Footer />
       </div>
@@ -118,7 +121,9 @@ function App() {
   return (
     <ThemeProvider>
       <LanguageProvider>
-        <AppContent />
+        <Router>
+          <AppContent />
+        </Router>
       </LanguageProvider>
     </ThemeProvider>
   );

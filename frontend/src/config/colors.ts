@@ -288,7 +288,7 @@ export const colors = {
       dark: 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900'
     },
     topGradient: {
-      light: 'linear-gradient(180deg, rgba(147, 46, 64, 0.2) 0%, rgba(147, 46, 64, 0.04) 30%, rgba(147, 46, 64, 0.24) 70%, transparent 100%)',
+      light: 'linear-gradient(180deg, rgba(191, 152, 159, 0.2) 0%, rgba(139, 80, 91, 0.04) 30%, rgba(239, 171, 182, 0.24) 70%, transparent 100%)',
       dark: 'linear-gradient(180deg, rgba(147, 46, 64, 0.25) 0%, rgba(130, 36, 54, 0.21) 30%, rgba(147, 46, 64, 0.16) 70%, transparent 100%)'
     },
     mesh: {
@@ -297,7 +297,7 @@ export const colors = {
     },
     orbs: {
       burgundy: {
-        gradient: 'radial-gradient(circle, #932e40 0%, transparent 70%)',
+        gradient: 'radial-gradient(circle, #9c4756ff 0%, transparent 70%)',
         opacity: {
           light: { primary: 'opacity-10', secondary: 'opacity-5' },
           dark: { primary: 'opacity-30', secondary: 'opacity-20' }

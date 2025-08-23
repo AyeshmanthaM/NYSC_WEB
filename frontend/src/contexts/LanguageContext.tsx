@@ -34,14 +34,42 @@ const translations: Record<Language, Translations> = {
     },
     header: {
       youthClub: 'Youth Club',
+      directors: 'Directors',
       divisions: 'Divisions',
       services: 'Services',
+      student: 'Student',
       ourCenters: 'Our Centers',
+      downloads: 'Downloads',
       searchPlaceholder: 'Search...',
       newsEvents: 'News & Events',
       resources: 'Resources'
     },
     dropdown: {
+      // Directors section
+      boardOfMembers: 'Board of Members',
+      directors: 'Directors',
+      deputyDirectors: 'Deputy Directors',
+      assistantDirectors: 'Assistant Directors',
+      provincialDirectors: 'Provincial Directors',
+      provincialAssistantDirectors: 'Provincial Assistant Directors',
+      // Divisions section
+      financeDivision: 'Finance Division',
+      legalInvestigationDivision: 'Legal Investigation Division',
+      internalAuditDivision: 'Internal Audit and Investigation Division',
+      examinationAssessmentDivision: 'Examination and Assessment Division',
+      specialProjectDivision: 'Special Project Division',
+      // Services section
+      youthServicesLimited: 'Youth Services Limited',
+      youthDancingTeam: 'Youth Dancing Team',
+      youthMusicBand: 'Youth Music Band',
+      youthDramaTeam: 'Youth Drama Team',
+      // Our Centers section
+      centerLocator: 'Center Locator',
+      // Downloads section
+      annualReports: 'Annual Reports',
+      applicationForms: 'Application Forms',
+      policyDocuments: 'Policy Documents',
+      mediaResources: 'Media Resources',
       // About section
       leadership: 'Leadership',
       ourHistory: 'Our History',
@@ -372,14 +400,42 @@ const translations: Record<Language, Translations> = {
     },
     header: {
       youthClub: 'තරුණ සමාජය',
+      directors: 'අධ්‍යක්ෂවරුන්',
       divisions: 'අංශ',
       services: 'සේවා',
+      student: 'ශිෂ්‍ය',
       ourCenters: 'අපගේ මධ්‍යස්ථාන',
+      downloads: 'බාගැනීම්',
       searchPlaceholder: 'සොයන්න...',
       newsEvents: 'පුවත් සහ සිදුවීම්',
       resources: 'සම්පත්'
     },
     dropdown: {
+      // Directors section
+      boardOfMembers: 'මණ්ඩල සාමාජිකයින්',
+      directors: 'අධ්‍යක්ෂවරුන්',
+      deputyDirectors: 'නියෝජ්‍ය අධ්‍යක්ෂවරුන්',
+      assistantDirectors: 'සහකාර අධ්‍යක්ෂවරුන්',
+      provincialDirectors: 'පළාත් අධ්‍යක්ෂවරුන්',
+      provincialAssistantDirectors: 'පළාත් සහකාර අධ්‍යක්ෂවරුන්',
+      // Divisions section
+      financeDivision: 'මූල්‍ය අංශය',
+      legalInvestigationDivision: 'නීති විමර්ශන අංශය',
+      internalAuditDivision: 'අභ්‍යන්තර විගණන සහ විමර්ශන අංශය',
+      examinationAssessmentDivision: 'විභාග හා තක්සේරු අංශය',
+      specialProjectDivision: 'විශේෂ ව්‍යාපෘති අංශය',
+      // Services section
+      youthServicesLimited: 'තරුණ සේවා සීමාසහිත',
+      youthDancingTeam: 'තරුණ නර්තන කණ්ඩායම',
+      youthMusicBand: 'තරුණ සංගීත කණ්ඩායම',
+      youthDramaTeam: 'තරුණ නාට්‍ය කණ්ඩායම',
+      // Our Centers section
+      centerLocator: 'මධ්‍යස්ථාන සොයාගැනීම',
+      // Downloads section
+      annualReports: 'වාර්ෂික වාර්තා',
+      applicationForms: 'අයදුම්පත්',
+      policyDocuments: 'ප්‍රතිපත්ති ලේඛන',
+      mediaResources: 'මාධ්‍ය සම්පත්',
       // About section
       leadership: 'නායකත්වය',
       ourHistory: 'අපගේ ඉතිහාසය',
@@ -710,14 +766,42 @@ const translations: Record<Language, Translations> = {
     },
     header: {
       youthClub: 'இளைஞர் சங்கம்',
+      directors: 'இயக்குநர்கள்',
       divisions: 'பிரிவுகள்',
       services: 'சேவைகள்',
+      student: 'மாணவர்',
       ourCenters: 'எங்கள் மையங்கள்',
+      downloads: 'பதிவிறக்கங்கள்',
       searchPlaceholder: 'தேடல்...',
       newsEvents: 'செய்திகள் மற்றும் நிகழ்வுகள்',
       resources: 'வளங்கள்'
     },
     dropdown: {
+      // Directors section
+      boardOfMembers: 'குழு உறுப்பினர்கள்',
+      directors: 'இயக்குநர்கள்',
+      deputyDirectors: 'துணை இயக்குநர்கள்',
+      assistantDirectors: 'உதவி இயக்குநர்கள்',
+      provincialDirectors: 'மாகாண இயக்குநர்கள்',
+      provincialAssistantDirectors: 'மாகாண உதவி இயக்குநர்கள்',
+      // Divisions section
+      financeDivision: 'நிதி பிரிவு',
+      legalInvestigationDivision: 'சட்ட விசாரணை பிரிவு',
+      internalAuditDivision: 'உள் தணிக்கை மற்றும் விசாரணை பிரிவு',
+      examinationAssessmentDivision: 'பரீட்சை மற்றும் மதிப்பீட்டு பிரிவு',
+      specialProjectDivision: 'சிறப்பு திட்ட பிரிவு',
+      // Services section
+      youthServicesLimited: 'இளைஞர் சேவைகள் நிறுவனம்',
+      youthDancingTeam: 'இளைஞர் நடன குழு',
+      youthMusicBand: 'இளைஞர் இசை குழு',
+      youthDramaTeam: 'இளைஞர் நாடக குழு',
+      // Our Centers section
+      centerLocator: 'மைய கண்டுபிடிப்பான்',
+      // Downloads section
+      annualReports: 'வருடாந்திர அறிக்கைகள்',
+      applicationForms: 'விண்ணப்ப படிவங்கள்',
+      policyDocuments: 'கொள்கை ஆவணங்கள்',
+      mediaResources: 'ஊடக வளங்கள்',
       // About section
       leadership: 'தலைமை',
       ourHistory: 'எங்கள் வரலாறு',

@@ -7,11 +7,14 @@ import {
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { colors, getThemeColor } from '../../config/colors';
+import { useLocation } from 'react-router-dom';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const { isDark } = useTheme();
   const { t } = useLanguage();
+  const location = useLocation();
+  const isMainPage = location.pathname === '/';
 
   // Get appropriate SVG file based on theme
   const getSVGFile = () => {
@@ -40,7 +43,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className={`relative overflow-hidden w-full max-w-full ${getThemeColor('background.gradient.subtle', isDark)}`}>
+    <footer className={`relative overflow-hidden w-full max-w-full ${isMainPage ? getThemeColor('background.gradient.subtle', isDark) : ''}`}>
 
       {/* Top Decorative SVG Wave */}
         <div className="relative top-0 left-0 right-0 w-full h-auto z-0">
@@ -57,13 +60,17 @@ const Footer = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-4">
             {/* Company Info */}
             <div className="lg:pr-8">
-              <div className="flex items-center space-x-4 ">
-                <div className="w-32 h-24 flex items-center justify-center">
-                  <img
-                    src="/assets/svg/profile_NYSC.svg"
-                    alt="National Youth Services Council Logo"
-                    className="w-full h-full object-contain filter drop-shadow-lg"
-                  />
+              <div className="mb-4">
+                <div className="flex flex-col">
+                  <div className={`text-6xl font-bold ${colors.brand.gradient.text}`}>
+                    NYSC
+                  </div>
+                  <div className={`text-sm font-medium ${getThemeColor('text.secondary', isDark)}`}>
+                    National Youth Services Council
+                  </div>
+                  <div className={`text-xs ${getThemeColor('text.muted', isDark)}`}>
+                    Sri Lanka
+                  </div>
                 </div>
               </div>
 

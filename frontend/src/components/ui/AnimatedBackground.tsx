@@ -259,7 +259,7 @@ const AnimatedBackground = () => {
       </div>
 
       {/* Animated Gradient Orbs */}
-      <div className="absolute inset-0">
+      {/* <div className="absolute inset-0">
         <div 
           className={`absolute w-[600px] h-[600px] rounded-full blur-3xl animate-float-slow ${
             isDark ? colorConfig.animated.orbs.burgundy.opacity.dark.primary : colorConfig.animated.orbs.burgundy.opacity.light.primary
@@ -291,7 +291,7 @@ const AnimatedBackground = () => {
             transform: 'translate(-50%, -50%)',
           }}
         />
-      </div>
+      </div> */}
 
       {/* Wave Pattern Overlay */}
       <svg 
