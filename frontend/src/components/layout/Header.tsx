@@ -141,12 +141,10 @@ const Header = () => {
     [t('header.newsEvents')]: [
       // News Section
       { label: t('dropdown.latestNews'), icon: Newspaper, route: '/news/latest' },
-      { label: t('dropdown.breakingNews'), icon: Megaphone, route: '/news/breaking' },
       { label: t('dropdown.newsArchive'), icon: Archive, route: '/news/archive' },
       { label: t('dropdown.pressReleases'), icon: FileText, route: '/news/press-releases' },
       // Events Section  
       { label: t('dropdown.upcomingEvents'), icon: Calendar, route: '/events/upcoming' },
-      { label: t('dropdown.pastEvents'), icon: Archive, route: '/events/past' },
       { label: t('dropdown.eventCalendar'), icon: Calendar, route: '/events/calendar' },
       { label: t('dropdown.workshops'), icon: Users, route: '/events/workshops' },
       { label: t('dropdown.competitions'), icon: Trophy, route: '/events/competitions' }
@@ -154,12 +152,8 @@ const Header = () => {
     [t('header.resources')]: [
       // About Section
       { label: t('dropdown.aboutNYSC'), icon: Info, route: '/about/nysc' },
-      { label: t('dropdown.ourMission'), icon: Target, route: '/about/mission' },
-      { label: t('dropdown.ourVision'), icon: Flag, route: '/about/vision' },
-      { label: t('dropdown.organizationChart'), icon: Building2, route: '/about/organization-chart' },
       // Contact Information
       { label: t('dropdown.contactUs'), icon: Phone, route: '/contact/us' },
-      { label: t('dropdown.officeLocations'), icon: MapPin, route: '/contact/locations' },
       // Downloads Section
       { label: t('dropdown.annualReports'), icon: FileText, route: '/downloads/annual-reports' },
       { label: t('dropdown.applicationForms'), icon: FileText, route: '/downloads/application-forms' },
