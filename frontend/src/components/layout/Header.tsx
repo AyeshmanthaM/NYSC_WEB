@@ -5,7 +5,7 @@ import {
   Users, Award, FileText, Download, Crown, UserCheck, UserCog, MapPin,
   Trophy, Music, GraduationCap, Calendar, Newspaper, Building, Building2,
   UserPlus, Heart, Shield, DollarSign, Scale, FolderOpen,
-  Briefcase, Globe, Phone, Info, Archive
+  Briefcase, Globe, Phone, Info, Archive, Image
 } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -164,27 +164,29 @@ const Header = () => {
     [t('header.services')]: [
       { label: t('dropdown.youthClubs'), icon: Users, route: '/services/youth-clubs' },
       { label: t('dropdown.youthServicesLimited'), icon: Briefcase, route: '/services/youth-services-limited' },
-      { label: t('dropdown.youthParliament'), icon: Users, route: '/services/youth-parliament' },
+      { label: t('dropdown.youthParliament'), icon: Users, route: '/services/YouthParliament' },
       { label: t('dropdown.youthDancingTeam'), icon: Heart, route: '/services/youth-dancing-team' },
       { label: t('dropdown.youthMusicBand'), icon: Music, route: '/services/youth-music-band' },
       { label: t('dropdown.youthDramaTeam'), icon: Globe, route: '/services/youth-drama-team' }
     ],
     [t('header.newsEvents')]: [
       // News Section
-      { label: t('dropdown.latestNews'), icon: Newspaper, route: '/news/latest' },
-      { label: t('dropdown.newsArchive'), icon: Archive, route: '/news/archive' },
-      { label: t('dropdown.pressReleases'), icon: FileText, route: '/news/press-releases' },
+      { label: t('dropdown.latestNews'), icon: Newspaper, route: '/news-events/latest-news' },
+      { label: t('dropdown.newsArchive'), icon: Archive, route: '/news-events/news-archive' },
+      { label: t('dropdown.pressReleases'), icon: FileText, route: '/news-events/press-releases' },
       // Events Section  
-      { label: t('dropdown.upcomingEvents'), icon: Calendar, route: '/events/upcoming' },
-      { label: t('dropdown.eventCalendar'), icon: Calendar, route: '/events/calendar' },
+      { label: t('dropdown.upcomingEvents'), icon: Calendar, route: '/events/upcoming-events' },
+      { label: t('dropdown.eventCalendar'), icon: Calendar, route: '/events/events-calendar' },
       { label: t('dropdown.workshops'), icon: Users, route: '/events/workshops' },
-      { label: t('dropdown.competitions'), icon: Trophy, route: '/events/competitions' }
+      { label: t('dropdown.competitions'), icon: Trophy, route: '/events/competitions' },
+      // Gallery Section
+      { label: t('dropdown.gallery'), icon: Image, route: '/news-events/gallery' }
     ],
     [t('header.resources')]: [
       // About Section
-      { label: t('dropdown.aboutNYSC'), icon: Info, route: '/about/nysc' },
+      { label: t('dropdown.aboutNYSC'), icon: Info, route: '/about' },
       // Contact Information
-      { label: t('dropdown.contactUs'), icon: Phone, route: '/contact/us' },
+      { label: t('dropdown.contactUs'), icon: Phone, route: '/contact' },
       // Downloads Section
       { label: t('dropdown.annualReports'), icon: FileText, route: '/downloads/annual-reports' },
       { label: t('dropdown.applicationForms'), icon: FileText, route: '/downloads/application-forms' },
@@ -192,8 +194,8 @@ const Header = () => {
       { label: t('dropdown.mediaResources'), icon: Download, route: '/downloads/media-resources' }
     ],
     [t('header.student')]: [
-      { label: t('dropdown.findCourses'), icon: GraduationCap, route: '/student/find-courses' },
-      { label: t('dropdown.studentPortal'), icon: UserPlus, route: '/student/students-portal' }
+      { label: t('dropdown.findCourses'), icon: GraduationCap, route: '/student/FindCourses' },
+      { label: t('dropdown.studentPortal'), icon: UserPlus, route: '/student/StudentPortal' }
     ],
     [t('header.ourCenters')]: [
       { label: t('dropdown.trainingCenters'), icon: Building, route: '/our-centers/training-centers' },
@@ -210,8 +212,8 @@ const Header = () => {
       [t('header.directors')]: '/directors',
       [t('header.divisions')]: '/divisions',
       [t('header.services')]: '/services',
-      [t('header.newsEvents')]: '/news',
-      [t('header.resources')]: '/about',
+      [t('header.newsEvents')]: '/news-events',
+      [t('header.resources')]: '/resources',
       [t('header.student')]: '/student',
       [t('header.ourCenters')]: '/our-centers'
     };
@@ -252,7 +254,8 @@ const Header = () => {
   // Search handlers
   const handleSearchSubmit = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && searchValue.trim()) {
-      // TODO: Implement search functionality
+      // Search functionality to be implemented
+      console.log('Search:', searchValue);
     }
   };
 
@@ -271,6 +274,16 @@ const Header = () => {
       setIsSearchOpen(false);
     }
   };
+
+  // Helper function to get button styles
+  const getButtonBaseStyle = () => `min-w-[40px] min-h-[40px] p-2 rounded-md border transition-all duration-300 ${isScrolled
+    ? isDark
+      ? `${getThemeColor('text.secondary', true)} ${colors.hover.text.primary.dark} ${colors.hover.background.dark} ${getThemeColor('border.primary', true)} ${colors.hover.border.subtle.dark}`
+      : `${getThemeColor('text.primary', false)} ${colors.hover.text.primary.light} ${colors.hover.background.light} ${getThemeColor('border.secondary', false)} ${colors.hover.border.subtle.light}`
+    : isDark
+      ? `${getThemeColor('text.secondary', true)} ${colors.hover.text.primary.dark} ${getThemeColor('background.secondary', true)} ${colors.border.subtle.dark} ${colors.hover.border.subtle.dark}`
+      : `${getThemeColor('text.secondary', false)} ${colors.hover.text.primary.light} ${getThemeColor('background.overlay', false)} ${colors.border.subtle.light} ${colors.hover.border.subtle.light}`
+    }`;
 
   // Helper function to get consistent language dropdown button styles using colors config
   const getLanguageButtonStyles = (isActive: boolean) => ({
@@ -309,9 +322,7 @@ const Header = () => {
   });
 
   // Helper function to get language display code
-  const getLanguageDisplayCode = (lang: string) => {
-    return lang === 'si' ? 'SI' : lang === 'ta' ? 'TA' : 'EN';
-  };
+  const getLanguageDisplayCode = (lang: string) => lang === 'si' ? 'SI' : lang === 'ta' ? 'TA' : 'EN';
 
   // Handle tab change with animation
   const handleMobileTabChange = (newTab: string) => {
@@ -581,14 +592,7 @@ const Header = () => {
                   <>
                     <button
                       onClick={() => setIsSearchOpen(true)}
-                      className={`min-w-[40px] min-h-[40px] p-2 rounded-md border transition-all duration-300 ${isScrolled
-                        ? isDark
-                          ? `${getThemeColor('text.secondary', true)} ${colors.hover.text.primary.dark} ${colors.hover.background.dark} ${getThemeColor('border.primary', true)} ${colors.hover.border.subtle.dark}`
-                          : `${getThemeColor('text.primary', false)} ${colors.hover.text.primary.light} ${colors.hover.background.light} ${getThemeColor('border.secondary', false)} ${colors.hover.border.subtle.light}`
-                        : isDark
-                          ? `${getThemeColor('text.secondary', true)} ${colors.hover.text.primary.dark} ${getThemeColor('background.secondary', true)} ${colors.border.subtle.dark} ${colors.hover.border.subtle.dark}`
-                          : `${getThemeColor('text.secondary', false)} ${colors.hover.text.primary.light} ${getThemeColor('background.overlay', false)} ${colors.border.subtle.light} ${colors.hover.border.subtle.light}`
-                        }`}
+                      className={getButtonBaseStyle()}
                       aria-label="Open search"
                     >
                       <Search className="w-4 h-4" />
@@ -667,14 +671,7 @@ const Header = () => {
               {/* Theme Toggle */}
               <button
                 onClick={toggleTheme}
-                className={`min-w-[40px] min-h-[40px] p-2 rounded-md border transition-all duration-300 ml-2 ${isScrolled
-                  ? isDark
-                    ? `${getThemeColor('text.secondary', true)} ${colors.hover.text.primary.dark} ${colors.hover.background.dark} ${getThemeColor('border.primary', true)} ${colors.hover.border.subtle.dark}`
-                    : `${getThemeColor('text.primary', false)} ${colors.hover.text.primary.light} ${colors.hover.background.light} ${getThemeColor('border.secondary', false)} ${colors.hover.border.subtle.light}`
-                  : isDark
-                    ? `${getThemeColor('text.secondary', true)} ${colors.hover.text.primary.dark} ${getThemeColor('background.secondary', true)} ${colors.border.subtle.dark} ${colors.hover.border.subtle.dark}`
-                    : `${getThemeColor('text.secondary', false)} ${colors.hover.text.primary.light} ${getThemeColor('background.overlay', false)} ${colors.border.subtle.light} ${colors.hover.border.subtle.light}`
-                  }`}
+                className={`${getButtonBaseStyle()} ml-2`}
                 aria-label={`Switch to ${isDark ? 'light' : 'dark'} theme`}
               >
                 <div className="transition-all duration-300">
@@ -688,15 +685,9 @@ const Header = () => {
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className={`xl:hidden min-w-[40px] min-h-[40px] p-2 rounded-md border transition-all duration-300 ml-2 relative ${isMobileMenuOpen
-                  ? `bg-orange-500 text-white border-orange-500 ${colors.effects.glow.brand}`
-                  : isScrolled
-                    ? isDark
-                      ? `${getThemeColor('text.secondary', true)} ${colors.hover.text.primary.dark} ${colors.hover.background.dark} ${getThemeColor('border.primary', true)} ${colors.hover.border.subtle.dark}`
-                      : `${getThemeColor('text.primary', false)} ${colors.hover.text.primary.light} ${colors.hover.background.light} ${getThemeColor('border.secondary', false)} ${colors.hover.border.subtle.light}`
-                    : isDark
-                      ? `${getThemeColor('text.secondary', true)} ${colors.hover.text.primary.dark} ${getThemeColor('background.secondary', true)} ${colors.border.subtle.dark} ${colors.hover.border.subtle.dark}`
-                      : `${getThemeColor('text.secondary', false)} ${colors.hover.text.primary.light} ${getThemeColor('background.overlay', false)} ${colors.border.subtle.light} ${colors.hover.border.subtle.light}`
+                className={`xl:hidden ml-2 relative ${isMobileMenuOpen
+                  ? `min-w-[40px] min-h-[40px] p-2 rounded-md border transition-all duration-300 bg-orange-500 text-white border-orange-500 ${colors.effects.glow.brand}`
+                  : getButtonBaseStyle()
                   }`}
                 aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={isMobileMenuOpen}

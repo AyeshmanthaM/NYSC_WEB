@@ -404,6 +404,39 @@ const translations: Record<Language, Translations> = {
           recent: 'recent',
           past: 'past'
         }
+      },
+      gallery: {
+        badge: 'Visual Stories',
+        title: 'Photo',
+        titleHighlight: 'Gallery',
+        subtitle: 'Explore visual highlights from NYSC events, programs, and activities showcasing our vibrant youth community',
+        viewAll: 'View All Galleries',
+        totalPhotos: 'Total',
+        photos: 'Photos',
+        featured: 'FEATURED',
+        clickToView: 'Click to view',
+        categories: {
+          awards: 'Awards',
+          culture: 'Culture',
+          sports: 'Sports',
+          leadership: 'Leadership',
+          education: 'Education',
+          environment: 'Environment'
+        },
+        albums: {
+          youthAwards: 'Youth Excellence Awards 2024',
+          youthAwardsDesc: 'Highlights from the annual youth awards ceremony',
+          culturalFest: 'Cultural Heritage Festival',
+          culturalFestDesc: 'Traditional performances and cultural celebrations',
+          sportsProg: 'Sports Development Programs',
+          sportsProgDesc: 'Athletic training and competitions',
+          leadership: 'Youth Leadership Summit',
+          leadershipDesc: 'Young leaders from across Sri Lanka',
+          training: 'Vocational Training Centers',
+          trainingDesc: 'Modern facilities and training programs',
+          environment: 'Environmental Initiative',
+          environmentDesc: 'Youth volunteers in reforestation drive'
+        }
       }
     },
     testimonials: {
@@ -796,6 +829,39 @@ const translations: Record<Language, Translations> = {
           recent: 'මෑත',
           past: 'අතීත'
         }
+      },
+      gallery: {
+        badge: 'දෘශ්‍ය කතා',
+        title: 'ඡායාරූප',
+        titleHighlight: 'ගැලරිය',
+        subtitle: 'අපගේ දීප්තිමත් තරුණ ප්‍රජාව ප්‍රදර්ශනය කරන ජාතික තරුණ සේවා සභා සිදුවීම්, වැඩසටහන් සහ ක්‍රියාකාරකම් වලින් දෘශ්‍ය ඉස්මතු කිරීම් ගවේෂණය කරන්න',
+        viewAll: 'සියලු ගැලරි බලන්න',
+        totalPhotos: 'සම්පූර්ණ',
+        photos: 'ඡායාරූප',
+        featured: 'විශේෂාංග',
+        clickToView: 'බැලීමට ක්ලික් කරන්න',
+        categories: {
+          awards: 'සම්මාන',
+          culture: 'සංස්කෘතිය',
+          sports: 'ක්‍රීඩා',
+          leadership: 'නායකත්වය',
+          education: 'අධ්‍යාපනය',
+          environment: 'පරිසරය'
+        },
+        albums: {
+          youthAwards: 'තරුණ විශිෂ්ටත්ව සම්මාන 2024',
+          youthAwardsDesc: 'වාර්ෂික තරුණ සම්මාන උළෙලේ ඉස්මතු කිරීම්',
+          culturalFest: 'සංස්කෘතික උරුම උත්සවය',
+          culturalFestDesc: 'සාම්ප්‍රදායික ප්‍රසංග සහ සංස්කෘතික උත්සව',
+          sportsProg: 'ක්‍රීඩා සංවර්ධන වැඩසටහන්',
+          sportsProgDesc: 'මලල ක්‍රීඩා පුහුණුව සහ තරඟ',
+          leadership: 'තරුණ නායකත්ව සමුළුව',
+          leadershipDesc: 'ශ්‍රී ලංකාව පුරා සිටින තරුණ නායකයින්',
+          training: 'වෘත්තීය පුහුණු මධ්‍යස්ථාන',
+          trainingDesc: 'නවීන පහසුකම් සහ පුහුණු වැඩසටහන්',
+          environment: 'පරිසර මුලපිරීම',
+          environmentDesc: 'වන ගැසීම් ව්‍යාපෘතියේ තරුණ ස්වේච්ඡා සේවකයින්'
+        }
       }
     },
     testimonials: {
@@ -1187,6 +1253,45 @@ const translations: Record<Language, Translations> = {
           upcoming: 'வரவிருக்கும்',
           recent: 'சமீபத்திய',
           past: 'கடந்த'
+        },
+        gallery: {
+          badge: 'சிறப்பு அம்சம்',
+          title: 'புகைப்பட காட்சியகம்',
+          subtitle: 'NYSC நிகழ்வுகள், நிகழ்ச்சிகள் மற்றும் சாதனைகளின் காட்சி அம்சங்களைக் கண்டறியுங்கள்',
+          categories: {
+            awards: 'விருதுகள்',
+            culture: 'கலாச்சாரம்',
+            sports: 'விளையாட்டு',
+            leadership: 'தலைமைத்துவம்',
+            education: 'கல்வி',
+            environment: 'சுற்றுச்சூழல்'
+          },
+          albums: {
+            youthAwards: {
+              title: 'இளைஞர் சிறப்பு விருதுகள் 2024',
+              description: 'வருடாந்திர இளைஞர் விருது விழாவின் சிறப்பு தருணங்கள்'
+            },
+            culturalDance: {
+              title: 'பாரம்பரிய கலாச்சார திருவிழா',
+              description: 'பாரம்பரிய நடன நிகழ்ச்சிகள் மற்றும் கலாச்சார கொண்டாட்டங்கள்'
+            },
+            sportsEvents: {
+              title: 'விளையாட்டு வளர்ச்சி திட்டங்கள்',
+              description: 'விளையாட்டு பயிற்சி மற்றும் போட்டிகள்'
+            },
+            leadershipSummit: {
+              title: 'இளைஞர் தலைமைத்துவ மாநாடு',
+              description: 'இலங்கை முழுவதிலும் இருந்து இளம் தலைவர்கள்'
+            },
+            vocationalTraining: {
+              title: 'தொழில் பயிற்சி மையங்கள்',
+              description: 'நவீன வசதிகள் மற்றும் பயிற்சி திட்டங்கள்'
+            },
+            internationalExchange: {
+              title: 'சர்வதேச பரிமாற்ற திட்டங்கள்',
+              description: 'உலகளாவிய கூட்டாண்மை மற்றும் கலாச்சார பரிமாற்றம்'
+            }
+          }
         }
       }
     },

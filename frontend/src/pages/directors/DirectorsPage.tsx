@@ -2,75 +2,11 @@ import PageLayout from '../../components/layout/PageLayout';
 import { useTheme } from '../../contexts/ThemeContext';
 import { getThemeColor, colors } from '../../config/colors';
 import { Link } from 'react-router-dom';
-import { Users, Crown, UserCheck, UserCog, MapPin, Building2, Award, TrendingUp } from 'lucide-react';
+import { Users, Crown, UserCheck, UserCog, MapPin } from 'lucide-react';
 
 const DirectorsPage = () => {
   const { isDark } = useTheme();
 
-  // Hierarchical structure for creative layout
-  const nationalLeadership = [
-    {
-      icon: Crown,
-      title: "Board of Members",
-      description: "The governing board providing strategic oversight and policy direction for NYSC.",
-      link: "/directors/board-of-members",
-      count: "7",
-      label: "Members",
-      color: "primary",
-      size: "large"
-    }
-  ];
-
-  const executiveLeadership = [
-    {
-      icon: Users,
-      title: "Directors",
-      description: "Senior leadership team responsible for operational management and strategic implementation.",
-      link: "/directors/directors",
-      count: "5",
-      label: "Directors",
-      color: "primary"
-    },
-    {
-      icon: UserCheck,
-      title: "Deputy Directors",
-      description: "Deputy leadership supporting directors in program management and operational oversight.",
-      link: "/directors/deputy-directors",
-      count: "12",
-      label: "Deputies",
-      color: "secondary"
-    },
-    {
-      icon: UserCog,
-      title: "Assistant Directors",
-      description: "Assistant leadership managing specific departments and specialized functions.",
-      link: "/directors/assistant-directors",
-      count: "25",
-      label: "Assistants",
-      color: "tertiary"
-    }
-  ];
-
-  const regionalLeadership = [
-    {
-      icon: MapPin,
-      title: "Provincial Directors",
-      description: "Regional leadership overseeing NYSC operations across all provinces of Sri Lanka.",
-      link: "/directors/provincial-directors",
-      count: "9",
-      label: "Provinces",
-      color: "primary"
-    },
-    {
-      icon: MapPin,
-      title: "Provincial Assistant Directors",
-      description: "Provincial support leadership managing district-level operations and programs.",
-      link: "/directors/provincial-assistant-directors",
-      count: "25",
-      label: "Districts",
-      color: "secondary"
-    }
-  ];
 
   const organizationStats = [
     { label: "Total Leadership", value: "83", description: "Across all levels" },

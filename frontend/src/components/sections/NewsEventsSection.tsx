@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Calendar, MapPin, ArrowRight, Eye, TrendingUp, Clock, Share2, Bookmark, Heart, Send, Bell, Mail, Users } from 'lucide-react';
+import { Calendar, MapPin, ArrowRight, Eye, TrendingUp, Clock, Share2, Bookmark, Heart, Send, Bell, Mail, Users, Image, Camera, Play } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { colors, getThemeColor } from '../../config/colors';
@@ -650,6 +650,215 @@ const NewsEventsSection = () => {
                   <div className={`absolute inset-0 rounded-3xl ${colors.background.gradient.brand.light} blur-xl`} />
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Gallery Showcase Section */}
+        <div className="my-10">
+          {/* Enhanced Header */}
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between mb-12">
+            <div className="mb-6 lg:mb-0">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className={`p-3 rounded-xl ${getThemeColor('background.gradient.brand', isDark)} backdrop-blur-sm`}>
+                  <Image className={`w-6 h-6 ${colors.brand.primary.text}`} />
+                </div>
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-nysc-primary/10 to-nysc-secondary/10 border border-nysc-primary/20 backdrop-blur-md">
+                  <Image className="w-4 h-4 text-nysc-primary" />
+                  <span className="text-sm font-medium text-nysc-primary">{t('newsEvents.gallery.badge')}</span>
+                </div>
+              </div>
+              <h2 className={`text-5xl font-bold mb-4 ${getThemeColor('text.primary', isDark)} leading-tight`}>
+                {t('newsEvents.gallery.title')} <span className={colors.brand.gradient.text}>{t('newsEvents.gallery.titleHighlight')}</span>
+              </h2>
+              <p className={`text-lg ${getThemeColor('text.secondary', isDark)} max-w-2xl`}>
+                {t('newsEvents.gallery.subtitle')}
+              </p>
+            </div>
+
+            {/* Enhanced CTA */}
+            <div className="flex flex-col items-start lg:items-end space-y-4">
+              <div className={`text-sm ${getThemeColor('text.muted', isDark)}`}>
+                {t('newsEvents.gallery.totalPhotos')} 267+ {t('newsEvents.gallery.photos')}
+              </div>
+              <a
+                href="/news-events/gallery"
+                className={`group inline-flex items-center space-x-3 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 ${colors.button.primary.base} ${colors.button.primary.shadow}`}
+              >
+                <span>{t('newsEvents.gallery.viewAll')}</span>
+                <Image className="w-5 h-5 group-hover:scale-110 transition-transform" />
+              </a>
+            </div>
+          </div>
+
+          {/* Gallery Preview Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                id: 1,
+                title: t('newsEvents.gallery.albums.youthAwards'),
+                description: t('newsEvents.gallery.albums.youthAwardsDesc'),
+                imageCount: 45,
+                videoCount: 3,
+                category: t('newsEvents.gallery.categories.awards'),
+                date: 'December 2024',
+                featured: true,
+                image: 'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop'
+              },
+              {
+                id: 2,
+                title: t('newsEvents.gallery.albums.culturalFest'),
+                description: t('newsEvents.gallery.albums.culturalFestDesc'),
+                imageCount: 67,
+                videoCount: 5,
+                category: t('newsEvents.gallery.categories.culture'),
+                date: 'October 2024',
+                featured: false,
+                image: 'https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop'
+              },
+              {
+                id: 3,
+                title: t('newsEvents.gallery.albums.sportsProg'),
+                description: t('newsEvents.gallery.albums.sportsProgDesc'),
+                imageCount: 54,
+                videoCount: 4,
+                category: t('newsEvents.gallery.categories.sports'),
+                date: 'August 2024',
+                featured: false,
+                image: 'https://images.pexels.com/photos/416978/pexels-photo-416978.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop'
+              },
+              {
+                id: 4,
+                title: t('newsEvents.gallery.albums.leadership'),
+                description: t('newsEvents.gallery.albums.leadershipDesc'),
+                imageCount: 28,
+                videoCount: 1,
+                category: t('newsEvents.gallery.categories.leadership'),
+                date: 'September 2024',
+                featured: false,
+                image: 'https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop'
+              },
+              {
+                id: 5,
+                title: t('newsEvents.gallery.albums.training'),
+                description: t('newsEvents.gallery.albums.trainingDesc'),
+                imageCount: 32,
+                videoCount: 2,
+                category: t('newsEvents.gallery.categories.education'),
+                date: 'November 2024',
+                featured: false,
+                image: 'https://images.pexels.com/photos/1157394/pexels-photo-1157394.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop'
+              },
+              {
+                id: 6,
+                title: t('newsEvents.gallery.albums.environment'),
+                description: t('newsEvents.gallery.albums.environmentDesc'),
+                imageCount: 41,
+                videoCount: 2,
+                category: t('newsEvents.gallery.categories.environment'),
+                date: 'July 2024',
+                featured: false,
+                image: 'https://images.pexels.com/photos/1072179/pexels-photo-1072179.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop'
+              }
+            ].slice(0, 6).map((album, index) => (
+              <article
+                key={album.id}
+                className={`group cursor-pointer rounded-3xl overflow-hidden transition-all duration-500 transform hover:-translate-y-4 hover:scale-105 relative ${getThemeColor('card.primary', isDark)} border ${getThemeColor('border.subtle', isDark)} ${colors?.hover?.border?.brand || 'hover:border-[#1aa79e]'} ${colors?.hover?.shadow?.brand || 'hover:shadow-[#1aa79e]/25'} backdrop-blur-sm`}
+                style={{
+                  animationDelay: `${index * 150}ms`
+                }}
+              >
+                {/* Featured Badge */}
+                {album.featured && (
+                  <div className="absolute right-3 top-3 z-20">
+                    <div className="bg-gradient-to-r from-[#f38621] to-[#1aa79e] text-white px-3 py-1.5 rounded-full text-xs font-bold floating-badge flex items-center space-x-1.5 shadow-lg backdrop-blur-sm">
+                      <span className="text-xs">⭐</span>
+                      <span className="font-extrabold tracking-wide">{t('newsEvents.gallery.featured')}</span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Image Container */}
+                <div className="relative h-52 overflow-hidden">
+                  <img
+                    src={album.image}
+                    alt={album.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    onError={(e) => {
+                      e.currentTarget.src = '/images/default-gallery.jpg';
+                    }}
+                  />
+
+                  {/* Enhanced Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent group-hover:from-black/70 transition-all duration-300" />
+
+                  {/* Category Tag */}
+                  <div className="absolute top-4 left-4">
+                    <span className={`px-3 py-2 rounded-full text-xs font-bold backdrop-blur-md shadow-lg transform group-hover:scale-110 transition-transform duration-300 bg-gradient-to-r from-[#1aa79e] to-blue-600 text-white`}>
+                      {album.category}
+                    </span>
+                  </div>
+
+                  {/* Media Stats Overlay */}
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <div className="flex items-center justify-between text-white text-sm">
+                      <div className="flex items-center space-x-3">
+                        <div className="flex items-center space-x-1 bg-black/30 backdrop-blur-sm px-2 py-1 rounded-full">
+                          <Camera className="w-3 h-3" />
+                          <span className="text-xs font-medium">{album.imageCount}</span>
+                        </div>
+                        <div className="flex items-center space-x-1 bg-black/30 backdrop-blur-sm px-2 py-1 rounded-full">
+                          <Play className="w-3 h-3" />
+                          <span className="text-xs font-medium">{album.videoCount}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-1 bg-black/30 backdrop-blur-sm px-2 py-1 rounded-full">
+                        <Clock className="w-3 h-3" />
+                        <span className="text-xs font-medium">{album.date}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Enhanced Content */}
+                <div className="p-6">
+                  {/* Title */}
+                  <h3 className={`font-bold text-lg mb-3 line-clamp-2 leading-tight transition-all duration-300 ${getThemeColor('text.primary', isDark)} ${colors.hover.text.brand}`}>
+                    {album.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className={`text-sm leading-relaxed mb-4 line-clamp-2 transition-colors ${getThemeColor('text.secondary', isDark)}`}>
+                    {album.description}
+                  </p>
+
+                  {/* Interactive Actions */}
+                  <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
+                    <div className="flex items-center space-x-2">
+                      <button
+                        className={`p-2 rounded-full transition-all duration-200 transform hover:scale-110 ${isDark
+                            ? 'text-gray-400 hover:text-[#1aa79e] hover:bg-[#1aa79e]/10'
+                            : 'text-gray-400 hover:text-[#1aa79e] hover:bg-[#1aa79e]/10'
+                          }`}
+                      >
+                        <Bookmark className="w-4 h-4" />
+                      </button>
+                      <button className={`p-2 rounded-full transition-all duration-200 transform hover:scale-110 ${isDark ? 'text-gray-400 hover:text-gray-200 hover:bg-gray-700' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100'
+                        }`}>
+                        <Share2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <div className={`text-xs px-3 py-1 rounded-full ${getThemeColor('badge.secondary', isDark)}`}>
+                      {t('newsEvents.gallery.clickToView')}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Hover Glow Effect */}
+                <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                  <div className={`absolute inset-0 rounded-3xl ${colors.background.gradient.brand.light} blur-xl`} />
+                </div>
+              </article>
             ))}
           </div>
         </div>

@@ -9,10 +9,6 @@ import Footer from './components/layout/Footer';
 
 // Pages
 import HomePage from './pages/HomePage';
-import AboutPage from './pages/about/AboutPage';
-import Leadership from './pages/about/Leadership';
-import History from './pages/about/History';
-import MissionVision from './pages/about/MissionVision';
 
 // Official NYSC Structure Pages
 import DirectorsPage from './pages/directors/DirectorsPage';
@@ -23,6 +19,7 @@ import DeputyDirectorsPage from './pages/directors/DeputyDirectorsPage';
 import AssistantDirectorsPage from './pages/directors/AssistantDirectorsPage';
 import ProvincialDirectorsPage from './pages/directors/ProvincialDirectorsPage';
 import ProvincialAssistantDirectorsPage from './pages/directors/ProvincialAssistantDirectorsPage';
+// Division
 import DivisionsPage from './pages/divisions/DivisionsPage';
 import FinancePage from './pages/divisions/FinancePage';
 import LegalInvestigationPage from './pages/divisions/LegalInvestigationPage';
@@ -30,28 +27,46 @@ import YouthAwardsPage from './pages/divisions/YouthAwardsPage';
 import InternalAuditPage from './pages/divisions/InternalAuditPage';
 import ExaminationAssessmentPage from './pages/divisions/ExaminationAssessmentPage';
 import SpecialProjectsPage from './pages/divisions/SpecialProjectsPage';
+// Services
 import ServicesPage from './pages/services/ServicesPage';
-import StudentPage from './pages/student/StudentPage';
-import OurCentersPage from './pages/our-centers/OurCentersPage';
-import DownloadsPage from './pages/downloads/DownloadsPage';
-
-// Legacy Routes (keeping for now)
-import ProgramsPage from './pages/programs/ProgramsPage';
-import YouthAwards from './pages/programs/YouthAwards';
-import SkillDevelopment from './pages/programs/SkillDevelopment';
-import CulturalPrograms from './pages/programs/CulturalPrograms';
-import YouthParliament from './pages/programs/YouthParliament';
-import FindCourses from './pages/programs/FindCourses';
 import YouthClubs from './pages/services/YouthClubs';
+import YouthServicesLimited from './pages/services/YouthServicesLimited';
+import YouthParliament from './pages/services/YouthParliament';
+import YouthDancingTeam from './pages/services/YouthDancingTeam';
+import YouthMusicBand from './pages/services/YouthMusicBand';
+import YouthDramaTeam from './pages/services/YouthDramaTeam';
+// News & Events Pages
 import NewsEventsPage from './pages/news-events/NewsEventsPage';
 import LatestNews from './pages/news-events/LatestNews';
+import NewsArchive from './pages/news-events/NewsArchive';
+import PressReleases from './pages/news-events/PressReleases';
+import UpcomingEvents from './pages/news-events/UpcomingEvents';
 import EventsCalendar from './pages/news-events/EventsCalendar';
-import Achievements from './pages/news-events/Achievements';
-import PhotoGallery from './pages/news-events/PhotoGallery';
+import Workshops from './pages/news-events/Workshops';
+import Competitions from './pages/news-events/Competitions';
+import Gallery from './pages/news-events/Gallery';
+// Resources Pages
 import ResourcesPage from './pages/resources/ResourcesPage';
-import Downloads from './pages/resources/Downloads';
-import StudentPortal from './pages/resources/StudentPortal';
-import ContactPage from './pages/contact/ContactPage';
+import AboutNYSC from './pages/resources/AboutNYSC';
+import ContactUs from './pages/resources/ContactUs';
+import AnnualReports from './pages/resources/AnnualReports';
+import ApplicationForms from './pages/resources/ApplicationForms';
+import PolicyDocuments from './pages/resources/PolicyDocuments';
+import MediaResources from './pages/resources/MediaResources';
+// Students
+import StudentPage from './pages/student/StudentPage';
+import StudentPortal from './pages/student/StudentPortal';
+import FindCourses from './pages/student/FindCourses';
+// Our Centers
+import OurCentersPage from './pages/our-centers/OurCentersPage';
+import TrainingCenters from './pages/our-centers/TrainingCenters';
+import YouthCenters from './pages/our-centers/YouthCenters';
+import DistrictOffices from './pages/our-centers/DistrictOffices';
+import CenterLocator from './pages/our-centers/CenterLocator';
+
+
+
+
 
 const AppContent = () => {
   const { isDark } = useTheme();
@@ -78,6 +93,8 @@ const AppContent = () => {
           <Route path="/directors/assistant-directors" element={<AssistantDirectorsPage />} />
           <Route path="/directors/provincial-directors" element={<ProvincialDirectorsPage />} />
           <Route path="/directors/provincial-assistant-directors" element={<ProvincialAssistantDirectorsPage />} />
+
+          {/* Divisions Routes */}
           <Route path="/divisions" element={<DivisionsPage />} />
           <Route path="/divisions/finance" element={<FinancePage />} />
           <Route path="/divisions/legal-investigation" element={<LegalInvestigationPage />} />
@@ -85,42 +102,49 @@ const AppContent = () => {
           <Route path="/divisions/internal-audit" element={<InternalAuditPage />} />
           <Route path="/divisions/examination-assessment" element={<ExaminationAssessmentPage />} />
           <Route path="/divisions/special-projects" element={<SpecialProjectsPage />} />
+
+          {/* Services Routes */}
           <Route path="/services" element={<ServicesPage />} />
-          <Route path="/student" element={<StudentPage />} />
-          <Route path="/our-centers" element={<OurCentersPage />} />
-          <Route path="/downloads" element={<DownloadsPage />} />
-          
-          {/* About Routes (Legacy) */}
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/about/leadership" element={<Leadership />} />
-          <Route path="/about/history" element={<History />} />
-          <Route path="/about/mission-vision" element={<MissionVision />} />
-          
-          {/* Programs Routes (Legacy) */}
-          <Route path="/programs" element={<ProgramsPage />} />
-          <Route path="/programs/youth-awards" element={<YouthAwards />} />
-          <Route path="/programs/skill-development" element={<SkillDevelopment />} />
-          <Route path="/programs/cultural-programs" element={<CulturalPrograms />} />
-          <Route path="/programs/youth-parliament" element={<YouthParliament />} />
-          <Route path="/programs/find-courses" element={<FindCourses />} />
-          
-          {/* Legacy Services Routes */}
           <Route path="/services/youth-clubs" element={<YouthClubs />} />
-          
-          {/* News & Events Routes (Legacy) */}
+          <Route path="/services/youth-services-limited" element={<YouthServicesLimited />} />
+          <Route path="/services/YouthParliament" element={<YouthParliament />} />
+          <Route path="/services/youth-dancing-team" element={<YouthDancingTeam />} />
+          <Route path="/services/youth-music-band" element={<YouthMusicBand />} />
+          <Route path="/services/youth-drama-team" element={<YouthDramaTeam />} />
+
+          {/* News & Events Routes */}
           <Route path="/news-events" element={<NewsEventsPage />} />
           <Route path="/news-events/latest-news" element={<LatestNews />} />
-          <Route path="/news-events/events-calendar" element={<EventsCalendar />} />
-          <Route path="/news-events/achievements" element={<Achievements />} />
-          <Route path="/news-events/photo-gallery" element={<PhotoGallery />} />
-          
-          {/* Resources Routes (Legacy) */}
+          <Route path="/news-events/news-archive" element={<NewsArchive />} />
+          <Route path="/news-events/press-releases" element={<PressReleases />} />
+          <Route path="/events/upcoming-events" element={<UpcomingEvents />} />
+          <Route path="/events/events-calendar" element={<EventsCalendar />} />
+          <Route path="/events/workshops" element={<Workshops />} />
+          <Route path="/events/competitions" element={<Competitions />} />
+          <Route path="/news-events/gallery" element={<Gallery />} />
+
+
+          {/* Resources */}
           <Route path="/resources" element={<ResourcesPage />} />
-          <Route path="/resources/downloads" element={<Downloads />} />
-          <Route path="/resources/student-portal" element={<StudentPortal />} />
-          
-          {/* Contact Routes */}
-          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/about" element={<AboutNYSC />} />
+          <Route path="/contact" element={<ContactUs />} />
+          <Route path="/downloads/annual-reports" element={<AnnualReports />} />
+          <Route path="/downloads/application-forms" element={<ApplicationForms />} />
+          <Route path="/downloads/policy-documents" element={<PolicyDocuments />} />
+          <Route path="/downloads/media-resources" element={<MediaResources />} />
+
+          {/* Student */}
+          <Route path="/student" element={<StudentPage />} />
+          <Route path="/student/FindCourses" element={<FindCourses />} />
+          <Route path="/student/StudentPortal" element={<StudentPortal />} />
+
+          {/* Our Centers Routes */}
+          <Route path="/our-centers" element={<OurCentersPage />} />
+          <Route path="/our-centers/training-centers" element={<TrainingCenters />} />
+          <Route path="/our-centers/youth-centers" element={<YouthCenters />} />
+          <Route path="/our-centers/district-offices" element={<DistrictOffices />} />
+          <Route path="/our-centers/center-locator" element={<CenterLocator />} />
+        
         </Routes>
 
         <Footer />

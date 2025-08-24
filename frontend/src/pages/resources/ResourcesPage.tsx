@@ -2,101 +2,156 @@ import PageLayout from '../../components/layout/PageLayout';
 import { useTheme } from '../../contexts/ThemeContext';
 import { getThemeColor } from '../../config/colors';
 import { Link } from 'react-router-dom';
-import { Download, GraduationCap, FileText, ArrowRight } from 'lucide-react';
+import { FileText, Phone, Download, Camera, Users, ArrowRight } from 'lucide-react';
 
 const ResourcesPage = () => {
   const { isDark } = useTheme();
 
-  const resources = [
+  const resourceCategories = [
     {
-      icon: Download,
-      title: "Downloads",
-      description: "Access forms, documents, guidelines, and publications.",
-      link: "/resources/downloads"
+      icon: FileText,
+      title: "About NYSC",
+      description: "Learn about our organization, history, and mission to empower Sri Lankan youth.",
+      link: "/about",
+      color: "text-blue-600"
     },
     {
-      icon: GraduationCap,
-      title: "Student Portal",
-      description: "Online portal for students to access courses and track progress.",
-      link: "/resources/student-portal"
+      icon: Phone,
+      title: "Contact Us",
+      description: "Get in touch with our offices across Sri Lanka for assistance and information.",
+      link: "/contact",
+      color: "text-green-600"
+    },
+    {
+      icon: Download,
+      title: "Annual Reports",
+      description: "Access comprehensive annual reports showcasing our achievements and impact.",
+      link: "/downloads/annual-reports",
+      color: "text-purple-600"
     },
     {
       icon: FileText,
-      title: "Annual Reports",
-      description: "Comprehensive annual reports and organizational publications.",
-      link: "/resources/annual-reports"
+      title: "Application Forms",
+      description: "Download various application forms for programs, clubs, and services.",
+      link: "/downloads/application-forms",
+      color: "text-orange-600"
+    },
+    {
+      icon: FileText,
+      title: "Policy Documents",
+      description: "Review our official policies, guidelines, and regulatory documents.",
+      link: "/downloads/policy-documents",
+      color: "text-red-600"
+    },
+    {
+      icon: Camera,
+      title: "Media Resources",
+      description: "Access logos, images, and media materials for authorized use.",
+      link: "/downloads/media-resources",
+      color: "text-teal-600"
     }
   ];
 
-  const breadcrumbs = [
-    { label: "Home", href: "/" },
-    { label: "Resources" }
-  ];
-
   return (
-    <PageLayout 
-      title="Resources" 
-      subtitle="Access essential documents, tools, and information to support your journey with NYSC."
-      breadcrumbs={breadcrumbs}
+    <PageLayout
+      title="Resources"
+      subtitle="Access information, documents, and resources related to NYSC services and programs"
     >
-      <div className="container mx-auto px-4">
-        {/* Quick Access Section */}
-        <div className={`mb-16 ${getThemeColor('background.card', isDark)} rounded-2xl p-8 md:p-12`}>
-          <h2 className={`text-3xl font-bold mb-8 text-center ${getThemeColor('text.primary', isDark)}`}>
-            Quick Access
-          </h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className={`${getThemeColor('background.secondary', isDark)} rounded-xl p-6 text-center`}>
-              <h3 className={`font-bold mb-3 ${getThemeColor('text.primary', isDark)}`}>Application Forms</h3>
-              <p className={`text-sm ${getThemeColor('text.secondary', isDark)} mb-4`}>Download program application forms</p>
-              <button className="px-4 py-2 bg-primary-500 text-white rounded-lg text-sm hover:bg-primary-600 transition-colors">
-                Download
-              </button>
-            </div>
-            <div className={`${getThemeColor('background.secondary', isDark)} rounded-xl p-6 text-center`}>
-              <h3 className={`font-bold mb-3 ${getThemeColor('text.primary', isDark)}`}>Course Catalog</h3>
-              <p className={`text-sm ${getThemeColor('text.secondary', isDark)} mb-4`}>Browse all available courses</p>
-              <button className="px-4 py-2 bg-secondary-500 text-white rounded-lg text-sm hover:bg-secondary-600 transition-colors">
-                View Catalog
-              </button>
-            </div>
-            <div className={`${getThemeColor('background.secondary', isDark)} rounded-xl p-6 text-center`}>
-              <h3 className={`font-bold mb-3 ${getThemeColor('text.primary', isDark)}`}>Guidelines</h3>
-              <p className={`text-sm ${getThemeColor('text.secondary', isDark)} mb-4`}>Program guidelines and policies</p>
-              <button className="px-4 py-2 bg-primary-500 text-white rounded-lg text-sm hover:bg-primary-600 transition-colors">
-                Read More
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Resource Categories */}
-        <div className="grid md:grid-cols-3 gap-8">
-          {resources.map((resource, index) => (
-            <Link 
-              key={index} 
-              to={resource.link}
-              className={`${getThemeColor('background.card', isDark)} rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 group block`}
+      <div className="container mx-auto px-4 py-12">
+        {/* Resources Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {resourceCategories.map((category, index) => (
+            <Link
+              key={index}
+              to={category.link}
+              className={`group block p-8 rounded-xl border-2 transition-all duration-300 hover:shadow-xl hover:scale-105 ${
+                isDark
+                  ? 'border-gray-700 bg-gray-800/50 hover:border-blue-500'
+                  : 'border-gray-200 bg-white hover:border-blue-400'
+              }`}
             >
-              <div className="flex justify-center mb-6">
-                <div className="p-4 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full group-hover:scale-110 transition-transform duration-300">
-                  <resource.icon className="w-8 h-8 text-white" />
+              <div className="flex flex-col items-center text-center">
+                <div className={`p-4 rounded-full mb-6 ${
+                  isDark ? 'bg-gray-700' : 'bg-gray-100'
+                } group-hover:scale-110 transition-transform duration-300`}>
+                  <category.icon className={`h-8 w-8 ${category.color}`} />
                 </div>
-              </div>
-              <h3 className={`text-xl font-bold mb-4 text-center ${getThemeColor('text.primary', isDark)}`}>
-                {resource.title}
-              </h3>
-              <p className={`${getThemeColor('text.secondary', isDark)} text-center mb-6 leading-relaxed`}>
-                {resource.description}
-              </p>
-              <div className="flex justify-center">
-                <div className="flex items-center text-primary-500 group-hover:text-primary-600 font-semibold">
-                  Access
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                
+                <h3 className={`text-xl font-bold mb-4 ${
+                  isDark ? 'text-white' : 'text-gray-900'
+                }`}>
+                  {category.title}
+                </h3>
+                
+                <p className={`text-sm leading-relaxed mb-6 ${
+                  isDark ? 'text-gray-300' : 'text-gray-600'
+                }`}>
+                  {category.description}
+                </p>
+                
+                <div className={`flex items-center text-sm font-semibold group-hover:translate-x-2 transition-transform duration-300 ${
+                  category.color
+                }`}>
+                  Learn More
+                  <ArrowRight className="h-4 w-4 ml-2" />
                 </div>
               </div>
             </Link>
           ))}
+        </div>
+
+        {/* Quick Links Section */}
+        <div className={`mt-16 p-8 rounded-xl border ${
+          isDark
+            ? 'border-gray-700 bg-gray-800/30'
+            : 'border-gray-200 bg-gray-50'
+        }`}>
+          <div className="text-center mb-8">
+            <h2 className={`text-3xl font-bold mb-4 ${
+              isDark ? 'text-white' : 'text-gray-900'
+            }`}>
+              Need Help?
+            </h2>
+            <p className={`text-lg ${
+              isDark ? 'text-gray-300' : 'text-gray-600'
+            }`}>
+              Can't find what you're looking for? Our team is here to assist you.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className={`text-center p-6 rounded-lg ${
+              isDark ? 'bg-gray-700/50' : 'bg-white'
+            }`}>
+              <Phone className="h-8 w-8 text-blue-600 mx-auto mb-4" />
+              <h3 className={`text-lg font-semibold mb-2 ${
+                isDark ? 'text-white' : 'text-gray-900'
+              }`}>
+                Call Us
+              </h3>
+              <p className={`text-sm ${
+                isDark ? 'text-gray-300' : 'text-gray-600'
+              }`}>
+                +94 11 234 5678
+              </p>
+            </div>
+
+            <div className={`text-center p-6 rounded-lg ${
+              isDark ? 'bg-gray-700/50' : 'bg-white'
+            }`}>
+              <Users className="h-8 w-8 text-green-600 mx-auto mb-4" />
+              <h3 className={`text-lg font-semibold mb-2 ${
+                isDark ? 'text-white' : 'text-gray-900'
+              }`}>
+                Visit Us
+              </h3>
+              <p className={`text-sm ${
+                isDark ? 'text-gray-300' : 'text-gray-600'
+              }`}>
+                Find our nearest office
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </PageLayout>
