@@ -8,7 +8,8 @@
       "Bash(find:*)",
       "Bash(git checkout:*)",
       "WebFetch(domain:www.nysc.lk)",
-      "Bash(npm run dev:*)"
+      "Bash(npm run dev:*)",
+      "Bash(grep:*)"
     ],
     "deny": []
   }

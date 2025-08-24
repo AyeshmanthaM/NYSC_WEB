@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Phone, Mail, MapPin, Clock, Send, User, MessageSquare } from 'lucide-react';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useLanguage } from '../../contexts/CompatibilityLanguageContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import { colors, getThemeColor } from '../../config/colors';
 

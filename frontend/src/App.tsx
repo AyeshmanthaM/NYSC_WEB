@@ -1,11 +1,14 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
-import { LanguageProvider } from './contexts/LanguageContext';
+import { ModernLanguageProvider } from './contexts/ModernLanguageContext';
+import { CompatibilityLanguageProvider } from './contexts/CompatibilityLanguageContext';
 import { useTheme } from './contexts/ThemeContext';
 import { getThemeColor } from './config/colors';
 import AnimatedBackground from './components/ui/AnimatedBackground';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
+import { TranslationDebugger } from './components/dev/TranslationDebugger';
+// Debug components removed for production
 
 // Pages
 import HomePage from './pages/HomePage';
@@ -35,6 +38,7 @@ import YouthParliament from './pages/services/YouthParliament';
 import YouthDancingTeam from './pages/services/YouthDancingTeam';
 import YouthMusicBand from './pages/services/YouthMusicBand';
 import YouthDramaTeam from './pages/services/YouthDramaTeam';
+import BoardMembersPage from './pages/services/BoardMembersPage';
 // News & Events Pages
 import NewsEventsPage from './pages/news-events/NewsEventsPage';
 import LatestNews from './pages/news-events/LatestNews';
@@ -107,10 +111,11 @@ const AppContent = () => {
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/services/youth-clubs" element={<YouthClubs />} />
           <Route path="/services/youth-services-limited" element={<YouthServicesLimited />} />
-          <Route path="/services/YouthParliament" element={<YouthParliament />} />
+          <Route path="/services/youth-parliament" element={<YouthParliament />} />
           <Route path="/services/youth-dancing-team" element={<YouthDancingTeam />} />
           <Route path="/services/youth-music-band" element={<YouthMusicBand />} />
           <Route path="/services/youth-drama-team" element={<YouthDramaTeam />} />
+          <Route path="/services/board-members" element={<BoardMembersPage />} />
 
           {/* News & Events Routes */}
           <Route path="/news-events" element={<NewsEventsPage />} />
@@ -149,6 +154,9 @@ const AppContent = () => {
 
         <Footer />
       </div>
+
+      {/* Development Translation Debugger */}
+      <TranslationDebugger />
     </div>
   );
 };
@@ -156,11 +164,13 @@ const AppContent = () => {
 function App() {
   return (
     <ThemeProvider>
-      <LanguageProvider>
-        <Router>
-          <AppContent />
-        </Router>
-      </LanguageProvider>
+      <ModernLanguageProvider>
+        <CompatibilityLanguageProvider>
+          <Router>
+            <AppContent />
+          </Router>
+        </CompatibilityLanguageProvider>
+      </ModernLanguageProvider>
     </ThemeProvider>
   );
 }

@@ -1,11 +1,22 @@
 import { Award, Crown, Building, Shield, Facebook, Twitter, Instagram, Linkedin, Eye, ArrowRight, Users } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 import { colors, getThemeColor } from '../../config/colors';
 
 const LeadersSection = () => {
   const { isDark } = useTheme();
-  const { t } = useLanguage();
+  const { t, ready } = useTranslationWithNamespace('home');
+
+  // Show loading state while translations are not ready
+  if (!ready) {
+    return (
+      <section className="relative py-16 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+        </div>
+      </section>
+    );
+  }
   
   const leaders = [
     {

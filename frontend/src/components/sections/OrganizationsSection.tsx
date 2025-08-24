@@ -1,33 +1,44 @@
 import { ExternalLink, Plus, Building } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 import { colors, getThemeColor } from '../../config/colors';
 
 const OrganizationsSection = () => {
   const { isDark } = useTheme();
-  const { t } = useLanguage();
+  const { t, ready } = useTranslationWithNamespace('services');
+
+  // Show loading state while translations are not ready
+  if (!ready) {
+    return (
+      <section className="relative py-20 overflow-hidden">
+        <div className="container mx-auto px-4 text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+        </div>
+      </section>
+    );
+  }
 
   const organizations = [
     {
       id: 1,
-      title: t('organizations.youthClub.title'),
-      description: t('organizations.youthClub.description'),
+      title: t('youthClub.title'),
+      description: t('youthClub.description'),
       image: '/images/organizations/club2.png',
       link: 'https://www.nysc.lk/page/view/youth-club'
     },
     {
       id: 2,
-      title: t('organizations.youthServices.title'),
-      description: t('organizations.youthServices.description'),
+      title: t('youthParliament.title'),
+      description: t('youthParliament.description'),
       image: '/images/organizations/youth-service-logo.png',
-      link: 'https://www.nysc.lk/page/view/youth-services-limited'
+      link: 'https://www.nysc.lk/page/view/youth-parliment'
     },
     {
       id: 3,
-      title: t('organizations.nysco.title'),
-      description: t('organizations.nysco.description'),
+      title: t('youthSports.title'),
+      description: t('youthSports.description'),
       image: '/images/organizations/nysco.png',
-      link: 'https://www.nysc.lk/page/view/nysco'
+      link: 'https://www.nysc.lk/page/view/sports'
     }
   ];
 

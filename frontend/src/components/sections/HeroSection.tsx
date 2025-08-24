@@ -1,6 +1,6 @@
 import { ArrowRight } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 import { useEffect, useState } from 'react';
 import HeroParticleMesh from '../ui/HeroParticleMesh';
 import { colors, getThemeColor } from '../../config/colors';
@@ -11,7 +11,7 @@ interface HeroSectionProps {
 
 const HeroSection = ({ extraBottomSpace = 0 }: HeroSectionProps) => {
   const { isDark } = useTheme();
-  const { t } = useLanguage();
+  const { t, ready } = useTranslationWithNamespace('home');
   const [viewportHeight, setViewportHeight] = useState(0);
 
   useEffect(() => {
@@ -25,6 +25,17 @@ const HeroSection = ({ extraBottomSpace = 0 }: HeroSectionProps) => {
 
     return () => window.removeEventListener('resize', updateHeight);
   }, []);
+
+  // Show loading state while translations are not ready
+  if (!ready) {
+    return (
+      <section className="relative min-h-screen overflow-hidden">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section

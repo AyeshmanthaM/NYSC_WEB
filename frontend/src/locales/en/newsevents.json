@@ -1,0 +1,66 @@
+{
+  "news": {
+    "badge": "Latest News",
+    "title": "Latest",
+    "titleHighlight": "News & Updates",
+    "subtitle": "Stay informed about our latest initiatives, achievements, and programs empowering Sri Lankan youth",
+    "updated": "Last updated",
+    "exploreAll": "Explore All News",
+    "trending": "TRENDING",
+    "featured": "FEATURED",
+    "readTime": "min read",
+    "clickToRead": "Click to read",
+    "hoverToPreview": "Hover to preview"
+  },
+  "events": {
+    "badge": "Events",
+    "title": "Upcoming",
+    "titleHighlight": "Events",
+    "subtitle": "Join us for exciting events, workshops, and programs designed to engage and inspire youth",
+    "nextEvent": "Next event in",
+    "days": "days",
+    "viewAll": "View All Events",
+    "featured": "FEATURED",
+    "clickToView": "Click to view",
+    "viewDetails": "View Details",
+    "learnMore": "Learn More",
+    "types": {
+      "upcoming": "UPCOMING",
+      "recent": "RECENT",
+      "past": "PAST"
+    }
+  },
+  "gallery": {
+    "badge": "Gallery",
+    "title": "Media",
+    "titleHighlight": "Gallery",
+    "subtitle": "Explore our visual journey through photos and videos capturing memorable moments and achievements",
+    "totalPhotos": "Total:",
+    "photos": "photos",
+    "viewAll": "View Gallery",
+    "featured": "FEATURED",
+    "clickToView": "Click to view",
+    "categories": {
+      "awards": "Awards",
+      "culture": "Cultural",
+      "sports": "Sports", 
+      "leadership": "Leadership",
+      "education": "Education",
+      "environment": "Environment"
+    },
+    "albums": {
+      "youthAwards": "Youth Awards 2024",
+      "youthAwardsDesc": "Celebrating outstanding young achievers and community leaders",
+      "culturalFest": "Cultural Heritage Festival",
+      "culturalFestDesc": "Traditional performances and cultural showcases",
+      "sportsProg": "National Sports Programs",
+      "sportsProgDesc": "Athletic competitions and sports development initiatives",
+      "leadership": "Leadership Summit 2024",
+      "leadershipDesc": "Young leaders gathering for workshops and networking",
+      "training": "Skills Training Programs",
+      "trainingDesc": "Vocational and professional development workshops",
+      "environment": "Environmental Initiatives",
+      "environmentDesc": "Tree planting drives and conservation activities"
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MapPin, Search, Filter, Navigation, Phone, Clock } from 'lucide-react';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useLanguage } from '../../contexts/CompatibilityLanguageContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import { colors, getThemeColor } from '../../config/colors';
 

@@ -8,7 +8,8 @@ import {
   Briefcase, Globe, Phone, Info, Archive, Image
 } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useModernLanguage } from '../../contexts/ModernLanguageContext';
+import { useMultipleNamespaces } from '../../hooks/useTranslationWithNamespace';
 import { colors, getThemeColor } from '../../config/colors';
 
 const Header = () => {
@@ -16,7 +17,8 @@ const Header = () => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { currentLanguage, setLanguage, t } = useLanguage();
+  const { currentLanguage, setLanguage } = useModernLanguage();
+  const { t, ready } = useMultipleNamespaces(['header', 'dropdown', 'common']);
   const [searchValue, setSearchValue] = useState('');
   const [dropdownTimeout, setDropdownTimeout] = useState<number | null>(null);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -143,65 +145,76 @@ const Header = () => {
     }
   }, [currentLanguage]);
 
+  // Show loading state while translations are not ready
+  if (!ready) {
+    return (
+      <header className="sticky top-0 z-50 w-full">
+        <div className="h-16 bg-white dark:bg-gray-900 shadow-sm flex items-center justify-center">
+          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary-600"></div>
+        </div>
+      </header>
+    );
+  }
+
   const getDropdownItems = () => ({
     // Creative NYSC navigation structure - streamlined and intuitive
-    [t('header.directors')]: [
-      { label: t('dropdown.boardOfMembers'), icon: Crown, route: '/directors/board-of-members' },
-      { label: t('dropdown.directors'), icon: Users, route: '/directors/directors' },
-      { label: t('dropdown.deputyDirectors'), icon: UserCheck, route: '/directors/deputy-directors' },
-      { label: t('dropdown.assistantDirectors'), icon: UserCog, route: '/directors/assistant-directors' },
-      { label: t('dropdown.provincialDirectors'), icon: MapPin, route: '/directors/provincial-directors' },
-      { label: t('dropdown.provincialAssistantDirectors'), icon: MapPin, route: '/directors/provincial-assistant-directors' }
+    [t('header:directors')]: [
+      { label: t('dropdown:boardOfMembers'), icon: Crown, route: '/directors/board-of-members' },
+      { label: t('dropdown:directors'), icon: Users, route: '/directors/directors' },
+      { label: t('dropdown:deputyDirectors'), icon: UserCheck, route: '/directors/deputy-directors' },
+      { label: t('dropdown:assistantDirectors'), icon: UserCog, route: '/directors/assistant-directors' },
+      { label: t('dropdown:provincialDirectors'), icon: MapPin, route: '/directors/provincial-directors' },
+      { label: t('dropdown:provincialAssistantDirectors'), icon: MapPin, route: '/directors/provincial-assistant-directors' }
     ],
-    [t('header.divisions')]: [
-      { label: t('dropdown.financeDivision'), icon: DollarSign, route: '/divisions/finance' },
-      { label: t('dropdown.legalInvestigationDivision'), icon: Scale, route: '/divisions/legal-investigation' },
-      { label: t('dropdown.youthAwards'), icon: Award, route: '/divisions/youth-awards' },
-      { label: t('dropdown.internalAuditDivision'), icon: Shield, route: '/divisions/internal-audit' },
-      { label: t('dropdown.examinationAssessmentDivision'), icon: FolderOpen, route: '/divisions/examination-assessment' },
-      { label: t('dropdown.specialProjectDivision'), icon: Building2, route: '/divisions/special-projects' }
+    [t('header:divisions')]: [
+      { label: t('dropdown:financeDivision'), icon: DollarSign, route: '/divisions/finance' },
+      { label: t('dropdown:legalInvestigationDivision'), icon: Scale, route: '/divisions/legal-investigation' },
+      { label: t('dropdown:youthAwards'), icon: Award, route: '/divisions/youth-awards' },
+      { label: t('dropdown:internalAuditDivision'), icon: Shield, route: '/divisions/internal-audit' },
+      { label: t('dropdown:examinationAssessmentDivision'), icon: FolderOpen, route: '/divisions/examination-assessment' },
+      { label: t('dropdown:specialProjectDivision'), icon: Building2, route: '/divisions/special-projects' }
     ],
-    [t('header.services')]: [
-      { label: t('dropdown.youthClubs'), icon: Users, route: '/services/youth-clubs' },
-      { label: t('dropdown.youthServicesLimited'), icon: Briefcase, route: '/services/youth-services-limited' },
-      { label: t('dropdown.youthParliament'), icon: Users, route: '/services/YouthParliament' },
-      { label: t('dropdown.youthDancingTeam'), icon: Heart, route: '/services/youth-dancing-team' },
-      { label: t('dropdown.youthMusicBand'), icon: Music, route: '/services/youth-music-band' },
-      { label: t('dropdown.youthDramaTeam'), icon: Globe, route: '/services/youth-drama-team' }
+    [t('header:services')]: [
+      { label: t('dropdown:youthClubs'), icon: Users, route: '/services/youth-clubs' },
+      { label: t('dropdown:youthServicesLimited'), icon: Briefcase, route: '/services/youth-services-limited' },
+      { label: t('dropdown:youthParliament'), icon: Users, route: '/services/YouthParliament' },
+      { label: t('dropdown:youthDancingTeam'), icon: Heart, route: '/services/youth-dancing-team' },
+      { label: t('dropdown:youthMusicBand'), icon: Music, route: '/services/youth-music-band' },
+      { label: t('dropdown:youthDramaTeam'), icon: Globe, route: '/services/youth-drama-team' }
     ],
-    [t('header.newsEvents')]: [
+    [t('header:newsEvents')]: [
       // News Section
-      { label: t('dropdown.latestNews'), icon: Newspaper, route: '/news-events/latest-news' },
-      { label: t('dropdown.newsArchive'), icon: Archive, route: '/news-events/news-archive' },
-      { label: t('dropdown.pressReleases'), icon: FileText, route: '/news-events/press-releases' },
+      { label: t('dropdown:latestNews'), icon: Newspaper, route: '/news-events/latest-news' },
+      { label: t('dropdown:newsArchive'), icon: Archive, route: '/news-events/news-archive' },
+      { label: t('dropdown:pressReleases'), icon: FileText, route: '/news-events/press-releases' },
       // Events Section  
-      { label: t('dropdown.upcomingEvents'), icon: Calendar, route: '/events/upcoming-events' },
-      { label: t('dropdown.eventCalendar'), icon: Calendar, route: '/events/events-calendar' },
-      { label: t('dropdown.workshops'), icon: Users, route: '/events/workshops' },
-      { label: t('dropdown.competitions'), icon: Trophy, route: '/events/competitions' },
+      { label: t('dropdown:upcomingEvents'), icon: Calendar, route: '/events/upcoming-events' },
+      { label: t('dropdown:eventCalendar'), icon: Calendar, route: '/events/events-calendar' },
+      { label: t('dropdown:workshops'), icon: Users, route: '/events/workshops' },
+      { label: t('dropdown:competitions'), icon: Trophy, route: '/events/competitions' },
       // Gallery Section
-      { label: t('dropdown.gallery'), icon: Image, route: '/news-events/gallery' }
+      { label: t('dropdown:gallery'), icon: Image, route: '/news-events/gallery' }
     ],
-    [t('header.resources')]: [
+    [t('header:resources')]: [
       // About Section
-      { label: t('dropdown.aboutNYSC'), icon: Info, route: '/about' },
+      { label: t('dropdown:aboutNYSC'), icon: Info, route: '/about' },
       // Contact Information
-      { label: t('dropdown.contactUs'), icon: Phone, route: '/contact' },
+      { label: t('dropdown:contactUs'), icon: Phone, route: '/contact' },
       // Downloads Section
-      { label: t('dropdown.annualReports'), icon: FileText, route: '/downloads/annual-reports' },
-      { label: t('dropdown.applicationForms'), icon: FileText, route: '/downloads/application-forms' },
-      { label: t('dropdown.policyDocuments'), icon: Shield, route: '/downloads/policy-documents' },
-      { label: t('dropdown.mediaResources'), icon: Download, route: '/downloads/media-resources' }
+      { label: t('dropdown:annualReports'), icon: FileText, route: '/downloads/annual-reports' },
+      { label: t('dropdown:applicationForms'), icon: FileText, route: '/downloads/application-forms' },
+      { label: t('dropdown:policyDocuments'), icon: Shield, route: '/downloads/policy-documents' },
+      { label: t('dropdown:mediaResources'), icon: Download, route: '/downloads/media-resources' }
     ],
-    [t('header.student')]: [
-      { label: t('dropdown.findCourses'), icon: GraduationCap, route: '/student/FindCourses' },
-      { label: t('dropdown.studentPortal'), icon: UserPlus, route: '/student/StudentPortal' }
+    [t('header:student')]: [
+      { label: t('dropdown:findCourses'), icon: GraduationCap, route: '/student/FindCourses' },
+      { label: t('dropdown:studentPortal'), icon: UserPlus, route: '/student/StudentPortal' }
     ],
-    [t('header.ourCenters')]: [
-      { label: t('dropdown.trainingCenters'), icon: Building, route: '/our-centers/training-centers' },
-      { label: t('dropdown.youthCenters'), icon: Users, route: '/our-centers/youth-centers' },
-      { label: t('dropdown.districtOffices'), icon: MapPin, route: '/our-centers/district-offices' },
-      { label: t('dropdown.centerLocator'), icon: MapPin, route: '/our-centers/center-locator' }
+    [t('header:ourCenters')]: [
+      { label: t('dropdown:trainingCenters'), icon: Building, route: '/our-centers/training-centers' },
+      { label: t('dropdown:youthCenters'), icon: Users, route: '/our-centers/youth-centers' },
+      { label: t('dropdown:districtOffices'), icon: MapPin, route: '/our-centers/district-offices' },
+      { label: t('dropdown:centerLocator'), icon: MapPin, route: '/our-centers/center-locator' }
     ]
   });
 
@@ -209,13 +222,13 @@ const Header = () => {
   const getMainSectionRoute = (section: string) => {
     // Map translated section names to routes - streamlined structure
     const routeMap: { [key: string]: string } = {
-      [t('header.directors')]: '/directors',
-      [t('header.divisions')]: '/divisions',
-      [t('header.services')]: '/services',
-      [t('header.newsEvents')]: '/news-events',
-      [t('header.resources')]: '/resources',
-      [t('header.student')]: '/student',
-      [t('header.ourCenters')]: '/our-centers'
+      [t('header:directors')]: '/directors',
+      [t('header:divisions')]: '/divisions',
+      [t('header:services')]: '/services',
+      [t('header:newsEvents')]: '/news-events',
+      [t('header:resources')]: '/resources',
+      [t('header:student')]: '/student',
+      [t('header:ourCenters')]: '/our-centers'
     };
 
     return routeMap[section] || '#';
@@ -564,7 +577,7 @@ const Header = () => {
                     <input
                       ref={searchInputRef}
                       type="text"
-                      placeholder={t('header.searchPlaceholder')}
+                      placeholder={t('header:searchPlaceholder')}
                       value={searchValue}
                       onChange={(e) => setSearchValue(e.target.value)}
                       onKeyDown={handleSearchSubmit}

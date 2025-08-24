@@ -1,105 +1,29 @@
 import { Clock, Users, ArrowRight, ChevronLeft, ChevronRight, Award, BookOpen, Briefcase, Palette, GraduationCap } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 import { useState, useRef, useEffect } from 'react';
 import { colors, getThemeColor } from '../../config/colors';
 
 const PopularCourses = () => {
   const { isDark } = useTheme();
-  const { t, currentLanguage } = useLanguage();
+  const { t, ready } = useTranslationWithNamespace('courses');
   const [currentSlide, setCurrentSlide] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  const courses = [
-    {
-      id: 1,
-      title: t('popularCourses.courses.hotelManagement.title'),
-      description: t('popularCourses.courses.hotelManagement.description'),
-      category: t('popularCourses.categories.hospitality'),
-      duration: `12 ${t('popularCourses.months')}`,
-      timeType: t('popularCourses.fullTime'),
-      enrolled: 186,
-      image: '/images/courses/hotel-management.jpg',
-      nvqLevel: 'NVQ 4',
-      institute: t('popularCourses.courses.hotelManagement.institute'),
-      icon: Briefcase
-    },
-    {
-      id: 2,
-      title: t('popularCourses.courses.computerApplications.title'),
-      description: t('popularCourses.courses.computerApplications.description'),
-      category: t('popularCourses.categories.it'),
-      duration: `6 ${t('popularCourses.months')}`,
-      timeType: t('popularCourses.partTime'),
-      enrolled: 342,
-      image: '/images/courses/computer-applications.jpg',
-      nvqLevel: 'NVQ 3',
-      institute: t('popularCourses.courses.computerApplications.institute'),
-      icon: BookOpen
-    },
-    {
-      id: 3,
-      title: t('popularCourses.courses.fashionDesign.title'),
-      description: t('popularCourses.courses.fashionDesign.description'),
-      category: t('popularCourses.categories.fashion'),
-      duration: `10 ${t('popularCourses.months')}`,
-      timeType: t('popularCourses.fullTime'),
-      enrolled: 127,
-      image: '/images/courses/fashion-design.jpg',
-      nvqLevel: 'NVQ 4',
-      institute: t('popularCourses.courses.fashionDesign.institute'),
-      icon: Palette
-    },
-    {
-      id: 4,
-      title: t('popularCourses.courses.electrical.title'),
-      description: t('popularCourses.courses.electrical.description'),
-      category: t('popularCourses.categories.technical'),
-      duration: `8 ${t('popularCourses.months')}`,
-      timeType: t('popularCourses.fullTime'),
-      enrolled: 203,
-      image: '/images/courses/electrical.jpg',
-      nvqLevel: 'NVQ 3',
-      institute: t('popularCourses.courses.electrical.institute'),
-      icon: Award
-    },
-    {
-      id: 5,
-      title: t('popularCourses.courses.automotive.title'),
-      description: t('popularCourses.courses.automotive.description'),
-      category: t('popularCourses.categories.automotive'),
-      duration: `9 ${t('popularCourses.months')}`,
-      timeType: t('popularCourses.fullTime'),
-      enrolled: 158,
-      image: '/images/courses/automotive.jpg',
-      nvqLevel: 'NVQ 3',
-      institute: t('popularCourses.courses.automotive.institute'),
-      icon: Award
-    },
-    {
-      id: 6,
-      title: t('popularCourses.courses.beautyCulture.title'),
-      description: t('popularCourses.courses.beautyCulture.description'),
-      category: t('popularCourses.categories.beauty'),
-      duration: `7 ${t('popularCourses.months')}`,
-      timeType: t('popularCourses.partTime'),
-      enrolled: 94,
-      image: '/images/courses/beauty-culture.jpg',
-      nvqLevel: 'NVQ 3',
-      institute: t('popularCourses.courses.beautyCulture.institute'),
-      icon: Palette
-    }
-  ];
-
   const coursesPerPage = 3;
-  const totalSlides = Math.ceil(courses.length / coursesPerPage);
-
+  
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % totalSlides);
+    setCurrentSlide((prev) => {
+      const totalSlides = Math.ceil(6 / coursesPerPage);
+      return (prev + 1) % totalSlides;
+    });
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
+    setCurrentSlide((prev) => {
+      const totalSlides = Math.ceil(6 / coursesPerPage);
+      return (prev - 1 + totalSlides) % totalSlides;
+    });
   };
 
   const goToSlide = (slideIndex: number) => {
@@ -110,6 +34,100 @@ const PopularCourses = () => {
     const interval = setInterval(nextSlide, 5000);
     return () => clearInterval(interval);
   }, []);
+
+  // Show loading state while translations are not ready
+  if (!ready) {
+    return (
+      <section className="relative py-16 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+        </div>
+      </section>
+    );
+  }
+
+  const courses = [
+    {
+      id: 1,
+      title: t('hotelManagement.title'),
+      description: t('hotelManagement.description'),
+      category: t('categories.hospitality'),
+      duration: `12 ${t('months')}`,
+      timeType: t('fullTime'),
+      enrolled: 186,
+      image: '/images/courses/hotel-management.jpg',
+      nvqLevel: 'NVQ 4',
+      institute: t('hotelManagement.institute'),
+      icon: Briefcase
+    },
+    {
+      id: 2,
+      title: t('computerApplications.title'),
+      description: t('computerApplications.description'),
+      category: t('categories.it'),
+      duration: `6 ${t('months')}`,
+      timeType: t('partTime'),
+      enrolled: 342,
+      image: '/images/courses/computer-applications.jpg',
+      nvqLevel: 'NVQ 3',
+      institute: t('computerApplications.institute'),
+      icon: BookOpen
+    },
+    {
+      id: 3,
+      title: t('fashionDesign.title'),
+      description: t('fashionDesign.description'),
+      category: t('categories.fashion'),
+      duration: `10 ${t('months')}`,
+      timeType: t('fullTime'),
+      enrolled: 127,
+      image: '/images/courses/fashion-design.jpg',
+      nvqLevel: 'NVQ 4',
+      institute: t('fashionDesign.institute'),
+      icon: Palette
+    },
+    {
+      id: 4,
+      title: t('electrical.title'),
+      description: t('electrical.description'),
+      category: t('categories.technical'),
+      duration: `8 ${t('months')}`,
+      timeType: t('fullTime'),
+      enrolled: 203,
+      image: '/images/courses/electrical.jpg',
+      nvqLevel: 'NVQ 3',
+      institute: t('electrical.institute'),
+      icon: Award
+    },
+    {
+      id: 5,
+      title: t('automotive.title'),
+      description: t('automotive.description'),
+      category: t('categories.automotive'),
+      duration: `9 ${t('months')}`,
+      timeType: t('fullTime'),
+      enrolled: 158,
+      image: '/images/courses/automotive.jpg',
+      nvqLevel: 'NVQ 3',
+      institute: t('automotive.institute'),
+      icon: Award
+    },
+    {
+      id: 6,
+      title: t('beautyCulture.title'),
+      description: t('beautyCulture.description'),
+      category: t('categories.beauty'),
+      duration: `7 ${t('months')}`,
+      timeType: t('partTime'),
+      enrolled: 94,
+      image: '/images/courses/beauty-culture.jpg',
+      nvqLevel: 'NVQ 3',
+      institute: t('beautyCulture.institute'),
+      icon: Palette
+    }
+  ];
+
+  const totalSlides = Math.ceil(courses.length / coursesPerPage);
 
 
   return (
@@ -305,13 +323,13 @@ const PopularCourses = () => {
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-nysc-primary/10 to-nysc-secondary/10 border border-nysc-primary/20 mb-4">
             <GraduationCap className="w-4 h-4 text-nysc-primary" />
-            <span className="text-sm font-medium text-nysc-primary">{t('popularCourses.badge')}</span>
+            <span className="text-sm font-medium text-nysc-primary">{t('badge')}</span>
           </div>
           <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 ${getThemeColor('text.primary', isDark)}`}>
-            {t('popularCourses.title')}
+            {t('title')}
           </h2>
           <p className={`text-lg mb-8 max-w-2xl mx-auto ${getThemeColor('text.secondary', isDark)}`}>
-            {t('popularCourses.subtitle')}
+            {t('subtitle')}
           </p>
         </div>
 
@@ -381,7 +399,7 @@ const PopularCourses = () => {
                             {/* Time Type Badge */}
                             <div className="absolute bottom-4 left-4">
                               <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                                course.timeType === t('popularCourses.fullTime')
+                                course.timeType === t('fullTime')
                                   ? colors.badge.fullTime
                                   : colors.badge.partTime
                               }`}>
@@ -422,7 +440,7 @@ const PopularCourses = () => {
                                 </div>
                                 <div className={`flex items-center ${getThemeColor('text.secondary', isDark)}`}>
                                   <Users className="w-4 h-4 mr-1" />
-                                  <span>{course.enrolled} {t('popularCourses.students')}</span>
+                                  <span>{course.enrolled} {t('students')}</span>
                                 </div>
                               </div>
                             </div>
@@ -430,7 +448,7 @@ const PopularCourses = () => {
                             {/* Action Button - Pushed to bottom with flex-1 spacer */}
                             <div className="flex-1 flex items-end">
                               <button className={`group/btn w-full flex items-center justify-center px-6 py-3 ${colors.button.primary.base} font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg`}>
-                                <span>{t('popularCourses.applyNow')}</span>
+                                <span>{t('applyNow')}</span>
                                 <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-200 group-hover/btn:translate-x-1" />
                               </button>
                             </div>
@@ -465,7 +483,7 @@ const PopularCourses = () => {
         {/* View All Courses Button */}
         <div className="text-center mt-10">
           <button className={`group inline-flex items-center px-8 py-4 font-semibold rounded-full transition-all duration-300 hover:scale-105 ${getThemeColor('button.secondary', isDark)} shadow-lg hover:shadow-xl backdrop-blur-sm`}>
-            <span>{t('popularCourses.viewAllCourses')}</span>
+            <span>{t('viewAllCourses')}</span>
             <ArrowRight className="w-5 h-5 ml-2 transition-transform duration-200 group-hover:translate-x-1" />
           </button>
         </div>

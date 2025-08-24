@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react';
 import { Calendar, MapPin, ArrowRight, Eye, TrendingUp, Clock, Share2, Bookmark, Heart, Send, Bell, Mail, Users, Image, Camera, Play } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useMultipleNamespaces } from '../../hooks/useTranslationWithNamespace';
+import { useModernLanguage } from '../../contexts/ModernLanguageContext';
 import { colors, getThemeColor } from '../../config/colors';
 
 const NewsEventsSection = () => {
   const { isDark } = useTheme();
-  const { t, currentLanguage } = useLanguage();
+  const { t, ready } = useMultipleNamespaces(['newsevents', 'common']);
+  const { currentLanguage } = useModernLanguage();
   const [hoveredNews, setHoveredNews] = useState<number | null>(null);
   const [hoveredEvent, setHoveredEvent] = useState<number | null>(null);
   const [bookmarkedItems, setBookmarkedItems] = useState<Set<number>>(new Set());
   const [likedItems, setLikedItems] = useState<Set<number>>(new Set());
   const [currentNewsIndex, setCurrentNewsIndex] = useState(0);
-
   const [email, setEmail] = useState('');
   const [isSubscribed, setIsSubscribed] = useState(false);
 
@@ -206,6 +207,17 @@ const NewsEventsSection = () => {
     }
   ];
 
+  // Show loading state while translations are not ready
+  if (!ready) {
+    return (
+      <section className="py-20 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className={`py-20 relative overflow-hidden ${getThemeColor('background.gradient.subtle', isDark)}`}>
 
@@ -229,21 +241,21 @@ const NewsEventsSection = () => {
                 </div>
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-nysc-primary/10 to-nysc-secondary/10 border border-nysc-primary/20 backdrop-blur-md">
                   <TrendingUp className="w-4 h-4 text-nysc-primary" />
-                  <span className="text-sm font-medium text-nysc-primary">{t('newsEvents.news.badge')}</span>
+                  <span className="text-sm font-medium text-nysc-primary">{t('newsevents:news.badge')}</span>
                 </div>
               </div>
               <h2 className={`text-5xl font-bold mb-4 ${getThemeColor('text.primary', isDark)} leading-tight`}>
-                {t('newsEvents.news.title')} <span className={colors.brand.gradient.text}>{t('newsEvents.news.titleHighlight')}</span>
+                {t('newsevents:news.title')} <span className={colors.brand.gradient.text}>{t('newsevents:news.titleHighlight')}</span>
               </h2>
               <p className={`text-lg ${getThemeColor('text.secondary', isDark)} max-w-2xl`}>
-                {t('newsEvents.news.subtitle')}
+                {t('newsevents:news.subtitle')}
               </p>
             </div>
 
             {/* Enhanced CTA */}
             <div className="flex flex-col items-start lg:items-end space-y-4">
               <div className={`text-sm ${getThemeColor('text.muted', isDark)}`}>
-                {t('newsEvents.news.updated')} {new Date().toLocaleDateString(currentLanguage === 'si' ? 'si-LK' : currentLanguage === 'ta' ? 'ta-LK' : 'en-US', {
+                {t('newsevents:news.updated')} {new Date().toLocaleDateString(currentLanguage === 'si' ? 'si-LK' : currentLanguage === 'ta' ? 'ta-LK' : 'en-US', {
                   weekday: 'long',
                   hour: '2-digit',
                   minute: '2-digit'
@@ -253,7 +265,7 @@ const NewsEventsSection = () => {
                 href="/news"
                 className={`group inline-flex items-center space-x-3 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 ${colors.button.primary.base} ${colors.button.primary.shadow}`}
               >
-                <span>{t('newsEvents.news.exploreAll')}</span>
+                <span>{t('newsevents:news.exploreAll')}</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </a>
             </div>
@@ -283,7 +295,7 @@ const NewsEventsSection = () => {
                         {/* Main trending badge */}
                         <div className={`relative ${colors.button.primary.base} px-3 py-1.5 rounded-full text-xs font-bold flex items-center space-x-1.5 shadow-lg transform hover:scale-110 transition-all duration-300 backdrop-blur-sm`}>
                           <TrendingUp className="w-3.5 h-3.5 animate-bounce" />
-                          <span className="font-extrabold tracking-wide">{t('newsEvents.news.trending')}</span>
+                          <span className="font-extrabold tracking-wide">{t('newsevents:news.trending')}</span>
                           <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
                         </div>
 
@@ -299,7 +311,7 @@ const NewsEventsSection = () => {
                     <div className={`absolute right-3 z-20 ${article.trending ? 'top-16' : 'top-3'}`}>
                       <div className="bg-gradient-to-r from-[#f38621] to-[#1aa79e] text-white px-3 py-1.5 rounded-full text-xs font-bold floating-badge flex items-center space-x-1.5 shadow-lg backdrop-blur-sm">
                         <span className="text-xs">⭐</span>
-                        <span className="font-extrabold tracking-wide">{t('newsEvents.news.featured')}</span>
+                        <span className="font-extrabold tracking-wide">{t('newsevents:news.featured')}</span>
                       </div>
                     </div>
                   )}
@@ -340,7 +352,7 @@ const NewsEventsSection = () => {
                         </div>
                         <div className="flex items-center space-x-1 bg-black/30 backdrop-blur-sm px-2 py-1 rounded-full">
                           <Clock className="w-3 h-3" />
-                          <span className="text-xs font-medium">{article.readTime.replace('min read', t('newsEvents.news.readTime'))}</span>
+                          <span className="text-xs font-medium">{article.readTime.replace('min read', t('newsevents:news.readTime'))}</span>
                         </div>
                       </div>
                     </div>
@@ -401,7 +413,7 @@ const NewsEventsSection = () => {
                         </button>
                       </div>
                       <div className={`text-xs px-3 py-1 rounded-full ${getThemeColor('badge.secondary', isDark)}`}>
-                        {hoveredNews === article.id ? t('newsEvents.news.clickToRead') : t('newsEvents.news.hoverToPreview')}
+                        {hoveredNews === article.id ? t('newsevents:news.clickToRead') : t('newsevents:news.hoverToPreview')}
                       </div>
                     </div>
                   </div>
@@ -485,21 +497,21 @@ const NewsEventsSection = () => {
                 </div>
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-nysc-primary/10 to-nysc-secondary/10 border border-nysc-primary/20 backdrop-blur-md">
                   <Calendar className="w-4 h-4 text-nysc-primary" />
-                  <span className="text-sm font-medium text-nysc-primary">{t('newsEvents.events.badge')}</span>
+                  <span className="text-sm font-medium text-nysc-primary">{t('newsevents:events.badge')}</span>
                 </div>
               </div>
               <h2 className={`text-5xl font-bold mb-4 ${getThemeColor('text.primary', isDark)} leading-tight`}>
-                {t('newsEvents.events.title')} <span className={colors.brand.gradient.text}>{t('newsEvents.events.titleHighlight')}</span>
+                {t('newsevents:events.title')} <span className={colors.brand.gradient.text}>{t('newsevents:events.titleHighlight')}</span>
               </h2>
               <p className={`text-lg ${getThemeColor('text.secondary', isDark)} max-w-2xl`}>
-                {t('newsEvents.events.subtitle')}
+                {t('newsevents:events.subtitle')}
               </p>
             </div>
 
             {/* Enhanced CTA */}
             <div className="flex flex-col items-start lg:items-end space-y-4">
               <div className={`text-sm ${getThemeColor('text.muted', isDark)}`}>
-                {t('newsEvents.events.nextEvent')} {Math.ceil((new Date(events[0]?.date || new Date()).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} {t('newsEvents.events.days')}
+                {t('newsevents:events.nextEvent')} {Math.ceil((new Date(events[0]?.date || new Date()).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} {t('newsevents:events.days')}
               </div>
               <a
                 href="https://www.nysc.lk/events"
@@ -507,7 +519,7 @@ const NewsEventsSection = () => {
                 rel="noopener noreferrer"
                 className={`group inline-flex items-center space-x-3 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 ${colors.button.primary.base} ${colors.button.primary.shadow}`}
               >
-                <span>{t('newsEvents.events.viewAll')}</span>
+                <span>{t('newsevents:events.viewAll')}</span>
                 <Calendar className="w-5 h-5 group-hover:rotate-12 transition-transform" />
               </a>
             </div>
@@ -531,7 +543,7 @@ const NewsEventsSection = () => {
                   <div className="absolute right-3 top-3 z-20">
                     <div className="bg-gradient-to-r from-[#f38621] to-[#1aa79e] text-white px-3 py-1.5 rounded-full text-xs font-bold floating-badge flex items-center space-x-1.5 shadow-lg backdrop-blur-sm">
                       <span className="text-xs">⭐</span>
-                      <span className="font-extrabold tracking-wide">{t('newsEvents.events.featured')}</span>
+                      <span className="font-extrabold tracking-wide">{t('newsevents:events.featured')}</span>
                     </div>
                   </div>
                 )}
@@ -558,7 +570,7 @@ const NewsEventsSection = () => {
                           ? 'bg-gradient-to-r from-[#1aa79e] to-blue-600 text-white'
                           : 'bg-gradient-to-r from-gray-500 to-gray-600 text-white'
                       }`}>
-                      {t(`newsEvents.events.types.${event.type}`)}
+                      {t(`newsevents:events.types.${event.type}`)}
                     </span>
                   </div>
 
@@ -586,7 +598,7 @@ const NewsEventsSection = () => {
                   {/* Hover Effect Indicator - Moved to avoid overlap */}
                   <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="bg-[#1aa79e]/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-medium">
-                      {t('newsEvents.events.clickToView')}
+                      {t('newsevents:events.clickToView')}
                     </div>
                   </div>
                 </div>
@@ -638,7 +650,7 @@ const NewsEventsSection = () => {
                     {/* Enhanced Action Button */}
                     <div className="flex items-center space-x-2">
                       <span className={`text-sm font-medium ${getThemeColor('text.secondary', isDark)}`}>
-                        {hoveredEvent === event.id ? t('newsEvents.events.viewDetails') : t('newsEvents.events.learnMore')}
+                        {hoveredEvent === event.id ? t('newsevents:events.viewDetails') : t('newsevents:events.learnMore')}
                       </span>
                       <ArrowRight className={`w-4 h-4 ${colors.brand.primary.text} group-hover:translate-x-1 transition-transform`} />
                     </div>
@@ -665,27 +677,27 @@ const NewsEventsSection = () => {
                 </div>
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-nysc-primary/10 to-nysc-secondary/10 border border-nysc-primary/20 backdrop-blur-md">
                   <Image className="w-4 h-4 text-nysc-primary" />
-                  <span className="text-sm font-medium text-nysc-primary">{t('newsEvents.gallery.badge')}</span>
+                  <span className="text-sm font-medium text-nysc-primary">{t('newsevents:gallery.badge')}</span>
                 </div>
               </div>
               <h2 className={`text-5xl font-bold mb-4 ${getThemeColor('text.primary', isDark)} leading-tight`}>
-                {t('newsEvents.gallery.title')} <span className={colors.brand.gradient.text}>{t('newsEvents.gallery.titleHighlight')}</span>
+                {t('newsevents:gallery.title')} <span className={colors.brand.gradient.text}>{t('newsevents:gallery.titleHighlight')}</span>
               </h2>
               <p className={`text-lg ${getThemeColor('text.secondary', isDark)} max-w-2xl`}>
-                {t('newsEvents.gallery.subtitle')}
+                {t('newsevents:gallery.subtitle')}
               </p>
             </div>
 
             {/* Enhanced CTA */}
             <div className="flex flex-col items-start lg:items-end space-y-4">
               <div className={`text-sm ${getThemeColor('text.muted', isDark)}`}>
-                {t('newsEvents.gallery.totalPhotos')} 267+ {t('newsEvents.gallery.photos')}
+                {t('newsevents:gallery.totalPhotos')} 267+ {t('newsevents:gallery.photos')}
               </div>
               <a
                 href="/news-events/gallery"
                 className={`group inline-flex items-center space-x-3 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 ${colors.button.primary.base} ${colors.button.primary.shadow}`}
               >
-                <span>{t('newsEvents.gallery.viewAll')}</span>
+                <span>{t('newsevents:gallery.viewAll')}</span>
                 <Image className="w-5 h-5 group-hover:scale-110 transition-transform" />
               </a>
             </div>
@@ -696,66 +708,66 @@ const NewsEventsSection = () => {
             {[
               {
                 id: 1,
-                title: t('newsEvents.gallery.albums.youthAwards'),
-                description: t('newsEvents.gallery.albums.youthAwardsDesc'),
+                title: t('newsevents:gallery.albums.youthAwards'),
+                description: t('newsevents:gallery.albums.youthAwardsDesc'),
                 imageCount: 45,
                 videoCount: 3,
-                category: t('newsEvents.gallery.categories.awards'),
+                category: t('newsevents:gallery.categories.awards'),
                 date: 'December 2024',
                 featured: true,
                 image: 'https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop'
               },
               {
                 id: 2,
-                title: t('newsEvents.gallery.albums.culturalFest'),
-                description: t('newsEvents.gallery.albums.culturalFestDesc'),
+                title: t('newsevents:gallery.albums.culturalFest'),
+                description: t('newsevents:gallery.albums.culturalFestDesc'),
                 imageCount: 67,
                 videoCount: 5,
-                category: t('newsEvents.gallery.categories.culture'),
+                category: t('newsevents:gallery.categories.culture'),
                 date: 'October 2024',
                 featured: false,
                 image: 'https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop'
               },
               {
                 id: 3,
-                title: t('newsEvents.gallery.albums.sportsProg'),
-                description: t('newsEvents.gallery.albums.sportsProgDesc'),
+                title: t('newsevents:gallery.albums.sportsProg'),
+                description: t('newsevents:gallery.albums.sportsProgDesc'),
                 imageCount: 54,
                 videoCount: 4,
-                category: t('newsEvents.gallery.categories.sports'),
+                category: t('newsevents:gallery.categories.sports'),
                 date: 'August 2024',
                 featured: false,
                 image: 'https://images.pexels.com/photos/416978/pexels-photo-416978.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop'
               },
               {
                 id: 4,
-                title: t('newsEvents.gallery.albums.leadership'),
-                description: t('newsEvents.gallery.albums.leadershipDesc'),
+                title: t('newsevents:gallery.albums.leadership'),
+                description: t('newsevents:gallery.albums.leadershipDesc'),
                 imageCount: 28,
                 videoCount: 1,
-                category: t('newsEvents.gallery.categories.leadership'),
+                category: t('newsevents:gallery.categories.leadership'),
                 date: 'September 2024',
                 featured: false,
                 image: 'https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop'
               },
               {
                 id: 5,
-                title: t('newsEvents.gallery.albums.training'),
-                description: t('newsEvents.gallery.albums.trainingDesc'),
+                title: t('newsevents:gallery.albums.training'),
+                description: t('newsevents:gallery.albums.trainingDesc'),
                 imageCount: 32,
                 videoCount: 2,
-                category: t('newsEvents.gallery.categories.education'),
+                category: t('newsevents:gallery.categories.education'),
                 date: 'November 2024',
                 featured: false,
                 image: 'https://images.pexels.com/photos/1157394/pexels-photo-1157394.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop'
               },
               {
                 id: 6,
-                title: t('newsEvents.gallery.albums.environment'),
-                description: t('newsEvents.gallery.albums.environmentDesc'),
+                title: t('newsevents:gallery.albums.environment'),
+                description: t('newsevents:gallery.albums.environmentDesc'),
                 imageCount: 41,
                 videoCount: 2,
-                category: t('newsEvents.gallery.categories.environment'),
+                category: t('newsevents:gallery.categories.environment'),
                 date: 'July 2024',
                 featured: false,
                 image: 'https://images.pexels.com/photos/1072179/pexels-photo-1072179.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop'
@@ -773,7 +785,7 @@ const NewsEventsSection = () => {
                   <div className="absolute right-3 top-3 z-20">
                     <div className="bg-gradient-to-r from-[#f38621] to-[#1aa79e] text-white px-3 py-1.5 rounded-full text-xs font-bold floating-badge flex items-center space-x-1.5 shadow-lg backdrop-blur-sm">
                       <span className="text-xs">⭐</span>
-                      <span className="font-extrabold tracking-wide">{t('newsEvents.gallery.featured')}</span>
+                      <span className="font-extrabold tracking-wide">{t('newsevents:gallery.featured')}</span>
                     </div>
                   </div>
                 )}
@@ -849,7 +861,7 @@ const NewsEventsSection = () => {
                       </button>
                     </div>
                     <div className={`text-xs px-3 py-1 rounded-full ${getThemeColor('badge.secondary', isDark)}`}>
-                      {t('newsEvents.gallery.clickToView')}
+                      {t('newsevents:gallery.clickToView')}
                     </div>
                   </div>
                 </div>
@@ -886,10 +898,10 @@ const NewsEventsSection = () => {
                   </div>
                   <div className="text-center sm:text-left">
                     <h3 className={`text-xl lg:text-2xl font-bold ${getThemeColor('text.primary', isDark)}`}>
-                      {t('footer.newsletterTitle')}
+                      {t('common:newsletterTitle')}
                     </h3>
                     <p className={`text-sm ${getThemeColor('text.secondary', isDark)} mt-1`}>
-                      {t('footer.newsletterDescription')}
+                      {t('common:newsletterDescription')}
                     </p>
                   </div>
                 </div>
@@ -917,7 +929,7 @@ const NewsEventsSection = () => {
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder={t('footer.emailPlaceholder')}
+                      placeholder={t('common:emailPlaceholder')}
                       className={`w-full px-4 py-3 pl-11 rounded-xl border ${getThemeColor('input.primary', isDark)} focus:outline-none focus:ring-2 focus:ring-nysc-primary/30 focus:border-nysc-primary transition-all duration-300 text-sm`}
                       required
                     />
@@ -939,12 +951,12 @@ const NewsEventsSection = () => {
                         <div className="w-4 h-4 border-2 border-white rounded-full flex items-center justify-center">
                           <div className="w-1.5 h-1.5 bg-white rounded-full" />
                         </div>
-                        <span>{t('footer.subscribedMessage')}</span>
+                        <span>{t('common:subscribedMessage')}</span>
                       </>
                     ) : (
                       <>
                         <Send className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                        <span>{t('footer.subscribeButton')}</span>
+                        <span>{t('common:subscribeButton')}</span>
                       </>
                     )}
                   </button>

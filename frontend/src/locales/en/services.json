@@ -1,0 +1,48 @@
+{
+  "badge": "Our Services",
+  "title": "Interactive Youth Services",
+  "subtitle": "Discover our comprehensive programs designed to empower and engage Sri Lankan youth",
+  "keyFeatures": "Key Features",
+  "learnMore": "Learn More",
+  "stats": {
+    "members": "Members",
+    "programs": "Programs", 
+    "awards": "Awards"
+  },
+  "youthClub": {
+    "title": "Youth Clubs",
+    "description": "Community-based youth organizations fostering leadership, friendship, and social development",
+    "features": ["Leadership Development", "Community Service", "Social Activities", "Skill Building"]
+  },
+  "youthParliament": {
+    "title": "Youth Parliament",
+    "description": "Democratic platform for young people to engage in governance and policy discussions",
+    "features": ["Democratic Participation", "Policy Debates", "Leadership Training", "Civic Education"]
+  },
+  "youthDancing": {
+    "title": "Youth Dancing Team", 
+    "description": "Cultural dance programs preserving Sri Lankan heritage while promoting artistic expression",
+    "features": ["Traditional Dances", "Modern Choreography", "Cultural Events", "Performance Opportunities"]
+  },
+  "youthMusic": {
+    "title": "Youth Music Band",
+    "description": "Musical education and performance opportunities for talented young musicians",
+    "features": ["Music Education", "Band Performances", "Recording Studios", "Musical Instruments"]
+  },
+  "youthDrama": {
+    "title": "Youth Drama Team",
+    "description": "Theater arts program developing creativity, confidence, and storytelling abilities", 
+    "features": ["Acting Classes", "Script Writing", "Stage Productions", "Drama Competitions"]
+  },
+  "youthSports": {
+    "title": "Youth Sports",
+    "description": "Comprehensive sports development programs promoting fitness and competitive excellence",
+    "features": ["Athletic Training", "Sports Competitions", "Fitness Programs", "Team Building"]
+  },
+  "organizations": {
+    "badge": "Youth Organizations",
+    "title": "Empowering Youth Through",
+    "titleHighlight": "Organizations",
+    "exploreMore": "Explore More"
+  }
+}

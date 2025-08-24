@@ -1,0 +1,82 @@
+{
+  "hero": {
+    "subtitle": "AN EMPOWERED SRI LANKA YOUTH",
+    "title": "NATIONAL YOUTH SERVICES COUNCIL OF",
+    "titleHighlight": "SRI LANKA",
+    "description": "Youth of Sri Lanka are also having an undertaking for economic and social upliftment of the country.",
+    "statsActiveMembers": "Active Members",
+    "statsYouthClubs": "Youth Clubs",
+    "statsDistricts": "Districts",
+    "joinButton": "Join With Us",
+    "youthStatement": "Youth Statement to COP28"
+  },
+  "keyServices": {
+    "sportsTitle": "Sports",
+    "sportsShortDesc": "Athletic Excellence",
+    "sportsDescription": "Developing athletic excellence through comprehensive sports programs and competitive training",
+    "sportsStats": "50+ Clubs",
+    "aestheticsTitle": "Aesthetics",
+    "aestheticsShortDesc": "Cultural Arts",
+    "aestheticsDescription": "Nurturing creativity and artistic expression through music, dance, and visual arts",
+    "aestheticsStats": "30+ Programs",
+    "educationTitle": "Education",
+    "educationShortDesc": "Knowledge Growth",
+    "educationDescription": "Empowering minds through innovative learning and skill development programs",
+    "educationStats": "100+ Courses",
+    "administrationTitle": "Administration",
+    "administrationShortDesc": "Leadership",
+    "administrationDescription": "Building effective youth organizations through governance and management training",
+    "administrationStats": "25 Districts",
+    "learnMore": "Learn More"
+  },
+  "youthOfferings": {
+    "badgeText": "Youth Programs",
+    "title": "What We Offer to",
+    "titleHighlight": "Youth",
+    "subtitle": "Comprehensive programs and opportunities designed to unlock your potential",
+    "careerTitle": "Career Development",
+    "careerDescription": "Professional skills training and career guidance programs",
+    "careerFeatures": ["Job Training", "Career Counseling", "Internships"],
+    "volunteerTitle": "Volunteer Programs",
+    "volunteerDescription": "Community service and social development initiatives",
+    "volunteerFeatures": ["Community Service", "Social Projects", "Environmental Work"],
+    "internationalTitle": "International Exchange",
+    "internationalDescription": "Global youth exchange and cultural programs",
+    "internationalFeatures": ["Exchange Programs", "Cultural Tours", "Global Networks"],
+    "educationalTitle": "Educational Support",
+    "educationalDescription": "Scholarships and educational assistance programs",
+    "educationalFeatures": ["Scholarships", "Tutoring", "Study Materials"],
+    "clubsTitle": "Youth Clubs",
+    "clubsDescription": "Join or establish youth clubs in your area",
+    "clubsFeatures": ["Club Formation", "Activities", "Networking"],
+    "innovationTitle": "Innovation Hub",
+    "innovationDescription": "Technology and innovation programs for youth",
+    "innovationFeatures": ["Tech Training", "Innovation Projects", "Startup Support"],
+    "learnMore": "Learn More"
+  },
+  "leaders": {
+    "badge": "Leadership",
+    "title": "Our",
+    "titleHighlight": "Leaders",
+    "subtitle": "Meet the dedicated leaders guiding Sri Lanka's youth towards a brighter future",
+    "minister": {
+      "name": "Hon. Sunil Kumara Gamage",
+      "position": "Minister of Youth Affairs and Sports"
+    },
+    "deputyMinister": {
+      "name": "Hon. Eranga Gunasekara",
+      "position": "Deputy Minister of Youth Affairs and Sports"
+    },
+    "secretary": {
+      "name": "Mr. Aruna Bandara",
+      "position": "Secretary, Ministry of Youth Affairs and Sports"
+    },
+    "chairman": {
+      "name": "Mr. Supun Wijerathna",
+      "position": "Chairman, National Youth Services Council"
+    },
+    "directorsTitle": "Meet Our Directors",
+    "directorsDescription": "Discover the experienced leadership team behind our programs and initiatives",
+    "viewAllDirectors": "View All Directors"
+  }
+}

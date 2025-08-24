@@ -5,16 +5,27 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 import { colors, getThemeColor } from '../../config/colors';
 import { useLocation } from 'react-router-dom';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const { isDark } = useTheme();
-  const { t } = useLanguage();
+  const { t, ready } = useTranslationWithNamespace('footer');
   const location = useLocation();
   const isMainPage = location.pathname === '/';
+
+  // Show loading state while translations are not ready
+  if (!ready) {
+    return (
+      <footer className="relative overflow-hidden w-full max-w-full min-h-[200px] bg-gray-100 dark:bg-gray-900">
+        <div className="flex items-center justify-center h-48">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
+        </div>
+      </footer>
+    );
+  }
 
   // Get appropriate SVG file based on theme
   const getSVGFile = () => {
@@ -75,11 +86,11 @@ const Footer = () => {
               </div>
 
               <p className={`mb-2 leading-relaxed text-lg font-semibold ${colors.brand.gradient.text}`}>
-                {t('footer.empoweringYouth')}
+                {t('empoweringYouth')}
               </p>
 
               <p className={`text-sm mb-4 leading-relaxed ${getThemeColor('text.secondary', isDark)}`}>
-                {t('footer.organizationDescription')}
+                {t('organizationDescription')}
               </p>
 
               {/* Social Media with Monochrome Design */}
@@ -139,7 +150,7 @@ const Footer = () => {
 
             {/* Quick Links */}
             <div>
-              <h3 className={`text-lg font-bold mb-6 ${getThemeColor('text.primary', isDark)}`}>{t('footer.quickLinks')}</h3>
+              <h3 className={`text-lg font-bold mb-6 ${getThemeColor('text.primary', isDark)}`}>{t('quickLinks')}</h3>
               <ul className="space-y-3">
                 {quickLinks.map((link, index) => (
                   <li key={index}>
@@ -157,7 +168,7 @@ const Footer = () => {
 
             {/* Programs */}
             <div>
-              <h3 className={`text-lg font-bold mb-6 ${getThemeColor('text.primary', isDark)}`}>{t('footer.programs')}</h3>
+              <h3 className={`text-lg font-bold mb-6 ${getThemeColor('text.primary', isDark)}`}>{t('programs')}</h3>
               <ul className="space-y-3">
                 {programs.map((program, index) => (
                   <li key={index}>
@@ -175,7 +186,7 @@ const Footer = () => {
 
             {/* Contact Info */}
             <div>
-              <h3 className={`text-lg font-bold mb-6 ${getThemeColor('text.primary', isDark)}`}>{t('footer.contact')}</h3>
+              <h3 className={`text-lg font-bold mb-6 ${getThemeColor('text.primary', isDark)}`}>{t('contact')}</h3>
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
                   <div className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg ${getThemeColor('card.secondary', isDark)} border ${getThemeColor('border.subtle', isDark)}`}>
@@ -186,7 +197,7 @@ const Footer = () => {
                       info@nysc.lk
                     </p>
                     <p className={`text-sm ${getThemeColor('text.muted', isDark)}`}>
-                      {t('footer.generalInquiries')}
+                      {t('generalInquiries')}
                     </p>
                   </div>
                 </div>
@@ -200,7 +211,7 @@ const Footer = () => {
                       +94 11 234 5678
                     </p>
                     <p className={`text-sm ${getThemeColor('text.muted', isDark)}`}>
-                      {t('footer.officeHours')}
+                      {t('officeHours')}
                     </p>
                   </div>
                 </div>
@@ -211,10 +222,10 @@ const Footer = () => {
                   </div>
                   <div>
                     <p className={`font-semibold ${getThemeColor('text.primary', isDark)}`}>
-                      {t('footer.organizationAddress')}
+                      {t('organizationAddress')}
                     </p>
                     <p className={`text-sm ${getThemeColor('text.muted', isDark)}`}>
-                      {t('footer.location')}
+                      {t('location')}
                     </p>
                   </div>
                 </div>
@@ -226,21 +237,21 @@ const Footer = () => {
           <div className={`border-t ${getThemeColor('border.subtle', isDark)} pt-4 flex flex-col lg:flex-row justify-between items-center gap-8`}>
             <div className="flex flex-col sm:flex-row items-center gap-6">
               <p className={`text-sm ${getThemeColor('text.muted', isDark)}`}>
-                © {currentYear} {t('footer.copyright')}
+                © {currentYear} {t('copyright')}
               </p>
               <div className="flex items-center space-x-2">
-                <span className={`text-xs ${getThemeColor('text.muted', isDark)}`}>{t('footer.madeWith')}</span>
+                <span className={`text-xs ${getThemeColor('text.muted', isDark)}`}>{t('madeWith')}</span>
                 <span className="text-red-500 animate-pulse">♥</span>
-                <span className={`text-xs ${getThemeColor('text.muted', isDark)}`}>{t('footer.forYouth')}</span>
+                <span className={`text-xs ${getThemeColor('text.muted', isDark)}`}>{t('forYouth')}</span>
               </div>
             </div>
 
             <div className="flex flex-wrap items-center justify-center gap-8">
               {[
-                { label: t('footer.privacyPolicy'), href: '#' },
-                { label: t('footer.termsOfService'), href: '#' },
-                { label: t('footer.accessibility'), href: '#' },
-                { label: t('footer.sitemap'), href: '#' }
+                { label: t('privacyPolicy'), href: '#' },
+                { label: t('termsOfService'), href: '#' },
+                { label: t('accessibility'), href: '#' },
+                { label: t('sitemap'), href: '#' }
               ].map((link, index) => (
                 <a
                   key={index}

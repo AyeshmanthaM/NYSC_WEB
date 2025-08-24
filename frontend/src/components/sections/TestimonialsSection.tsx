@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Quote, Star, PenTool, Plus } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 import { colors, getThemeColor } from '../../config/colors';
 
 const TestimonialsSection = () => {
@@ -11,7 +11,7 @@ const TestimonialsSection = () => {
   const [screenSize, setScreenSize] = useState('lg');
   const sectionRef = useRef<HTMLDivElement>(null);
   const { isDark } = useTheme();
-  const { t } = useLanguage();
+  const { t, ready } = useTranslationWithNamespace('testimonials');
 
   const testimonials = [
     {
@@ -91,6 +91,16 @@ const TestimonialsSection = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
+  // Show loading state while translations are not ready
+  if (!ready) {
+    return (
+      <section className="py-18 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section
@@ -130,10 +140,10 @@ const TestimonialsSection = () => {
         >
           <div className="inline-flex items-center gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-1.5 rounded-full bg-gradient-to-r from-nysc-primary/10 to-nysc-secondary/10 border border-nysc-primary/20 backdrop-blur-md shadow-lg mb-2.5 sm:mb-3.5">
             <Quote className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-nysc-primary" />
-            <span className="text-xs sm:text-sm font-medium text-nysc-primary">{t('testimonials.badge')}</span>
+            <span className="text-xs sm:text-sm font-medium text-nysc-primary">{t('badge')}</span>
           </div>
           <h2 className={`text-xl sm:text-3xl md:text-4xl lg:text-4xl font-bold mb-2 sm:mb-3.5 px-3.5 sm:px-0 ${getThemeColor('text.primary', isDark)}`}>
-            {t('testimonials.title')}
+            {t('title')}
           </h2>
         </div>
 
@@ -310,9 +320,9 @@ const TestimonialsSection = () => {
             <div className={`px-3 py-2 lg:px-4 lg:py-2 rounded-lg whitespace-nowrap ${getThemeColor('card.secondary', isDark)} shadow-xl`}>
               <div className={`flex items-center gap-2 ${getThemeColor('text.primary', isDark)}`}>
                 <PenTool className={`w-3 h-3 lg:w-4 lg:h-4 ${colors.brand.primary.text}`} />
-                <span className="font-medium text-sm lg:text-base">{t('testimonials.writeStory')}</span>
+                <span className="font-medium text-sm lg:text-base">{t('writeStory')}</span>
               </div>
-              <div className={`text-xs mt-1 ${getThemeColor('text.secondary', isDark)}`}>{t('testimonials.clickToStart')}</div>
+              <div className={`text-xs mt-1 ${getThemeColor('text.secondary', isDark)}`}>{t('clickToStart')}</div>
             </div>
             {/* Tooltip arrow */}
             <div className={`absolute top-full right-6 w-0 h-0 border-l-8 border-l-transparent border-r-8 border-r-transparent border-t-8 ${isDark ? 'border-t-gray-800' : 'border-t-white'}`} />

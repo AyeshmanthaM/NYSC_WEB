@@ -1,0 +1,49 @@
+{
+  "badge": "Popular Courses",
+  "title": "Popular Training Programs",
+  "subtitle": "Discover our most sought-after vocational training courses designed to empower youth with practical skills",
+  "months": "months",
+  "fullTime": "Full Time",
+  "partTime": "Part Time",
+  "students": "students",
+  "applyNow": "Apply Now",
+  "viewAllCourses": "View All Courses",
+  "categories": {
+    "hospitality": "Hospitality & Tourism",
+    "it": "Information Technology",
+    "fashion": "Fashion & Design",
+    "technical": "Technical Skills",
+    "automotive": "Automotive Technology",
+    "beauty": "Beauty & Wellness"
+  },
+  "hotelManagement": {
+    "title": "Hotel Management",
+    "description": "Comprehensive training in hospitality management, customer service, and hotel operations",
+    "institute": "NYSC Tourism Training Institute"
+  },
+  "computerApplications": {
+    "title": "Computer Applications",
+    "description": "Essential computer skills including office applications, internet usage, and basic programming",
+    "institute": "NYSC IT Training Center"
+  },
+  "fashionDesign": {
+    "title": "Fashion Design",
+    "description": "Creative fashion design training covering pattern making, garment construction, and fashion illustration",
+    "institute": "NYSC Fashion Design Institute"
+  },
+  "electrical": {
+    "title": "Electrical Technology",
+    "description": "Practical electrical skills training for domestic and industrial electrical systems",
+    "institute": "NYSC Technical Training Center"
+  },
+  "automotive": {
+    "title": "Automotive Technology",
+    "description": "Comprehensive vehicle maintenance and repair training for modern automotive systems",
+    "institute": "NYSC Automotive Institute"
+  },
+  "beautyCulture": {
+    "title": "Beauty Culture",
+    "description": "Professional beauty and wellness training including hair styling, makeup, and skincare",
+    "institute": "NYSC Beauty Academy"
+  }
+}

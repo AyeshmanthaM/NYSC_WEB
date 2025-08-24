@@ -1,0 +1,82 @@
+{
+  "hero": {
+    "subtitle": "සවිබල ගත වූ ශ්‍රී ලංකා තරුණයා",
+    "title": "ශ්‍රී ලංකාවේ ජාතික තරුණ සේවා",
+    "titleHighlight": "සභාව",
+    "description": "ශ්‍රී ලංකාවේ තරුණයෝ රටේ ආර්ථික සහ සමාජ කැපවීම සදහා ද කටයුතු කරති.",
+    "statsActiveMembers": "සක්‍රීය සාමාජිකයින්",
+    "statsYouthClubs": "තරුණ සමාජ",
+    "statsDistricts": "දිස්ත්‍රික්ක",
+    "joinButton": "අප සමග එකතු වන්න",
+    "youthStatement": "COP28 සදහා තරුණ ප්‍රකාශනය"
+  },
+  "keyServices": {
+    "sportsTitle": "ක්‍රීඩා",
+    "sportsShortDesc": "ක්‍රීඩා විශිෂ්ටත්වය",
+    "sportsDescription": "විස්තර සහිත ක්‍රීඩා වැඩසටහන් සහ තරඟකාරී පුහුණුව හරහා ක්‍රීඩා විශිෂ්ටත්වය වර්ධනය කිරීම",
+    "sportsStats": "සමාජ 50+",
+    "aestheticsTitle": "සෞන්දර්යය",
+    "aestheticsShortDesc": "සංස්කෘතික කලා",
+    "aestheticsDescription": "සංගීතය, නර්තනය සහ දෘශ්‍ය කලාවන් හරහා නිර්මාණශීලිත්වය සහ කලාත්මක ප්‍රකාශනය පෝෂණය කිරීම",
+    "aestheticsStats": "වැඩසටහන් 30+",
+    "educationTitle": "අධ්‍යාපනය",
+    "educationShortDesc": "දැනුම වර්ධනය",
+    "educationDescription": "නව්‍ය ඉගෙනීම් සහ කුසලතා සංවර්ධන වැඩසටහන් හරහා මනසට බලය ලබා දීම",
+    "educationStats": "පාූර්ස 100+",
+    "administrationTitle": "පරිපාලනය",
+    "administrationShortDesc": "නායකත්වය",
+    "administrationDescription": "පාලනය සහ කළමනාකරණ පුහුණුව හරහා ඵලදායී තරුණ සංවිධාන ගොඩ නැගීම",
+    "administrationStats": "දිස්ත්‍රික්ක 25",
+    "learnMore": "වැඩිදුර ඉගෙන ගන්න"
+  },
+  "youthOfferings": {
+    "badgeText": "තරුණ වැඩසටහන්",
+    "title": "අප පිරිනමන්නේ",
+    "titleHighlight": "තරුණයන්ට",
+    "subtitle": "ඔබේ හැකියාවන් විකාශනය කිරීම සඳහා සැලසුම් කර ඇති සවිස්තර වැඩසටහන් සහ අවස්ථා",
+    "careerTitle": "වෘත්තීය සංවර්ධනය",
+    "careerDescription": "වෘත්තීය කුසලතා පුහුණුව සහ වෘත්තීය මාර්ගදර්ශන වැඩසටහන්",
+    "careerFeatures": ["රැකියා පුහුණුව", "වෘත්තීය උපදේශනය", "රුද්ධ පුහුණුව"],
+    "volunteerTitle": "ස්වේච්ඡා සේවක වැඩසටහන්",
+    "volunteerDescription": "ප්‍රජා සේවාව සහ සමාජ සංවර්ධන මුලපිරීම්",
+    "volunteerFeatures": ["ප්‍රජා සේවාව", "සමාජ ව්‍යාපෘති", "පරිසර කාර්යයන්"],
+    "internationalTitle": "ජාත්‍යන්තර හුවමාරුව",
+    "internationalDescription": "ගෝලීය තරුණ හුවමාරු සහ සංස්කෘතික වැඩසටහන්",
+    "internationalFeatures": ["හුවමාරු වැඩසටහන්", "සංස්කෘතික සංචාර", "ගෝලීය ජාල"],
+    "educationalTitle": "අධ්‍යාපන ආධාර",
+    "educationalDescription": "ශිෂ්‍යත්ව සහ අධ්‍යාපන සහාය වැඩසටහන්",
+    "educationalFeatures": ["ශිෂ්‍යත්ව", "පෞද්ගලික පන්ති", "අධ්‍යයන ද්‍රව්‍ය"],
+    "clubsTitle": "තරුණ සමාජ",
+    "clubsDescription": "ඔබේ ප්‍රදේශයේ තරුණ සමාජවලට සම්බන්ධ වන්න හෝ ස්ථාපනය කරන්න",
+    "clubsFeatures": ["සමාජ පිහිටුවීම", "ක්‍රියාකාරකම්", "ජාල කිරීම"],
+    "innovationTitle": "නවෝත්පාදන මධ්‍යස්ථානය",
+    "innovationDescription": "තරුණයන් සඳහා තාක්ෂණය සහ නවෝත්පාදන වැඩසටහන්",
+    "innovationFeatures": ["තාක්ෂණික පුහුණුව", "නවෝත්පාදන ව්‍යාපෘති", "ආරම්භක සහාය"],
+    "learnMore": "වැඩිදුර ඉගෙන ගන්න"
+  },
+  "leaders": {
+    "badge": "නායකත්වය",
+    "title": "අපගේ",
+    "titleHighlight": "නායකයින්",
+    "subtitle": "ශ්‍රී ලංකාවේ තරුණයන් දීප්තිමත් අනාගතයකට මෙහෙයවන කැපවූ නායකයින් හමුවන්න",
+    "minister": {
+      "name": "ගරු සුනිල් කුමාර ගමගේ මහතා",
+      "position": "තරුණ කටයුතු හා ක්‍රීඩා අමාත්‍යවරයා"
+    },
+    "deputyMinister": {
+      "name": "ගරු ඉරංග ගුණසේකර මහතා",
+      "position": "තරුණ කටයුතු හා ක්‍රීඩා නියෝජ්‍ය අමාත්‍යවරයා"
+    },
+    "secretary": {
+      "name": "අරුණ බණ්ඩාර මහතා",
+      "position": "ලේකම්, තරුණ කටයුතු හා ක්‍රීඩා අමාත්‍යාංශය"
+    },
+    "chairman": {
+      "name": "සුපුන් විජේරත්න මහතා",
+      "position": "සභාපති, ජාතික තරුණ සේවා සභාව"
+    },
+    "directorsTitle": "අපගේ අධ්‍යක්ෂවරුන් හමුවන්න",
+    "directorsDescription": "අපගේ වැඩසටහන් සහ මුලපිරීම් පිටුපස ඇති පළපුරුදු නායකත්ව කණ්ඩායම සොයා ගන්න",
+    "viewAllDirectors": "සියලුම අධ්‍යක්ෂවරුන් බලන්න"
+  }
+}

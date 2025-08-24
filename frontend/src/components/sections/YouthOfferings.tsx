@@ -1,6 +1,6 @@
 import { ArrowRight, Briefcase, Heart, Globe, BookOpen, Users, Lightbulb, Star, TrendingUp } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 import { colors, getThemeColor } from '../../config/colors';
 
 interface YouthOfferingsProps {
@@ -9,7 +9,27 @@ interface YouthOfferingsProps {
 
 const YouthOfferings = ({ extraTopSpace = 0 }: YouthOfferingsProps) => {
   const { isDark } = useTheme();
-  const { t } = useLanguage();
+  const { t, ready } = useTranslationWithNamespace('home');
+
+  if (!ready) {
+    return (
+      <section className="relative py-16 overflow-hidden">
+        <div className="container mx-auto px-4 text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+        </div>
+      </section>
+    );
+  }
+
+  // Helper function to safely convert translation result to array
+  const getFeatureArray = (translationKey: string): string[] => {
+    const result = t(translationKey);
+    if (Array.isArray(result)) {
+      return result;
+    }
+    // If it's a string (fallback key), return empty array to avoid map error
+    return [];
+  };
 
   const offerings = [
     {
@@ -18,7 +38,7 @@ const YouthOfferings = ({ extraTopSpace = 0 }: YouthOfferingsProps) => {
       description: t('youthOfferings.careerDescription'),
       icon: Briefcase,
       link: '#',
-      features: t('youthOfferings.careerFeatures') as string[]
+      features: getFeatureArray('youthOfferings.careerFeatures')
     },
     {
       id: 2,
@@ -26,7 +46,7 @@ const YouthOfferings = ({ extraTopSpace = 0 }: YouthOfferingsProps) => {
       description: t('youthOfferings.volunteerDescription'),
       icon: Heart,
       link: '#',
-      features: t('youthOfferings.volunteerFeatures') as string[]
+      features: getFeatureArray('youthOfferings.volunteerFeatures')
     },
     {
       id: 3,
@@ -34,7 +54,7 @@ const YouthOfferings = ({ extraTopSpace = 0 }: YouthOfferingsProps) => {
       description: t('youthOfferings.internationalDescription'),
       icon: Globe,
       link: '#',
-      features: t('youthOfferings.internationalFeatures') as string[]
+      features: getFeatureArray('youthOfferings.internationalFeatures')
     },
     {
       id: 4,
@@ -42,7 +62,7 @@ const YouthOfferings = ({ extraTopSpace = 0 }: YouthOfferingsProps) => {
       description: t('youthOfferings.educationalDescription'),
       icon: BookOpen,
       link: '#',
-      features: t('youthOfferings.educationalFeatures') as string[]
+      features: getFeatureArray('youthOfferings.educationalFeatures')
     },
     {
       id: 5,
@@ -50,7 +70,7 @@ const YouthOfferings = ({ extraTopSpace = 0 }: YouthOfferingsProps) => {
       description: t('youthOfferings.clubsDescription'),
       icon: Users,
       link: '#',
-      features: t('youthOfferings.clubsFeatures') as string[]
+      features: getFeatureArray('youthOfferings.clubsFeatures')
     },
     {
       id: 6,
@@ -58,7 +78,7 @@ const YouthOfferings = ({ extraTopSpace = 0 }: YouthOfferingsProps) => {
       description: t('youthOfferings.innovationDescription'),
       icon: Lightbulb,
       link: '#',
-      features: t('youthOfferings.innovationFeatures') as string[]
+      features: getFeatureArray('youthOfferings.innovationFeatures')
     }
   ];
 

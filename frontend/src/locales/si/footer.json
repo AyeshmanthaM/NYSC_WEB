@@ -1,0 +1,34 @@
+{
+  "empoweringYouth": "විශිෂ්ටත්වය හරහා තරුණයන් බලගැන්වීම",
+  "organizationDescription": "ශ්‍රී ලංකා ජාතික තරුණ සේවා සභාව ක්‍රීඩා, සංස්කෘතිය, අධ්‍යාපනය සහ නායකත්ව සංවර්ධන යන ක්ෂේත්‍රවල සවිස්තර වැඩසටහන් හරහා තරුණයන් සංවර්ධනය කිරීමට සහ බලගැන්වීමට කැප වී සිටී.",
+  "quickLinks": "ඉක්මන් සබැඳි",
+  "programs": "වැඩසටහන්",
+  "contact": "සම්බන්ධතා තොරතුරු",
+  "generalInquiries": "සාමාන්‍ය විමසීම්",
+  "officeHours": "සඳුදා - සිකුරාදා, පෙ.ව. 9:00 - ප.ව. 5:00",
+  "organizationAddress": "ජාතික තරුණ සේවා සභා ගොඩනැගිල්ල, කොළඹ 07",
+  "location": "කොළඹ, ශ්‍රී ලංකාව",
+  "copyright": "ජාතික තරුණ සේවා සභාව. සියලුම අයිතිවාසිකම් ආරක්ෂිතයි.",
+  "madeWith": "සාදන ලද්දේ",
+  "forYouth": "ශ්‍රී ලංකා තරුණයන් සඳහා",
+  "privacyPolicy": "පුද්ගලිකත්ව ප්‍රතිපත්තිය",
+  "termsOfService": "සේවා නියමයන්",
+  "accessibility": "ප්‍රවේශ්‍යත්වය",
+  "sitemap": "වෙබ් අඩවි සිතියම",
+  "links": {
+    "aboutNYSC": "NYSC පිළිබඳ",
+    "programs": "වැඩසටහන්",
+    "youthClubs": "තරුණ සමාජ",
+    "downloads": "බාගත කිරීම්",
+    "annualReports": "වාර්ෂික වාර්තා",
+    "contactUs": "අප සමඟ සම්බන්ධ වන්න"
+  },
+  "programsList": {
+    "sportsExcellence": "ක්‍රීඩා විශිෂ්ටත්වය",
+    "culturalActivities": "සංස්කෘතික ක්‍රියාකාරකම්",
+    "leadershipTraining": "නායකත්ව පුහුණුව",
+    "communityService": "ප්‍රජා සේවාව",
+    "skillDevelopment": "කුසලතා සංවර්ධනය",
+    "youthAwards": "තරුණ සම්මාන"
+  }
+}

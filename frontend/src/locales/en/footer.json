@@ -1,0 +1,34 @@
+{
+  "empoweringYouth": "Empowering Youth Through Excellence",
+  "organizationDescription": "The National Youth Services Council of Sri Lanka is dedicated to developing and empowering young people through comprehensive programs in sports, culture, education, and leadership development.",
+  "quickLinks": "Quick Links",
+  "programs": "Programs",
+  "contact": "Contact Info",
+  "generalInquiries": "General Inquiries",
+  "officeHours": "Mon - Fri, 9:00 AM - 5:00 PM",
+  "organizationAddress": "National Youth Services Council Building, Colombo 07",
+  "location": "Colombo, Sri Lanka",
+  "copyright": "National Youth Services Council. All rights reserved.",
+  "madeWith": "Made with",
+  "forYouth": "for Sri Lankan Youth",
+  "privacyPolicy": "Privacy Policy",
+  "termsOfService": "Terms of Service", 
+  "accessibility": "Accessibility",
+  "sitemap": "Sitemap",
+  "links": {
+    "aboutNYSC": "About NYSC",
+    "programs": "Programs",
+    "youthClubs": "Youth Clubs", 
+    "downloads": "Downloads",
+    "annualReports": "Annual Reports",
+    "contactUs": "Contact Us"
+  },
+  "programsList": {
+    "sportsExcellence": "Sports Excellence",
+    "culturalActivities": "Cultural Activities",
+    "leadershipTraining": "Leadership Training",
+    "communityService": "Community Service",
+    "skillDevelopment": "Skill Development",
+    "youthAwards": "Youth Awards"
+  }
+}

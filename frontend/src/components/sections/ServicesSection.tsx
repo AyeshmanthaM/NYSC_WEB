@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 import { ExternalLink, Users, Vote, Zap, Music, Theater, Trophy } from 'lucide-react';
 import { colors, getThemeColor } from '../../config/colors';
 
@@ -20,64 +20,84 @@ interface ServiceItem {
 
 const InteractiveServicesSection = () => {
   const { isDark } = useTheme();
-  const { t } = useLanguage();
+  const { t, ready } = useTranslationWithNamespace('services');
   const [selectedServiceId, setSelectedServiceId] = useState<string>('youth-club');
   const [isAnimating, setIsAnimating] = useState(false);
+
+  if (!ready) {
+    return (
+      <section className="relative py-16 overflow-hidden">
+        <div className="container mx-auto px-4 text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+        </div>
+      </section>
+    );
+  }
+
+  // Helper function to safely convert translation result to array
+  const getFeatureArray = (translationKey: string): string[] => {
+    const result = t(translationKey);
+    if (Array.isArray(result)) {
+      return result;
+    }
+    // If it's a string (fallback key), return empty array to avoid map error
+    return [];
+  };
 
   const services: ServiceItem[] = [
     {
       id: 'youth-club',
-      title: t('services.youthClub.title'),
-      description: t('services.youthClub.description'),
+      title: t('youthClub.title'),
+      description: t('youthClub.description'),
       link: 'https://www.nysc.lk/page/view/youth-club',
       icon: Users,
       stats: { members: 15000, programs: 250, achievements: 180 },
-      features: t('services.youthClub.features') as string[]
+      features: getFeatureArray('youthClub.features')
     },
     {
       id: 'youth-parliament',
-      title: t('services.youthParliament.title'),
-      description: t('services.youthParliament.description'),
+      title: t('youthParliament.title'),
+      description: t('youthParliament.description'),
       link: 'https://www.nysc.lk/page/view/youth-parliment',
       icon: Vote,
       stats: { members: 500, programs: 12, achievements: 25 },
-      features: t('services.youthParliament.features') as string[]
+      features: getFeatureArray('youthParliament.features')
     },
     {
       id: 'youth-dancing',
-      title: t('services.youthDancing.title'),
-      description: t('services.youthDancing.description'),
+      title: t('youthDancing.title'),
+      description: t('youthDancing.description'),
       link: 'https://www.nysc.lk/page/view/youth-dancing-team',
       icon: Zap,
       stats: { members: 2500, programs: 80, achievements: 120 },
-      features: t('services.youthDancing.features') as string[]
+      features: getFeatureArray('youthDancing.features')
     },
     {
       id: 'youth-music',
-      title: t('services.youthMusic.title'),
-      description: t('services.youthMusic.description'),
+      title: t('youthMusic.title'),
+      description: t('youthMusic.description'),
       link: 'https://www.nysc.lk/page/view/youth-music-band',
       icon: Music,
       stats: { members: 1800, programs: 60, achievements: 95 },
-      features: t('services.youthMusic.features') as string[]
+      features: getFeatureArray('youthMusic.features')
     },
     {
       id: 'youth-drama',
-      title: t('services.youthDrama.title'),
-      description: t('services.youthDrama.description'),
+      title: t('youthDrama.title'),
+      description: t('youthDrama.description'),
       link: 'https://www.nysc.lk/page/view/youth-drama-team',
       icon: Theater,
       stats: { members: 1200, programs: 40, achievements: 60 },
-      features: t('services.youthDrama.features') as string[]
+      features: getFeatureArray('youthDrama.features')
     },
     {
       id: 'youth-sports',
-      title: t('services.youthSports.title'),
-      description: t('services.youthSports.description'),
+      title: t('youthSports.title'),
+      description: t('youthSports.description'),
       link: 'https://www.nysc.lk/page/view/sports',
       icon: Trophy,
       stats: { members: 8500, programs: 150, achievements: 300 },
-      features: t('services.youthSports.features') as string[]
+      features: getFeatureArray('youthSports.features')
     }
   ];
 
@@ -114,13 +134,13 @@ const InteractiveServicesSection = () => {
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-nysc-primary/10 to-nysc-secondary/10 border border-nysc-primary/20 mb-3">
             <Zap className="w-4 h-4 text-nysc-primary" />
-            <span className="text-sm font-medium text-nysc-primary">{t('services.badge')}</span>
+            <span className="text-sm font-medium text-nysc-primary">{t('badge')}</span>
           </div>
           <h2 className={`text-2xl md:text-3xl lg:text-4xl font-bold mb-3 ${getThemeColor('text.primary', isDark)}`}>
-            {t('services.title')}
+            {t('title')}
           </h2>
           <p className={`text-base mb-6 max-w-2xl mx-auto ${getThemeColor('text.secondary', isDark)}`}>
-            {t('services.subtitle')}
+            {t('subtitle')}
           </p>
         </div>
 
@@ -189,7 +209,7 @@ const InteractiveServicesSection = () => {
                         <div className={`services-stats__label ${
                           isDark ? 'services-stats__label--dark' : 'services-stats__label--light'
                         }`}>
-                          {t('services.stats.members')}
+                          {t('stats.members')}
                         </div>
                       </div>
                       <div className="services-stats__item">
@@ -199,7 +219,7 @@ const InteractiveServicesSection = () => {
                         <div className={`services-stats__label ${
                           isDark ? 'services-stats__label--dark' : 'services-stats__label--light'
                         }`}>
-                          {t('services.stats.programs')}
+                          {t('stats.programs')}
                         </div>
                       </div>
                       <div className="services-stats__item">
@@ -209,7 +229,7 @@ const InteractiveServicesSection = () => {
                         <div className={`services-stats__label ${
                           isDark ? 'services-stats__label--dark' : 'services-stats__label--light'
                         }`}>
-                          {t('services.stats.awards')}
+                          {t('stats.awards')}
                         </div>
                       </div>
                     </div>
@@ -219,7 +239,7 @@ const InteractiveServicesSection = () => {
                       <h4 className={`services-features__title ${
                         isDark ? 'services-features__title--dark' : 'services-features__title--light'
                       }`}>
-                        {t('services.keyFeatures')}
+                        {t('keyFeatures')}
                       </h4>
                       <div className="services-features__list">
                         {selectedService.features.map((feature, index) => (
@@ -246,7 +266,7 @@ const InteractiveServicesSection = () => {
                             isDark ? 'services-button--primary-dark' : 'services-button--primary-light'
                           }`}
                         >
-                          <span className="services-button__text">{t('services.learnMore')}</span>
+                          <span className="services-button__text">{t('learnMore')}</span>
                           <ExternalLink className="services-button__icon" />
                         </a>
                       </div>
@@ -306,7 +326,7 @@ const InteractiveServicesSection = () => {
                       <div className={`services-tile__meta ${
                         isDark ? 'services-tile__meta--dark' : 'services-tile__meta--light'
                       }`}>
-                        {service.stats.members.toLocaleString()}+ {t('services.stats.members').toLowerCase()}
+                        {service.stats.members.toLocaleString()}+ {t('stats.members').toLowerCase()}
                       </div>
                     </div>
 
