@@ -7,7 +7,6 @@ import { getThemeColor } from './config/colors';
 import AnimatedBackground from './components/ui/AnimatedBackground';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
-import { TranslationDebugger } from './components/dev/TranslationDebugger';
 // Debug components removed for production
 
 // Pages
@@ -155,8 +154,6 @@ const AppContent = () => {
         <Footer />
       </div>
 
-      {/* Development Translation Debugger */}
-      <TranslationDebugger />
     </div>
   );
 };

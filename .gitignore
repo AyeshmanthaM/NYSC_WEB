@@ -33,3 +33,5 @@ agents
 expansion-packs
 .claude
 .cloudflare-pages.toml
+frontend/public/encrypted-locales
+frontend/public/locales
