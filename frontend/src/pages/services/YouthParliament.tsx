@@ -2,10 +2,12 @@ import PageLayout from '../../components/layout/PageLayout';
 import { useTheme } from '../../contexts/ThemeContext';
 import { getThemeColor, colors } from '../../config/colors';
 import { Building2, Users, Vote, BookOpen, Trophy, Globe, Search, Calendar, ExternalLink, MapPin, UserPlus, Award, Clock, Star, CheckCircle, ArrowRight, Medal, Target, Briefcase } from 'lucide-react';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 import { useState } from 'react';
 
 const YouthParliament = () => {
   const { isDark } = useTheme();
+  const { t, ready } = useTranslationWithNamespace('services');
   const [searchDistrict, setSearchDistrict] = useState('');
   const [selectedDistrict, setSelectedDistrict] = useState('');
 

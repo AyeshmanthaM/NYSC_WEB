@@ -1,0 +1,67 @@
+{
+  "districtOffices": {
+    "title": "District Offices",
+    "description": "Our district offices serve as the primary contact points for youth services, program registration, and community support across Sri Lanka.",
+    "searchPlaceholder": "Search districts or services...",
+    "allProvinces": "All Provinces",
+    "listTitle": "District Offices ({{count}})",
+    "listDescription": "Find your nearest district office for assistance with NYSC programs and services",
+    "noOfficesTitle": "No offices found",
+    "noOfficesDescription": "Try adjusting your search criteria",
+    "districtOfficer": "District Officer",
+    "assistant": "Assistant",
+    "services": "Services",
+    "since": "Since {{year}}",
+    "contact": "Contact"
+  },
+  "trainingCenters": {
+    "title": "Training Centers",
+    "description": "Our training centers offer comprehensive vocational and skills development programs to empower Sri Lankan youth.",
+    "searchPlaceholder": "Search centers or programs...",
+    "listTitle": "Training Centers ({{count}})",
+    "listDescription": "Discover our training centers offering various skill development programs",
+    "noCentersTitle": "No centers found",
+    "noCentersDescription": "Try adjusting your search criteria",
+    "director": "Director",
+    "capacity": "Capacity",
+    "students": "students",
+    "programs": "Programs",
+    "facilities": "Facilities",
+    "established": "Established {{year}}",
+    "viewDetails": "View Details"
+  },
+  "youthCenters": {
+    "title": "Youth Centers",
+    "description": "Community-based centers providing recreational, educational, and cultural activities for young people across Sri Lanka.",
+    "listTitle": "Youth Centers ({{count}})",
+    "listDescription": "Find youth centers offering activities and programs in your area",
+    "noCentersTitle": "No centers found",
+    "noCentersDescription": "Try adjusting your search criteria",
+    "coordinator": "Coordinator",
+    "activities": "Activities",
+    "services": "Services",
+    "specialPrograms": "Special Programs",
+    "established": "Since {{year}}",
+    "viewMore": "View More"
+  },
+  "centerLocator": {
+    "title": "Center Locator",
+    "description": "Find the nearest NYSC centers and offices based on your location and requirements.",
+    "searchPlaceholder": "Search by name or location...",
+    "allTypes": "All Types",
+    "allProvinces": "All Provinces",
+    "getCurrentLocation": "Get Current Location",
+    "resultsTitle": "Centers Near You ({{count}})",
+    "resultsDescription": "Centers within your selected area and criteria",
+    "noResultsTitle": "No centers found",
+    "noResultsDescription": "Try adjusting your search criteria or location",
+    "distance": "{{distance}} km away",
+    "operatingHours": "Operating Hours",
+    "getDirections": "Get Directions",
+    "types": {
+      "trainingCenter": "Training Center",
+      "youthCenter": "Youth Center",
+      "districtOffice": "District Office"
+    }
+  }
+}

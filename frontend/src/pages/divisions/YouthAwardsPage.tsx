@@ -2,9 +2,11 @@ import PageLayout from '../../components/layout/PageLayout';
 import { useTheme } from '../../contexts/ThemeContext';
 import { getThemeColor, colors } from '../../config/colors';
 import { Award, Star, Trophy, Medal, Users, Calendar, Target, TrendingUp, CheckCircle, Sparkles, Crown, Gift } from 'lucide-react';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 
 const YouthAwardsPage = () => {
   const { isDark } = useTheme();
+  const { t, ready } = useTranslationWithNamespace('divisions');
 
   const awardCategories = [
     {

@@ -2,9 +2,11 @@ import PageLayout from '../../components/layout/PageLayout';
 import { useTheme } from '../../contexts/ThemeContext';
 import { getThemeColor, colors } from '../../config/colors';
 import { User, Award, Mail, Phone, Linkedin, Calendar, Target, Globe, Briefcase } from 'lucide-react';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 
 const ChairmanPage = () => {
   const { isDark } = useTheme();
+  const { t, ready } = useTranslationWithNamespace('directors');
 
   const chairmanInfo = {
     name: "Hon. Pavithra Wanniarachchi",
@@ -53,10 +55,26 @@ const ChairmanPage = () => {
   ];
 
   const breadcrumbs = [
-    { label: "Home", href: "/" },
-    { label: "Directors", href: "/directors" },
-    { label: "Chairman / Director General" }
+    { label: t('common:navigation.home'), href: "/" },
+    { label: t('common:navigation.directors'), href: "/directors" },
+    { label: t('sections.chairman.title') }
   ];
+
+  // Show loading state while translations are not ready
+  if (!ready) {
+    return (
+      <div className={`min-h-screen flex items-center justify-center transition-colors duration-300 ${
+        isDark ? getThemeColor('background.primary', true) : getThemeColor('background.primary', false)
+      }`}>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
+          <p className={`${isDark ? getThemeColor('text.secondary', true) : getThemeColor('text.secondary', false)}`}>
+            Loading...
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <PageLayout 

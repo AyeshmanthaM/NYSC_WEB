@@ -1,0 +1,84 @@
+{
+  "common": {
+    "searchPlaceholder": "සම්පත් සොයන්න...",
+    "allCategories": "සියලුම වර්ග",
+    "resultsTitle": "සම්පත් ({{count}})",
+    "noResultsTitle": "සම්පත් සොයාගත නොහැක",
+    "noResultsDescription": "ඔබගේ සොයන නිර්ණායක වෙනස් කිරීමට උත්සාහ කරන්න",
+    "download": "බාගන්න",
+    "view": "බලන්න",
+    "share": "බෙදා ගන්න",
+    "fileSize": "ගොනු ප්‍රමාණය",
+    "lastUpdated": "අවසන් වරට යාවත්කාලීන කළේ",
+    "uploadedBy": "විසින් උඩුගත කළේ"
+  },
+  "policyDocuments": {
+    "title": "ප්‍රතිපත්ති ලියකියවිලි",
+    "description": "අපගේ වැඩසටහන් සහ සේවා පාලනය කරන නිල NYSC ප්‍රතිපත්ති, මාර්ගෝපදේශ සහ නියාමන ලියකියවිලි වලට ප්‍රවේශ වන්න.",
+    "categories": {
+      "programs": "වැඩසටහන් ප්‍රතිපත්ති",
+      "governance": "පාලනය",
+      "finance": "මූල්‍ය ප්‍රතිපත්ති",
+      "hr": "මානව සම්පත්",
+      "operations": "මෙහෙයුම්",
+      "legal": "නීතිමය ලියකියවිලි"
+    }
+  },
+  "contactUs": {
+    "title": "අපව සම්බන්ධ කරගන්න",
+    "description": "අපගේ විවිධ සන්නිවේදන මාධ්‍ය සහ කාර්යාල ස්ථාන හරහා NYSC සමඟ සම්බන්ධ වන්න.",
+    "getInTouch": "සම්බන්ධ වන්න",
+    "mainOffice": "ප්‍රධාන කාර්යාලය",
+    "headquarters": "NYSC මූලස්ථානය",
+    "phoneNumbers": "දුරකථන අංක",
+    "emailAddresses": "විද්‍යුත් තැපැල් ලිපින",
+    "officeHours": "කාර්යාල කාලය",
+    "followUs": "අපව අනුගමනය කරන්න",
+    "sendMessage": "අපට පණිවිඩයක් යවන්න",
+    "yourName": "ඔබගේ නම",
+    "emailAddress": "විද්‍යුත් තැපැල් ලිපිනය",
+    "subject": "විෂය",
+    "message": "පණිවිඩය",
+    "sendMessage": "පණිවිඩය යවන්න",
+    "messageSuccess": "ඔබගේ පණිවිඩය සාර්ථකව යවා ඇත!",
+    "messageError": "පණිවිඩය යැවීම අසාර්ථකයි. කරුණාකර නැවත උත්සාහ කරන්න."
+  },
+  "mediaResources": {
+    "title": "මාධ්‍ය සම්පත්",
+    "description": "නිල NYSC සන්නිවේදන සහ හවුල්කාරිත්ව සඳහා ලාංඡන, ඡායාරූප, වීඩියෝ සහ වෙනත් මාධ්‍ය වත්කම් බාගන්න.",
+    "categories": {
+      "logos": "නිල ලාංඡන",
+      "photos": "නිල ඡායාරූප",
+      "videos": "වීඩියෝ",
+      "templates": "ආකෘතිය",
+      "brochures": "පත්‍රිකා",
+      "presentations": "ඉදිරිපත් කිරීම්"
+    }
+  },
+  "annualReports": {
+    "title": "වාර්ෂික වාර්තා",
+    "description": "NYSC හි ජයග්‍රහණ, වැඩසටහන් සහ මූල්‍ය තොරතුරු විස්තර කරන අපගේ සමගම වාර්ෂික වාර්තා බාගන්න.",
+    "latestReport": "නවතම වාර්තාව",
+    "previousReports": "පෙර වාර්තා",
+    "executiveSummary": "විධායක සාරාංශය",
+    "fullReport": "සම්පූර්ණ වාර්තාව",
+    "year": "{{year}} වර්ෂය"
+  },
+  "applicationForms": {
+    "title": "අයදුම්පත්‍ර",
+    "description": "NYSC වැඩසටහන්, සේවා සහ අවස්ථා සඳහා අයදුම්පත්‍ර බාගෙන ඉදිරිපත් කරන්න.",
+    "categories": {
+      "programs": "වැඩසටහන් අයදුම්පත්‍ර",
+      "membership": "සාමාජිකත්ව පත්‍ර",
+      "events": "සිදුවීම් ලියාපදිංචිය",
+      "services": "සේවා ඉල්ලීම්",
+      "partnerships": "හවුල්කාරිත්ව අයදුම්පත්‍ර",
+      "employment": "රැකියා පත්‍ර"
+    },
+    "fillOnline": "ඔන්ලයින් පිරවන්න",
+    "downloadForm": "පත්‍රය බාගන්න",
+    "submitForm": "පත්‍රය ඉදිරිපත් කරන්න",
+    "formGuidelines": "පත්‍ර මාර්ගෝපදේශ",
+    "requiredDocuments": "අවශ්‍ය ලියකියවිලි"
+  }
+}

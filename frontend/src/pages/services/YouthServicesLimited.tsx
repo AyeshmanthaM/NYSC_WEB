@@ -2,10 +2,12 @@ import PageLayout from '../../components/layout/PageLayout';
 import { useTheme } from '../../contexts/ThemeContext';
 import { getThemeColor, colors } from '../../config/colors';
 import { Briefcase, TrendingUp, Users, Award, Building, Lightbulb, Target, DollarSign, Globe, ShieldCheck, ArrowRight, CheckCircle } from 'lucide-react';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 import { useState } from 'react';
 
 const YouthServicesLimited = () => {
   const { isDark } = useTheme();
+  const { t, ready } = useTranslationWithNamespace('services');
   const [activeService, setActiveService] = useState(0);
 
   const breadcrumbs = [

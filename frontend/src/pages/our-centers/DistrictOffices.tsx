@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MapPin, Phone, Mail, Clock, Building2, User, ExternalLink } from 'lucide-react';
-import { useLanguage } from '../../contexts/CompatibilityLanguageContext';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 import { useTheme } from '../../contexts/ThemeContext';
 import { colors, getThemeColor } from '../../config/colors';
 
@@ -24,7 +24,7 @@ interface DistrictOffice {
 }
 
 const DistrictOffices: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, ready } = useTranslationWithNamespace('centers');
   const { isDark } = useTheme();
   const [offices, setOffices] = useState<DistrictOffice[]>([]);
   const [selectedProvince, setSelectedProvince] = useState('all');
@@ -189,6 +189,22 @@ const DistrictOffices: React.FC = () => {
     return matchesProvince && matchesSearch;
   });
 
+  // Show loading state while translations are not ready
+  if (!ready) {
+    return (
+      <div className={`min-h-screen flex items-center justify-center transition-colors duration-300 ${
+        isDark ? getThemeColor('background.primary', true) : getThemeColor('background.primary', false)
+      }`}>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
+          <p className={`${isDark ? getThemeColor('text.secondary', true) : getThemeColor('text.secondary', false)}`}>
+            Loading...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={`min-h-screen transition-colors duration-300 ${
       isDark ? getThemeColor('background.primary', true) : getThemeColor('background.primary', false)
@@ -211,12 +227,12 @@ const DistrictOffices: React.FC = () => {
             <h1 className={`text-4xl lg:text-6xl font-bold mb-6 ${
               isDark ? getThemeColor('text.primary', true) : getThemeColor('text.primary', false)
             }`}>
-              District Offices
+              {t('districtOffices.title')}
             </h1>
             <p className={`text-xl max-w-3xl mx-auto ${
               isDark ? getThemeColor('text.secondary', true) : getThemeColor('text.secondary', false)
             }`}>
-              Our district offices serve as the primary contact points for youth services, program registration, and community support across Sri Lanka.
+              {t('districtOffices.description')}
             </p>
           </div>
         </div>
@@ -231,7 +247,7 @@ const DistrictOffices: React.FC = () => {
             <div className="relative flex-1 max-w-md">
               <input
                 type="text"
-                placeholder="Search districts or services..."
+                placeholder={t('districtOffices.searchPlaceholder')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className={`w-full px-4 py-3 rounded-lg border transition-colors ${
@@ -253,7 +269,7 @@ const DistrictOffices: React.FC = () => {
             >
               {provinces.map(province => (
                 <option key={province} value={province}>
-                  {province === 'all' ? 'All Provinces' : province}
+                  {province === 'all' ? t('districtOffices.allProvinces') : province}
                 </option>
               ))}
             </select>
@@ -267,12 +283,12 @@ const DistrictOffices: React.FC = () => {
           <h2 className={`text-2xl font-bold mb-2 ${
             isDark ? getThemeColor('text.primary', true) : getThemeColor('text.primary', false)
           }`}>
-            District Offices ({filteredOffices.length})
+            {t('districtOffices.listTitle', { count: filteredOffices.length })}
           </h2>
           <p className={`${
             isDark ? getThemeColor('text.secondary', true) : getThemeColor('text.secondary', false)
           }`}>
-            Find your nearest district office for assistance with NYSC programs and services
+            {t('districtOffices.listDescription')}
           </p>
         </div>
 
@@ -284,12 +300,12 @@ const DistrictOffices: React.FC = () => {
             <h3 className={`text-xl font-semibold mb-2 ${
               isDark ? getThemeColor('text.primary', true) : getThemeColor('text.primary', false)
             }`}>
-              No offices found
+              {t('districtOffices.noOfficesTitle')}
             </h3>
             <p className={`${
               isDark ? getThemeColor('text.secondary', true) : getThemeColor('text.secondary', false)
             }`}>
-              Try adjusting your search criteria
+              {t('districtOffices.noOfficesDescription')}
             </p>
           </div>
         ) : (
@@ -353,7 +369,7 @@ const DistrictOffices: React.FC = () => {
                       <span className={`text-sm font-medium ${
                         isDark ? getThemeColor('text.primary', true) : getThemeColor('text.primary', false)
                       }`}>
-                        District Officer
+                        {t('districtOffices.districtOfficer')}
                       </span>
                     </div>
                     <p className={`text-sm font-semibold ${
@@ -365,7 +381,7 @@ const DistrictOffices: React.FC = () => {
                       <p className={`text-xs mt-1 ${
                         isDark ? getThemeColor('text.secondary', true) : getThemeColor('text.secondary', false)
                       }`}>
-                        Assistant: {office.assistantOfficer}
+                        {t('districtOffices.assistant')}: {office.assistantOfficer}
                       </p>
                     )}
                   </div>
@@ -375,7 +391,7 @@ const DistrictOffices: React.FC = () => {
                     <h4 className={`text-sm font-semibold mb-2 ${
                       isDark ? getThemeColor('text.primary', true) : getThemeColor('text.primary', false)
                     }`}>
-                      Services:
+                      {t('districtOffices.services')}:
                     </h4>
                     <div className="flex flex-wrap gap-1">
                       {office.services.slice(0, 4).map((service) => (
@@ -400,7 +416,7 @@ const DistrictOffices: React.FC = () => {
                     <span className={`text-xs ${
                       isDark ? getThemeColor('text.muted', true) : getThemeColor('text.muted', false)
                     }`}>
-                      Since {office.establishedYear}
+                      {t('districtOffices.since', { year: office.establishedYear })}
                     </span>
                     <button className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-300 text-sm font-medium ${
                       isDark
@@ -408,7 +424,7 @@ const DistrictOffices: React.FC = () => {
                         : `${colors.brand.primary.background} ${colors.brand.primary.text} hover:bg-orange-600`
                     }`}>
                       <ExternalLink className="w-3 h-3" />
-                      Contact
+                      {t('districtOffices.contact')}
                     </button>
                   </div>
                 </div>

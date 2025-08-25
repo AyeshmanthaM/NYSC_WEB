@@ -2,11 +2,13 @@ import PageLayout from '../../components/layout/PageLayout';
 import { useTheme } from '../../contexts/ThemeContext';
 import { getThemeColor, colors } from '../../config/colors';
 import { Users, MapPin, Phone, Mail, Award, Search, Filter, ArrowLeft, Building, UserCheck, Crown } from 'lucide-react';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const BoardMembersPage = () => {
   const { isDark } = useTheme();
+  const { t, ready } = useTranslationWithNamespace('services');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('all');
 

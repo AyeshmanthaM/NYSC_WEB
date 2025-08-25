@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, MapPin, Users, BookOpen, Award, ExternalLink } from 'lucide-react';
-import { useLanguage } from '../../contexts/CompatibilityLanguageContext';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 import { useTheme } from '../../contexts/ThemeContext';
 import { colors, getThemeColor } from '../../config/colors';
 
@@ -25,7 +25,7 @@ interface Workshop {
 }
 
 const Workshops: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, ready } = useTranslationWithNamespace('newsevents');
   const { isDark } = useTheme();
   const [workshops, setWorkshops] = useState<Workshop[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -174,6 +174,7 @@ const Workshops: React.FC = () => {
       default: return BookOpen;
     }
   };
+
 
   return (
     <div className={`min-h-screen transition-colors duration-300 ${

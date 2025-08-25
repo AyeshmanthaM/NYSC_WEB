@@ -2,11 +2,13 @@ import PageLayout from '../../components/layout/PageLayout';
 import { useTheme } from '../../contexts/ThemeContext';
 import { getThemeColor, colors } from '../../config/colors';
 import { Users, MapPin, Calendar, Activity, Award, Globe, Heart, ArrowRight, CheckCircle, Clock, Building, UserPlus, Phone, Eye, UserCheck } from 'lucide-react';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const YouthClubs = () => {
   const { isDark } = useTheme();
+  const { t, ready } = useTranslationWithNamespace('services');
   const navigate = useNavigate();
   const [selectedDistrict, setSelectedDistrict] = useState('');
   const [showEligibility, setShowEligibility] = useState(false);

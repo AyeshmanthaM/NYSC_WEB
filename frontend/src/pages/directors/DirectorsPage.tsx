@@ -1,29 +1,47 @@
 import PageLayout from '../../components/layout/PageLayout';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 import { getThemeColor, colors } from '../../config/colors';
 import { Link } from 'react-router-dom';
 import { Users, Crown, UserCheck, UserCog, MapPin } from 'lucide-react';
 
 const DirectorsPage = () => {
   const { isDark } = useTheme();
+  const { t, ready } = useTranslationWithNamespace('directors');
 
 
   const organizationStats = [
-    { label: "Total Leadership", value: "83", description: "Across all levels" },
-    { label: "Provinces Covered", value: "9", description: "Complete coverage" },
-    { label: "Districts Managed", value: "25", description: "Nationwide reach" },
-    { label: "Years of Experience", value: "60+", description: "Combined leadership" }
+    { label: t('stats.totalLeadership'), value: t('stats.totalLeadershipValue'), description: t('stats.totalLeadershipDesc') },
+    { label: t('stats.provinces'), value: t('stats.provincesValue'), description: t('stats.provincesDesc') },
+    { label: t('stats.districts'), value: t('stats.districtsValue'), description: t('stats.districtsDesc') },
+    { label: t('stats.experience'), value: t('stats.experienceValue'), description: t('stats.experienceDesc') }
   ];
 
   const breadcrumbs = [
-    { label: "Home", href: "/" },
-    { label: "Directors" }
+    { label: t('common:navigation.home'), href: "/" },
+    { label: t('page.title') }
   ];
+
+  // Show loading state while translations are not ready
+  if (!ready) {
+    return (
+      <div className={`min-h-screen flex items-center justify-center transition-colors duration-300 ${
+        isDark ? getThemeColor('background.primary', true) : getThemeColor('background.primary', false)
+      }`}>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
+          <p className={`${isDark ? getThemeColor('text.secondary', true) : getThemeColor('text.secondary', false)}`}>
+            {t('common:loading')}
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <PageLayout 
-      title="Directors" 
-      subtitle="Meet the dedicated leadership team guiding the National Youth Services Council towards excellence in youth development."
+      title={t('page.title')} 
+      subtitle={t('page.subtitle')}
       breadcrumbs={breadcrumbs}
     >
       <div className="container mx-auto px-4">
@@ -32,15 +50,13 @@ const DirectorsPage = () => {
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
               <h2 className={`text-3xl font-bold mb-6 ${colors.brand.gradient.text}`}>
-                Leadership Excellence
+                {t('leadership.title')}
               </h2>
               <p className={`text-lg ${getThemeColor('text.secondary', isDark)} mb-6 leading-relaxed`}>
-                Our multi-tiered leadership structure ensures effective governance and management 
-                across all levels of the organization, from national policy to local implementation.
+                {t('leadership.description1')}
               </p>
               <p className={`text-lg ${getThemeColor('text.secondary', isDark)} leading-relaxed`}>
-                With decades of combined experience in youth development, public administration, 
-                and community service, our leaders drive innovation and excellence in all programs.
+                {t('leadership.description2')}
               </p>
             </div>
             <div className="grid grid-cols-2 gap-6">
@@ -64,7 +80,7 @@ const DirectorsPage = () => {
           </div>
           
           <h2 className={`text-3xl font-bold text-center mb-12 ${colors.brand.gradient.text} relative z-10`}>
-            Organizational Hierarchy
+            {t('hierarchy.title')}
           </h2>
           
           <div className="relative max-w-6xl mx-auto">
@@ -78,8 +94,8 @@ const DirectorsPage = () => {
                         <Crown className="w-8 h-8 text-white" />
                       </div>
                       <div>
-                        <span className={`font-bold text-lg ${getThemeColor('text.primary', isDark)}`}>Board of Members</span>
-                        <p className={`text-sm ${colors.brand.primary.text}`}>7 Members</p>
+                        <span className={`font-bold text-lg ${getThemeColor('text.primary', isDark)}`}>{t('sections.boardMembers.title')}</span>
+                        <p className={`text-sm ${colors.brand.primary.text}`}>{t('hierarchy.boardMembersCount')}</p>
                       </div>
                     </div>
                   </div>
@@ -99,8 +115,8 @@ const DirectorsPage = () => {
                         <Users className="w-7 h-7 text-white" />
                       </div>
                       <div>
-                        <span className={`font-bold text-lg ${getThemeColor('text.primary', isDark)}`}>Chairman/Director General</span>
-                        <p className={`text-sm ${colors.brand.secondary.text}`}>Chief Executive</p>
+                        <span className={`font-bold text-lg ${getThemeColor('text.primary', isDark)}`}>{t('hierarchy.chairmanTitle')}</span>
+                        <p className={`text-sm ${colors.brand.secondary.text}`}>{t('hierarchy.chiefExecutive')}</p>
                       </div>
                     </div>
                   </div>
@@ -120,8 +136,8 @@ const DirectorsPage = () => {
                         <Users className="w-6 h-6 text-white" />
                       </div>
                       <div>
-                        <span className={`font-semibold ${getThemeColor('text.primary', isDark)}`}>Directors</span>
-                        <p className={`text-xs ${colors.brand.secondary.text}`}>5 Directors</p>
+                        <span className={`font-semibold ${getThemeColor('text.primary', isDark)}`}>{t('sections.directors.title')}</span>
+                        <p className={`text-xs ${colors.brand.secondary.text}`}>{t('hierarchy.directorsCount')}</p>
                       </div>
                     </div>
                   </div>
@@ -144,8 +160,8 @@ const DirectorsPage = () => {
                           <UserCheck className="w-5 h-5 text-white" />
                         </div>
                         <div>
-                          <span className={`font-medium text-sm ${getThemeColor('text.primary', isDark)}`}>Deputy Directors</span>
-                          <p className={`text-xs ${getThemeColor('text.muted', isDark)}`}>12 Deputies</p>
+                          <span className={`font-medium text-sm ${getThemeColor('text.primary', isDark)}`}>{t('sections.deputyDirectors.title')}</span>
+                          <p className={`text-xs ${getThemeColor('text.muted', isDark)}`}>{t('hierarchy.deputiesCount')}</p>
                         </div>
                       </div>
                     </div>
@@ -165,8 +181,8 @@ const DirectorsPage = () => {
                           <UserCog className="w-5 h-5 text-white" />
                         </div>
                         <div>
-                          <span className={`font-medium text-sm ${getThemeColor('text.primary', isDark)}`}>Assistant Directors</span>
-                          <p className={`text-xs ${getThemeColor('text.muted', isDark)}`}>25 Assistants</p>
+                          <span className={`font-medium text-sm ${getThemeColor('text.primary', isDark)}`}>{t('sections.assistantDirectors.title')}</span>
+                          <p className={`text-xs ${getThemeColor('text.muted', isDark)}`}>{t('hierarchy.assistantsCount')}</p>
                         </div>
                       </div>
                     </div>
@@ -188,8 +204,8 @@ const DirectorsPage = () => {
                         <MapPin className="w-5 h-5 text-white" />
                       </div>
                       <div>
-                        <span className={`font-medium ${getThemeColor('text.primary', isDark)}`}>Provincial Directors</span>
-                        <p className={`text-xs ${getThemeColor('text.muted', isDark)}`}>9 Provinces</p>
+                        <span className={`font-medium ${getThemeColor('text.primary', isDark)}`}>{t('sections.provincialDirectors.title')}</span>
+                        <p className={`text-xs ${getThemeColor('text.muted', isDark)}`}>{t('hierarchy.provincesCount')}</p>
                       </div>
                     </div>
                     <div className="flex -space-x-2">
@@ -215,8 +231,8 @@ const DirectorsPage = () => {
                         <MapPin className="w-5 h-5 text-white" />
                       </div>
                       <div>
-                        <span className={`font-medium ${getThemeColor('text.primary', isDark)}`}>Provincial Assistants</span>
-                        <p className={`text-xs ${getThemeColor('text.muted', isDark)}`}>25 Districts</p>
+                        <span className={`font-medium ${getThemeColor('text.primary', isDark)}`}>{t('sections.provincialAssistants.title')}</span>
+                        <p className={`text-xs ${getThemeColor('text.muted', isDark)}`}>{t('hierarchy.districtsCount')}</p>
                       </div>
                     </div>
                     <div className="flex -space-x-2">
@@ -238,15 +254,15 @@ const DirectorsPage = () => {
             <div className="mt-12 grid grid-cols-3 gap-4 text-center">
               <div className={`py-3 px-4 rounded-lg ${getThemeColor('card.glassy', isDark)} backdrop-blur-md`}>
                 <p className={`text-2xl font-bold ${colors.brand.gradient.text}`}>83</p>
-                <p className={`text-xs ${getThemeColor('text.muted', isDark)}`}>Total Leaders</p>
+                <p className={`text-xs ${getThemeColor('text.muted', isDark)}`}>{t('hierarchy.totalLeaders')}</p>
               </div>
               <div className={`py-3 px-4 rounded-lg ${getThemeColor('card.glassy', isDark)} backdrop-blur-md`}>
                 <p className={`text-2xl font-bold ${colors.brand.gradient.text}`}>6</p>
-                <p className={`text-xs ${getThemeColor('text.muted', isDark)}`}>Hierarchy Levels</p>
+                <p className={`text-xs ${getThemeColor('text.muted', isDark)}`}>{t('hierarchy.hierarchyLevels')}</p>
               </div>
               <div className={`py-3 px-4 rounded-lg ${getThemeColor('card.glassy', isDark)} backdrop-blur-md`}>
                 <p className={`text-2xl font-bold ${colors.brand.gradient.text}`}>25</p>
-                <p className={`text-xs ${getThemeColor('text.muted', isDark)}`}>Districts Covered</p>
+                <p className={`text-xs ${getThemeColor('text.muted', isDark)}`}>{t('hierarchy.districtsCovered')}</p>
               </div>
             </div>
           </div>

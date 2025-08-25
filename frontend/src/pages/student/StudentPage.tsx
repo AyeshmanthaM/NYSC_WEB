@@ -3,9 +3,11 @@ import { useTheme } from '../../contexts/ThemeContext';
 import { getThemeColor, colors } from '../../config/colors';
 import { Link } from 'react-router-dom';
 import { Search, GraduationCap, User, BookOpen, ArrowRight, UserPlus } from 'lucide-react';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 
 const StudentPage = () => {
   const { isDark } = useTheme();
+  const { t, ready } = useTranslationWithNamespace('students');
 
   const studentServices = [
     {

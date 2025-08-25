@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Shield, Download, Eye, Search, Filter } from 'lucide-react';
-import { useLanguage } from '../../contexts/CompatibilityLanguageContext';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 import { useTheme } from '../../contexts/ThemeContext';
 import { colors, getThemeColor } from '../../config/colors';
 
@@ -16,7 +16,7 @@ interface PolicyDocument {
 }
 
 const PolicyDocuments: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, ready } = useTranslationWithNamespace('resources');
   const { isDark } = useTheme();
   const [documents, setDocuments] = useState<PolicyDocument[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('all');

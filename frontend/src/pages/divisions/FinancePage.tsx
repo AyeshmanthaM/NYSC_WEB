@@ -2,9 +2,11 @@ import PageLayout from '../../components/layout/PageLayout';
 import { useTheme } from '../../contexts/ThemeContext';
 import { getThemeColor, colors } from '../../config/colors';
 import { DollarSign, User, FileText, PieChart, TrendingUp, AlertCircle, CheckCircle, Calendar, Building2, Target } from 'lucide-react';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 
 const FinancePage = () => {
   const { isDark } = useTheme();
+  const { t, ready } = useTranslationWithNamespace('divisions');
 
   const keyFunctions = [
     {

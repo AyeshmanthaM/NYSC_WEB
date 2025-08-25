@@ -3,10 +3,12 @@ import { useTheme } from '../../contexts/ThemeContext';
 import { getThemeColor, colors } from '../../config/colors';
 import { Link } from 'react-router-dom';
 import { Users, Trophy, GraduationCap, Globe, Briefcase, Heart, ArrowRight, Music, Theater, MapPin, Award, TrendingUp, Sparkles } from 'lucide-react';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 import { useState, useEffect } from 'react';
 
 const ServicesPage = () => {
   const { isDark } = useTheme();
+  const { t, ready } = useTranslationWithNamespace('services');
   const [activeService, setActiveService] = useState(0);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 

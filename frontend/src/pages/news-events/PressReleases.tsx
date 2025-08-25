@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Download, Calendar, FileText, ExternalLink } from 'lucide-react';
-import { useLanguage } from '../../contexts/CompatibilityLanguageContext';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 import { useTheme } from '../../contexts/ThemeContext';
 import { colors, getThemeColor } from '../../config/colors';
 
@@ -15,7 +15,7 @@ interface PressRelease {
 }
 
 const PressReleases: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, ready } = useTranslationWithNamespace('newsevents');
   const { isDark } = useTheme();
   const [pressReleases, setPressReleases] = useState<PressRelease[]>([]);
   const [selectedYear, setSelectedYear] = useState('all');
@@ -68,6 +68,7 @@ const PressReleases: React.FC = () => {
   const filteredReleases = pressReleases.filter(release => {
     return selectedYear === 'all' || release.date.startsWith(selectedYear);
   });
+
 
   return (
     <div className={`min-h-screen transition-colors duration-300 ${

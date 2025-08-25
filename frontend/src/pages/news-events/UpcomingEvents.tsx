@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, MapPin, Users, Tag, ExternalLink } from 'lucide-react';
-import { useLanguage } from '../../contexts/CompatibilityLanguageContext';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 import { useTheme } from '../../contexts/ThemeContext';
 import { colors, getThemeColor } from '../../config/colors';
 
@@ -19,7 +19,7 @@ interface Event {
 }
 
 const UpcomingEvents: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, ready } = useTranslationWithNamespace('newsevents');
   const { isDark } = useTheme();
   const [events, setEvents] = useState<Event[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -125,6 +125,7 @@ const UpcomingEvents: React.FC = () => {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return diffDays;
   };
+
 
   return (
     <div className={`min-h-screen transition-colors duration-300 ${

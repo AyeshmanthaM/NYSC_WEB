@@ -2,9 +2,11 @@ import PageLayout from '../../components/layout/PageLayout';
 import { useTheme } from '../../contexts/ThemeContext';
 import { getThemeColor, colors } from '../../config/colors';
 import { User, Award, Mail, Phone, MapPin, Building2, Target, Users, Clock, TrendingUp } from 'lucide-react';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 
 const AssistantDirectorsPage = () => {
   const { isDark } = useTheme();
+  const { t, ready } = useTranslationWithNamespace('directors');
 
   const assistantDirectors = [
     // Programs & Development

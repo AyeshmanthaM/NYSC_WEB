@@ -2,9 +2,11 @@ import PageLayout from '../../components/layout/PageLayout';
 import { useTheme } from '../../contexts/ThemeContext';
 import { getThemeColor } from '../../config/colors';
 import { Search, Filter, MapPin, Calendar, Users, Clock } from 'lucide-react';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 
 const FindCourses = () => {
   const { isDark } = useTheme();
+  const { t, ready } = useTranslationWithNamespace('students');
 
   const courses = [
     {

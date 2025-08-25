@@ -2,9 +2,11 @@ import PageLayout from '../../components/layout/PageLayout';
 import { useTheme } from '../../contexts/ThemeContext';
 import { getThemeColor, colors } from '../../config/colors';
 import { User, Award, Mail, Phone, Linkedin, Globe } from 'lucide-react';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 
 const BoardOfMembersPage = () => {
   const { isDark } = useTheme();
+  const { t, ready } = useTranslationWithNamespace('directors');
 
   const boardMembers = [
     {

@@ -2,10 +2,12 @@ import PageLayout from '../../components/layout/PageLayout';
 import { useTheme } from '../../contexts/ThemeContext';
 import { getThemeColor, colors } from '../../config/colors';
 import { Heart, Users, Calendar, Trophy, Star, Play, Camera, UserPlus, Clock, MapPin, Award, Sparkles } from 'lucide-react';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 import { useState } from 'react';
 
 const YouthDancingTeam = () => {
   const { isDark } = useTheme();
+  const { t, ready } = useTranslationWithNamespace('services');
   const [activeStyle, setActiveStyle] = useState(0);
   const [selectedPerformance, setSelectedPerformance] = useState(null);
 

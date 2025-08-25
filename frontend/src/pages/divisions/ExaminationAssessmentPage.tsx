@@ -2,9 +2,11 @@ import PageLayout from '../../components/layout/PageLayout';
 import { useTheme } from '../../contexts/ThemeContext';
 import { getThemeColor, colors } from '../../config/colors';
 import { FileCheck, Award, Calendar, BookOpen, Users, TrendingUp, CheckCircle, Clock, Phone, Mail, Building2, Target } from 'lucide-react';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 
 const ExaminationAssessmentPage = () => {
   const { isDark } = useTheme();
+  const { t, ready } = useTranslationWithNamespace('divisions');
 
   const keyServices = [
     {

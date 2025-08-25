@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FileText, Download, Calendar, Eye, Filter, Search } from 'lucide-react';
-import { useLanguage } from '../../contexts/CompatibilityLanguageContext';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 import { useTheme } from '../../contexts/ThemeContext';
 import { colors, getThemeColor } from '../../config/colors';
 
@@ -19,7 +19,7 @@ interface AnnualReport {
 }
 
 const AnnualReports: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, ready } = useTranslationWithNamespace('resources');
   const { isDark } = useTheme();
   const [reports, setReports] = useState<AnnualReport[]>([]);
   const [selectedYear, setSelectedYear] = useState('all');

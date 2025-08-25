@@ -29,18 +29,67 @@ export const languageNames: Record<Language, { native: string; english: string }
   ta: { native: 'தமிழ்', english: 'Tamil' }
 };
 
-// Dynamic import function for translations
+// Import API client
+import { translationApi, TranslationWebSocket } from './translationApi';
+
+// Track API availability
+let isApiAvailable = false;
+let apiCheckPromise: Promise<boolean> | null = null;
+
+// WebSocket for real-time updates
+let translationWebSocket: TranslationWebSocket | null = null;
+
+// Check API availability once at startup
+const checkApiAvailability = async (): Promise<boolean> => {
+  if (apiCheckPromise) return apiCheckPromise;
+  
+  apiCheckPromise = translationApi.checkApiAvailability().then(available => {
+    isApiAvailable = available;
+    
+    if (available && !translationWebSocket) {
+      // Initialize WebSocket for real-time updates
+      translationWebSocket = new TranslationWebSocket((data) => {
+        // Handle real-time translation updates
+        if (data && data.namespace && data.language) {
+          i18n.reloadResources(data.language, data.namespace);
+        }
+      });
+    }
+    
+    return available;
+  });
+  
+  return apiCheckPromise;
+};
+
+// Dynamic translation loading with API fallback
 const loadTranslation = async (language: Language, namespace: Namespace) => {
+  // First, try to load from API if available
+  if (isApiAvailable || await checkApiAvailability()) {
+    try {
+      const apiTranslations = await translationApi.getTranslations(language, namespace);
+      if (Object.keys(apiTranslations).length > 0) {
+        console.log(`✅ Loaded ${language}/${namespace} from API`);
+        return apiTranslations;
+      }
+    } catch (error) {
+      console.warn(`API translation load failed for ${language}/${namespace}, falling back to files:`, error);
+    }
+  }
+
+  // Fallback to file-based translations
   try {
     const translation = await import(`../locales/${language}/${namespace}.json`);
+    console.log(`📁 Loaded ${language}/${namespace} from files`);
     return translation.default;
   } catch (error) {
-    console.warn(`Failed to load translation for ${language}/${namespace}:`, error);
+    console.warn(`Failed to load translation file for ${language}/${namespace}:`, error);
     
     // Fallback to English if not already English
     if (language !== 'en') {
       try {
         const fallback = await import(`../locales/en/${namespace}.json`);
+        console.log(`🔄 Fallback to English for ${namespace}`);
         return fallback.default;
       } catch (fallbackError) {
         console.error(`Failed to load fallback translation for en/${namespace}:`, fallbackError);
@@ -131,5 +180,50 @@ export const changeLanguage = async (language: Language) => {
   // Store in localStorage
   localStorage.setItem('nysc-language', language);
 };
+
+// Force reload translations from API
+export const reloadTranslationsFromApi = async () => {
+  const currentLanguage = i18n.language as Language || defaultLanguage;
+  
+  if (await checkApiAvailability()) {
+    // Clear existing resources
+    namespaces.forEach(namespace => {
+      i18n.removeResourceBundle(currentLanguage, namespace);
+    });
+    
+    // Reload from API
+    await loadInitialResources();
+    
+    console.log('🔄 Reloaded all translations from API');
+  }
+};
+
+// Get translation source information
+export const getTranslationSource = () => {
+  return {
+    apiAvailable: isApiAvailable,
+    hasWebSocket: !!translationWebSocket,
+    mode: isApiAvailable ? 'api-primary' : 'file-only'
+  };
+};
+
+// Manual API availability check
+export const recheckApiAvailability = async () => {
+  apiCheckPromise = null;
+  return await checkApiAvailability();
+};
+
+// Cleanup function for WebSocket
+export const cleanup = () => {
+  if (translationWebSocket) {
+    translationWebSocket.disconnect();
+    translationWebSocket = null;
+  }
+};
+
+// Add cleanup to window beforeunload
+if (typeof window !== 'undefined') {
+  window.addEventListener('beforeunload', cleanup);
+}
 
 export default i18n;

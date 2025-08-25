@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Image, Download, Video, FileImage, Search, Filter } from 'lucide-react';
-import { useLanguage } from '../../contexts/CompatibilityLanguageContext';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 import { useTheme } from '../../contexts/ThemeContext';
 import { colors, getThemeColor } from '../../config/colors';
 
@@ -18,7 +18,7 @@ interface MediaResource {
 }
 
 const MediaResources: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, ready } = useTranslationWithNamespace('resources');
   const { isDark } = useTheme();
   const [resources, setResources] = useState<MediaResource[]>([]);
   const [selectedType, setSelectedType] = useState('all');

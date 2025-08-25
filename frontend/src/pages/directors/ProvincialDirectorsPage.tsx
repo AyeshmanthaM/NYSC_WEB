@@ -2,9 +2,11 @@ import PageLayout from '../../components/layout/PageLayout';
 import { useTheme } from '../../contexts/ThemeContext';
 import { getThemeColor, colors } from '../../config/colors';
 import { User, Award, Mail, Phone, MapPin, Building2, Users, TrendingUp, Target, Globe } from 'lucide-react';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 
 const ProvincialDirectorsPage = () => {
   const { isDark } = useTheme();
+  const { t, ready } = useTranslationWithNamespace('directors');
 
   const provincialDirectors = [
     {

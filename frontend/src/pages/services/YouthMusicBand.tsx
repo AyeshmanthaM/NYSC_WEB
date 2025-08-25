@@ -2,10 +2,12 @@ import PageLayout from '../../components/layout/PageLayout';
 import { useTheme } from '../../contexts/ThemeContext';
 import { getThemeColor, colors } from '../../config/colors';
 import { Music, Users, Calendar, Trophy, Volume2, Play, UserPlus, Clock, MapPin, Award, Headphones, Guitar } from 'lucide-react';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 import { useState } from 'react';
 
 const YouthMusicBand = () => {
   const { isDark } = useTheme();
+  const { t, ready } = useTranslationWithNamespace('services');
   const [activeSection, setActiveSection] = useState(0);
   const [selectedGenre, setSelectedGenre] = useState('Traditional');
 

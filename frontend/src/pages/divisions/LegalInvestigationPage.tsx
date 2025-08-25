@@ -2,9 +2,11 @@ import PageLayout from '../../components/layout/PageLayout';
 import { useTheme } from '../../contexts/ThemeContext';
 import { getThemeColor, colors } from '../../config/colors';
 import { Scale, User, Building2, Shield, FileText, Users, CheckCircle, Gavel } from 'lucide-react';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 
 const LegalInvestigationPage = () => {
   const { isDark } = useTheme();
+  const { t, ready } = useTranslationWithNamespace('divisions');
 
   const courtsRepresented = [
     { name: "Supreme Court", level: "Apex", jurisdiction: "Constitutional & Final Appeals" },

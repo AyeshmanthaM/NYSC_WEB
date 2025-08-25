@@ -1,0 +1,52 @@
+{
+  "page": {
+    "title": "Student Services",
+    "subtitle": "Your gateway to vocational training, skill development, and educational opportunities with NYSC."
+  },
+  "quickActions": {
+    "title": "Quick Actions",
+    "browse": {
+      "title": "Browse Courses",
+      "description": "Explore all available vocational training programs"
+    },
+    "login": {
+      "title": "Student Login",
+      "description": "Access your student portal and dashboard"
+    },
+    "apply": {
+      "title": "Apply Now", 
+      "description": "Start your application for training programs"
+    }
+  },
+  "services": {
+    "findCourses": {
+      "title": "Find Courses",
+      "description": "Search and discover vocational training courses available across all NYSC centers.",
+      "features": ["Course Search", "Center Locations", "Program Details", "Application Process"],
+      "action": "Access Now"
+    },
+    "portal": {
+      "title": "Students Portal",
+      "description": "Access your personalized student dashboard for course management and progress tracking.",
+      "features": ["Course Management", "Progress Tracking", "Certificates", "Schedule Management"],
+      "action": "Access Now"
+    }
+  },
+  "stats": {
+    "title": "Student Success by Numbers",
+    "activeStudents": "Active Students",
+    "activeStudentsValue": "15,000+",
+    "courses": "Available Courses",
+    "coursesValue": "200+",
+    "centers": "Training Centers",
+    "centersValue": "50+",
+    "successRate": "Success Rate",
+    "successRateValue": "92%"
+  },
+  "support": {
+    "title": "Student Support Services",
+    "description": "We provide comprehensive support services to help students succeed in their educational journey, from course selection to career placement.",
+    "getSupport": "Get Support",
+    "contactAdvisor": "Contact Advisor"
+  }
+}

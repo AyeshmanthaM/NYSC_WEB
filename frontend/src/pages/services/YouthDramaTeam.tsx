@@ -2,10 +2,12 @@ import PageLayout from '../../components/layout/PageLayout';
 import { useTheme } from '../../contexts/ThemeContext';
 import { getThemeColor, colors } from '../../config/colors';
 import { Theater, Users, Award, Calendar, Star, UserPlus, Clock, MapPin, BookOpen, Lightbulb, Camera, Play } from 'lucide-react';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 import { useState } from 'react';
 
 const YouthDramaTeam = () => {
   const { isDark } = useTheme();
+  const { t, ready } = useTranslationWithNamespace('services');
   const [activeGenre, setActiveGenre] = useState(0);
   const [selectedWorkshop, setSelectedWorkshop] = useState(null);
 

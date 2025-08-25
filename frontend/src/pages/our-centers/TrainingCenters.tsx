@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MapPin, Phone, Mail, Clock, Users, BookOpen, Award, ExternalLink } from 'lucide-react';
-import { useLanguage } from '../../contexts/CompatibilityLanguageContext';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 import { useTheme } from '../../contexts/ThemeContext';
 import { colors, getThemeColor } from '../../config/colors';
 
@@ -33,7 +33,7 @@ interface TrainingCenter {
 }
 
 const TrainingCenters: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, ready } = useTranslationWithNamespace('centers');
   const { isDark } = useTheme();
   const [centers, setCenters] = useState<TrainingCenter[]>([]);
   const [selectedProvince, setSelectedProvince] = useState('all');
@@ -239,6 +239,22 @@ const TrainingCenters: React.FC = () => {
     
     return matchesProvince && matchesSearch;
   });
+
+  // Show loading state while translations are not ready
+  if (!ready) {
+    return (
+      <div className={`min-h-screen flex items-center justify-center transition-colors duration-300 ${
+        isDark ? getThemeColor('background.primary', true) : getThemeColor('background.primary', false)
+      }`}>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
+          <p className={`${isDark ? getThemeColor('text.secondary', true) : getThemeColor('text.secondary', false)}`}>
+            Loading...
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`min-h-screen transition-colors duration-300 ${

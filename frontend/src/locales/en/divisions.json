@@ -1,0 +1,56 @@
+{
+  "page": {
+    "title": "Divisions",
+    "subtitle": "Explore our specialized divisions that work together to deliver comprehensive youth services and ensure organizational excellence."
+  },
+  "overview": {
+    "title": "Organizational Divisions",
+    "description": "Our specialized divisions ensure efficient operations, quality service delivery, and comprehensive support for all NYSC programs and initiatives."
+  },
+  "sections": {
+    "finance": {
+      "title": "Finance Division",
+      "description": "Managing financial operations, budget planning, and ensuring fiscal responsibility across all NYSC programs and initiatives.",
+      "viewDetails": "View Finance Division"
+    },
+    "legalInvestigation": {
+      "title": "Legal & Investigation Division",
+      "description": "Providing legal counsel, ensuring compliance, and conducting investigations to maintain organizational integrity.",
+      "viewDetails": "View Legal Division"
+    },
+    "youthAwards": {
+      "title": "Youth Awards Division",
+      "description": "Recognizing outstanding youth achievements and managing award programs that celebrate excellence and innovation.",
+      "viewDetails": "View Awards Division"
+    },
+    "internalAudit": {
+      "title": "Internal Audit Division",
+      "description": "Ensuring internal controls, risk management, and compliance with policies and procedures across all operations.",
+      "viewDetails": "View Audit Division"
+    },
+    "examination": {
+      "title": "Examination & Assessment Division",
+      "description": "Managing assessments, certifications, and quality assurance for all training and educational programs.",
+      "viewDetails": "View Assessment Division"
+    },
+    "specialProjects": {
+      "title": "Special Projects Division",
+      "description": "Leading innovative initiatives and special programs that address emerging youth needs and opportunities.",
+      "viewDetails": "View Projects Division"
+    }
+  },
+  "stats": {
+    "totalDivisions": "Total Divisions",
+    "totalDivisionsValue": "6",
+    "totalDivisionsDesc": "Specialized units",
+    "programs": "Active Programs",
+    "programsValue": "150+",
+    "programsDesc": "Across all divisions",
+    "staff": "Division Staff",
+    "staffValue": "200+", 
+    "staffDesc": "Dedicated professionals",
+    "projects": "Annual Projects",
+    "projectsValue": "50+",
+    "projectsDesc": "Ongoing initiatives"
+  }
+}

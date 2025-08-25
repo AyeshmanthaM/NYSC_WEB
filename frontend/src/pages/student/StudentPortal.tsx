@@ -2,9 +2,11 @@ import PageLayout from '../../components/layout/PageLayout';
 import { useTheme } from '../../contexts/ThemeContext';
 import { getThemeColor } from '../../config/colors';
 import { User, BookOpen, Award, Calendar, BarChart, Settings } from 'lucide-react';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 
 const StudentPortal = () => {
   const { isDark } = useTheme();
+  const { t, ready } = useTranslationWithNamespace('students');
 
   const portalFeatures = [
     {

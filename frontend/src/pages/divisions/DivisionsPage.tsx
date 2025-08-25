@@ -3,9 +3,11 @@ import { useTheme } from '../../contexts/ThemeContext';
 import { getThemeColor, colors } from '../../config/colors';
 import { Link } from 'react-router-dom';
 import { Building2, DollarSign, Scale, Award, Shield, FileCheck, Briefcase, ArrowRight, Target, TrendingUp, Users, CheckCircle, Star, Globe } from 'lucide-react';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 
 const DivisionsPage = () => {
   const { isDark } = useTheme();
+  const { t, ready } = useTranslationWithNamespace('divisions');
 
   const divisions = [
     {

@@ -1,0 +1,84 @@
+{
+  "common": {
+    "searchPlaceholder": "Search resources...",
+    "allCategories": "All Categories",
+    "resultsTitle": "Resources ({{count}})",
+    "noResultsTitle": "No resources found",
+    "noResultsDescription": "Try adjusting your search criteria",
+    "download": "Download",
+    "view": "View",
+    "share": "Share",
+    "fileSize": "File size",
+    "lastUpdated": "Last updated",
+    "uploadedBy": "Uploaded by"
+  },
+  "policyDocuments": {
+    "title": "Policy Documents",
+    "description": "Access official NYSC policies, guidelines, and regulatory documents that govern our programs and services.",
+    "categories": {
+      "programs": "Program Policies",
+      "governance": "Governance",
+      "finance": "Financial Policies",
+      "hr": "Human Resources",
+      "operations": "Operations",
+      "legal": "Legal Documents"
+    }
+  },
+  "contactUs": {
+    "title": "Contact Us",
+    "description": "Get in touch with NYSC through our various communication channels and office locations.",
+    "getInTouch": "Get in Touch",
+    "mainOffice": "Main Office",
+    "headquarters": "NYSC Headquarters",
+    "phoneNumbers": "Phone Numbers",
+    "emailAddresses": "Email Addresses",
+    "officeHours": "Office Hours",
+    "followUs": "Follow Us",
+    "sendMessage": "Send us a Message",
+    "yourName": "Your Name",
+    "emailAddress": "Email Address",
+    "subject": "Subject",
+    "message": "Message",
+    "sendMessage": "Send Message",
+    "messageSuccess": "Your message has been sent successfully!",
+    "messageError": "Failed to send message. Please try again."
+  },
+  "mediaResources": {
+    "title": "Media Resources",
+    "description": "Download logos, photos, videos, and other media assets for official NYSC communications and partnerships.",
+    "categories": {
+      "logos": "Official Logos",
+      "photos": "Official Photos",
+      "videos": "Videos",
+      "templates": "Templates",
+      "brochures": "Brochures",
+      "presentations": "Presentations"
+    }
+  },
+  "annualReports": {
+    "title": "Annual Reports",
+    "description": "Download our comprehensive annual reports detailing NYSC's achievements, programs, and financial information.",
+    "latestReport": "Latest Report",
+    "previousReports": "Previous Reports",
+    "executiveSummary": "Executive Summary",
+    "fullReport": "Full Report",
+    "year": "Year {{year}}"
+  },
+  "applicationForms": {
+    "title": "Application Forms",
+    "description": "Download and submit application forms for NYSC programs, services, and opportunities.",
+    "categories": {
+      "programs": "Program Applications",
+      "membership": "Membership Forms",
+      "events": "Event Registration",
+      "services": "Service Requests",
+      "partnerships": "Partnership Applications",
+      "employment": "Employment Forms"
+    },
+    "fillOnline": "Fill Online",
+    "downloadForm": "Download Form",
+    "submitForm": "Submit Form",
+    "formGuidelines": "Form Guidelines",
+    "requiredDocuments": "Required Documents"
+  }
+}

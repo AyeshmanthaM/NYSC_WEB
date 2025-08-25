@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Image, Calendar, Filter, Search, Download, X, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useLanguage } from '../../contexts/CompatibilityLanguageContext';
+import { useTranslationWithNamespace } from '../../hooks/useTranslationWithNamespace';
 import { useTheme } from '../../contexts/ThemeContext';
 import { colors, getThemeColor } from '../../config/colors';
 
@@ -20,7 +20,7 @@ interface MediaItem {
 }
 
 const Gallery: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, ready } = useTranslationWithNamespace('newsevents');
   const { isDark } = useTheme();
   const [mediaItems, setMediaItems] = useState<MediaItem[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -178,6 +178,7 @@ const Gallery: React.FC = () => {
     setCurrentIndex(newIndex);
     setSelectedItem(filteredMedia[newIndex]);
   };
+
 
   return (
     <div className={`min-h-screen transition-colors duration-300 ${

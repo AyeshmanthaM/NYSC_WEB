@@ -1,0 +1,76 @@
+{
+  "page": {
+    "title": "Directors",
+    "subtitle": "Meet the dedicated leadership team guiding the National Youth Services Council towards excellence in youth development."
+  },
+  "leadership": {
+    "title": "Leadership Excellence",
+    "description1": "Our multi-tiered leadership structure ensures effective governance and management across all levels of the organization, from national policy to local implementation.",
+    "description2": "With decades of combined experience in youth development, public administration, and community service, our leaders drive innovation and excellence in all programs."
+  },
+  "stats": {
+    "totalLeadership": "Total Leadership",
+    "totalLeadershipValue": "83",
+    "totalLeadershipDesc": "Across all levels",
+    "provinces": "Provinces Covered",
+    "provincesValue": "9",
+    "provincesDesc": "Complete coverage",
+    "districts": "Districts Managed",
+    "districtsValue": "25",
+    "districtsDesc": "Nationwide reach",
+    "experience": "Years of Experience",
+    "experienceValue": "60+",
+    "experienceDesc": "Combined leadership"
+  },
+  "hierarchy": {
+    "title": "Organizational Hierarchy",
+    "boardMembersCount": "7 Members",
+    "chairmanTitle": "Chairman/Director General",
+    "chiefExecutive": "Chief Executive",
+    "directorsCount": "5 Directors",
+    "deputiesCount": "12 Deputies",
+    "assistantsCount": "25 Assistants",
+    "provincesCount": "9 Provinces",
+    "districtsCount": "25 Districts",
+    "totalLeaders": "Total Leaders",
+    "hierarchyLevels": "Hierarchy Levels",
+    "districtsCovered": "Districts Covered"
+  },
+  "sections": {
+    "boardMembers": {
+      "title": "Board of Members",
+      "description": "The governing board providing strategic direction and oversight for all NYSC operations and initiatives.",
+      "viewDetails": "View Board Members"
+    },
+    "chairman": {
+      "title": "Chairman",
+      "description": "The executive leader responsible for overall strategic vision and organizational direction.",
+      "viewProfile": "View Chairman Profile"
+    },
+    "directors": {
+      "title": "Directors",
+      "description": "Senior executives managing major divisions and ensuring operational excellence across all programs.",
+      "viewList": "View Directors List"
+    },
+    "deputyDirectors": {
+      "title": "Deputy Directors",
+      "description": "Assistant leaders supporting directors in program management and strategic implementation.",
+      "viewList": "View Deputy Directors"
+    },
+    "assistantDirectors": {
+      "title": "Assistant Directors",
+      "description": "Operational managers overseeing specific departments and day-to-day program execution.",
+      "viewList": "View Assistant Directors"
+    },
+    "provincialDirectors": {
+      "title": "Provincial Directors",
+      "description": "Regional leaders managing NYSC operations and programs at the provincial level.",
+      "viewList": "View Provincial Directors"
+    },
+    "provincialAssistants": {
+      "title": "Provincial Assistant Directors",
+      "description": "Regional support staff assisting in provincial program management and coordination.",
+      "viewList": "View Provincial Assistants"
+    }
+  }
+}
