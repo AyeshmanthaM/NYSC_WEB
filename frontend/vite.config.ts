@@ -14,6 +14,7 @@ export default defineConfig({
           vendor: ['react', 'react-dom', 'react-router-dom'],
           i18n: ['i18next', 'react-i18next', 'i18next-browser-languagedetector'],
           ui: ['lucide-react']
+          // Note: JSON imports will be bundled automatically by Vite
         }
       }
     }

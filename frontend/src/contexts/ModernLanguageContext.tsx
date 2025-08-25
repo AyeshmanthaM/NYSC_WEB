@@ -6,10 +6,8 @@ import {
   defaultLanguage, 
   languageNames,
   changeLanguage,
-  loadInitialResources,
-  loadResources,
   Namespace
-} from '../lib/i18n';
+} from '../lib/i18n-bundled';
 
 // Enhanced context interface with modern features
 interface ModernLanguageContextType {
@@ -43,17 +41,9 @@ export const ModernLanguageProvider: React.FC<ModernLanguageProviderProps> = ({ 
   };
 
   useEffect(() => {
-    const initializeLanguage = async () => {
-      try {
-        await loadInitialResources();
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Failed to initialize language resources:', error);
-        setIsLoading(false);
-      }
-    };
-
-    initializeLanguage();
+    // With bundled translations, no async loading needed
+    setIsLoading(false);
+    console.log('🚀 Language context initialized with bundled translations');
   }, []);
 
   const handleLanguageChange = async (language: Language) => {
@@ -62,6 +52,7 @@ export const ModernLanguageProvider: React.FC<ModernLanguageProviderProps> = ({ 
     setIsLoading(true);
     try {
       await changeLanguage(language);
+      console.log(`🌍 Language changed to: ${language}`);
     } catch (error) {
       console.error('Failed to change language:', error);
     } finally {
@@ -70,11 +61,8 @@ export const ModernLanguageProvider: React.FC<ModernLanguageProviderProps> = ({ 
   };
 
   const loadNamespace = async (namespace: Namespace) => {
-    try {
-      await loadResources(currentLanguage, namespace);
-    } catch (error) {
-      console.error(`Failed to load namespace ${namespace}:`, error);
-    }
+    // With bundled translations, all namespaces are already loaded
+    console.log(`📦 Namespace ${namespace} already bundled and available`);
   };
 
   const isNamespaceLoaded = (namespace: Namespace): boolean => {

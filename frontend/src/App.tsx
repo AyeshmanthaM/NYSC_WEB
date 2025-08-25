@@ -7,7 +7,6 @@ import { getThemeColor } from './config/colors';
 import AnimatedBackground from './components/ui/AnimatedBackground';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
-// Debug components removed for production
 
 // Pages
 import HomePage from './pages/HomePage';
