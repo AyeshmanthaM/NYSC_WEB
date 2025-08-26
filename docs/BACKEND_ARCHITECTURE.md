@@ -1,1625 +1,867 @@
-# NYSC Website Fullstack Architecture Document
+# NYSC Website Unified Backend Architecture
 
-## Introduction
+## Overview
 
-This document outlines the complete fullstack architecture for the National Youth Services Council (NYSC) Sri Lanka website, including backend systems, frontend implementation, and their integration. It serves as the single source of truth for AI-driven development, ensuring consistency across the entire technology stack.
+This document defines the unified backend architecture for the NYSC Sri Lanka website, featuring an integrated admin panel with server-side rendering. The architecture consolidates all backend services into a single Node.js/Express application, eliminating the complexity of separate admin backends.
 
-This unified approach combines what would traditionally be separate backend and frontend architecture documents, streamlining the development process for modern fullstack applications where these concerns are increasingly intertwined.
+## Core Architecture Principles
 
-### Document Scope
+1. **Unified Backend**: Single application serving both API and admin panel
+2. **Server-Side Rendering**: EJS templates for admin interfaces
+3. **MySQL Database**: Primary data store with Prisma ORM
+4. **Role-Based Security**: Comprehensive RBAC implementation
+5. **Session Management**: Secure server-side sessions for admin area
 
-Comprehensive documentation of the NYSC website system including:
-- Frontend application built with React + Vite + TypeScript
-- Backend API system with Node.js/Express
-- Database architecture with PostgreSQL
-- Infrastructure and deployment configuration
-- Security and performance considerations
+## Technology Stack
 
-### Change Log
+### Backend Technologies
+- **Runtime**: Node.js 20.x LTS
+- **Framework**: Express.js 4.x with TypeScript 5.x
+- **Database**: MySQL 8.0
+- **ORM**: Prisma 5.x
+- **Template Engine**: EJS 3.x
+- **Authentication**: JWT + express-session
+- **Validation**: express-validator
+- **Security**: Helmet, CORS, bcrypt
 
-| Date       | Version | Description                             | Author        |
-|------------|---------|----------------------------------------|---------------|
-| 2025-08-09 | 2.0     | Fullstack architecture consolidation  | AI Assistant  |
-| 2025-08-03 | 1.0     | Initial backend architecture          | Original      |
-
-## Quick Reference - Key Files and Entry Points
-
-### Critical Files for Understanding the System
-
-- **Frontend Entry**: `frontend/src/main.tsx` - React application entry point
-- **Frontend App**: `frontend/src/App.tsx` - Main application component
-- **Vite Config**: `frontend/vite.config.ts` - Build configuration
-- **Backend Entry**: `backend/src/server.ts` - Express server entry point
-- **API Routes**: `backend/src/routes/` - API endpoint definitions
-- **Database Models**: `backend/prisma/schema.prisma` - Database schema
-- **Configuration**: `.env.example`, `frontend/tailwind.config.js`
-
-## High Level Architecture
-
-### Technical Summary
-
-The NYSC website is a modern fullstack application built with a React-based frontend using Vite as the build tool, connected to a Node.js/Express backend API. The system uses PostgreSQL for data persistence, Redis for caching, and is designed to be deployed on cloud infrastructure with horizontal scalability. The architecture follows a microservices-ready pattern with clear separation of concerns between frontend presentation, API layer, and data persistence.
-
-### Platform and Infrastructure Choice
-
-**Platform:** Cloud-native deployment (AWS/Azure/DigitalOcean)
-**Key Services:** 
-- Frontend hosting: CDN-backed static hosting (Cloudflare Pages/Vercel/Netlify)
-- Backend API: Containerized deployment with Docker/Kubernetes
-- Database: Managed PostgreSQL (RDS/Azure Database/DigitalOcean Managed DB)
-- Cache: Managed Redis
-- File Storage: S3-compatible object storage
-**Deployment Regions:** Primary: Singapore (ap-southeast-1), Secondary: Mumbai (ap-south-1)
-
-### Repository Structure
-
-**Structure:** Monorepo with separate frontend and backend packages
-**Monorepo Tool:** PNPM workspaces (planned)
-**Package Organization:** 
-- `/frontend` - React application
-- `/backend` - Express API server
-- `/admin` - Admin panel (planned)
-- `/shared` - Shared types and utilities (planned)
-
-### High Level Architecture Diagram
-
-```mermaid
-graph TB
-    subgraph "Client Layer"
-        Web[Web Browser]
-        Mobile[Mobile Browser]
-    end
-    
-    subgraph "CDN Layer"
-        CF[Cloudflare CDN]
-    end
-    
-    subgraph "Application Layer"
-        Frontend[React App<br/>Vite Build]
-        API[Express API<br/>Node.js]
-    end
-    
-    subgraph "Data Layer"
-        PG[(PostgreSQL<br/>Primary + Replica)]
-        Redis[(Redis Cache)]
-        S3[File Storage<br/>S3/MinIO]
-    end
-    
-    subgraph "External Services"
-        Email[Email Service]
-        SMS[GovSMS API]
-    end
-    
-    Web --> CF
-    Mobile --> CF
-    CF --> Frontend
-    Frontend --> API
-    API --> PG
-    API --> Redis
-    API --> S3
-    API --> Email
-    API --> SMS
-```
-
-### Architectural Patterns
-
-- **Jamstack Architecture:** Static site generation with dynamic API - *Rationale:* Optimal performance and scalability for content-heavy government website
-- **Component-Based UI:** Reusable React components with TypeScript - *Rationale:* Maintainability and type safety across large codebase
-- **Repository Pattern:** Abstract data access logic with Prisma ORM - *Rationale:* Enables testing and future database migration flexibility
-- **API Gateway Pattern:** Single entry point for all API calls - *Rationale:* Centralized auth, rate limiting, and monitoring
-- **Service Layer Pattern:** Business logic separated from controllers - *Rationale:* Testability and maintainability
-- **Queue-Based Processing:** Async operations with Bull/Redis - *Rationale:* Improved performance for long-running tasks
-
-## Tech Stack
-
-### Technology Stack Table
-
-| Category | Technology | Version | Purpose | Rationale |
-|----------|------------|---------|---------|------------|
-| Frontend Language | TypeScript | 5.5.3 | Type-safe development | Type safety and better developer experience |
-| Frontend Framework | React | 18.3.1 | UI component library | Industry standard, large ecosystem |
-| Build Tool | Vite | 5.4.19 | Fast build and HMR | Superior development experience |
-| UI Component Library | Custom + Lucide | latest | Icons and components | Lightweight, customizable |
-| State Management | React Context | Built-in | Global state management | Simple requirements, no need for Redux |
-| Backend Language | TypeScript | 5.x | Type-safe backend | Consistency with frontend |
-| Backend Framework | Express.js | 4.x | Web application framework | Mature, flexible, large ecosystem |
-| API Style | REST | - | API architecture | Simple, well-understood |
-| Database | PostgreSQL | 15 | Primary data store | ACID compliance, complex queries |
-| ORM | Prisma | 5.x | Database abstraction | Type-safe queries, migrations |
-| Cache | Redis | 7.x | Session and data cache | High performance caching |
-| File Storage | MinIO/S3 | latest | Object storage | S3-compatible, self-hostable |
-| Authentication | JWT | - | Token-based auth | Stateless, scalable |
-| Frontend Testing | Vitest | planned | Unit testing | Vite-native testing |
-| Backend Testing | Jest | planned | Unit/integration testing | Industry standard |
-| E2E Testing | Playwright | planned | End-to-end testing | Modern, reliable |
-| CSS Framework | Tailwind CSS | 3.4.1 | Utility-first CSS | Rapid development, consistency |
-| Containerization | Docker | latest | Application packaging | Consistent deployments |
-| CI/CD | GitHub Actions | - | Automation pipeline | Integrated with repository |
-| Monitoring | To be determined | - | Application monitoring | - |
-| Logging | Winston | latest | Application logging | Structured logging |
-
-## Technology Stack Details (Legacy)
-
-### Core Technologies
-- **Runtime**: Node.js 20 LTS
-- **Framework**: Express.js with TypeScript
-- **Database**: PostgreSQL 15
-- **ORM**: Prisma
-- **Cache**: Redis
-- **Queue**: Bull (Redis-based)
-- **File Storage**: MinIO (S3-compatible)
-- **Search**: Elasticsearch
+### Supporting Services
+- **Cache**: Redis for sessions and caching
+- **File Storage**: Local filesystem / S3-compatible storage
 - **Email**: Nodemailer with SMTP
-- **SMS**: GovSMS API integration
+- **Monitoring**: Winston for logging
 
-### Security Stack
-- **Authentication**: JWT with refresh tokens
-- **Authorization**: RBAC with Casbin
-- **Encryption**: bcrypt for passwords
-- **Validation**: Joi/Zod schemas
-- **Rate Limiting**: express-rate-limit
-- **CORS**: Configured for frontend domains
-- **Helmet**: Security headers
+## Project Structure
 
-## Data Models
+```
+backend/
+├── src/
+│   ├── server.ts                 # Application entry point
+│   ├── app.ts                    # Express app configuration
+│   ├── config/
+│   │   ├── database.ts          # Prisma client setup
+│   │   ├── redis.ts             # Redis client
+│   │   ├── auth.ts              # Auth configuration
+│   │   └── constants.ts         # App constants
+│   ├── controllers/
+│   │   ├── api/                 # REST API controllers
+│   │   │   ├── auth.controller.ts
+│   │   │   ├── users.controller.ts
+│   │   │   ├── news.controller.ts
+│   │   │   └── programs.controller.ts
+│   │   └── admin/               # Admin panel controllers
+│   │       ├── dashboard.controller.ts
+│   │       ├── users.admin.controller.ts
+│   │       ├── content.admin.controller.ts
+│   │       └── settings.admin.controller.ts
+│   ├── middleware/
+│   │   ├── auth.middleware.ts   # JWT verification
+│   │   ├── session.middleware.ts # Session handling
+│   │   ├── rbac.middleware.ts   # Role checking
+│   │   ├── validation.middleware.ts
+│   │   ├── error.middleware.ts
+│   │   └── security.middleware.ts
+│   ├── routes/
+│   │   ├── api/                 # API route definitions
+│   │   │   ├── index.ts
+│   │   │   ├── auth.routes.ts
+│   │   │   ├── users.routes.ts
+│   │   │   └── public.routes.ts
+│   │   └── admin/               # Admin routes (SSR)
+│   │       ├── index.ts
+│   │       ├── auth.routes.ts
+│   │       └── dashboard.routes.ts
+│   ├── services/
+│   │   ├── auth.service.ts
+│   │   ├── user.service.ts
+│   │   ├── email.service.ts
+│   │   ├── cache.service.ts
+│   │   └── activity.service.ts
+│   ├── models/                  # Data models
+│   │   ├── user.model.ts
+│   │   ├── session.model.ts
+│   │   └── activity.model.ts
+│   ├── views/                   # EJS templates
+│   │   ├── layouts/
+│   │   │   ├── admin.ejs
+│   │   │   └── auth.ejs
+│   │   ├── admin/
+│   │   │   ├── dashboard.ejs
+│   │   │   ├── users/
+│   │   │   ├── content/
+│   │   │   └── settings/
+│   │   ├── auth/
+│   │   │   ├── login.ejs
+│   │   │   └── forgot-password.ejs
+│   │   └── partials/
+│   │       ├── header.ejs
+│   │       ├── sidebar.ejs
+│   │       ├── footer.ejs
+│   │       └── alerts.ejs
+│   ├── utils/
+│   │   ├── logger.ts
+│   │   ├── validators.ts
+│   │   ├── helpers.ts
+│   │   └── email-templates.ts
+│   └── types/
+│       ├── express.d.ts         # Extended Request type
+│       ├── models.ts
+│       └── api.ts
+├── prisma/
+│   ├── schema.prisma            # Database schema
+│   ├── migrations/              # Migration files
+│   ├── seed.ts                  # Seed data
+│   └── client.ts               # Prisma client instance
+├── public/                      # Static assets
+│   ├── css/
+│   │   ├── admin.css
+│   │   └── tailwind.css
+│   ├── js/
+│   │   ├── admin.js
+│   │   └── common.js
+│   └── images/
+├── tests/
+│   ├── unit/
+│   ├── integration/
+│   └── e2e/
+├── scripts/
+│   ├── setup.sh
+│   └── build.sh
+├── .env.example
+├── .eslintrc.json
+├── tsconfig.json
+├── nodemon.json
+└── package.json
+```
 
-### Core Business Entities
+## Database Design (MySQL)
 
-#### User Model
-**Purpose:** Represents system users including youth members, club representatives, and staff
+### Core Schema
 
-**Key Attributes:**
-- `id`: UUID - Unique identifier
-- `nic`: string - National Identity Card number
-- `email`: string - Email address
-- `mobile`: string - Contact number
-- `role`: Role - User role reference
-- `isActive`: boolean - Account status
+```prisma
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
 
-**TypeScript Interface:**
-```typescript
-interface User {
-  id: string;
-  nic?: string;
-  email: string;
-  mobile?: string;
-  role: Role;
-  isActive: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+generator client {
+  provider = "prisma-client-js"
+}
+
+// User Management
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String
+  firstName     String?
+  lastName      String?
+  role          Role      @default(USER)
+  isActive      Boolean   @default(true)
+  emailVerified Boolean   @default(false)
+  lastLogin     DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  profile       Profile?
+  sessions      Session[]
+  activities    ActivityLog[]
+  refreshTokens RefreshToken[]
+  
+  @@index([email])
+  @@index([role])
+  @@map("users")
+}
+
+enum Role {
+  USER
+  EDITOR
+  MODERATOR
+  ADMIN
+  SUPER_ADMIN
+}
+
+model Profile {
+  id          String    @id @default(cuid())
+  userId      String    @unique
+  phone       String?
+  address     String?
+  city        String?
+  district    String?
+  avatar      String?
+  bio         String?   @db.Text
+  
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("profiles")
+}
+
+model Session {
+  id          String    @id @default(cuid())
+  userId      String
+  sid         String    @unique
+  data        Json
+  expiresAt   DateTime
+  ipAddress   String?
+  userAgent   String?   @db.Text
+  createdAt   DateTime  @default(now())
+  
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([sid])
+  @@index([userId])
+  @@map("sessions")
+}
+
+model RefreshToken {
+  id          String    @id @default(cuid())
+  token       String    @unique
+  userId      String
+  expiresAt   DateTime
+  createdAt   DateTime  @default(now())
+  
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([token])
+  @@map("refresh_tokens")
+}
+
+model ActivityLog {
+  id          String    @id @default(cuid())
+  userId      String
+  action      String
+  resource    String?
+  resourceId  String?
+  metadata    Json?
+  ipAddress   String?
+  userAgent   String?   @db.Text
+  createdAt   DateTime  @default(now())
+  
+  user        User      @relation(fields: [userId], references: [id])
+  
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+  @@map("activity_logs")
 }
 ```
 
-**Relationships:**
-- Has one Role
-- Has many Applications
-- Has many NewsArticles (as author)
+## Authentication System
 
-#### NewsArticle Model
-**Purpose:** Multilingual news and announcement content
+### Authentication Flow
 
-**Key Attributes:**
-- `id`: UUID - Unique identifier
-- `title_si/ta/en`: string - Multilingual titles
-- `content_si/ta/en`: string - Multilingual content
-- `slug`: string - URL-friendly identifier
-- `category`: Category - Article category
-- `author`: User - Content author
-- `isPublished`: boolean - Publication status
-
-**TypeScript Interface:**
+#### API Authentication (JWT)
 ```typescript
-interface NewsArticle {
-  id: string;
-  title_si?: string;
-  title_ta?: string;
-  title_en: string;
-  slug: string;
-  content_si?: string;
-  content_ta?: string;
-  content_en: string;
-  category: NewsCategory;
-  author: User;
-  tags: string[];
-  isPublished: boolean;
-  publishedAt?: Date;
-  viewCount: number;
+// Login endpoint
+POST /api/auth/login
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+
+// Response
+{
+  "success": true,
+  "data": {
+    "user": { ... },
+    "accessToken": "jwt.token.here",
+    "refreshToken": "refresh.token.here"
+  }
 }
 ```
 
-**Relationships:**
-- Belongs to one Category
-- Belongs to one User (author)
-- Has many Tags
-- Has many Comments
-
-#### Program Model
-**Purpose:** Training programs, events, and workshops
-
-**Key Attributes:**
-- `id`: UUID - Unique identifier
-- `title`: Multilingual - Program title
-- `programType`: string - Type of program
-- `startDate`: Date - Program start
-- `endDate`: Date - Program end
-- `maxParticipants`: number - Capacity limit
-- `status`: string - Current status
-
-**TypeScript Interface:**
+#### Admin Authentication (Sessions)
 ```typescript
-interface Program {
-  id: string;
-  title_si?: string;
-  title_ta?: string;
-  title_en: string;
-  description: MultilingualText;
-  programType: ProgramType;
-  startDate: Date;
-  endDate: Date;
-  location: string;
-  maxParticipants?: number;
-  status: ProgramStatus;
-  createdBy: User;
-}
+// Admin login flow
+GET  /admin/login          → Render login page
+POST /admin/auth/login     → Process credentials
+                          → Create session
+                          → Redirect to dashboard
 ```
 
-**Relationships:**
-- Created by one User
-- Has many Applications
+### Security Implementation
 
-## Database Schema
+```typescript
+// Auth middleware for API
+export const authenticateToken = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const token = req.cookies.accessToken || 
+                req.headers.authorization?.split(' ')[1];
+  
+  if (!token) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!);
+    req.user = await userService.findById(decoded.userId);
+    next();
+  } catch (error) {
+    return res.status(403).json({ error: 'Invalid token' });
+  }
+};
 
-### Core Tables
+// Session middleware for admin
+export const authenticateSession = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (!req.session.userId) {
+    return res.redirect('/admin/login');
+  }
+  next();
+};
+```
 
-```sql
--- Users and Authentication
-CREATE TABLE users (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    nic VARCHAR(20) UNIQUE,
-    email VARCHAR(255) UNIQUE,
-    mobile VARCHAR(20),
-    password_hash VARCHAR(255),
-    role_id INTEGER REFERENCES roles(id),
-    is_active BOOLEAN DEFAULT true,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+## Role-Based Access Control
 
--- News Categories
-CREATE TABLE news_categories (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name_si VARCHAR(100),
-    name_ta VARCHAR(100),
-    name_en VARCHAR(100),
-    slug VARCHAR(100) UNIQUE,
-    description TEXT,
-    parent_id UUID REFERENCES news_categories(id),
-    display_order INTEGER DEFAULT 0,
-    is_active BOOLEAN DEFAULT true,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+### Permission Matrix
 
--- News Articles
-CREATE TABLE news_articles (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    title_si VARCHAR(255),
-    title_ta VARCHAR(255),
-    title_en VARCHAR(255),
-    slug VARCHAR(255) UNIQUE,
-    excerpt_si TEXT,
-    excerpt_ta TEXT,
-    excerpt_en TEXT,
-    content_si TEXT,
-    content_ta TEXT,
-    content_en TEXT,
-    featured_image VARCHAR(500),
-    category_id UUID REFERENCES news_categories(id),
-    author_id UUID REFERENCES users(id),
-    tags TEXT[],
-    view_count INTEGER DEFAULT 0,
-    is_featured BOOLEAN DEFAULT false,
-    is_published BOOLEAN DEFAULT false,
-    published_at TIMESTAMP,
-    meta_title VARCHAR(255),
-    meta_description TEXT,
-    meta_keywords TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+| Feature | USER | EDITOR | MODERATOR | ADMIN | SUPER_ADMIN |
+|---------|------|--------|-----------|-------|-------------|
+| **API Access** |
+| View Content | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Create Content | - | ✓ | ✓ | ✓ | ✓ |
+| Edit Own Content | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Edit Any Content | - | - | ✓ | ✓ | ✓ |
+| Delete Content | - | - | ✓ | ✓ | ✓ |
+| **Admin Panel Access** |
+| Access Dashboard | - | ✓ | ✓ | ✓ | ✓ |
+| Manage Users | - | - | - | ✓ | ✓ |
+| View Reports | - | ✓ | ✓ | ✓ | ✓ |
+| System Settings | - | - | - | - | ✓ |
+| View Logs | - | - | ✓ | ✓ | ✓ |
 
--- News Tags
-CREATE TABLE news_tags (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name_si VARCHAR(50),
-    name_ta VARCHAR(50),
-    name_en VARCHAR(50),
-    slug VARCHAR(50) UNIQUE,
-    usage_count INTEGER DEFAULT 0
-);
+### RBAC Implementation
 
--- News Article Tags (Many-to-Many)
-CREATE TABLE news_article_tags (
-    article_id UUID REFERENCES news_articles(id) ON DELETE CASCADE,
-    tag_id UUID REFERENCES news_tags(id) ON DELETE CASCADE,
-    PRIMARY KEY (article_id, tag_id)
-);
+```typescript
+// Role-based middleware
+export const requireRole = (...roles: Role[]) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    if (!req.user) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+    
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).json({ error: 'Insufficient permissions' });
+    }
+    
+    next();
+  };
+};
 
--- News Comments
-CREATE TABLE news_comments (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    article_id UUID REFERENCES news_articles(id) ON DELETE CASCADE,
-    user_id UUID REFERENCES users(id),
-    parent_id UUID REFERENCES news_comments(id),
-    content TEXT,
-    is_approved BOOLEAN DEFAULT false,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Programs and Events
-CREATE TABLE programs (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    title_si VARCHAR(255),
-    title_ta VARCHAR(255),
-    title_en VARCHAR(255),
-    description_si TEXT,
-    description_ta TEXT,
-    description_en TEXT,
-    program_type VARCHAR(50),
-    start_date DATE,
-    end_date DATE,
-    location VARCHAR(255),
-    max_participants INTEGER,
-    status VARCHAR(50),
-    created_by UUID REFERENCES users(id)
-);
-
--- Applications/Registrations
-CREATE TABLE applications (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    application_type VARCHAR(50),
-    user_id UUID REFERENCES users(id),
-    program_id UUID REFERENCES programs(id),
-    status VARCHAR(50),
-    application_data JSONB,
-    submitted_at TIMESTAMP,
-    reviewed_by UUID REFERENCES users(id),
-    reviewed_at TIMESTAMP
-);
-
--- Training Centers
-CREATE TABLE training_centers (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name_si VARCHAR(255),
-    name_ta VARCHAR(255),
-    name_en VARCHAR(255),
-    district_id INTEGER REFERENCES districts(id),
-    address TEXT,
-    contact_number VARCHAR(20),
-    email VARCHAR(255),
-    courses_offered JSONB,
-    facilities JSONB,
-    status VARCHAR(50)
+// Usage in routes
+router.get('/admin/users',
+  authenticateSession,
+  requireRole('ADMIN', 'SUPER_ADMIN'),
+  usersController.listUsers
 );
 ```
 
-### Supporting Tables
-- `roles` - User roles and permissions
-- `districts` - Sri Lankan districts
-- `divisions` - Divisional secretariats
-- `gn_divisions` - Grama Niladhari divisions
-- `documents` - Uploaded documents
-- `audit_logs` - System audit trail
-- `notifications` - User notifications
-- `cms_content` - Dynamic content management
+## Admin Panel Features
 
-## API Specification
+### Core Modules
 
-### REST API Structure
+1. **Dashboard**
+   - Statistics widgets
+   - Recent activities
+   - Quick actions
+   - System health
+
+2. **User Management**
+   - User list with pagination
+   - User creation/editing
+   - Role assignment
+   - Activity tracking
+   - Bulk operations
+
+3. **Content Management**
+   - News articles
+   - Events calendar
+   - Media library
+   - Categories/tags
+
+4. **Reports**
+   - User statistics
+   - Content analytics
+   - System logs
+   - Export functionality
+
+5. **Settings**
+   - Site configuration
+   - Email templates
+   - Maintenance mode
+   - Backup/restore
+
+### Server-Side Rendering
+
+```javascript
+// Admin dashboard controller
+export const dashboard = async (req: Request, res: Response) => {
+  try {
+    const [users, articles, events, activities] = await Promise.all([
+      userService.getCount(),
+      newsService.getCount(),
+      eventService.getCount(),
+      activityService.getRecent(10)
+    ]);
+    
+    res.render('admin/dashboard', {
+      title: 'Admin Dashboard',
+      layout: 'layouts/admin',
+      user: req.user,
+      stats: {
+        users,
+        articles,
+        events
+      },
+      activities,
+      helpers: {
+        formatDate,
+        formatRole
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+```
+
+### EJS Template Structure
+
+```html
+<!-- views/layouts/admin.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %> - NYSC Admin</title>
+  <link rel="stylesheet" href="/css/admin.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <div class="flex h-screen bg-gray-100">
+    <%- include('../partials/sidebar') %>
+    <div class="flex-1 flex flex-col">
+      <%- include('../partials/header') %>
+      <main class="flex-1 p-6">
+        <%- include('../partials/alerts') %>
+        <%- body %>
+      </main>
+    </div>
+  </div>
+  <script src="/js/admin.js"></script>
+</body>
+</html>
+```
+
+## API Design
 
 ### RESTful Endpoints
 
-```typescript
-// Authentication
+```
+Authentication:
 POST   /api/auth/register
 POST   /api/auth/login
-POST   /api/auth/refresh
 POST   /api/auth/logout
-POST   /api/auth/forgot-password
-POST   /api/auth/reset-password
+POST   /api/auth/refresh
+GET    /api/auth/me
 
-// User Management
-GET    /api/users/profile
-PUT    /api/users/profile
-GET    /api/users/:id (admin)
-GET    /api/users (admin)
-PUT    /api/users/:id (admin)
+Users:
+GET    /api/users
+GET    /api/users/:id
+POST   /api/users
+PUT    /api/users/:id
+DELETE /api/users/:id
 
-// News Management
-GET    /api/news                    // List with pagination & filters
-GET    /api/news/featured           // Featured articles
-GET    /api/news/latest             // Latest articles
-GET    /api/news/popular            // Most viewed
-GET    /api/news/categories         // All categories
-GET    /api/news/category/:slug     // Articles by category
-GET    /api/news/tags               // All tags
-GET    /api/news/tag/:slug          // Articles by tag
-GET    /api/news/:slug              // Single article
-POST   /api/news (admin)            // Create article
-PUT    /api/news/:id (admin)        // Update article
-DELETE /api/news/:id (admin)        // Delete article
-POST   /api/news/:id/view           // Increment view count
-GET    /api/news/:id/related        // Related articles
-POST   /api/news/:id/comment        // Add comment
-GET    /api/news/:id/comments       // Get comments
+Content:
+GET    /api/news
+GET    /api/news/:id
+POST   /api/news
+PUT    /api/news/:id
+DELETE /api/news/:id
 
-// News Categories (Admin)
-POST   /api/news/categories
-PUT    /api/news/categories/:id
-DELETE /api/news/categories/:id
-
-// Programs
-GET    /api/programs
-POST   /api/programs
-GET    /api/programs/:id
-PUT    /api/programs/:id
-GET    /api/programs/:id/participants
-
-// Applications
-POST   /api/applications
-GET    /api/applications/my
-GET    /api/applications/:id
-PUT    /api/applications/:id/status
-
-// Training Centers
-GET    /api/training-centers
-GET    /api/training-centers/:id
-POST   /api/training-centers (admin)
-PUT    /api/training-centers/:id (admin)
-
-// File Management
-POST   /api/files/upload
-GET    /api/files/:id
-DELETE /api/files/:id
-
-// CMS
-GET    /api/cms/content/:slug
-PUT    /api/cms/content/:slug
-GET    /api/cms/banners
-POST   /api/cms/banners
-
-// Reports
-GET    /api/reports/programs
-GET    /api/reports/training-centers
-GET    /api/reports/statistics
-GET    /api/reports/news-analytics
+Admin (SSR):
+GET    /admin/login
+POST   /admin/auth/login
+GET    /admin/logout
+GET    /admin/dashboard
+GET    /admin/users
+GET    /admin/users/:id/edit
+POST   /admin/users/:id
+DELETE /admin/users/:id
 ```
 
-### API Response Format
+### Response Format
 
 ```typescript
-// Success Response
+// Success response
 {
   "success": true,
   "data": {
     // Response data
   },
-  "metadata": {
-    "timestamp": "2025-08-03T10:00:00Z",
-    "version": "1.0"
-  }
+  "message": "Operation successful"
 }
 
-// Error Response
+// Error response
 {
   "success": false,
   "error": {
-    "code": "VALIDATION_ERROR",
-    "message": "Validation failed",
-    "details": [
-      {
-        "field": "email",
-        "message": "Invalid email format"
-      }
-    ]
-  },
-  "metadata": {
-    "timestamp": "2025-08-03T10:00:00Z",
-    "request_id": "req_12345"
+    "code": "ERROR_CODE",
+    "message": "Error message",
+    "details": []
   }
 }
 
-// Paginated Response
+// Paginated response
 {
   "success": true,
-  "data": [...],
+  "data": [],
   "pagination": {
     "page": 1,
     "limit": 20,
-    "total": 150,
-    "pages": 8
+    "total": 100,
+    "pages": 5
   }
 }
 ```
 
-## Components
+## Security Measures
 
-### Frontend Components
-
-#### Layout Components
-**Responsibility:** Application structure and navigation
-
-**Key Interfaces:**
-- `Header.tsx` - Main navigation and language selector
-- `Footer.tsx` - Site footer with links and information
-
-**Dependencies:** React, React Router, LanguageContext, ThemeContext
-
-**Technology Stack:** React 18, TypeScript, Tailwind CSS
-
-#### Section Components
-**Responsibility:** Homepage content sections
-
-**Key Interfaces:**
-- `HeroSection.tsx` - Hero banner with animations
-- `ServicesSection.tsx` - Service showcase
-- `NewsEventsSection.tsx` - Latest news display
-- `LeadersSection.tsx` - Leadership showcase
-- `YouthOfferings.tsx` - Youth program highlights
-
-**Dependencies:** UI components, API services
-
-**Technology Stack:** React, TypeScript, Lucide icons
-
-#### UI Components
-**Responsibility:** Reusable UI elements
-
-**Key Interfaces:**
-- `AnimatedBackground.tsx` - Background animations
-- `HeroParticleMesh.tsx` - Particle effects
-
-**Dependencies:** React, CSS animations
-
-**Technology Stack:** React, TypeScript, CSS3 animations
-
-### Backend Components
-
-#### API Controllers
-**Responsibility:** HTTP request handling and routing
-
-**Key Interfaces:**
-- `authController` - Authentication endpoints
-- `newsController` - News CRUD operations
-- `programController` - Program management
-- `userController` - User management
-
-**Dependencies:** Express, Service layer, Middleware
-
-**Technology Stack:** Express.js, TypeScript
-
-#### Service Layer
-**Responsibility:** Business logic implementation
-
-**Key Interfaces:**
-- `NewsService` - News article operations
-- `ProgramService` - Program management logic
-- `AuthService` - Authentication logic
-- `EmailService` - Email notifications
-
-**Dependencies:** Prisma ORM, Redis, Queue system
-
-**Technology Stack:** TypeScript, Prisma, Bull queue
-
-#### Data Access Layer
-**Responsibility:** Database operations and caching
-
-**Key Interfaces:**
-- Prisma models and queries
-- Redis caching operations
-- Transaction management
-
-**Dependencies:** PostgreSQL, Redis, Prisma
-
-**Technology Stack:** Prisma ORM, Redis client
-
-## Service Layer Architecture
+### Security Middleware Stack
 
 ```typescript
-// Example Service Structure
-// services/ProgramService.ts
+import helmet from 'helmet';
+import cors from 'cors';
+import rateLimit from 'express-rate-limit';
 
-export class ProgramService {
-  constructor(
-    private prisma: PrismaClient,
-    private cache: RedisClient,
-    private queue: Queue,
-    private storage: StorageService
-  ) {}
-
-  async createProgram(data: CreateProgramDto): Promise<Program> {
-    // Validate data
-    const validated = await createProgramSchema.validate(data);
-    
-    // Create in database
-    const program = await this.prisma.program.create({
-      data: {
-        ...validated,
-        status: 'DRAFT'
-      }
-    });
-    
-    // Queue notification
-    await this.queue.add('notify-subscribers', {
-      type: 'NEW_PROGRAM',
-      programId: program.id
-    });
-    
-    // Invalidate cache
-    await this.cache.del('programs:*');
-    
-    return program;
+// Security headers
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com"],
+      scriptSrc: ["'self'", "https://cdn.tailwindcss.com"]
+    }
   }
-  
-  async getPrograms(filters: ProgramFilters): Promise<PaginatedResult<Program>> {
-    const cacheKey = `programs:${JSON.stringify(filters)}`;
-    
-    // Check cache
-    const cached = await this.cache.get(cacheKey);
-    if (cached) return JSON.parse(cached);
-    
-    // Query database
-    const [data, total] = await Promise.all([
-      this.prisma.program.findMany({
-        where: this.buildWhereClause(filters),
-        skip: (filters.page - 1) * filters.limit,
-        take: filters.limit,
-        orderBy: { createdAt: 'desc' }
-      }),
-      this.prisma.program.count({
-        where: this.buildWhereClause(filters)
-      })
-    ]);
-    
-    const result = {
-      data,
-      pagination: {
-        page: filters.page,
-        limit: filters.limit,
-        total,
-        pages: Math.ceil(total / filters.limit)
-      }
-    };
-    
-    // Cache result
-    await this.cache.setex(cacheKey, 300, JSON.stringify(result));
-    
-    return result;
-  }
-}
-```
+}));
 
-## Queue Processing
+// CORS configuration
+app.use(cors({
+  origin: process.env.FRONTEND_URL,
+  credentials: true
+}));
 
-```typescript
-// Queue Workers
-// workers/notificationWorker.ts
-
-export const notificationWorker = new Worker('notifications', async (job) => {
-  const { type, data } = job.data;
-  
-  switch (type) {
-    case 'NEW_PROGRAM':
-      await sendSubscriberNotification({
-        subject: 'New Program Available',
-        programId: data.programId
-      });
-      break;
-      
-    case 'APPLICATION_STATUS':
-      await sendUserNotification({
-        userId: data.userId,
-        message: `Your application status: ${data.status}`
-      });
-      break;
-      
-    case 'BULK_SMS':
-      await processBulkSMS(data.recipients, data.message);
-      break;
-      
-    case 'EVENT_REMINDER':
-      await sendEventReminder({
-        eventId: data.eventId,
-        recipients: data.recipients
-      });
-      break;
-  }
-}, {
-  connection: redisConnection,
-  concurrency: 5
+// Rate limiting
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // 5 requests
+  message: 'Too many login attempts'
 });
+
+app.use('/api/auth/login', authLimiter);
+app.use('/admin/auth/login', authLimiter);
+
+// Session configuration
+app.use(session({
+  secret: process.env.SESSION_SECRET!,
+  resave: false,
+  saveUninitialized: false,
+  store: new RedisStore({ client: redis }),
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  },
+  name: 'nysc.sid'
+}));
 ```
 
-## External APIs
+### Security Best Practices
 
-### GovSMS API
-- **Purpose:** SMS notifications for Sri Lankan users
-- **Documentation:** Government SMS gateway documentation
-- **Base URL:** To be configured
-- **Authentication:** API key-based
-- **Rate Limits:** Government-imposed limits
+1. **Input Validation**
+   - express-validator for all inputs
+   - Parameterized queries via Prisma
+   - XSS protection in templates
 
-**Key Endpoints Used:**
-- `POST /send` - Send single SMS
-- `POST /bulk` - Send bulk SMS
+2. **Authentication**
+   - Bcrypt (12 rounds) for passwords
+   - JWT with short expiration
+   - Secure session management
 
-**Integration Notes:** Requires government approval and API key
+3. **Data Protection**
+   - HTTPS enforcement
+   - Secure cookies
+   - CSRF protection
 
-### Email Service (SMTP)
-- **Purpose:** Email notifications and communications
-- **Documentation:** SMTP configuration
-- **Base URL:** SMTP server endpoint
-- **Authentication:** SMTP credentials
-- **Rate Limits:** Provider-specific
+4. **Monitoring**
+   - Activity logging
+   - Failed login tracking
+   - Anomaly detection
 
-**Integration Notes:** Configure with government email server or approved provider
+## Performance Optimization
 
-## Core Workflows
+### Caching Strategy
 
-### User Registration and Authentication Flow
-
-```mermaid
-sequenceDiagram
-    participant U as User
-    participant F as Frontend
-    participant A as API
-    participant DB as Database
-    participant R as Redis
-    
-    U->>F: Fill registration form
-    F->>A: POST /api/auth/register
-    A->>DB: Check existing user
-    A->>DB: Create user record
-    A->>R: Store session
-    A->>F: Return JWT token
-    F->>U: Registration success
-```
-
-### News Article Publishing Flow
-
-```mermaid
-sequenceDiagram
-    participant A as Admin
-    participant F as Frontend
-    participant API as API
-    participant DB as Database
-    participant C as Cache
-    
-    A->>F: Create article
-    F->>API: POST /api/news
-    API->>DB: Save article
-    API->>C: Invalidate cache
-    API->>F: Article created
-    F->>A: Success message
-```
-
-## Frontend Architecture
-
-### Component Architecture
-
-#### Component Organization
-```
-frontend/src/
-├── components/
-│   ├── layout/          # Layout components
-│   │   ├── Header.tsx
-│   │   └── Footer.tsx
-│   ├── sections/        # Page sections
-│   │   ├── HeroSection.tsx
-│   │   ├── ServicesSection.tsx
-│   │   └── NewsEventsSection.tsx
-│   └── ui/              # Reusable UI components
-│       ├── AnimatedBackground.tsx
-│       └── HeroParticleMesh.tsx
-├── contexts/            # React contexts
-│   ├── LanguageContext.tsx
-│   └── ThemeContext.tsx
-├── hooks/               # Custom hooks
-├── services/            # API services
-├── types/               # TypeScript types
-└── utils/               # Utilities
-```
-
-### State Management Architecture
-
-#### State Structure
 ```typescript
-// Global state managed via React Context
-interface AppState {
-  theme: 'light' | 'dark';
-  language: 'si' | 'ta' | 'en';
-  user: User | null;
-  isAuthenticated: boolean;
+// Redis caching service
+export class CacheService {
+  private redis: Redis;
+  
+  async get<T>(key: string): Promise<T | null> {
+    const data = await this.redis.get(key);
+    return data ? JSON.parse(data) : null;
+  }
+  
+  async set(key: string, value: any, ttl?: number): Promise<void> {
+    const data = JSON.stringify(value);
+    if (ttl) {
+      await this.redis.setex(key, ttl, data);
+    } else {
+      await this.redis.set(key, data);
+    }
+  }
+  
+  async invalidate(pattern: string): Promise<void> {
+    const keys = await this.redis.keys(pattern);
+    if (keys.length) {
+      await this.redis.del(...keys);
+    }
+  }
 }
 ```
 
-#### State Management Patterns
-- Context API for global state
-- Local component state for UI state
-- Custom hooks for reusable stateful logic
+### Database Optimization
 
-### Routing Architecture
+- Connection pooling
+- Query optimization
+- Indexed columns
+- Lazy loading relations
+- Pagination by default
 
-#### Route Organization
-```
-/                     # Homepage
-/about                # About NYSC
-/news                 # News listing
-/news/:slug           # News detail
-/programs             # Programs listing
-/programs/:id         # Program detail
-/services             # Services
-/contact              # Contact page
-/admin                # Admin panel (protected)
-```
+## Development Setup
 
-## Backend Architecture
+### Prerequisites
+- Node.js 20.x
+- MySQL 8.0
+- Redis 6.x
+- npm or pnpm
 
-### Service Architecture
+### Installation
 
-#### Controller/Route Organization
-```
-backend/src/
-├── routes/
-│   ├── auth.routes.ts
-│   ├── news.routes.ts
-│   ├── program.routes.ts
-│   └── user.routes.ts
-├── controllers/
-│   ├── authController.ts
-│   ├── newsController.ts
-│   └── programController.ts
-├── services/
-│   ├── NewsService.ts
-│   ├── ProgramService.ts
-│   └── AuthService.ts
-└── middleware/
-    ├── auth.ts
-    ├── validation.ts
-    └── errorHandler.ts
-```
-
-### Database Architecture
-
-See Database Schema section for detailed schema design.
-
-### Authentication and Authorization
-
-#### Auth Flow
-```mermaid
-sequenceDiagram
-    participant C as Client
-    participant A as API
-    participant J as JWT Service
-    participant D as Database
-    
-    C->>A: Login request
-    A->>D: Validate credentials
-    D->>A: User data
-    A->>J: Generate tokens
-    J->>A: Access + Refresh tokens
-    A->>C: Return tokens
-    
-    Note over C,A: Subsequent requests
-    C->>A: Request with token
-    A->>J: Verify token
-    J->>A: Token valid
-    A->>C: Protected resource
-```
-
-## Unified Project Structure
-
-```
-nysc-website/
-├── .github/                    # CI/CD workflows
-│   └── workflows/
-│       ├── ci.yaml
-│       └── deploy.yaml
-├── frontend/                   # React application
-│   ├── src/
-│   │   ├── components/         # UI components
-│   │   ├── contexts/           # React contexts
-│   │   ├── hooks/              # Custom hooks
-│   │   ├── services/           # API services
-│   │   ├── types/              # TypeScript types
-│   │   └── utils/              # Utilities
-│   ├── public/                 # Static assets
-│   ├── index.html
-│   ├── package.json
-│   ├── tsconfig.json
-│   ├── vite.config.ts
-│   └── tailwind.config.js
-├── backend/                    # Express API
-│   ├── src/
-│   │   ├── routes/             # API routes
-│   │   ├── controllers/        # Route handlers
-│   │   ├── services/           # Business logic
-│   │   ├── middleware/         # Express middleware
-│   │   ├── utils/              # Utilities
-│   │   └── server.ts           # Entry point
-│   ├── prisma/
-│   │   ├── schema.prisma       # Database schema
-│   │   └── migrations/         # DB migrations
-│   ├── tests/                  # Backend tests
-│   ├── package.json
-│   └── tsconfig.json
-├── admin/                      # Admin panel (planned)
-├── shared/                     # Shared code (planned)
-│   ├── types/                  # Shared TypeScript types
-│   └── constants/              # Shared constants
-├── docker/                     # Docker configs
-│   ├── Dockerfile.frontend
-│   ├── Dockerfile.backend
-│   └── docker-compose.yml
-├── docs/                       # Documentation
-│   ├── BACKEND_ARCHITECTURE.md
-│   ├── UI_UX_AGENT.md
-│   └── ADMIN_PANEL.md
-├── scripts/                    # Build scripts
-├── .env.example                # Environment template
-├── package.json                # Root package.json
-├── pnpm-workspace.yaml         # PNPM workspace config
-└── README.md
-```
-
-## Development Workflow
-
-### Local Development Setup
-
-#### Prerequisites
-```bash
-# Required software
-node --version  # v20.x LTS
-npm --version   # v10.x
-pnpm --version  # v8.x (optional but recommended)
-postgresql --version  # v15.x
-redis-server --version  # v7.x
-```
-
-#### Initial Setup
 ```bash
 # Clone repository
 git clone https://github.com/nysc/website.git
-cd website
+cd website/backend
 
 # Install dependencies
-cd frontend && npm install
-cd ../backend && npm install
+npm install
+
+# Setup environment
+cp .env.example .env
+# Edit .env with your configuration
 
 # Setup database
-cd backend
-prisma migrate dev
-prisma db seed
+npx prisma migrate dev
+npx prisma db seed
 
-# Copy environment files
-cp .env.example .env
-cd ../frontend
-cp .env.example .env.local
+# Start development server
+npm run dev
 ```
 
-#### Development Commands
-```bash
-# Start all services
-npm run dev:all  # Starts frontend and backend
-
-# Start frontend only
-cd frontend && npm run dev
-
-# Start backend only  
-cd backend && npm run dev
-
-# Run tests
-npm run test        # All tests
-npm run test:unit   # Unit tests only
-npm run test:e2e    # E2E tests
-```
-
-### Environment Configuration
-
-#### Required Environment Variables
-```bash
-# Frontend (.env.local)
-VITE_API_URL=http://localhost:3001
-VITE_PUBLIC_URL=http://localhost:5173
-
-# Backend (.env)
-NODE_ENV=development
-PORT=3001
-DATABASE_URL=postgresql://user:pass@localhost:5432/nysc
-REDIS_URL=redis://localhost:6379
-JWT_SECRET=your-secret-key
-JWT_REFRESH_SECRET=your-refresh-secret
-
-# Shared
-ALLOWED_ORIGINS=http://localhost:5173,http://localhost:3000
-```
-
-## Middleware Stack
-
-```typescript
-// middleware/index.ts
-import express from 'express';
-import helmet from 'helmet';
-import cors from 'cors';
-import compression from 'compression';
-import morgan from 'morgan';
-import rateLimit from 'express-rate-limit';
-
-export const setupMiddleware = (app: express.Application) => {
-  // Security
-  app.use(helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
-        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
-        imgSrc: ["'self'", "data:", "https:"],
-      },
-    },
-  }));
-  
-  // CORS
-  app.use(cors({
-    origin: process.env.ALLOWED_ORIGINS?.split(','),
-    credentials: true
-  }));
-  
-  // Compression
-  app.use(compression());
-  
-  // Logging
-  app.use(morgan('combined'));
-  
-  // Rate limiting
-  app.use('/api/', rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100,
-    message: 'Too many requests'
-  }));
-  
-  // Body parsing
-  app.use(express.json({ limit: '10mb' }));
-  app.use(express.urlencoded({ extended: true }));
-  
-  // Custom middleware
-  app.use(requestIdMiddleware);
-  app.use(languageMiddleware);
-  app.use(auditLogMiddleware);
-};
-```
-
-## Authentication & Authorization
-
-```typescript
-// middleware/auth.ts
-export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const token = req.headers.authorization?.split(' ')[1];
-    if (!token) throw new Error('No token provided');
-    
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await prisma.user.findUnique({
-      where: { id: decoded.userId },
-      include: { role: true }
-    });
-    
-    if (!user || !user.isActive) {
-      throw new Error('Invalid user');
-    }
-    
-    req.user = user;
-    next();
-  } catch (error) {
-    res.status(401).json({ error: 'Unauthorized' });
-  }
-};
-
-export const authorize = (...roles: string[]) => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    if (!req.user || !roles.includes(req.user.role.name)) {
-      return res.status(403).json({ error: 'Forbidden' });
-    }
-    next();
-  };
-};
-```
-
-## Environment Configuration with Security
+### Environment Variables
 
 ```env
-# .env.example
+# Server
 NODE_ENV=development
-PORT=3001
-
-# Security: Bind to localhost only in development
-HOST=127.0.0.1
+PORT=5000
 
 # Database
-DATABASE_URL=postgresql://postgres:password@localhost:5432/nysc_db
+DATABASE_URL="mysql://user:password@localhost:3306/nysc_db"
 
-# Redis - Bind to localhost
-REDIS_URL=redis://127.0.0.1:6379
+# Redis
+REDIS_URL="redis://localhost:6379"
 
-# JWT Secrets
-JWT_SECRET=your-secret-key
+# Authentication
+JWT_SECRET=your-jwt-secret-key
 JWT_REFRESH_SECRET=your-refresh-secret
-JWT_EXPIRES_IN=15m
-JWT_REFRESH_EXPIRES_IN=7d
+SESSION_SECRET=your-session-secret
 
-# CORS - Restrict to local development
-ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3002
+# Frontend
+FRONTEND_URL=http://localhost:5173
 
-# Security Headers
-HELMET_ENABLED=true
-CORS_ENABLED=true
-RATE_LIMIT_ENABLED=true
+# Email
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your-email
+SMTP_PASS=your-password
+
+# Admin
+DEFAULT_ADMIN_EMAIL=admin@nysc.lk
+DEFAULT_ADMIN_PASSWORD=SecurePassword123!
 ```
 
-## Port Security Middleware
+## Testing
 
-```typescript
-// middleware/security.ts
-import { Express } from 'express';
-
-export const setupSecurity = (app: Express) => {
-  // Bind to localhost only in development
-  const host = process.env.HOST || '127.0.0.1';
-  const port = process.env.PORT || 3001;
-  
-  // Security middleware
-  app.use(helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
-        scriptSrc: ["'self'"],
-        imgSrc: ["'self'", "data:", "https:"],
-      },
-    },
-  }));
-  
-  // CORS configuration - restrict origins
-  app.use(cors({
-    origin: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:3000'],
-    credentials: true,
-    optionsSuccessStatus: 200
-  }));
-  
-  // Rate limiting
-  app.use('/api/', rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 100,
-    message: 'Too many requests',
-    standardHeaders: true,
-    legacyHeaders: false,
-  }));
-  
-  // Ensure server binds to localhost only
-  app.listen(port, host, () => {
-    console.log(`Server running on http://${host}:${port}`);
-    console.log('⚠️  Remember to close this port when done developing!');
-  });
-};
-```
-
-## Deployment Architecture
-
-### Deployment Strategy
-
-**Frontend Deployment:**
-- **Platform:** Cloudflare Pages / Vercel / Netlify
-- **Build Command:** `npm run build`
-- **Output Directory:** `dist`
-- **CDN/Edge:** Cloudflare CDN with global distribution
-
-**Backend Deployment:**
-- **Platform:** Docker containers on Kubernetes / Cloud Run
-- **Build Command:** `npm run build`
-- **Deployment Method:** Container orchestration
-
-### CI/CD Pipeline
-
-```yaml
-# .github/workflows/deploy.yml
-name: Deploy
-
-on:
-  push:
-    branches: [main]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-      - run: npm ci
-      - run: npm test
-  
-  deploy-frontend:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - run: cd frontend && npm ci && npm run build
-      - uses: cloudflare/pages-action@v1
-        with:
-          apiToken: ${{ secrets.CF_API_TOKEN }}
-          projectName: nysc-website
-  
-  deploy-backend:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - run: docker build -t nysc-api ./backend
-      - run: docker push registry/nysc-api
-      - run: kubectl apply -f k8s/
-```
-
-### Environments
-
-| Environment | Frontend URL | Backend URL | Purpose |
-|-------------|--------------|-------------|----------|
-| Development | http://localhost:5173 | http://localhost:3001 | Local development |
-| Staging | https://staging.nysc.lk | https://api-staging.nysc.lk | Pre-production testing |
-| Production | https://www.nysc.lk | https://api.nysc.lk | Live environment |
-
-## Security and Performance
-
-### Security Requirements
-
-**Frontend Security:**
-- CSP Headers: Strict Content Security Policy
-- XSS Prevention: React's built-in protections + input sanitization
-- Secure Storage: HTTPOnly cookies for auth tokens
-
-**Backend Security:**
-- Input Validation: Joi/Zod schemas on all endpoints
-- Rate Limiting: 100 requests per 15 minutes per IP
-- CORS Policy: Whitelist specific origins only
-
-**Authentication Security:**
-- Token Storage: HTTPOnly cookies + CSRF tokens
-- Session Management: 15min access tokens, 7d refresh tokens
-- Password Policy: Min 8 chars, complexity requirements
-
-### Performance Optimization
-
-**Frontend Performance:**
-- Bundle Size Target: <500KB initial, <2MB total
-- Loading Strategy: Code splitting, lazy loading
-- Caching Strategy: Service worker + CDN caching
-
-**Backend Performance:**
-- Response Time Target: <200ms for API calls
-- Database Optimization: Indexes, query optimization
-- Caching Strategy: Redis for sessions and frequent queries
-
-## Testing Strategy
-
-### Testing Pyramid
+### Test Structure
 
 ```
-       E2E Tests (10%)
-      /              \
-  Integration Tests (30%)
-    /                  \
-Unit Tests (60% coverage)
-```
-
-### Test Organization
-
-#### Frontend Tests
-```
-frontend/tests/
-├── unit/
-│   ├── components/
-│   └── hooks/
-├── integration/
-│   └── services/
-└── e2e/
-    └── workflows/
-```
-
-#### Backend Tests
-```
-backend/tests/
+tests/
 ├── unit/
 │   ├── services/
+│   ├── middleware/
 │   └── utils/
 ├── integration/
-│   └── api/
+│   ├── auth.test.ts
+│   ├── users.test.ts
+│   └── admin.test.ts
 └── e2e/
-    └── scenarios/
+    ├── login.test.ts
+    └── admin-workflow.test.ts
 ```
 
-## Coding Standards
+### Running Tests
 
-### Critical Fullstack Rules
+```bash
+# Run all tests
+npm test
 
-- **Type Sharing:** Always define types in shared package and import from there
-- **API Calls:** Never make direct HTTP calls - use the service layer
-- **Environment Variables:** Access only through config objects, never process.env directly
-- **Error Handling:** All API routes must use the standard error handler
-- **State Updates:** Never mutate state directly - use proper state management patterns
-- **Async Operations:** Always handle promises with try/catch or .catch()
-- **Security:** Never trust client input - validate everything server-side
+# Run unit tests
+npm run test:unit
 
-### Naming Conventions
+# Run integration tests
+npm run test:integration
 
-| Element | Frontend | Backend | Example |
-|---------|----------|---------|----------|
-| Components | PascalCase | - | `UserProfile.tsx` |
-| Hooks | camelCase with 'use' | - | `useAuth.ts` |
-| API Routes | - | kebab-case | `/api/user-profile` |
-| Database Tables | - | snake_case | `user_profiles` |
-| Services | PascalCase | PascalCase | `NewsService.ts` |
-| Utils | camelCase | camelCase | `formatDate.ts` |
+# Run e2e tests
+npm run test:e2e
 
-## Error Handling Strategy
-
-### Error Flow
-
-```mermaid
-sequenceDiagram
-    participant C as Client
-    participant F as Frontend
-    participant A as API
-    participant L as Logger
-    
-    C->>F: User action
-    F->>A: API request
-    A->>A: Error occurs
-    A->>L: Log error
-    A->>F: Error response
-    F->>F: Handle error
-    F->>C: User feedback
+# Coverage report
+npm run test:coverage
 ```
 
-### Error Response Format
+## Deployment
 
-```typescript
-interface ApiError {
-  error: {
-    code: string;
-    message: string;
-    details?: Record<string, any>;
-    timestamp: string;
-    requestId: string;
-  };
-}
+### Production Build
+
+```bash
+# Build TypeScript
+npm run build
+
+# Run migrations
+npx prisma migrate deploy
+
+# Start production server
+npm start
 ```
 
-## Monitoring and Observability
-
-### Monitoring Stack
-
-- **Frontend Monitoring:** Sentry for error tracking
-- **Backend Monitoring:** New Relic / DataDog
-- **Error Tracking:** Sentry unified platform
-- **Performance Monitoring:** Core Web Vitals, APM
-
-### Key Metrics
-
-**Frontend Metrics:**
-- Core Web Vitals (LCP, FID, CLS)
-- JavaScript errors
-- API response times
-- User interactions
-
-**Backend Metrics:**
-- Request rate
-- Error rate (target <0.1%)
-- Response time (p95 <500ms)
-- Database query performance
-
-## Deployment Configuration
-
-### Docker Setup
+### Docker Deployment
 
 ```dockerfile
-# Dockerfile
 FROM node:20-alpine
 
 WORKDIR /app
 
+# Copy package files
 COPY package*.json ./
-RUN npm ci --only=production
+COPY prisma ./prisma/
 
+# Install dependencies
+RUN npm ci --only=production
+RUN npx prisma generate
+
+# Copy source code
 COPY . .
+
+# Build application
 RUN npm run build
 
-EXPOSE 3001
+EXPOSE 5000
 
 CMD ["node", "dist/server.js"]
 ```
 
-### Docker Compose
+### Health Checks
 
-```yaml
-# docker-compose.yml
-version: '3.8'
-
-services:
-  web:
-    build: ./frontend
-    ports:
-      - "3000:3000"
-    environment:
-      - NEXT_PUBLIC_API_URL=http://api:3001
-    depends_on:
-      - api
-
-  api:
-    build: ./backend
-    ports:
-      - "3001:3001"
-    environment:
-      - DATABASE_URL=postgresql://postgres:password@db:5432/nysc
-      - REDIS_URL=redis://redis:6379
-    depends_on:
-      - db
-      - redis
-
-  db:
-    image: postgres:15
-    environment:
-      - POSTGRES_DB=nysc
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-  redis:
-    image: redis:7-alpine
-    volumes:
-      - redis_data:/data
-
-  minio:
-    image: minio/minio
-    command: server /data --console-address ":9001"
-    environment:
-      - MINIO_ROOT_USER=minioadmin
-      - MINIO_ROOT_PASSWORD=minioadmin
-    volumes:
-      - minio_data:/data
-
-volumes:
-  postgres_data:
-  redis_data:
-  minio_data:
+```typescript
+// Health check endpoint
+app.get('/health', async (req, res) => {
+  const health = {
+    uptime: process.uptime(),
+    timestamp: Date.now(),
+    status: 'OK',
+    checks: {
+      database: await checkDatabase(),
+      redis: await checkRedis()
+    }
+  };
+  
+  res.status(200).json(health);
+});
 ```
 
-## Technical Debt and Known Issues
+## Monitoring & Logging
 
-### Current State Analysis
+### Logging Configuration
 
-The NYSC website is currently in early development phase with the following state:
+```typescript
+import winston from 'winston';
 
-1. **Frontend Status**: Basic React + Vite setup with initial components
-2. **Backend Status**: Architecture defined but not yet implemented
-3. **Database**: Schema designed but migrations not yet created
-4. **DevOps**: Docker configuration planned but not implemented
+export const logger = winston.createLogger({
+  level: process.env.LOG_LEVEL || 'info',
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.errors({ stack: true }),
+    winston.format.json()
+  ),
+  transports: [
+    new winston.transports.File({ 
+      filename: 'logs/error.log', 
+      level: 'error' 
+    }),
+    new winston.transports.File({ 
+      filename: 'logs/combined.log' 
+    })
+  ]
+});
 
-### Critical Technical Decisions
+if (process.env.NODE_ENV !== 'production') {
+  logger.add(new winston.transports.Console({
+    format: winston.format.simple()
+  }));
+}
+```
 
-1. **Vite over Next.js**: Project uses Vite instead of Next.js (as originally planned in docs)
-   - Impact: No SSR/SSG out of the box
-   - Workaround: Consider migration to Next.js for better SEO
+## Maintenance
 
-2. **Tailwind CSS v3**: Locked to v3.x per project requirements
-   - Constraint: Cannot upgrade to v4 even when available
-   - Reason: SLDDS compliance requirements
-
-3. **Monorepo Structure**: Planned but not yet implemented
-   - Current: Separate frontend folder
-   - Future: Need to setup PNPM workspaces
-
-### Workarounds and Gotchas
-
-- **Port Configuration**: Backend hardcoded to port 3001
-- **CORS Setup**: Currently commented out in vite.config.ts
-- **Environment Variables**: No .env files created yet
-- **TypeScript Strict Mode**: Not enabled, should be for better type safety
-
-## Integration Points and External Dependencies
-
-### Current External Services
-
-None integrated yet - all planned:
-
-| Service | Purpose | Integration Type | Status |
-|---------|---------|------------------|--------|  
-| GovSMS | SMS notifications | REST API | Not integrated |
-| Email Server | Email notifications | SMTP | Not configured |
-| Cloudflare | CDN and hosting | DNS/Pages | Partially configured |
-| PostgreSQL | Database | Direct connection | Not setup |
-| Redis | Caching | Direct connection | Not setup |
-
-### Internal Integration Points
-
-- **Frontend-Backend Communication**: Will use REST API on port 3001
-- **Authentication**: JWT-based (not implemented)
-- **File Upload**: Planned MinIO integration
-
-## If Enhancement PRD Provided - Impact Analysis
-
-*Note: This section would be populated based on specific enhancement requirements*
-
-### Potential Enhancement Areas
-
- Based on current architecture, common enhancements might affect:
-
-- **User Authentication**: Would need to implement JWT service, auth middleware
-- **CMS Features**: Would require admin panel development
-- **Multilingual Support**: Context providers exist but content not implemented
-- **Search Functionality**: Would need Elasticsearch integration
-- **Real-time Features**: Would require WebSocket implementation
-
-## Appendix - Useful Commands and Scripts
-
-### Frequently Used Commands
+### Database Backup
 
 ```bash
-# Frontend Development
-cd frontend
-npm run dev         # Start dev server on port 5173
-npm run build       # Production build
-npm run lint        # Run ESLint
-npm run preview     # Preview production build
+# Backup database
+mysqldump -u user -p nysc_db > backup.sql
 
-# Backend Development (when implemented)
-cd backend
-npm run dev         # Start dev server on port 3001
-npm run build       # TypeScript compilation
-npm run migrate     # Run Prisma migrations
-npm run seed        # Seed database
-
-# Testing (when implemented)
-npm run test        # Run all tests
-npm run test:unit   # Unit tests only
-npm run test:e2e    # E2E tests
+# Restore database
+mysql -u user -p nysc_db < backup.sql
 ```
 
-### Debugging and Troubleshooting
-
-- **Frontend Issues**: Check browser console and Vite terminal output
-- **Build Issues**: Clear `node_modules` and reinstall
-- **Type Errors**: Run `tsc --noEmit` to check TypeScript
-- **Tailwind Issues**: Ensure content paths are correct in config
-
-### Project Setup from Scratch
+### Updates & Migrations
 
 ```bash
-# Clone and setup
-git clone [repository]
-cd nysc-website
+# Create new migration
+npx prisma migrate dev --name migration_name
 
-# Frontend setup
-cd frontend
-npm install
-cp .env.example .env.local  # When available
-npm run dev
+# Apply migrations
+npx prisma migrate deploy
 
-# Backend setup (when implemented)
-cd ../backend  
-npm install
-cp .env.example .env
-prisma migrate dev
-npm run dev
+# Reset database (development only)
+npx prisma migrate reset
 ```
 
----
+## Support
 
-*Document Version: 2.0 - Fullstack Architecture*  
-*Last Updated: 2025-08-09*  
-*Status: Living document - updates as development progresses*
+For issues and questions:
+- Documentation: `/docs`
+- Issue Tracker: GitHub Issues
+- Email: support@nysc.lk

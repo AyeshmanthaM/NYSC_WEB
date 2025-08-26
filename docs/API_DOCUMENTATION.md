@@ -1,494 +1,991 @@
 # NYSC Website API Documentation
 
 ## Overview
-RESTful API documentation for the National Youth Services Council website backend services.
 
-## Base Configuration
-- **Base URL**: `http://localhost:3001/api/v1` (development)
-- **Production URL**: `https://api.nysc.lk/v1`
-- **Authentication**: JWT Bearer tokens
-- **Content-Type**: `application/json`
-- **Rate Limiting**: 100 requests per minute per IP
+RESTful API documentation for the National Youth Services Council website backend services. This unified backend serves both the public API for the React frontend and the admin panel functionality.
+
+## Base Information
+
+- **API Version**: v1
+- **Base URL**: `http://localhost:5000/api` (development) / `https://nysc.lk/api` (production)
+- **Admin Base URL**: `http://localhost:5000/admin` (server-side rendered)
+- **Content Type**: `application/json`
+- **Authentication**: JWT (API) / Sessions (Admin)
 
 ## Authentication
 
-### Login
-```http
-POST /auth/login
+### API Authentication (JWT)
+
+The API uses JSON Web Tokens for authentication with access/refresh token pattern.
+
+#### Token Format
+- **Access Token**: Short-lived (15 minutes), stored in httpOnly cookie
+- **Refresh Token**: Long-lived (7 days), stored in httpOnly cookie
+- **Header Format**: `Authorization: Bearer <token>` (alternative to cookie)
+
+#### Authentication Endpoints
+
+##### Register User
+```
+POST /api/auth/register
 ```
 
 **Request Body:**
 ```json
 {
-  "email": "string",
-  "password": "string"
+  "email": "user@example.com",
+  "password": "SecurePass123!",
+  "firstName": "John",
+  "lastName": "Doe"
 }
 ```
 
-**Response:**
+**Response (201):**
 ```json
 {
   "success": true,
   "data": {
     "user": {
-      "id": "string",
-      "email": "string",
-      "role": "string",
-      "profile": {}
+      "id": "clx123456789",
+      "email": "user@example.com",
+      "firstName": "John",
+      "lastName": "Doe",
+      "role": "USER",
+      "isActive": true,
+      "emailVerified": false,
+      "createdAt": "2025-01-26T10:00:00.000Z"
     },
-    "token": "string",
-    "refreshToken": "string"
-  }
+    "accessToken": "eyJ0eXAi...",
+    "refreshToken": "eyJ0eXAi..."
+  },
+  "message": "User registered successfully"
 }
 ```
 
-### Refresh Token
-```http
-POST /auth/refresh
+##### Login User
 ```
-
-**Headers:**
-```
-Authorization: Bearer <refresh_token>
-```
-
-## News Management
-
-### Get All News
-```http
-GET /news
-```
-
-**Query Parameters:**
-- `page` (number): Page number (default: 1)
-- `limit` (number): Items per page (default: 10, max: 100)
-- `category` (string): Filter by category
-- `language` (string): Language code (si, ta, en)
-- `status` (string): published, draft, archived
-- `search` (string): Search in title and content
-
-**Response:**
-```json
-{
-  "success": true,
-  "data": {
-    "items": [
-      {
-        "id": "string",
-        "title": {
-          "si": "string",
-          "ta": "string", 
-          "en": "string"
-        },
-        "slug": "string",
-        "excerpt": {
-          "si": "string",
-          "ta": "string",
-          "en": "string"
-        },
-        "content": {
-          "si": "string",
-          "ta": "string",
-          "en": "string"
-        },
-        "category": "string",
-        "featuredImage": "string",
-        "status": "string",
-        "publishedAt": "ISO8601",
-        "createdAt": "ISO8601",
-        "updatedAt": "ISO8601",
-        "author": {
-          "id": "string",
-          "name": "string"
-        }
-      }
-    ],
-    "pagination": {
-      "page": 1,
-      "limit": 10,
-      "total": 100,
-      "pages": 10
-    }
-  }
-}
-```
-
-### Get Single News Article
-```http
-GET /news/:id
-```
-
-**Response:** Same as single news item above
-
-### Create News Article
-```http
-POST /news
-```
-
-**Authentication Required**
-**Headers:**
-```
-Authorization: Bearer <access_token>
+POST /api/auth/login
 ```
 
 **Request Body:**
 ```json
 {
-  "title": {
-    "si": "string",
-    "ta": "string",
-    "en": "string"
-  },
-  "excerpt": {
-    "si": "string", 
-    "ta": "string",
-    "en": "string"
-  },
-  "content": {
-    "si": "string",
-    "ta": "string", 
-    "en": "string"
-  },
-  "category": "string",
-  "featuredImage": "string",
-  "status": "draft|published",
-  "publishedAt": "ISO8601"
+  "email": "user@example.com",
+  "password": "SecurePass123!"
 }
 ```
 
-### Update News Article
-```http
-PUT /news/:id
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "user": {
+      "id": "clx123456789",
+      "email": "user@example.com",
+      "firstName": "John",
+      "lastName": "Doe",
+      "role": "USER",
+      "lastLogin": "2025-01-26T10:00:00.000Z"
+    },
+    "accessToken": "eyJ0eXAi...",
+    "refreshToken": "eyJ0eXAi..."
+  },
+  "message": "Login successful"
+}
 ```
 
-**Authentication Required**
-Same request body as create.
-
-### Delete News Article
-```http
-DELETE /news/:id
+##### Refresh Token
+```
+POST /api/auth/refresh
 ```
 
-**Authentication Required**
+**Request (Cookie or Header):**
+- Cookie: `refreshToken=eyJ0eXAi...`
+- Header: `Authorization: Bearer <refresh-token>`
 
-## Programs Management
-
-### Get All Programs
-```http
-GET /programs
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "accessToken": "eyJ0eXAi...",
+    "refreshToken": "eyJ0eXAi..."
+  }
+}
 ```
+
+##### Get Current User
+```
+GET /api/auth/me
+```
+
+**Headers:**
+```
+Authorization: Bearer <access-token>
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "user": {
+      "id": "clx123456789",
+      "email": "user@example.com",
+      "firstName": "John",
+      "lastName": "Doe",
+      "role": "USER",
+      "profile": {
+        "phone": "+94123456789",
+        "city": "Colombo",
+        "district": "Colombo"
+      }
+    }
+  }
+}
+```
+
+##### Logout
+```
+POST /api/auth/logout
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "Logged out successfully"
+}
+```
+
+### Admin Authentication (Sessions)
+
+Admin panel uses traditional server-side sessions for enhanced security.
+
+#### Admin Login
+```
+GET /admin/login
+POST /admin/auth/login
+```
+
+**POST Request Body:**
+```
+email=admin@nysc.lk&password=AdminPass123!&_csrf=<csrf-token>
+```
+
+**Success Response:** Redirect to `/admin/dashboard`
+**Error Response:** Render login page with error message
+
+## API Endpoints
+
+### Public Endpoints
+
+These endpoints are accessible without authentication.
+
+#### Get Public Content
+```
+GET /api/public/news
+GET /api/public/events
+GET /api/public/programs
+```
+
+**Response Format:**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "clx123456789",
+      "title": "NYSC Launches New Training Program",
+      "excerpt": "A comprehensive training program for youth development...",
+      "publishedAt": "2025-01-26T10:00:00.000Z",
+      "category": "Training",
+      "featured": true
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 20,
+    "total": 150,
+    "pages": 8
+  }
+}
+```
+
+#### Get Content by ID
+```
+GET /api/public/news/:id
+GET /api/public/events/:id
+GET /api/public/programs/:id
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "id": "clx123456789",
+    "title": "NYSC Launches New Training Program",
+    "content": "Full content of the article...",
+    "excerpt": "A comprehensive training program...",
+    "publishedAt": "2025-01-26T10:00:00.000Z",
+    "category": "Training",
+    "tags": ["training", "youth", "development"],
+    "author": {
+      "name": "Admin User",
+      "role": "Content Manager"
+    },
+    "featured": true,
+    "views": 245
+  }
+}
+```
+
+### User Management (Protected)
+
+#### Get Users
+```
+GET /api/users
+```
+
+**Required Role:** ADMIN, SUPER_ADMIN
+
+**Query Parameters:**
+- `page` (number): Page number (default: 1)
+- `limit` (number): Items per page (default: 20)
+- `search` (string): Search term
+- `role` (string): Filter by role
+- `isActive` (boolean): Filter by active status
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "clx123456789",
+      "email": "user@example.com",
+      "firstName": "John",
+      "lastName": "Doe",
+      "role": "USER",
+      "isActive": true,
+      "lastLogin": "2025-01-26T10:00:00.000Z",
+      "createdAt": "2025-01-20T08:00:00.000Z",
+      "_count": {
+        "activities": 15
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 20,
+    "total": 85,
+    "pages": 5
+  }
+}
+```
+
+#### Get User by ID
+```
+GET /api/users/:id
+```
+
+**Required Role:** ADMIN, SUPER_ADMIN
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "id": "clx123456789",
+    "email": "user@example.com",
+    "firstName": "John",
+    "lastName": "Doe",
+    "role": "USER",
+    "isActive": true,
+    "emailVerified": true,
+    "lastLogin": "2025-01-26T10:00:00.000Z",
+    "createdAt": "2025-01-20T08:00:00.000Z",
+    "profile": {
+      "phone": "+94123456789",
+      "address": "123 Main St",
+      "city": "Colombo",
+      "district": "Colombo"
+    },
+    "activities": [
+      {
+        "id": "clx987654321",
+        "action": "LOGIN",
+        "createdAt": "2025-01-26T10:00:00.000Z",
+        "ipAddress": "192.168.1.1"
+      }
+    ]
+  }
+}
+```
+
+#### Create User
+```
+POST /api/users
+```
+
+**Required Role:** ADMIN, SUPER_ADMIN
+
+**Request Body:**
+```json
+{
+  "email": "newuser@example.com",
+  "password": "SecurePass123!",
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "role": "EDITOR"
+}
+```
+
+**Response (201):**
+```json
+{
+  "success": true,
+  "data": {
+    "user": {
+      "id": "clx123456790",
+      "email": "newuser@example.com",
+      "firstName": "Jane",
+      "lastName": "Smith",
+      "role": "EDITOR",
+      "isActive": true,
+      "createdAt": "2025-01-26T11:00:00.000Z"
+    }
+  },
+  "message": "User created successfully"
+}
+```
+
+#### Update User
+```
+PUT /api/users/:id
+```
+
+**Required Role:** ADMIN, SUPER_ADMIN
+
+**Request Body:**
+```json
+{
+  "firstName": "John Updated",
+  "lastName": "Doe Updated",
+  "role": "MODERATOR",
+  "isActive": false
+}
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "user": {
+      "id": "clx123456789",
+      "email": "user@example.com",
+      "firstName": "John Updated",
+      "lastName": "Doe Updated",
+      "role": "MODERATOR",
+      "isActive": false,
+      "updatedAt": "2025-01-26T12:00:00.000Z"
+    }
+  },
+  "message": "User updated successfully"
+}
+```
+
+#### Delete User
+```
+DELETE /api/users/:id
+```
+
+**Required Role:** ADMIN, SUPER_ADMIN
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "User deleted successfully"
+}
+```
+
+### Content Management
+
+#### News Articles
+
+##### Get News Articles
+```
+GET /api/news
+```
+
+**Required Role:** EDITOR, MODERATOR, ADMIN, SUPER_ADMIN
 
 **Query Parameters:**
 - `page` (number): Page number
 - `limit` (number): Items per page
-- `type` (string): sports, cultural, vocational, international
-- `status` (string): active, inactive, upcoming
-- `language` (string): Language code
+- `category` (string): Filter by category
+- `status` (string): draft, published, archived
+- `search` (string): Search in title/content
 
-### Get Single Program
-```http
-GET /programs/:id
-```
-
-### Create Program
-```http
-POST /programs
-```
-
-**Authentication Required**
-
-### Update Program
-```http
-PUT /programs/:id
-```
-
-**Authentication Required**
-
-### Delete Program
-```http
-DELETE /programs/:id
-```
-
-**Authentication Required**
-
-## User Management
-
-### Get User Profile
-```http
-GET /users/profile
-```
-
-**Authentication Required**
-
-### Update User Profile
-```http
-PUT /users/profile
-```
-
-**Authentication Required**
-
-### Youth Registration
-```http
-POST /users/register/youth
-```
-
-**Request Body:**
+**Response (200):**
 ```json
 {
-  "personalInfo": {
-    "fullName": {
-      "si": "string",
-      "ta": "string", 
-      "en": "string"
-    },
-    "nic": "string",
-    "dateOfBirth": "YYYY-MM-DD",
-    "gender": "male|female|other",
-    "email": "string",
-    "phone": "string"
-  },
-  "address": {
-    "street": "string",
-    "city": "string",
-    "district": "string",
-    "province": "string",
-    "postalCode": "string"
-  },
-  "preferences": {
-    "language": "si|ta|en",
-    "interests": ["string"],
-    "programs": ["string"]
+  "success": true,
+  "data": [
+    {
+      "id": "clx123456789",
+      "title": "NYSC Training Program Launch",
+      "excerpt": "New training program for youth...",
+      "content": "Full article content...",
+      "status": "published",
+      "category": "Training",
+      "tags": ["training", "youth"],
+      "featured": true,
+      "publishedAt": "2025-01-26T10:00:00.000Z",
+      "author": {
+        "id": "clx987654321",
+        "name": "Admin User"
+      },
+      "createdAt": "2025-01-25T15:00:00.000Z",
+      "updatedAt": "2025-01-26T09:00:00.000Z"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 20,
+    "total": 45,
+    "pages": 3
   }
 }
 ```
 
-## Club Management
-
-### Register Youth Club
-```http
-POST /clubs/register
+##### Create News Article
 ```
+POST /api/news
+```
+
+**Required Role:** EDITOR, MODERATOR, ADMIN, SUPER_ADMIN
 
 **Request Body:**
 ```json
 {
-  "clubInfo": {
-    "name": {
-      "si": "string",
-      "ta": "string",
-      "en": "string" 
-    },
-    "type": "sports|cultural|mixed",
-    "category": "string",
-    "description": {
-      "si": "string",
-      "ta": "string",
-      "en": "string"
-    }
-  },
-  "location": {
-    "address": "string",
-    "district": "string",
-    "province": "string",
-    "coordinates": {
-      "lat": "number",
-      "lng": "number"
-    }
-  },
-  "contact": {
-    "email": "string",
-    "phone": "string",
-    "website": "string"
-  },
-  "representative": {
-    "name": "string",
-    "position": "string",
-    "email": "string",
-    "phone": "string"
-  }
+  "title": "New NYSC Initiative",
+  "content": "Full article content here...",
+  "excerpt": "Brief description...",
+  "category": "News",
+  "tags": ["news", "initiative"],
+  "status": "draft",
+  "featured": false,
+  "publishedAt": "2025-01-27T10:00:00.000Z"
 }
 ```
 
-### Get Clubs Directory
-```http
-GET /clubs
+**Response (201):**
+```json
+{
+  "success": true,
+  "data": {
+    "article": {
+      "id": "clx123456790",
+      "title": "New NYSC Initiative",
+      "slug": "new-nysc-initiative",
+      "content": "Full article content here...",
+      "excerpt": "Brief description...",
+      "status": "draft",
+      "category": "News",
+      "authorId": "clx987654321",
+      "createdAt": "2025-01-26T12:00:00.000Z"
+    }
+  },
+  "message": "Article created successfully"
+}
 ```
 
-**Query Parameters:**
-- `district` (string): Filter by district
-- `type` (string): sports, cultural, mixed
-- `category` (string): Specific sport/activity category
-- `status` (string): active, pending, suspended
-
-## Events Management
-
-### Get Events
-```http
-GET /events
+##### Update News Article
+```
+PUT /api/news/:id
 ```
 
-**Query Parameters:**
-- `type` (string): sports, cultural, training, awards
-- `startDate` (string): ISO8601 date
-- `endDate` (string): ISO8601 date
-- `district` (string): Filter by district
-- `status` (string): upcoming, ongoing, completed, cancelled
+**Required Role:** Own content (EDITOR) or Any content (MODERATOR, ADMIN, SUPER_ADMIN)
 
-### Create Event
-```http
-POST /events
+**Request Body:**
+```json
+{
+  "title": "Updated Article Title",
+  "content": "Updated content...",
+  "status": "published"
+}
 ```
 
-**Authentication Required**
+#### Events
 
-### Register for Event
-```http
-POST /events/:id/register
+Similar CRUD operations as News Articles with additional fields:
+
+**Additional Event Fields:**
+```json
+{
+  "eventDate": "2025-02-15T10:00:00.000Z",
+  "endDate": "2025-02-15T16:00:00.000Z",
+  "location": "NYSC Headquarters",
+  "capacity": 100,
+  "registrationRequired": true,
+  "registrationDeadline": "2025-02-10T23:59:59.000Z"
+}
 ```
 
-**Authentication Required**
+#### Programs
 
-## File Upload
+Similar CRUD operations with program-specific fields:
 
-### Upload File
-```http
-POST /upload
+**Additional Program Fields:**
+```json
+{
+  "duration": "6 months",
+  "eligibility": "Age 18-25",
+  "applicationDeadline": "2025-03-01T23:59:59.000Z",
+  "maxParticipants": 50,
+  "currentParticipants": 25,
+  "fee": 25000.00,
+  "currency": "LKR"
+}
 ```
 
-**Content-Type:** `multipart/form-data`
-**Authentication Required**
+### File Upload
 
-**Form Data:**
+#### Upload File
+```
+POST /api/upload
+```
+
+**Required Role:** EDITOR, MODERATOR, ADMIN, SUPER_ADMIN
+
+**Request:** Multipart form data
 - `file`: File to upload
-- `type`: image|document|video
-- `category`: news|program|profile|general
+- `type`: image, document, video
+- `description`: Optional description
 
-**Response:**
+**Response (200):**
 ```json
 {
   "success": true,
   "data": {
-    "url": "string",
-    "filename": "string",
-    "size": "number",
-    "mimeType": "string"
-  }
+    "file": {
+      "id": "clx123456789",
+      "originalName": "document.pdf",
+      "fileName": "1706260800000_document.pdf",
+      "mimeType": "application/pdf",
+      "size": 1024000,
+      "url": "/uploads/documents/1706260800000_document.pdf",
+      "type": "document",
+      "uploadedBy": "clx987654321",
+      "createdAt": "2025-01-26T12:00:00.000Z"
+    }
+  },
+  "message": "File uploaded successfully"
 }
 ```
 
-## Search
+### Reports & Analytics
 
-### Global Search
-```http
-GET /search
+#### Get Statistics
 ```
+GET /api/reports/stats
+```
+
+**Required Role:** MODERATOR, ADMIN, SUPER_ADMIN
 
 **Query Parameters:**
-- `q` (string): Search query
-- `type` (string): news|programs|clubs|events
-- `language` (string): si|ta|en
-- `limit` (number): Results limit
+- `period` (string): day, week, month, year
+- `startDate` (string): ISO date string
+- `endDate` (string): ISO date string
 
-## Statistics
-
-### Public Statistics
-```http
-GET /stats/public
-```
-
-**Response:**
+**Response (200):**
 ```json
 {
   "success": true,
   "data": {
-    "totalYouthMembers": "number",
-    "totalClubs": "number", 
-    "totalPrograms": "number",
-    "totalEvents": "number",
-    "districtBreakdown": {
-      "colombo": "number",
-      "gampaha": "number"
-    }
+    "users": {
+      "total": 1250,
+      "active": 980,
+      "new": 45,
+      "growth": 3.6
+    },
+    "content": {
+      "articles": 156,
+      "events": 23,
+      "programs": 12
+    },
+    "engagement": {
+      "pageViews": 15420,
+      "sessions": 3240,
+      "averageSessionDuration": 285
+    },
+    "topContent": [
+      {
+        "id": "clx123456789",
+        "title": "Popular Article",
+        "type": "news",
+        "views": 1250
+      }
+    ]
   }
 }
 ```
+
+#### Export Data
+```
+GET /api/reports/export
+```
+
+**Required Role:** MODERATOR, ADMIN, SUPER_ADMIN
+
+**Query Parameters:**
+- `type` (string): users, content, activities
+- `format` (string): csv, json, xlsx
+- `startDate` (string): ISO date string
+- `endDate` (string): ISO date string
+
+**Response:** File download with appropriate Content-Type
+
+## Admin Routes (Server-Side Rendered)
+
+### Authentication
+
+#### Admin Login Page
+```
+GET /admin/login
+```
+
+**Response:** HTML login form
+
+#### Admin Login Process
+```
+POST /admin/auth/login
+```
+
+**Body:** Form data with CSRF token
+**Success:** Redirect to `/admin/dashboard`
+**Failure:** Render login with error
+
+### Dashboard
+
+#### Admin Dashboard
+```
+GET /admin/dashboard
+```
+
+**Required Role:** EDITOR, MODERATOR, ADMIN, SUPER_ADMIN
+
+**Response:** HTML dashboard with statistics and quick actions
+
+### User Management
+
+#### User List
+```
+GET /admin/users
+```
+
+**Required Role:** ADMIN, SUPER_ADMIN
+
+**Query Parameters:**
+- `page` (number): Page number
+- `search` (string): Search term
+- `role` (string): Filter by role
+
+**Response:** HTML user list with pagination
+
+#### Create User Form
+```
+GET /admin/users/create
+```
+
+**Required Role:** ADMIN, SUPER_ADMIN
+
+**Response:** HTML form for creating new user
+
+#### Process User Creation
+```
+POST /admin/users
+```
+
+**Required Role:** ADMIN, SUPER_ADMIN
+
+**Body:** Form data with CSRF token
+**Success:** Redirect to `/admin/users`
+**Failure:** Render form with validation errors
+
+### Content Management
+
+#### Content List
+```
+GET /admin/content/news
+GET /admin/content/events
+GET /admin/content/programs
+```
+
+**Required Role:** EDITOR, MODERATOR, ADMIN, SUPER_ADMIN
+
+**Response:** HTML content list with management actions
+
+### Settings
+
+#### General Settings
+```
+GET /admin/settings/general
+POST /admin/settings/general
+```
+
+**Required Role:** SUPER_ADMIN
+
+**Response:** HTML settings form
 
 ## Error Responses
 
-All API endpoints return consistent error responses:
+### Standard Error Format
+
+All API endpoints return errors in this format:
 
 ```json
 {
   "success": false,
   "error": {
-    "code": "string",
-    "message": "string",
-    "details": "object"
+    "code": "ERROR_CODE",
+    "message": "Human readable error message",
+    "details": ["Additional error details"]
   }
 }
 ```
 
-**Common Error Codes:**
-- `400` - Bad Request
-- `401` - Unauthorized
-- `403` - Forbidden
-- `404` - Not Found
-- `422` - Validation Error
-- `429` - Rate Limit Exceeded
-- `500` - Internal Server Error
+### Common HTTP Status Codes
+
+- **200 OK**: Successful request
+- **201 Created**: Resource created successfully
+- **400 Bad Request**: Invalid request data
+- **401 Unauthorized**: Authentication required
+- **403 Forbidden**: Insufficient permissions
+- **404 Not Found**: Resource not found
+- **409 Conflict**: Resource already exists
+- **422 Unprocessable Entity**: Validation errors
+- **429 Too Many Requests**: Rate limit exceeded
+- **500 Internal Server Error**: Server error
+
+### Error Codes
+
+#### Authentication Errors
+- `AUTH_REQUIRED`: Authentication required
+- `AUTH_INVALID`: Invalid credentials
+- `AUTH_EXPIRED`: Token expired
+- `AUTH_FORBIDDEN`: Insufficient permissions
+
+#### Validation Errors
+- `VALIDATION_FAILED`: Request validation failed
+- `EMAIL_INVALID`: Invalid email format
+- `PASSWORD_WEAK`: Password doesn't meet requirements
+- `EMAIL_EXISTS`: Email already registered
+
+#### Resource Errors
+- `USER_NOT_FOUND`: User not found
+- `ARTICLE_NOT_FOUND`: Article not found
+- `EVENT_NOT_FOUND`: Event not found
+
+#### System Errors
+- `INTERNAL_ERROR`: Internal server error
+- `DATABASE_ERROR`: Database connection error
+- `FILE_UPLOAD_ERROR`: File upload failed
 
 ## Rate Limiting
 
-Rate limits are applied per IP address:
-- **Public endpoints**: 100 requests per minute
-- **Authenticated endpoints**: 1000 requests per minute
-- **File upload**: 10 requests per minute
+API endpoints are rate limited to prevent abuse:
 
-Rate limit headers are included in responses:
+### Rate Limits
+- **Authentication endpoints**: 5 requests per 15 minutes per IP
+- **General API**: 100 requests per hour per user
+- **Admin panel**: 1000 requests per hour per session
+
+### Rate Limit Headers
+
 ```
 X-RateLimit-Limit: 100
 X-RateLimit-Remaining: 95
-X-RateLimit-Reset: 1640995200
+X-RateLimit-Reset: 1643184000
+X-RateLimit-Window: 3600
+```
+
+## Pagination
+
+List endpoints support pagination with these parameters:
+
+### Query Parameters
+- `page` (number): Page number (default: 1)
+- `limit` (number): Items per page (default: 20, max: 100)
+
+### Response Format
+```json
+{
+  "success": true,
+  "data": [...],
+  "pagination": {
+    "page": 1,
+    "limit": 20,
+    "total": 150,
+    "pages": 8,
+    "hasNext": true,
+    "hasPrev": false
+  }
+}
+```
+
+## Search and Filtering
+
+### Search Parameters
+Most list endpoints support these search parameters:
+
+- `search` (string): Full-text search
+- `sort` (string): Sort field (e.g., 'createdAt', 'title')
+- `order` (string): Sort direction ('asc', 'desc')
+- `filter[field]` (string): Filter by specific field
+
+### Example
+```
+GET /api/news?search=training&sort=publishedAt&order=desc&filter[category]=Training&page=1&limit=10
 ```
 
 ## Webhooks
 
-### Event Types
-- `user.registered`
-- `club.registered`
-- `news.published`
-- `event.created`
+### Webhook Events
 
-### Webhook Format
+The system can send webhook notifications for various events:
+
+- `user.created`: New user registration
+- `user.updated`: User profile updated
+- `content.published`: Content published
+- `content.updated`: Content updated
+
+### Webhook Payload
+
 ```json
 {
-  "id": "string",
-  "type": "string",
-  "timestamp": "ISO8601",
-  "data": {}
+  "event": "user.created",
+  "timestamp": "2025-01-26T12:00:00.000Z",
+  "data": {
+    "id": "clx123456789",
+    "email": "user@example.com",
+    "createdAt": "2025-01-26T12:00:00.000Z"
+  }
 }
 ```
 
-## Development Notes
+## SDK and Libraries
 
-### Testing
-- Use Postman collection: `/tests/api/NYSC-API.postman_collection.json`
-- Automated tests: `pnpm --filter backend test:api`
+### JavaScript SDK
 
-### Database Migrations
-- Run migrations: `pnpm --filter backend db:migrate`
-- Reset database: `pnpm --filter backend db:reset`
+```javascript
+import { NYSCApi } from '@nysc/api-client';
 
-### Logging
-- All API requests are logged with request ID
-- Error tracking via Sentry integration
-- Performance monitoring enabled
+const api = new NYSCApi({
+  baseUrl: 'https://api.nysc.lk',
+  apiKey: 'your-api-key'
+});
 
-### Security Features
-- CORS enabled for specified domains
-- Request sanitization and validation
-- SQL injection protection via Prisma ORM
-- XSS protection headers
-- CSRF protection for state-changing operations
+// Get news articles
+const news = await api.news.list({ page: 1, limit: 10 });
 
-This API documentation is automatically generated and should be kept in sync with the actual API implementation.
+// Create user
+const user = await api.users.create({
+  email: 'user@example.com',
+  password: 'SecurePass123!'
+});
+```
+
+### curl Examples
+
+#### Login
+```bash
+curl -X POST https://api.nysc.lk/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "password": "SecurePass123!"
+  }'
+```
+
+#### Get Protected Resource
+```bash
+curl -X GET https://api.nysc.lk/api/users \
+  -H "Authorization: Bearer your-access-token"
+```
+
+#### Upload File
+```bash
+curl -X POST https://api.nysc.lk/api/upload \
+  -H "Authorization: Bearer your-access-token" \
+  -F "file=@document.pdf" \
+  -F "type=document"
+```
+
+## Testing
+
+### Test Environment
+- **Base URL**: `https://test-api.nysc.lk`
+- **Admin URL**: `https://test-api.nysc.lk/admin`
+
+### Test Accounts
+```json
+{
+  "superAdmin": {
+    "email": "superadmin@test.nysc.lk",
+    "password": "TestPass123!"
+  },
+  "admin": {
+    "email": "admin@test.nysc.lk", 
+    "password": "TestPass123!"
+  },
+  "editor": {
+    "email": "editor@test.nysc.lk",
+    "password": "TestPass123!"
+  },
+  "user": {
+    "email": "user@test.nysc.lk",
+    "password": "TestPass123!"
+  }
+}
+```
+
+### Postman Collection
+
+Download the Postman collection: `/docs/api/NYSC-API.postman_collection.json`
+
+## Changelog
+
+### Version 1.0.0 (2025-01-26)
+- Initial API release
+- User authentication and management
+- Content management (news, events, programs)
+- Admin panel integration
+- File upload functionality
+- Role-based access control
+
+### Planned Features (v1.1.0)
+- Real-time notifications
+- Advanced search capabilities  
+- Webhook support
+- API versioning
+- GraphQL endpoint
+- Two-factor authentication
+
+## Support
+
+For API support and questions:
+
+- **Documentation**: [https://docs.nysc.lk/api](https://docs.nysc.lk/api)
+- **Status Page**: [https://status.nysc.lk](https://status.nysc.lk)
+- **Email**: api-support@nysc.lk
+- **Issue Tracker**: [https://github.com/nysc/website/issues](https://github.com/nysc/website/issues)
+
+## License
+
+This API is proprietary to the National Youth Services Council of Sri Lanka. Unauthorized access or distribution is prohibited.

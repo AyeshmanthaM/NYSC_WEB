@@ -1,547 +1,701 @@
 # NYSC Website Development Project - Claude Code Setup
 
 ## Project Overview
-Development of a modern, multilingual, responsive website for the National Youth Services Council (NYSC) of Sri Lanka, following the Sri Lanka Digital Design System (SLDDS) standards.
+Development of a modern, multilingual, responsive website for the National Youth Services Council (NYSC) of Sri Lanka, featuring a unified backend architecture with integrated admin panel functionality.
+
+## Architecture Overview
+
+### Unified Backend Approach
+- **Single Application**: Integrated backend serving both API and admin panel
+- **Server-Side Rendering**: Admin panel uses EJS templates for enhanced security
+- **MySQL Database**: Primary database with Prisma ORM for robust data management
+- **Dual Authentication**: JWT for API, sessions for admin panel
+- **Role-Based Access Control**: Comprehensive RBAC with 5 user role levels
 
 ## Project Structure
+
 ```
 nysc-website/
 ├── .claudeignore                    # Claude ignore file
-├── CLAUDE.md                        # Main Claude Code instructions
-├── PROJECT_STRUCTURE.md             # This file
+├── CLAUDE.md                        # Main Claude Code instructions (this file)
+├── README.md                        # Project overview and setup guide
 ├── TODO.md                          # Development roadmap
-├── README.md                        # Project readme
-├── package.json                     # Root package.json
-├── pnpm-workspace.yaml             # PNPM workspace config
-├── .env.example                    # Environment variables template
-├── .gitignore                      # Git ignore file
+├── package.json                     # Root package.json for workspace
+├── .env.example                     # Environment variables template
+├── .gitignore                       # Git ignore patterns
 │
-├── docs/                           # Documentation
-│   ├── UI_UX_AGENT.md             # UI/UX design guidelines
-│   ├── BACKEND_ARCHITECTURE.md     # Backend technical specs
-│   ├── ADMIN_PANEL.md             # Admin panel specifications
-│   ├── LANDING_PAGE_DESIGN.md     # Landing page design specs
-│   └── API_DOCUMENTATION.md       # API docs (to be created)
+├── docs/                            # Comprehensive documentation
+│   ├── BACKEND_ARCHITECTURE.md     # Unified backend architecture
+│   ├── ADMIN_PANEL.md              # SSR admin panel documentation
+│   ├── API_DOCUMENTATION.md        # REST API specification
+│   ├── DATABASE_SCHEMA.md          # MySQL schema documentation
+│   ├── DEPLOYMENT.md               # Deployment guidelines
+│   └── [legacy docs preserved]     # Existing documentation files
 │
-├── frontend/                       # Next.js frontend application
-│   ├── package.json
-│   ├── next.config.js
-│   ├── tailwind.config.ts         # Tailwind with NYSC colors
-│   ├── tsconfig.json
-│   ├── .env.local
+├── backend/                         # Unified Node.js/Express backend
+│   ├── package.json                # Backend dependencies
+│   ├── tsconfig.json               # TypeScript configuration
+│   ├── nodemon.json                # Development server config
+│   ├── .env.example                # Backend environment template
 │   │
-│   ├── public/
-│   │   ├── images/
+│   ├── prisma/                     # Prisma ORM configuration
+│   │   ├── schema.prisma           # MySQL database schema
+│   │   ├── migrations/             # Database migration files
+│   │   ├── seed.ts                 # Initial data seeding
+│   │   └── client.ts               # Prisma client instance
+│   │
+│   ├── src/                        # TypeScript source code
+│   │   ├── server.ts               # Application entry point
+│   │   ├── app.ts                  # Express app configuration
+│   │   │
+│   │   ├── config/                 # Configuration modules
+│   │   │   ├── database.ts         # Prisma client setup
+│   │   │   ├── redis.ts            # Redis client configuration
+│   │   │   ├── auth.ts             # Authentication configuration
+│   │   │   └── constants.ts        # Application constants
+│   │   │
+│   │   ├── controllers/            # Request handlers
+│   │   │   ├── api/                # REST API controllers
+│   │   │   │   ├── auth.controller.ts
+│   │   │   │   ├── users.controller.ts
+│   │   │   │   ├── news.controller.ts
+│   │   │   │   └── programs.controller.ts
+│   │   │   └── admin/              # Admin panel controllers
+│   │   │       ├── dashboard.controller.ts
+│   │   │       ├── users.admin.controller.ts
+│   │   │       ├── content.admin.controller.ts
+│   │   │       └── settings.admin.controller.ts
+│   │   │
+│   │   ├── middleware/             # Express middleware
+│   │   │   ├── auth.middleware.ts  # JWT authentication
+│   │   │   ├── session.middleware.ts # Session handling
+│   │   │   ├── rbac.middleware.ts  # Role-based access control
+│   │   │   ├── validation.middleware.ts # Input validation
+│   │   │   ├── error.middleware.ts # Error handling
+│   │   │   └── security.middleware.ts # Security headers
+│   │   │
+│   │   ├── routes/                 # Route definitions
+│   │   │   ├── api/                # REST API routes
+│   │   │   │   ├── index.ts        # API route aggregator
+│   │   │   │   ├── auth.routes.ts  # Authentication endpoints
+│   │   │   │   ├── users.routes.ts # User management API
+│   │   │   │   └── public.routes.ts # Public content API
+│   │   │   └── admin/              # Admin panel routes (SSR)
+│   │   │       ├── index.ts        # Admin route aggregator
+│   │   │       ├── auth.routes.ts  # Admin authentication
+│   │   │       ├── dashboard.routes.ts # Dashboard pages
+│   │   │       └── users.routes.ts # User management pages
+│   │   │
+│   │   ├── services/               # Business logic
+│   │   │   ├── auth.service.ts     # Authentication logic
+│   │   │   ├── user.service.ts     # User operations
+│   │   │   ├── email.service.ts    # Email sending
+│   │   │   ├── cache.service.ts    # Redis caching
+│   │   │   └── activity.service.ts # Activity logging
+│   │   │
+│   │   ├── models/                 # Data models and types
+│   │   │   ├── user.model.ts       # User model interfaces
+│   │   │   ├── session.model.ts    # Session interfaces
+│   │   │   └── activity.model.ts   # Activity log interfaces
+│   │   │
+│   │   ├── views/                  # EJS templates for admin panel
+│   │   │   ├── layouts/            # Layout templates
+│   │   │   │   ├── admin.ejs       # Main admin layout
+│   │   │   │   ├── auth.ejs        # Authentication layout
+│   │   │   │   └── error.ejs       # Error page layout
+│   │   │   ├── admin/              # Admin page templates
+│   │   │   │   ├── dashboard/
+│   │   │   │   │   └── index.ejs   # Dashboard page
+│   │   │   │   ├── users/
+│   │   │   │   │   ├── index.ejs   # User list
+│   │   │   │   │   ├── create.ejs  # Create user form
+│   │   │   │   │   ├── edit.ejs    # Edit user form
+│   │   │   │   │   └── show.ejs    # User details
+│   │   │   │   ├── content/        # Content management
+│   │   │   │   │   ├── news/       # News management
+│   │   │   │   │   ├── events/     # Event management
+│   │   │   │   │   └── media/      # Media library
+│   │   │   │   ├── reports/        # Reports and analytics
+│   │   │   │   │   ├── analytics.ejs
+│   │   │   │   │   └── logs.ejs
+│   │   │   │   └── settings/       # System settings
+│   │   │   │       ├── general.ejs
+│   │   │   │       ├── email.ejs
+│   │   │   │       └── security.ejs
+│   │   │   ├── auth/               # Authentication pages
+│   │   │   │   ├── login.ejs       # Admin login form
+│   │   │   │   ├── forgot-password.ejs
+│   │   │   │   └── reset-password.ejs
+│   │   │   └── partials/           # Reusable components
+│   │   │       ├── header.ejs      # Admin header
+│   │   │       ├── sidebar.ejs     # Navigation sidebar
+│   │   │       ├── footer.ejs      # Admin footer
+│   │   │       ├── breadcrumb.ejs  # Breadcrumb navigation
+│   │   │       ├── pagination.ejs  # Pagination component
+│   │   │       ├── alerts.ejs      # Alert messages
+│   │   │       └── modals/         # Modal dialogs
+│   │   │           ├── confirm.ejs
+│   │   │           └── error.ejs
+│   │   │
+│   │   ├── utils/                  # Utility functions
+│   │   │   ├── logger.ts           # Winston logging
+│   │   │   ├── validators.ts       # Input validation
+│   │   │   ├── helpers.ts          # General helpers
+│   │   │   └── email-templates.ts  # Email templates
+│   │   │
+│   │   └── types/                  # TypeScript type definitions
+│   │       ├── express.d.ts        # Extended Express types
+│   │       ├── models.ts           # Model types
+│   │       └── api.ts              # API response types
+│   │
+│   ├── public/                     # Static assets for admin panel
+│   │   ├── css/                    # Stylesheets
+│   │   │   ├── admin.css           # Custom admin styles
+│   │   │   └── components.css      # Component-specific styles
+│   │   ├── js/                     # Client-side JavaScript
+│   │   │   ├── admin.js            # Core admin functionality
+│   │   │   ├── charts.js           # Chart configurations
+│   │   │   └── forms.js            # Form enhancements
+│   │   └── images/                 # Admin panel images
+│   │       └── admin/              # Admin-specific assets
+│   │
+│   └── tests/                      # Test files
+│       ├── unit/                   # Unit tests
+│       │   ├── services/           # Service tests
+│       │   ├── middleware/         # Middleware tests
+│       │   └── utils/              # Utility tests
+│       ├── integration/            # Integration tests
+│       │   ├── auth.test.ts        # Authentication tests
+│       │   ├── users.test.ts       # User management tests
+│       │   └── admin.test.ts       # Admin panel tests
+│       └── e2e/                    # End-to-end tests
+│           ├── login.test.ts       # Login workflow tests
+│           └── admin-workflow.test.ts # Admin panel workflows
+│
+├── frontend/                       # React frontend application
+│   ├── package.json               # Frontend dependencies
+│   ├── vite.config.ts             # Vite configuration
+│   ├── tailwind.config.js         # Tailwind CSS configuration
+│   ├── tsconfig.json              # TypeScript configuration
+│   ├── .env.local                 # Frontend environment variables
+│   │
+│   ├── public/                    # Static assets
+│   │   ├── images/                # Image assets
 │   │   │   ├── nysc-logo.png
-│   │   │   ├── hero/
+│   │   │   ├── hero/              # Hero section images
 │   │   │   │   ├── youth-sports.jpg
 │   │   │   │   ├── cultural-dance.jpg
 │   │   │   │   ├── vocational-training.jpg
 │   │   │   │   ├── awards-ceremony.jpg
 │   │   │   │   └── international-programs.jpg
-│   │   │   └── icons/
-│   │   ├── fonts/
+│   │   │   └── icons/             # Icon assets
+│   │   ├── fonts/                 # Font files
 │   │   │   ├── NotoSans-Regular.woff2
 │   │   │   ├── NotoSansSinhala-Regular.woff2
 │   │   │   └── NotoSansTamil-Regular.woff2
-│   │   └── locales/
-│   │       ├── en/
-│   │       │   ├── common.json
-│   │       │   ├── home.json
-│   │       │   └── news.json
-│   │       ├── si/
-│   │       │   ├── common.json
-│   │       │   ├── home.json
-│   │       │   └── news.json
-│   │       └── ta/
-│   │           ├── common.json
-│   │           ├── home.json
-│   │           └── news.json
+│   │   └── encrypted-locales/     # Encrypted translation files
+│   │       ├── en/                # English translations
+│   │       ├── si/                # Sinhala translations
+│   │       └── ta/                # Tamil translations
 │   │
-│   ├── src/
-│   │   ├── app/
-│   │   │   ├── [locale]/
-│   │   │   │   ├── layout.tsx
-│   │   │   │   ├── page.tsx
-│   │   │   │   ├── about/
-│   │   │   │   │   └── page.tsx
-│   │   │   │   ├── news/
-│   │   │   │   │   ├── page.tsx
-│   │   │   │   │   ├── [slug]/
-│   │   │   │   │   │   └── page.tsx
-│   │   │   │   │   └── category/
-│   │   │   │   │       └── [category]/
-│   │   │   │   │           └── page.tsx
-│   │   │   │   ├── programs/
-│   │   │   │   │   └── page.tsx
-│   │   │   │   └── contact/
-│   │   │   │       └── page.tsx
-│   │   │   └── api/
-│   │   │       └── [...route]/
-│   │   │           └── route.ts
+│   ├── src/                       # React source code
+│   │   ├── App.tsx                # Main app component
+│   │   ├── main.tsx               # App entry point
 │   │   │
-│   │   ├── components/
-│   │   │   ├── common/
-│   │   │   │   ├── Header.tsx
-│   │   │   │   ├── Footer.tsx
-│   │   │   │   ├── LanguageSelector.tsx
-│   │   │   │   ├── SearchBar.tsx
-│   │   │   │   └── LoadingSpinner.tsx
-│   │   │   ├── home/
-│   │   │   │   ├── Hero.tsx
-│   │   │   │   ├── QuickServices.tsx
-│   │   │   │   ├── Statistics.tsx
-│   │   │   │   └── Newsletter.tsx
-│   │   │   ├── news/
-│   │   │   │   ├── NewsFeed.tsx
-│   │   │   │   ├── NewsCard.tsx
-│   │   │   │   ├── CategoryFilter.tsx
-│   │   │   │   └── FeaturedArticles.tsx
-│   │   │   └── ui/
+│   │   ├── components/            # React components
+│   │   │   ├── layout/            # Layout components
+│   │   │   │   ├── Header.tsx     # Site header
+│   │   │   │   ├── Footer.tsx     # Site footer
+│   │   │   │   └── PageLayout.tsx # Page wrapper
+│   │   │   ├── sections/          # Page sections
+│   │   │   │   ├── HeroSection.tsx
+│   │   │   │   ├── NewsEventsSection.tsx
+│   │   │   │   ├── ServicesSection.tsx
+│   │   │   │   └── [other sections]
+│   │   │   └── ui/                # UI components
 │   │   │       ├── Button.tsx
 │   │   │       ├── Card.tsx
 │   │   │       ├── Input.tsx
 │   │   │       └── Modal.tsx
 │   │   │
-│   │   ├── lib/
-│   │   │   ├── api.ts
-│   │   │   ├── utils.ts
-│   │   │   └── constants.ts
+│   │   ├── pages/                 # Page components
+│   │   │   ├── HomePage.tsx       # Main homepage
+│   │   │   ├── directors/         # Directors pages
+│   │   │   ├── divisions/         # Divisions pages
+│   │   │   ├── news-events/       # News and events
+│   │   │   ├── our-centers/       # Centers information
+│   │   │   ├── resources/         # Resources pages
+│   │   │   ├── services/          # Services pages
+│   │   │   └── student/           # Student portal
 │   │   │
-│   │   ├── hooks/
-│   │   │   ├── useTranslation.ts
-│   │   │   ├── useApi.ts
-│   │   │   └── useIntersectionObserver.ts
+│   │   ├── contexts/              # React contexts
+│   │   │   ├── LanguageContext.tsx # Language switching
+│   │   │   └── ThemeContext.tsx   # Theme management
 │   │   │
-│   │   ├── types/
-│   │   │   ├── index.ts
-│   │   │   ├── news.ts
-│   │   │   └── program.ts
+│   │   ├── hooks/                 # Custom React hooks
+│   │   │   ├── useTranslation.ts  # Translation hook
+│   │   │   └── useApi.ts          # API interaction hook
 │   │   │
-│   │   ├── styles/
-│   │   │   ├── globals.css
-│   │   │   └── components/
+│   │   ├── lib/                   # Utility libraries
+│   │   │   ├── i18n.ts            # Internationalization
+│   │   │   ├── api.ts             # API client
+│   │   │   └── utils.ts           # General utilities
 │   │   │
-│   │   └── config/
-│   │       ├── newsCategories.ts
-│   │       ├── navigation.ts
-│   │       └── seo.ts
+│   │   ├── types/                 # TypeScript types
+│   │   │   ├── index.ts           # General types
+│   │   │   ├── news.ts            # News types
+│   │   │   └── program.ts         # Program types
+│   │   │
+│   │   └── styles/                # Styling files
+│   │       ├── globals.css        # Global styles
+│   │       └── components/        # Component styles
 │   │
-│   └── tests/
-│       ├── components/
-│       └── e2e/
+│   └── dist/                      # Built frontend assets
 │
-├── backend/                        # Express.js backend
-│   ├── package.json
-│   ├── tsconfig.json
-│   ├── .env
-│   ├── nodemon.json
-│   │
-│   ├── prisma/
-│   │   ├── schema.prisma
-│   │   ├── migrations/
-│   │   └── seed.ts
-│   │
-│   ├── src/
-│   │   ├── server.ts
-│   │   ├── app.ts
-│   │   │
-│   │   ├── config/
-│   │   │   ├── database.ts
-│   │   │   ├── redis.ts
-│   │   │   └── constants.ts
-│   │   │
-│   │   ├── controllers/
-│   │   │   ├── authController.ts
-│   │   │   ├── newsController.ts
-│   │   │   ├── programController.ts
-│   │   │   └── userController.ts
-│   │   │
-│   │   ├── services/
-│   │   │   ├── NewsService.ts
-│   │   │   ├── ProgramService.ts
-│   │   │   ├── AuthService.ts
-│   │   │   └── EmailService.ts
-│   │   │
-│   │   ├── models/
-│   │   │   └── index.ts
-│   │   │
-│   │   ├── routes/
-│   │   │   ├── index.ts
-│   │   │   ├── auth.routes.ts
-│   │   │   ├── news.routes.ts
-│   │   │   └── program.routes.ts
-│   │   │
-│   │   ├── middleware/
-│   │   │   ├── auth.ts
-│   │   │   ├── validation.ts
-│   │   │   ├── errorHandler.ts
-│   │   │   └── rateLimiter.ts
-│   │   │
-│   │   ├── utils/
-│   │   │   ├── logger.ts
-│   │   │   ├── validators.ts
-│   │   │   └── helpers.ts
-│   │   │
-│   │   ├── workers/
-│   │   │   ├── notificationWorker.ts
-│   │   │   └── emailWorker.ts
-│   │   │
-│   │   └── types/
-│   │       └── index.d.ts
-│   │
-│   └── tests/
-│       ├── unit/
-│       └── integration/
+├── scripts/                       # Development and deployment scripts
+│   ├── setup.sh                   # Initial project setup
+│   ├── build-all.sh               # Build both frontend and backend
+│   ├── deploy.sh                  # Deployment script
+│   └── seed-data.sh               # Database seeding script
 │
-├── admin/                          # Admin panel (React)
-│   ├── package.json
-│   ├── tsconfig.json
-│   ├── vite.config.ts
-│   │
-│   ├── public/
-│   │   └── admin-assets/
-│   │
-│   ├── src/
-│   │   ├── main.tsx
-│   │   ├── App.tsx
-│   │   │
-│   │   ├── pages/
-│   │   │   ├── Dashboard.tsx
-│   │   │   ├── News/
-│   │   │   ├── Programs/
-│   │   │   └── Users/
-│   │   │
-│   │   ├── components/
-│   │   │   ├── Layout/
-│   │   │   ├── Charts/
-│   │   │   └── Forms/
-│   │   │
-│   │   └── services/
-│   │       └── api.ts
-│   │
-│   └── dist/
-│
-├── shared/                         # Shared code between packages
-│   ├── types/
-│   │   ├── index.ts
-│   │   ├── news.types.ts
-│   │   ├── user.types.ts
-│   │   └── program.types.ts
-│   │
-│   └── constants/
-│       ├── index.ts
-│       └── categories.ts
-│
-├── scripts/                        # Build and utility scripts
-│   ├── setup.sh
-│   ├── build-all.sh
-│   └── deploy.sh
-│
-├── docker/                         # Docker configurations
-│   ├── Dockerfile.frontend
-│   ├── Dockerfile.backend
-│   ├── Dockerfile.admin
-│   └── docker-compose.yml
-│
-└── .github/                        # GitHub workflows
-    └── workflows/
-        ├── ci.yml
-        └── deploy.yml
+└── docker/                        # Docker configurations (future)
+    ├── Dockerfile.backend         # Backend container
+    ├── Dockerfile.frontend        # Frontend container
+    └── docker-compose.yml         # Multi-container setup
 ```
+
+## Technology Stack
+
+### Backend Technologies
+- **Runtime**: Node.js 20.x LTS
+- **Framework**: Express.js 4.x with TypeScript 5.x
+- **Database**: MySQL 8.0 with Prisma ORM 5.x
+- **Template Engine**: EJS 3.x for server-side rendering
+- **Authentication**: JWT + express-session
+- **Validation**: express-validator with Zod schemas
+- **Security**: Helmet, CORS, bcrypt (12 rounds)
+- **Caching**: Redis for sessions and response caching
+- **Email**: Nodemailer with SMTP support
+- **Logging**: Winston with structured logging
+- **File Upload**: Multer with validation
+- **Testing**: Jest with Supertest for API testing
+
+### Frontend Technologies  
+- **Framework**: React 18 with TypeScript
+- **Build Tool**: Vite 5.x for fast development
+- **Styling**: Tailwind CSS 3.x (stable version only)
+- **State Management**: Zustand or React Context
+- **Form Handling**: React Hook Form with Zod validation
+- **Internationalization**: react-i18next with encrypted locale files
+- **HTTP Client**: Axios with interceptors
+- **Testing**: React Testing Library with Vitest
+
+### Supporting Technologies
+- **Database**: MySQL 8.0 with connection pooling
+- **Cache**: Redis 6.x for sessions and data caching
+- **File Storage**: Local filesystem with S3 migration path
+- **Process Manager**: PM2 for production deployment
+- **Reverse Proxy**: Nginx for static files and SSL termination
 
 ## Development Guidelines
 
-### 1. Technology Stack
-- **Frontend**: Next.js 14+ with TypeScript
-- **Backend**: Node.js with Express.js
-- **Database**: PostgreSQL with Prisma ORM
-- **Admin Panel**: React Admin or custom React dashboard
-- **Styling**: Tailwind CSS v3.x (stable version only, following SLDDS guidelines)
-- **State Management**: Zustand or Context API
-- **Form Handling**: React Hook Form with Zod validation
-- **Internationalization**: next-i18next for multilingual support
+### 1. Core Principles
+- **Unified Architecture**: Single backend application serving both API and admin
+- **Security First**: Server-side sessions for admin, JWT for API
+- **SLDDS Compliance**: Follow Sri Lanka Digital Design System
+- **Multilingual Support**: Complete i18n implementation (si/ta/en)
+- **Role-Based Access**: Comprehensive RBAC implementation
+- **Performance Focus**: Sub-3-second load times, efficient caching
 
-**IMPORTANT**: Always use Tailwind CSS version 3.x (stable) throughout the project. Do not upgrade to version 4 or use any beta/alpha versions. Ensure all Tailwind-related dependencies are compatible with v3.x.
+### 2. Database Design (MySQL)
 
-### 2. SLDDS Compliance Requirements
+#### Core Schema Entities
+```sql
+-- User Management
+Users (id, email, password, firstName, lastName, role, isActive, emailVerified)
+Profiles (userId, phone, address, city, district, avatar, bio)
+Sessions (id, userId, sid, data, expiresAt, ipAddress, userAgent)
+RefreshTokens (id, token, userId, expiresAt)
+ActivityLogs (id, userId, action, resource, metadata, ipAddress)
 
-#### Color System Implementation
-```typescript
-// src/styles/theme.ts
-export const theme = {
-  colors: {
-    primary: {
-      50: '#E3F2FD',
-      100: '#BBDEFB',
-      200: '#90CAF9',
-      300: '#64B5F6',
-      400: '#42A5F5',
-      500: '#2196F3',
-      600: '#1E88E5',
-      700: '#1976D2',
-      800: '#1565C0',
-      900: '#0D47A1'
-    },
-    secondary: {
-      50: '#FFF9C4',
-      100: '#FFF59D',
-      200: '#FFF176',
-      300: '#FFEE58',
-      400: '#FFEB3B',
-      500: '#FDD835',
-      600: '#FBC02D',
-      700: '#F9A825',
-      800: '#F57F17',
-      900: '#F57C00'
-    },
-    status: {
-      success: { /* green shades */ },
-      warning: { /* yellow shades */ },
-      error: { /* red shades */ },
-      info: { /* blue shades */ }
-    }
-  }
+-- Content Management
+News (id, title, slug, content, excerpt, status, category, authorId)
+Events (id, title, content, eventDate, endDate, location, capacity)
+Programs (id, name, description, duration, eligibility, fee, maxParticipants)
+
+-- System
+Files (id, originalName, fileName, mimeType, size, type, uploadedBy)
+Settings (key, value, type, description, updatedBy)
+```
+
+#### Role Hierarchy
+1. **USER** - Basic user access, API only
+2. **EDITOR** - Content creation and editing
+3. **MODERATOR** - Content moderation and user monitoring
+4. **ADMIN** - User management and system administration  
+5. **SUPER_ADMIN** - Full system access and configuration
+
+### 3. Authentication & Security
+
+#### API Authentication (JWT)
+- **Access Token**: 15-minute expiry, httpOnly cookie
+- **Refresh Token**: 7-day expiry, httpOnly cookie  
+- **Rate Limiting**: 5 login attempts per 15 minutes
+- **Password Requirements**: 8+ chars, uppercase, lowercase, number, special
+
+#### Admin Authentication (Sessions)
+- **Session Store**: Redis with 24-hour expiry
+- **CSRF Protection**: csurf middleware on all forms
+- **Session Security**: httpOnly, secure, sameSite strict
+- **IP Tracking**: Session tied to IP address
+- **Activity Logging**: All admin actions logged
+
+### 4. API Design Standards
+
+#### RESTful Endpoints
+```
+Authentication:
+POST   /api/auth/register    # User registration
+POST   /api/auth/login       # User login  
+POST   /api/auth/refresh     # Refresh tokens
+GET    /api/auth/me          # Current user info
+POST   /api/auth/logout      # Logout user
+
+Users (Admin only):
+GET    /api/users            # List users (paginated)
+GET    /api/users/:id        # Get user details
+POST   /api/users            # Create user
+PUT    /api/users/:id        # Update user
+DELETE /api/users/:id        # Delete user
+
+Content:
+GET    /api/public/news      # Public news articles
+GET    /api/public/events    # Public events
+GET    /api/public/programs  # Public programs
+
+Protected Content (Editors+):
+GET    /api/news             # Manage news articles
+POST   /api/news             # Create article
+PUT    /api/news/:id         # Update article
+DELETE /api/news/:id         # Delete article
+```
+
+#### Admin Routes (SSR)
+```
+Authentication:
+GET    /admin/login          # Login form
+POST   /admin/auth/login     # Process login
+GET    /admin/logout         # Logout
+
+Dashboard:
+GET    /admin/dashboard      # Main dashboard
+GET    /admin/users          # User management
+GET    /admin/content        # Content management
+GET    /admin/reports        # Reports and analytics
+GET    /admin/settings       # System settings
+```
+
+#### Response Format
+```json
+{
+  "success": true,
+  "data": { /* response data */ },
+  "message": "Operation successful",
+  "pagination": { /* if applicable */ }
 }
 ```
 
-#### Typography
-- Font Family: Noto Sans (Sinhala, Tamil, English)
-- Base font size: 16px
-- Line height: 1.5
-- Heading scale: 64px, 48px, 32px, 24px, 20px, 18px, 16px
+### 5. Frontend Development
 
-#### Spacing Scale
-- Use 4px base unit: 4, 8, 16, 24, 32, 48, 64
+#### React Component Structure
+- **Functional Components**: Use hooks for state management
+- **TypeScript**: Strict typing for all components and props
+- **Custom Hooks**: Reusable logic in custom hooks
+- **Context API**: Global state management for auth and theme
+- **Error Boundaries**: Comprehensive error handling
 
-#### Tailwind CSS Requirements
-- **Version**: Must use Tailwind CSS v3.x (stable) only
-- **Configuration**: Use TypeScript for tailwind.config.ts
-- **Content Paths**: Ensure proper content scanning for all components
-- **Safelist**: Include all SLDDS color variants in safelist
-- **Plugins**: Use official Tailwind plugins (@tailwindcss/forms, @tailwindcss/typography, @tailwindcss/aspect-ratio)
-- **No Tailwind v4**: Do not use or upgrade to Tailwind CSS v4 (beta/alpha)
-- **Compatibility**: Ensure all related packages are v3-compatible
+#### Styling Guidelines
+- **Tailwind CSS v3.x**: Utility-first styling (NO v4 beta)
+- **SLDDS Colors**: Use official color palette
+- **Responsive Design**: Mobile-first approach
+- **Component Classes**: Consistent class naming
+- **Dark Mode**: Future implementation ready
 
-### 3. Key Features Implementation
+#### Internationalization
+- **Languages**: Sinhala (primary), Tamil, English
+- **Namespace**: Organized by page/feature
+- **RTL Support**: Ready for Tamil text direction
+- **Number Formatting**: Sri Lankan conventions
+- **Date Formatting**: Local date formats
 
-#### Multilingual Support
-```typescript
-// i18n configuration
-const languages = ['si', 'ta', 'en'];
-const defaultLanguage = 'si';
+### 6. Testing Strategy
+
+#### Backend Testing
+```bash
+# Unit Tests - Service layer and utilities
+npm run test:unit
+
+# Integration Tests - API endpoints and database
+npm run test:integration  
+
+# E2E Tests - Admin panel workflows
+npm run test:e2e
+
+# Coverage Report
+npm run test:coverage
 ```
 
-#### User Roles
-1. Public Visitors
-2. Youth Members
-3. Club Representatives
-4. NYSC Staff
-5. Administrators
+#### Frontend Testing
+```bash  
+# Component Tests
+npm run test:components
 
-#### Core Modules
-1. **Home Page**: Dynamic content, news slider, quick links
-2. **About NYSC**: Organization info, leadership
-3. **Programs & Services**: Training, cultural, sports programs
-4. **Sports Development**: Club directory, event management
-5. **Cultural Programs**: Event calendar, applications
-6. **Youth Awards**: Nomination system, archives
-7. **Vocational Training**: Center directory, course listings
-8. **Foreign Affairs**: International programs
-9. **Office Directory**: Locations, facility booking
-10. **Media Gallery**: Photo/video management
-11. **Downloads**: Document repository
-12. **Contact Us**: Forms, maps, directory
+# Hook Tests  
+npm run test:hooks
 
-### 4. Accessibility Standards (WCAG 2.1 AA)
-- Minimum color contrast ratio: 4.5:1
-- Full keyboard navigation
-- Screen reader optimization with ARIA labels
-- Multilingual alt text for images
-- Respects `prefers-reduced-motion`
+# Integration Tests
+npm run test:integration
+```
 
-### 5. Performance Requirements
-- Page load time: < 3 seconds
-- Mobile-first responsive design
-- Image optimization (WebP/AVIF)
-- Lazy loading implementation
-- SSL/HTTPS enforcement
+### 7. Development Workflow
 
-### 6. Security Requirements
-- CSRF protection
-- XSS prevention
-- Input validation and sanitization
-- Secure authentication (JWT)
-- Data encryption
+#### Local Development Setup
+```bash
+# Backend setup
+cd backend
+npm install
+cp .env.example .env
+# Configure MySQL and Redis connections
+npx prisma migrate dev
+npx prisma db seed
+npm run dev
 
+# Frontend setup (separate terminal)
+cd frontend  
+npm install
+npm run dev
 
-## Development Workflow
+# Both running:
+# Backend: http://localhost:5000
+# Admin: http://localhost:5000/admin
+# Frontend: http://localhost:5173
+```
 
-### Phase 1: Foundation 
-- Set up project structure
-- Configure SLDDS design system
-- Implement multilingual support
-- Create base components
+#### Environment Variables
+```env
+# Backend (.env)
+NODE_ENV=development
+PORT=5000
+DATABASE_URL="mysql://user:password@localhost:3306/nysc_db"
+REDIS_URL="redis://localhost:6379"
+JWT_SECRET=your-jwt-secret
+SESSION_SECRET=your-session-secret
+FRONTEND_URL=http://localhost:5173
 
-### Phase 2: Core Features
-- Public pages (Home, About, Services)
-- User authentication system
-- Basic CMS functionality
-- Form builders
+# Frontend (.env.local)
+VITE_API_URL=http://localhost:5000/api
+VITE_APP_NAME="NYSC Sri Lanka"
+VITE_DEFAULT_LANGUAGE=si
+```
 
-### Phase 3: Advanced Features 
-- Youth club registration system
-- Event management
-- Document management
-- Media galleries
+### 8. Performance Requirements
 
-### Phase 4: Admin Panel 
-- User management
-- Content management
-- Reports and analytics
-- System configuration
+#### Load Time Targets
+- **Homepage**: < 3 seconds on 3G
+- **Admin Panel**: < 2 seconds on office connection
+- **API Responses**: < 200ms average
+- **Database Queries**: < 100ms average
 
-### Phase 5: Testing & Deployment 
-- Accessibility testing
-- Performance optimization
-- Security audit
-- Deployment preparation
+#### Optimization Strategies
+- **Backend**: Redis caching, query optimization, connection pooling
+- **Frontend**: Code splitting, lazy loading, image optimization
+- **Database**: Proper indexing, query optimization
+- **CDN**: Static asset delivery optimization
 
+### 9. Security Requirements
+
+#### Data Protection
+- **Encryption**: Sensitive data encrypted at rest
+- **HTTPS**: SSL/TLS enforced in production
+- **Input Validation**: All inputs validated and sanitized
+- **XSS Protection**: Template escaping and CSP headers
+- **CSRF Protection**: Token validation on forms
+- **SQL Injection**: Parameterized queries via Prisma
+
+#### Access Control
+- **RBAC**: Role-based permissions on all resources
+- **Session Security**: Secure session management
+- **Rate Limiting**: Prevent abuse and brute force
+- **IP Restrictions**: Admin access restrictions
+- **Activity Logging**: Comprehensive audit trail
+
+### 10. Accessibility Standards (WCAG 2.1 AA)
+- **Color Contrast**: 4.5:1 minimum ratio
+- **Keyboard Navigation**: Full keyboard accessibility
+- **Screen Readers**: ARIA labels and semantic HTML
+- **Focus Management**: Clear focus indicators
+- **Alternative Text**: Descriptive alt text for images
+- **Language Declaration**: Proper language attributes
 
 ## Claude Code Commands
 
-### Initial Setup
+### Project Setup
 ```bash
-# Create project structure
-claude create-project nysc-website
-
-# Install dependencies
-claude install-deps
+# Initialize new backend
+claude create backend --type express-typescript
 
 # Set up database
-claude setup-db
+claude db init --provider mysql --orm prisma
+
+# Generate admin templates
+claude generate admin --template ejs
 ```
 
 ### Development Commands
 ```bash
 # Start development servers
-claude dev
+claude dev                    # Start both backend and frontend
+claude dev:backend            # Backend only
+claude dev:frontend           # Frontend only
+claude dev:admin              # Admin panel only
 
-# Run tests
-claude test
+# Database operations
+claude db:migrate              # Run database migrations
+claude db:seed                # Seed initial data
+claude db:reset               # Reset database (dev only)
 
-# Build for production
-claude build
-
-# Deploy
-claude deploy
+# Testing
+claude test                   # Run all tests
+claude test:backend           # Backend tests only
+claude test:frontend          # Frontend tests only
+claude test:e2e               # End-to-end tests
 ```
 
-### Component Generation
+### Code Generation
 ```bash
-# Generate SLDDS-compliant component
-claude generate component Button --sldds
+# Generate API resources
+claude generate api users --crud
+claude generate controller admin/users
+claude generate service auth --jwt
 
-# Generate page with i18n
-claude generate page Programs --multilingual
+# Generate frontend components
+claude generate component NewsCard --props
+claude generate page AdminDashboard --layout admin
+claude generate hook useAuth --context
 
-# Generate API endpoint
-claude generate api youth-clubs
+# Generate database models
+claude generate model User --relations
+claude generate migration add_profiles_table
 ```
 
+### Build and Deploy
+```bash
+# Build applications
+claude build                  # Build both apps
+claude build:backend          # Build backend only
+claude build:frontend         # Build frontend only
 
-## UI/UX Agent Configuration
+# Deployment
+claude deploy:staging         # Deploy to staging
+claude deploy:production      # Deploy to production
+```
 
-### Design Principles
-1. **User-Centric**: Focus on youth audience needs
-2. **Task Simplification**: Minimize steps for common tasks
-3. **Mobile-First**: Optimize for mobile devices
-4. **Multilingual**: Equal quality across all languages
-5. **Accessibility**: WCAG 2.1 AA compliance
-6. **Minimalist**: Clean, uncluttered interfaces
-7. **Consistent**: Unified experience across sections
+## Quality Assurance
 
-### Component Library
-- Follow SLDDS component specifications
-- Use Tailwind utility classes only
-- Maintain consistent spacing and typography
-- Implement proper state management
-
-### Responsive Breakpoints
-- xs: <480px (Mobile)
-- sm: 481-768px (Tablet)
-- md: 769-1024px (Small laptop)
-- lg: 1025-1440px (Desktop)
-- xl: >1440px (Widescreen)
-
-## Testing Strategy
-
-### Unit Tests
-- Component testing with React Testing Library
-- API endpoint testing with Jest
-- Form validation testing
-
-### Integration Tests
-- User flow testing
-- API integration testing
-- Database transaction testing
-
-### E2E Tests
-- Critical user journeys
-- Cross-browser testing
-- Mobile responsiveness
-
-### Accessibility Tests
-- Automated WCAG testing
-- Screen reader testing
-- Keyboard navigation testing
-
-## Documentation Requirements
-
-### Code Documentation
-- JSDoc comments for functions
-- README files for each module
-- API documentation with Swagger
-
-### User Documentation
-- User guides in all three languages
-- Video tutorials
-- FAQ sections
-
-### Technical Documentation
-- Architecture diagrams
-- Database schema
-- Deployment guide
-
-## Monitoring & Analytics
+### Code Quality Standards
+- **TypeScript**: Strict mode enabled, no any types
+- **ESLint**: Airbnb configuration with custom rules
+- **Prettier**: Consistent code formatting
+- **Husky**: Pre-commit hooks for linting and testing
+- **SonarQube**: Code quality and security analysis
 
 ### Performance Monitoring
-- Core Web Vitals tracking
-- Server response times
-- Database query optimization
+- **Backend**: Winston logging with structured logs
+- **Frontend**: Performance API and Core Web Vitals
+- **Database**: Query performance monitoring
+- **Caching**: Redis performance metrics
+- **Uptime**: Health check endpoints
 
-### User Analytics
-- Google Analytics 4 integration
-- Custom event tracking
-- User journey analysis
+### Error Handling
+- **Global Error Handler**: Centralized error processing
+- **Error Logging**: Comprehensive error tracking
+- **User Feedback**: Clear error messages for users
+- **Recovery Mechanisms**: Graceful degradation
+- **Monitoring**: Real-time error alerting
 
-### Error Tracking
-- Sentry integration
-- Custom error logging
-- Alert system setup
+## Deployment Strategy
+
+### Environment Configuration
+- **Development**: Local MySQL + Redis
+- **Staging**: Cloud MySQL + Redis cluster
+- **Production**: Managed services with clustering
+
+### Deployment Pipeline
+1. **Code Review**: GitHub PR with automated checks
+2. **Testing**: Automated test suite execution
+3. **Build**: Production builds with optimization
+4. **Deploy**: Blue-green deployment strategy
+5. **Verify**: Health checks and smoke tests
+6. **Monitor**: Performance and error monitoring
+
+### Infrastructure Requirements
+- **Server**: 2+ CPU cores, 4GB RAM minimum
+- **Database**: MySQL 8.0 with replication
+- **Cache**: Redis cluster for high availability
+- **Storage**: SSD for database, object storage for files
+- **Network**: CDN for static assets, load balancer
+
+## Maintenance & Support
+
+### Regular Tasks
+- **Security Updates**: Monthly dependency updates
+- **Database Maintenance**: Weekly optimization
+- **Log Rotation**: Daily log management
+- **Backup Verification**: Weekly backup testing
+- **Performance Review**: Monthly performance analysis
+
+### Monitoring & Alerting
+- **System Health**: CPU, memory, disk usage
+- **Application Performance**: Response times, error rates
+- **Database Performance**: Query times, connection pools
+- **Security Events**: Failed logins, suspicious activity
+- **Business Metrics**: User registrations, content engagement
 
 ## Notes for Claude
 
-1. Always follow SLDDS guidelines for any UI component
-2. Ensure all user-facing text is translatable
-3. Use semantic HTML for accessibility
-4. Implement progressive enhancement
-5. Consider offline functionality for critical features
-6. Maintain consistent error handling patterns
-7. Use environment variables for configuration
-8. Implement proper logging throughout
-9. Follow Sri Lankan date/time formats
-10. Respect cultural considerations in design
-11. **CRITICAL**: Always use Tailwind CSS v3.x (stable) - Never use v4 or any beta versions
-12. Verify Tailwind version compatibility before adding any new dependencies
+1. **Always follow SLDDS guidelines** for any UI component
+2. **Ensure all user-facing text is translatable** with proper i18n keys
+3. **Use semantic HTML** for accessibility compliance
+4. **Implement progressive enhancement** for core functionality
+5. **Consider offline functionality** for critical features
+6. **Maintain consistent error handling** across all components
+7. **Use environment variables** for all configuration
+8. **Implement proper logging** throughout the application
+9. **Follow Sri Lankan conventions** for date/time/number formats
+10. **Respect cultural considerations** in design and content
+11. **CRITICAL: Always use Tailwind CSS v3.x stable** - Never use v4 beta
+12. **Verify MySQL compatibility** before adding new dependencies
+13. **Test admin panel functionality** with all user roles
+14. **Validate API endpoints** with proper authentication
+15. **Ensure proper error boundaries** in React components
 
+## Support & Resources
+
+### Documentation
+- **Architecture**: `/docs/BACKEND_ARCHITECTURE.md`
+- **API Reference**: `/docs/API_DOCUMENTATION.md`
+- **Admin Panel**: `/docs/ADMIN_PANEL.md`
+- **Database Schema**: `/docs/DATABASE_SCHEMA.md`
+- **Deployment Guide**: `/docs/DEPLOYMENT.md`
+
+### Development Resources
+- **Style Guide**: SLDDS official documentation
+- **Icons**: Lucide React icon library
+- **Fonts**: Noto Sans family (multi-language)
+- **Colors**: SLDDS color palette implementation
+
+### Contact & Support
+- **Issue Tracker**: GitHub Issues for bug reports
+- **Documentation**: Internal wiki for procedures
+- **Code Review**: Mandatory PR reviews
+- **Architecture Decisions**: ADR documentation
