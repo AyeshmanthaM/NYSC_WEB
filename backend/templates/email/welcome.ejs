@@ -1,0 +1,198 @@
+<!-- SUBJECT: Welcome to <%= companyName %> Admin System -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to <%= companyName %></title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            background-color: #1e40af;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        h1 {
+            color: #1e40af;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .welcome-message {
+            background-color: #eff6ff;
+            border-left: 4px solid #1e40af;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        .role-badge {
+            display: inline-block;
+            background-color: #1e40af;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #1e40af;
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-weight: 600;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .btn:hover {
+            background-color: #1d4ed8;
+        }
+        .info-section {
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        .info-title {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 10px;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+            font-size: 14px;
+            color: #6b7280;
+        }
+        .contact-info {
+            margin: 20px 0;
+        }
+        .social-links {
+            margin: 20px 0;
+        }
+        .social-links a {
+            color: #1e40af;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">NYSC</div>
+            <h1>Welcome to <%= companyName %>!</h1>
+            <p>Your admin account has been created successfully</p>
+        </div>
+
+        <div class="welcome-message">
+            <h2>Hello <%= firstName %> <%= lastName %>! 👋</h2>
+            <p>We're excited to welcome you to the <%= companyName %> administration system. Your account has been created with <strong><span class="role-badge"><%= role %></span></strong> privileges.</p>
+        </div>
+
+        <div class="info-section">
+            <div class="info-title">📋 Account Details</div>
+            <ul>
+                <li><strong>Name:</strong> <%= firstName %> <%= lastName %></li>
+                <li><strong>Email:</strong> <%= email %></li>
+                <li><strong>Role:</strong> <%= role %></li>
+                <li><strong>Status:</strong> Active</li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <div class="info-title">🚀 Getting Started</div>
+            <p>You can now access the admin panel using your credentials:</p>
+            <ol>
+                <li>Visit the admin login page</li>
+                <li>Use your email address: <strong><%= email %></strong></li>
+                <li>Use the temporary password provided separately (check your email or contact your administrator)</li>
+                <li>You'll be prompted to change your password on first login</li>
+            </ol>
+        </div>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="<%= loginUrl %>" class="btn">Access Admin Panel</a>
+        </div>
+
+        <div class="info-section">
+            <div class="info-title">🔐 Security Recommendations</div>
+            <ul>
+                <li>Change your password immediately after first login</li>
+                <li>Use a strong password with at least 8 characters</li>
+                <li>Include uppercase, lowercase, numbers, and special characters</li>
+                <li>Never share your login credentials with anyone</li>
+                <li>Log out when you finish your session</li>
+                <li>Report any suspicious activity to the system administrator</li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <div class="info-title">📞 Need Help?</div>
+            <p>If you have any questions or need assistance, please don't hesitate to contact our support team:</p>
+            <div class="contact-info">
+                <p><strong>📧 Email:</strong> <a href="mailto:<%= supportEmail %>"><%= supportEmail %></a></p>
+                <p><strong>🌐 Website:</strong> <a href="<%= baseUrl %>">www.nysc.lk</a></p>
+                <p><strong>📍 Address:</strong> National Youth Services Council, Colombo, Sri Lanka</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong><%= companyName %></strong></p>
+            <p>Empowering Sri Lankan Youth Through Service and Development</p>
+            
+            <div class="social-links">
+                <a href="#">Facebook</a> |
+                <a href="#">Twitter</a> |
+                <a href="#">LinkedIn</a> |
+                <a href="#">Instagram</a>
+            </div>
+            
+            <p style="font-size: 12px; margin-top: 20px;">
+                This is an automated message. Please do not reply to this email.<br>
+                If you believe you received this email in error, please contact <a href="mailto:<%= supportEmail %>"><%= supportEmail %></a>
+            </p>
+            
+            <p style="font-size: 12px; color: #9ca3af;">
+                © <%= currentYear %> <%= companyName %>. All rights reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!-- SUBJECT: System Notification - <%= companyName %> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Notification</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            background-color: #2563eb;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        h1 {
+            color: #2563eb;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .message-section {
+            background-color: #eff6ff;
+            border-left: 4px solid #2563eb;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        .info-section {
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        .timestamp {
+            background-color: #f3f4f6;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 14px;
+            text-align: center;
+            margin: 20px 0;
+            border: 1px solid #d1d5db;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-weight: 600;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+            font-size: 14px;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🔔</div>
+            <h1>System Notification</h1>
+            <p>Important update from <%= companyName %></p>
+        </div>
+
+        <div class="message-section">
+            <h2>System Message</h2>
+            <div style="font-size: 16px; line-height: 1.8;">
+                <%- message %>
+            </div>
+        </div>
+
+        <div class="timestamp">
+            <strong>📅 Generated:</strong> <%= timestamp %>
+        </div>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="<%= baseUrl %>/admin/dashboard" class="btn">View Admin Dashboard</a>
+        </div>
+
+        <div class="info-section">
+            <h3>📞 Need Support?</h3>
+            <p>If you have any questions about this notification, please contact our support team:</p>
+            <p><strong>📧 Email:</strong> <a href="mailto:<%= supportEmail %>"><%= supportEmail %></a></p>
+            <p><strong>🌐 Website:</strong> <a href="<%= baseUrl %>">www.nysc.lk</a></p>
+        </div>
+
+        <div class="footer">
+            <p><strong><%= companyName %></strong></p>
+            <p>Empowering Sri Lankan Youth Through Service and Development</p>
+            
+            <p style="font-size: 12px; margin-top: 20px;">
+                This is an automated system notification. Please do not reply to this email.<br>
+                For support, contact <a href="mailto:<%= supportEmail %>"><%= supportEmail %></a>
+            </p>
+            
+            <p style="font-size: 12px; color: #9ca3af;">
+                © <%= currentYear %> <%= companyName %>. All rights reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

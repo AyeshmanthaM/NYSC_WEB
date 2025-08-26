@@ -1,0 +1,265 @@
+<!-- SUBJECT: [ADMIN ALERT] <%= action.replace(/_/g, ' ') %> - <%= companyName %> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Notification</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            background-color: #f59e0b;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        .logo.security { background-color: #dc2626; }
+        .logo.info { background-color: #2563eb; }
+        .logo.success { background-color: #059669; }
+        
+        h1 {
+            color: #f59e0b;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+        h1.security { color: #dc2626; }
+        h1.info { color: #2563eb; }
+        h1.success { color: #059669; }
+        
+        .notification-section {
+            background-color: #fef3cd;
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 4px;
+        }
+        .notification-section.security {
+            background-color: #fef2f2;
+            border-left-color: #dc2626;
+        }
+        .notification-section.info {
+            background-color: #eff6ff;
+            border-left-color: #2563eb;
+        }
+        .notification-section.success {
+            background-color: #ecfdf5;
+            border-left-color: #059669;
+        }
+        
+        .action-badge {
+            display: inline-block;
+            background-color: #f59e0b;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .action-badge.security { background-color: #dc2626; }
+        .action-badge.info { background-color: #2563eb; }
+        .action-badge.success { background-color: #059669; }
+        
+        .info-section {
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        .info-title {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 10px;
+        }
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+        .detail-label {
+            font-weight: 600;
+            color: #6b7280;
+        }
+        .detail-value {
+            color: #111827;
+            word-break: break-all;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #1e40af;
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-weight: 600;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+            font-size: 14px;
+            color: #6b7280;
+        }
+        .timestamp {
+            background-color: #f3f4f6;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 14px;
+            text-align: center;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <%
+            // Determine notification type based on action
+            let notificationType = 'info';
+            let iconSymbol = '🔔';
+            
+            if (action.includes('SECURITY') || action.includes('LOGIN_FAILED') || action.includes('UNAUTHORIZED')) {
+                notificationType = 'security';
+                iconSymbol = '🚨';
+            } else if (action.includes('SUCCESS') || action.includes('CREATED') || action.includes('COMPLETED')) {
+                notificationType = 'success';  
+                iconSymbol = '✅';
+            } else if (action.includes('WARNING') || action.includes('FAILED')) {
+                notificationType = 'warning';
+                iconSymbol = '⚠️';
+            }
+        %>
+        
+        <div class="header">
+            <div class="logo <%= notificationType %>"><%= iconSymbol %></div>
+            <h1 class="<%= notificationType %>">System Notification</h1>
+            <p>Administrative alert from <%= companyName %></p>
+        </div>
+
+        <div class="notification-section <%= notificationType %>">
+            <div class="action-badge <%= notificationType %>"><%= action.replace(/_/g, ' ') %></div>
+            <h2>Hello <%= adminName %>! 👋</h2>
+            <p>This is an automated notification about a system event that requires your attention.</p>
+        </div>
+
+        <div class="info-section">
+            <div class="info-title">📋 Event Details</div>
+            <div class="detail-item">
+                <span class="detail-label">Action:</span>
+                <span class="detail-value"><%= action.replace(/_/g, ' ') %></span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Timestamp:</span>
+                <span class="detail-value"><%= timestamp %></span>
+            </div>
+            <% if (ipAddress) { %>
+            <div class="detail-item">
+                <span class="detail-label">IP Address:</span>
+                <span class="detail-value"><%= ipAddress %></span>
+            </div>
+            <% } %>
+            <div class="detail-item">
+                <span class="detail-label">Administrator:</span>
+                <span class="detail-value"><%= adminName %></span>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-title">📄 Additional Information</div>
+            <p><%= details %></p>
+        </div>
+
+        <% if (notificationType === 'security') { %>
+        <div class="info-section">
+            <div class="info-title">🛡️ Security Recommendations</div>
+            <ul>
+                <li>Review the event details carefully</li>
+                <li>Check if this action was authorized</li>
+                <li>Monitor for any unusual activity</li>
+                <li>Contact the security team if needed</li>
+                <li>Consider updating security protocols if necessary</li>
+            </ul>
+        </div>
+        <% } %>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="<%= baseUrl %>/admin/dashboard" class="btn">View Admin Dashboard</a>
+        </div>
+
+        <div class="info-section">
+            <div class="info-title">📞 Need Assistance?</div>
+            <p>If you need to investigate this event further or have any concerns:</p>
+            <ul>
+                <li><strong>📧 Email:</strong> <a href="mailto:<%= supportEmail %>"><%= supportEmail %></a></li>
+                <li><strong>🌐 Admin Portal:</strong> <a href="<%= baseUrl %>/admin">Admin Dashboard</a></li>
+                <li><strong>📊 Activity Logs:</strong> <a href="<%= baseUrl %>/admin/reports/activity">View Activity Logs</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <div class="info-title">⚙️ System Information</div>
+            <div class="detail-item">
+                <span class="detail-label">Environment:</span>
+                <span class="detail-value"><%= process.env.NODE_ENV || 'Development' %></span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Server Time:</span>
+                <span class="detail-value"><%= new Date().toISOString() %></span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">System:</span>
+                <span class="detail-value"><%= companyName %> Admin System</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong><%= companyName %></strong></p>
+            <p>Empowering Sri Lankan Youth Through Service and Development</p>
+            
+            <p style="font-size: 12px; margin-top: 20px;">
+                This is an automated system notification. Please do not reply to this email.<br>
+                For support, contact <a href="mailto:<%= supportEmail %>"><%= supportEmail %></a>
+            </p>
+            
+            <p style="font-size: 12px; color: #9ca3af;">
+                © <%= currentYear %> <%= companyName %>. All rights reserved.<br>
+                System notification generated at <%= timestamp %>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
