@@ -114,7 +114,7 @@
                     </td>
                   </tr>
                   
-                  <tr v-else-if="users.length === 0">
+                  <tr v-else-if="!users || users.length === 0">
                     <td colspan="5" class="px-6 py-12 text-center text-gray-500">
                       <Users class="w-8 h-8 mx-auto mb-2 text-gray-300" />
                       <p>No users found</p>
@@ -126,14 +126,14 @@
                       <div class="flex items-center">
                         <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center mr-4">
                           <span class="text-primary-600 font-medium text-sm">
-                            {{ user.firstName.charAt(0) }}{{ user.lastName.charAt(0) }}
+                            {{ user.firstName?.charAt(0) || '?' }}{{ user.lastName?.charAt(0) || '?' }}
                           </span>
                         </div>
                         <div>
                           <div class="text-sm font-medium text-gray-900">
-                            {{ user.firstName }} {{ user.lastName }}
+                            {{ user.firstName || 'Unknown' }} {{ user.lastName || 'User' }}
                           </div>
-                          <div class="text-sm text-gray-500">{{ user.email }}</div>
+                          <div class="text-sm text-gray-500">{{ user.email || 'No email' }}</div>
                         </div>
                       </div>
                     </td>
@@ -207,9 +207,12 @@ async function loadUsers() {
   loading.value = true
   try {
     const response = await userApi.getUsers(filters)
-    users.value = response.items
+    // The API utility now ensures this is always a proper structure
+    users.value = response.items || []
   } catch (error) {
     console.error('Error loading users:', error)
+    // Set users to empty array on error to prevent undefined errors
+    users.value = []
   } finally {
     loading.value = false
   }

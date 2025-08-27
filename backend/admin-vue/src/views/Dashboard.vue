@@ -1,24 +1,24 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div class="admin-layout">
     <!-- Header -->
     <AdminHeader />
     
     <!-- Main Content -->
-    <main class="flex">
+    <main class="admin-main-content">
       <!-- Sidebar -->
       <AdminSidebar />
       
       <!-- Content Area -->
-      <div class="flex-1 ml-64">
-        <div class="p-8">
+      <div class="admin-content-area">
+        <div class="admin-content-padding">
           <!-- Page Header -->
-          <div class="mb-8">
-            <h1 class="text-2xl font-bold text-gray-900">Dashboard</h1>
-            <p class="text-gray-600">Welcome back, {{ authStore.user?.firstName }}!</p>
+          <div class="admin-page-header">
+            <h1 class="admin-page-title">Dashboard</h1>
+            <p class="admin-page-subtitle">Welcome back, {{ authStore.user?.firstName }}!</p>
           </div>
 
           <!-- Stats Cards -->
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div class="admin-stats-grid">
             <StatCard
               title="Total Users"
               :value="stats?.totalUsers || 0"
@@ -50,78 +50,78 @@
           </div>
 
           <!-- Recent Activity -->
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="admin-dashboard-grid">
             <!-- Activity Log -->
-            <div class="card p-6">
-              <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
-              <div class="space-y-4">
-                <div v-if="loading" class="space-y-3">
-                  <div v-for="i in 5" :key="i" class="animate-pulse">
-                    <div class="h-4 bg-gray-200 rounded w-3/4"></div>
-                    <div class="h-3 bg-gray-200 rounded w-1/2 mt-1"></div>
+            <div class="admin-activity-section">
+              <h3 class="admin-activity-title">Recent Activity</h3>
+              <div class="admin-activity-list">
+                <div v-if="loading" class="admin-activity-loading">
+                  <div v-for="i in 5" :key="i" class="admin-activity-skeleton-item">
+                    <div class="admin-activity-skeleton-main"></div>
+                    <div class="admin-activity-skeleton-sub"></div>
                   </div>
                 </div>
                 <div v-else-if="stats?.recentActivity?.length">
                   <div 
                     v-for="activity in stats.recentActivity" 
                     :key="activity.id"
-                    class="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors"
+                    class="admin-activity-item"
                   >
-                    <div class="flex-shrink-0">
-                      <div class="w-2 h-2 bg-primary-500 rounded-full mt-2"></div>
+                    <div class="admin-activity-dot-wrapper">
+                      <div class="admin-activity-dot"></div>
                     </div>
-                    <div class="flex-1 min-w-0">
-                      <p class="text-sm text-gray-900">
+                    <div class="admin-activity-content">
+                      <p class="admin-activity-message">
                         {{ formatActivityMessage(activity) }}
                       </p>
-                      <p class="text-xs text-gray-500 mt-1">
+                      <p class="admin-activity-time">
                         {{ formatDate(activity.createdAt) }}
                       </p>
                     </div>
                   </div>
                 </div>
-                <div v-else class="text-center py-6 text-gray-500">
-                  <Activity class="w-8 h-8 mx-auto mb-2 text-gray-300" />
+                <div v-else class="admin-empty-state">
+                  <Activity class="admin-empty-icon" />
                   <p>No recent activity</p>
                 </div>
               </div>
             </div>
 
             <!-- Quick Actions -->
-            <div class="card p-6">
-              <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
-              <div class="space-y-3">
+            <div class="admin-activity-section">
+              <h3 class="admin-activity-title">Quick Actions</h3>
+              <div class="admin-quick-actions">
                 <router-link 
                   v-if="authStore.canManageUsers"
                   to="/users"
-                  class="flex items-center p-3 rounded-lg border-2 border-dashed border-gray-200 hover:border-primary-300 hover:bg-primary-50 transition-colors group"
+                  class="admin-quick-action-item"
                 >
-                  <Users class="w-5 h-5 text-gray-400 group-hover:text-primary-600 mr-3" />
+                  <Users class="admin-quick-action-icon" />
                   <div>
-                    <p class="font-medium text-gray-900 group-hover:text-primary-600">Manage Users</p>
-                    <p class="text-sm text-gray-500">Add, edit, or remove users</p>
+                    <p class="admin-quick-action-title">Manage Users</p>
+                    <p class="admin-quick-action-desc">Add, edit, or remove users</p>
                   </div>
                 </router-link>
 
                 <a 
                   href="#"
-                  class="flex items-center p-3 rounded-lg border-2 border-dashed border-gray-200 hover:border-primary-300 hover:bg-primary-50 transition-colors group"
+                  class="admin-quick-action-item"
                 >
-                  <FileText class="w-5 h-5 text-gray-400 group-hover:text-primary-600 mr-3" />
+                  <FileText class="admin-quick-action-icon" />
                   <div>
-                    <p class="font-medium text-gray-900 group-hover:text-primary-600">Content Management</p>
-                    <p class="text-sm text-gray-500">Manage website content</p>
+                    <p class="admin-quick-action-title">Content Management</p>
+                    <p class="admin-quick-action-desc">Manage website content</p>
                   </div>
                 </a>
 
                 <a 
                   href="#"
-                  class="flex items-center p-3 rounded-lg border-2 border-dashed border-gray-200 hover:border-primary-300 hover:bg-primary-50 transition-colors group"
+                  class="admin-quick-action-item"
                 >
-                  <Settings class="w-5 h-5 text-gray-400 group-hover:text-primary-600 mr-3" />
+                  <Settings class="admin-quick-action-icon" />
                   <div>
-                    <p class="font-medium text-gray-900 group-hover:text-primary-600">System Settings</p>
-                    <p class="text-sm text-gray-500">Configure system preferences</p>
+                    <p class="admin-quick-action-title">System Settings</p>
+                    <p class="admin-quick-action-desc">Configure system preferences</p>
                   </div>
                 </a>
               </div>

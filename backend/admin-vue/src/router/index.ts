@@ -6,6 +6,9 @@ const Login = () => import('@/views/Login.vue')
 const Dashboard = () => import('@/views/Dashboard.vue')
 const Users = () => import('@/views/Users.vue')
 
+// Profile Management - Unified Layout
+const ProfilesView = () => import('@/views/ProfilesView.vue')
+
 const router = createRouter({
   history: createWebHistory('/admin/'),
   routes: [
@@ -40,6 +43,22 @@ const router = createRouter({
         title: 'User Management',
         roles: ['ADMIN', 'SUPER_ADMIN']
       }
+    },
+    // Profile Management - Unified Route
+    {
+      path: '/profiles/:type',
+      name: 'Profiles',
+      component: ProfilesView,
+      meta: {
+        requiresAuth: true,
+        title: 'Profile Management',
+        roles: ['EDITOR', 'MODERATOR', 'ADMIN', 'SUPER_ADMIN']
+      }
+    },
+    // Default profile redirect
+    {
+      path: '/profiles',
+      redirect: '/profiles/chairman'
     }
   ]
 })

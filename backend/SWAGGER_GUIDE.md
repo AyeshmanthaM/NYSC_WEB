@@ -44,6 +44,52 @@ Once the backend server is running, you can access the Swagger UI documentation 
 - `GET /admin/api/users/api/search` - Search users
 - `GET /admin/api/users/export` - Export to CSV
 
+### 6. Public Directors
+- `GET /api/public/directors/chairman` - Get Chairman information
+- `GET /api/public/directors/board-members` - Get Board Members information
+- `GET /api/public/directors/directors` - Get Directors information
+- `GET /api/public/directors/deputy-directors` - Get Deputy Directors information
+- `GET /api/public/directors/assistant-directors` - Get Assistant Directors information
+- `GET /api/public/directors/provincial-directors` - Get Provincial Directors information
+- `GET /api/public/directors/provincial-assistants` - Get Provincial Assistant Directors information
+- `GET /api/public/directors/overview` - Get Directors overview with statistics
+
+### 7. Directors Management (Admin Only)
+- `GET /admin/directors/chairman` - Get Chairman (admin view)
+- `PUT /admin/directors/chairman` - Update Chairman information
+- `GET /admin/directors/board-members` - List Board Members with pagination
+- `GET /admin/directors/board-members/{id}` - Get specific Board Member
+- `POST /admin/directors/board-members` - Create new Board Member
+- `PUT /admin/directors/board-members/{id}` - Update Board Member
+- `DELETE /admin/directors/board-members/{id}` - Delete Board Member
+- `GET /admin/directors/directors` - List Directors with pagination
+- `GET /admin/directors/directors/{id}` - Get specific Director
+- `POST /admin/directors/directors` - Create new Director
+- `PUT /admin/directors/directors/{id}` - Update Director
+- `DELETE /admin/directors/directors/{id}` - Delete Director
+- `GET /admin/directors/deputy-directors` - List Deputy Directors with pagination
+- `GET /admin/directors/deputy-directors/{id}` - Get specific Deputy Director
+- `POST /admin/directors/deputy-directors` - Create new Deputy Director
+- `PUT /admin/directors/deputy-directors/{id}` - Update Deputy Director
+- `DELETE /admin/directors/deputy-directors/{id}` - Delete Deputy Director
+- `GET /admin/directors/assistant-directors` - List Assistant Directors with pagination
+- `GET /admin/directors/assistant-directors/{id}` - Get specific Assistant Director
+- `POST /admin/directors/assistant-directors` - Create new Assistant Director
+- `PUT /admin/directors/assistant-directors/{id}` - Update Assistant Director
+- `DELETE /admin/directors/assistant-directors/{id}` - Delete Assistant Director
+- `GET /admin/directors/provincial-directors` - List Provincial Directors with pagination
+- `GET /admin/directors/provincial-directors/{id}` - Get specific Provincial Director
+- `POST /admin/directors/provincial-directors` - Create new Provincial Director
+- `PUT /admin/directors/provincial-directors/{id}` - Update Provincial Director
+- `DELETE /admin/directors/provincial-directors/{id}` - Delete Provincial Director
+- `GET /admin/directors/provincial-assistants` - List Provincial Assistants with pagination
+- `GET /admin/directors/provincial-assistants/{id}` - Get specific Provincial Assistant
+- `POST /admin/directors/provincial-assistants` - Create new Provincial Assistant
+- `PUT /admin/directors/provincial-assistants/{id}` - Update Provincial Assistant
+- `DELETE /admin/directors/provincial-assistants/{id}` - Delete Provincial Assistant
+- `POST /admin/directors/{type}/{id}/image` - Upload director image
+- `DELETE /admin/directors/{type}/{id}/image` - Delete director image
+
 ## Testing Protected Endpoints
 
 For endpoints that require authentication:
@@ -86,6 +132,69 @@ For endpoints that require authentication:
 {
   "action": "activate",
   "userIds": [1, 2, 3]
+}
+```
+
+### Create Board Member Request
+```json
+{
+  "name": "Dr. Jane Smith",
+  "position": "Board Member - Finance Specialist",
+  "description": "Experienced financial advisor with 20+ years in corporate finance and strategic planning.",
+  "email": "jane.smith@nysc.lk",
+  "phone": "+94112345679",
+  "linkedin": "https://linkedin.com/in/janesmith",
+  "badge": "Member"
+}
+```
+
+### Update Chairman Request
+```json
+{
+  "name": "Dr. Mahinda Rajapaksa",
+  "title": "Chairman / Director General",
+  "description": "Visionary leader with extensive experience in youth development and national service programs.",
+  "email": "chairman@nysc.lk",
+  "phone": "+94112345678",
+  "linkedin": "https://linkedin.com/in/chairman",
+  "tenure": "2020 - Present",
+  "qualifications": [
+    "PhD in Public Administration",
+    "MBA in Strategic Management",
+    "Certificate in Youth Development"
+  ],
+  "achievements": [
+    "Established 50+ youth centers nationwide",
+    "Launched digital transformation initiatives",
+    "Increased youth participation by 300%"
+  ],
+  "vision": "To create a vibrant ecosystem where every young person in Sri Lanka has access to opportunities for growth, skill development, and meaningful contribution to national development.",
+  "keyInitiatives": [
+    "National Youth Skills Development Program",
+    "Digital Innovation Hubs in Rural Areas",
+    "International Youth Exchange Programs"
+  ]
+}
+```
+
+### Create Provincial Director Request
+```json
+{
+  "name": "Mr. Sunil Fernando",
+  "position": "Provincial Director - Western Province",
+  "province": "Western",
+  "headquarters": "Colombo",
+  "districts": ["Colombo", "Gampaha", "Kalutara"],
+  "population": "5.8M",
+  "centers": 45,
+  "description": "Dedicated provincial leader with expertise in program management and community engagement.",
+  "email": "sunil.fernando@nysc.lk",
+  "phone": "+94112234567",
+  "achievements": [
+    "Established 15 new youth centers",
+    "Launched province-wide skills training program",
+    "Achieved 95% program completion rate"
+  ]
 }
 ```
 

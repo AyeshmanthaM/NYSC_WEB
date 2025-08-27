@@ -10,7 +10,9 @@
       "WebFetch(domain:www.nysc.lk)",
       "Bash(npm run dev:*)",
       "Bash(grep:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(git add:*)",
+      "Bash(npm run build:*)"
     ],
     "deny": []
   }

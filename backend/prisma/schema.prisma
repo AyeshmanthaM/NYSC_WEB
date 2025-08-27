@@ -264,3 +264,177 @@ model Setting {
   @@index([key])
   @@map("settings")
 }
+
+// Directors and Board Management Models
+model Chairman {
+  id              String    @id @default(cuid())
+  name            String
+  title           String    @default("Chairman / Director General")
+  description     String    @db.Text
+  image           String?
+  email           String
+  phone           String
+  linkedin        String?
+  tenure          String?
+  qualifications  Json?     // Array of qualifications
+  achievements    Json?     // Array of achievements
+  vision          String?   @db.Text
+  keyInitiatives  Json?     // Array of initiatives
+  isActive        Boolean   @default(true)
+  order           Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  updatedBy       String?
+
+  // Indexes
+  @@index([isActive])
+  @@map("chairman")
+}
+
+model BoardMember {
+  id          String    @id @default(cuid())
+  name        String
+  position    String
+  description String    @db.Text
+  image       String?
+  email       String
+  phone       String
+  linkedin    String?
+  badge       String?   // e.g., "Chairman", "Member", "Secretary"
+  isActive    Boolean   @default(true)
+  order       Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  updatedBy   String?
+
+  // Indexes
+  @@index([isActive])
+  @@index([order])
+  @@map("board_members")
+}
+
+model Director {
+  id              String    @id @default(cuid())
+  name            String
+  position        String
+  department      String
+  description     String    @db.Text
+  image           String?
+  email           String
+  phone           String
+  linkedin        String?
+  specialization  String?
+  experience      String?
+  achievements    Json?     // Array of achievements
+  isActive        Boolean   @default(true)
+  order           Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  updatedBy       String?
+
+  // Indexes
+  @@index([isActive])
+  @@index([department])
+  @@index([order])
+  @@map("directors")
+}
+
+model DeputyDirector {
+  id              String    @id @default(cuid())
+  name            String
+  position        String
+  department      String
+  description     String    @db.Text
+  email           String
+  phone           String
+  linkedin        String?
+  specialization  String?
+  provinces       Json?     // Array of provinces covered
+  isActive        Boolean   @default(true)
+  order           Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  updatedBy       String?
+
+  // Indexes
+  @@index([isActive])
+  @@index([department])
+  @@index([order])
+  @@map("deputy_directors")
+}
+
+model AssistantDirector {
+  id              String    @id @default(cuid())
+  name            String
+  position        String
+  department      String
+  region          String?   // Province or region
+  specialization  String?
+  email           String
+  phone           String
+  isActive        Boolean   @default(true)
+  order           Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  updatedBy       String?
+
+  // Indexes
+  @@index([isActive])
+  @@index([department])
+  @@index([region])
+  @@index([order])
+  @@map("assistant_directors")
+}
+
+model ProvincialDirector {
+  id            String    @id @default(cuid())
+  name          String
+  position      String
+  province      String
+  headquarters  String?
+  districts     Json?     // Array of districts
+  population    String?
+  centers       Int?      // Number of centers
+  description   String    @db.Text
+  email         String
+  phone         String
+  linkedin      String?
+  achievements  Json?     // Array of achievements
+  isActive      Boolean   @default(true)
+  order         Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  updatedBy     String?
+
+  // Indexes
+  @@index([isActive])
+  @@index([province])
+  @@index([order])
+  @@map("provincial_directors")
+}
+
+model ProvincialAssistant {
+  id              String    @id @default(cuid())
+  name            String
+  position        String
+  province        String
+  district        String
+  headquarters    String?
+  population      String?
+  centers         Int?      // Number of centers
+  email           String
+  phone           String
+  specialization  String?
+  isActive        Boolean   @default(true)
+  order           Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  updatedBy       String?
+
+  // Indexes
+  @@index([isActive])
+  @@index([province])
+  @@index([district])
+  @@index([order])
+  @@map("provincial_assistants")
+}

@@ -1,6 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
 import type { 
-  ApiResponse, 
   AuthResponse, 
   AuthCheckResponse,
   LoginCredentials, 
@@ -68,22 +67,35 @@ const usersApi = axios.create({
 export const userApi = {
   async getUsers(filters: UserFilters = {}): Promise<PaginatedResponse<User>> {
     const response = await usersApi.get('/', { params: filters })
-    return response.data
+    // Handle the backend's success/data response structure
+    const data = response.data?.data || response.data
+    return {
+      items: data?.items || data || [],
+      total: data?.total || 0,
+      page: data?.page || 1,
+      limit: data?.limit || 20,
+      totalPages: data?.totalPages || 1,
+      hasNext: data?.hasNext || false,
+      hasPrev: data?.hasPrev || false
+    }
   },
 
   async getUserById(id: string): Promise<User> {
     const response = await usersApi.get(`/${id}`)
-    return response.data
+    // Extract data from the success/data structure
+    return response.data?.data || response.data
   },
 
   async createUser(userData: Partial<User>): Promise<User> {
     const response = await usersApi.post('/', userData)
-    return response.data
+    // Extract data from the success/data structure
+    return response.data?.data || response.data
   },
 
   async updateUser(id: string, userData: Partial<User>): Promise<User> {
     const response = await usersApi.put(`/${id}`, userData)
-    return response.data
+    // Extract data from the success/data structure
+    return response.data?.data || response.data
   },
 
   async deleteUser(id: string): Promise<void> {
@@ -92,7 +104,8 @@ export const userApi = {
 
   async bulkAction(action: string, userIds: string[]): Promise<{ updated: number }> {
     const response = await usersApi.post('/bulk', { action, userIds })
-    return response.data
+    // Extract data from the success/data structure
+    return response.data?.data || response.data
   }
 }
 
@@ -105,7 +118,8 @@ const dashboardApi = axios.create({
 export const statsApi = {
   async getDashboardStats(): Promise<DashboardStats> {
     const response = await dashboardApi.get('/stats')
-    return response.data
+    // Extract data from the success/data structure
+    return response.data?.data || response.data
   }
 }
 

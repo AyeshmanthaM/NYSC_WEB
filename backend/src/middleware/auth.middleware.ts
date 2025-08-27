@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { JWTService } from '@/config/auth';
 import { AuthService } from '@/services/auth.service';
 import { logger } from '@/config/logger';
+import jwt from 'jsonwebtoken';
 
 // Request type extensions are defined in src/types/express.d.ts
 
@@ -243,6 +244,78 @@ export const requireModeratorSession = requireAdminRole('MODERATOR', 'ADMIN', 'S
 export const requireEditorSession = requireAdminRole('EDITOR', 'MODERATOR', 'ADMIN', 'SUPER_ADMIN');
 
 /**
+ * JWT Authentication Middleware for API routes (alternative to authenticateToken)
+ */
+export const authenticateJWT = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+
+    if (!token) {
+      res.status(401).json({
+        success: false,
+        error: {
+          code: 'UNAUTHORIZED',
+          message: 'Access token required'
+        }
+      });
+      return;
+    }
+
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any;
+      
+      // Get user from database to ensure they still exist and are active
+      const user = await authService.getUserById(decoded.userId);
+      
+      if (!user || !user.isActive) {
+        res.status(401).json({
+          success: false,
+          error: {
+            code: 'UNAUTHORIZED',
+            message: 'Invalid or inactive user'
+          }
+        });
+        return;
+      }
+
+      // Attach user info to request
+      req.user = {
+        id: user.id.toString(),
+        email: user.email,
+        role: user.role,
+        firstName: user.firstName || undefined,
+        lastName: user.lastName || undefined,
+      };
+
+      next();
+    } catch (error) {
+      logger.error('JWT verification failed', { error });
+      res.status(401).json({
+        success: false,
+        error: {
+          code: 'UNAUTHORIZED',
+          message: 'Invalid or expired token'
+        }
+      });
+    }
+  } catch (error) {
+    logger.error('Authentication middleware error', { error });
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'INTERNAL_ERROR',
+        message: 'Authentication error'
+      }
+    });
+  }
+};
+
+/**
  * Check if user owns resource (for user-specific operations)
  */
 export const requireOwnership = (userIdParam = 'userId') => {
@@ -290,6 +363,11 @@ export const rateLimitAuth = (req: Request, res: Response, next: NextFunction): 
   // You could implement additional rate limiting here if needed
   next();
 };
+
+/**
+ * Alias for requireRole for compatibility
+ */
+export const authorizeRoles = requireRole;
 
 export default {
   authenticateToken,

@@ -47,4 +47,17 @@ interface SessionData {
   };
 }
 
+// Extended request type for authenticated routes
+import { Request } from 'express';
+
+export interface AuthRequest extends Request {
+  user: {
+    id: string;
+    email: string;
+    role: string;
+    firstName?: string;
+    lastName?: string;
+  };
+}
+
 export {};

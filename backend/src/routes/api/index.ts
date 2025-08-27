@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import { apiRateLimit } from '@/middleware/security.middleware';
 
-// Import API route modules (for future use)
-// import authRoutes from './auth.routes';
-// import usersRoutes from './users.routes';
-// import publicRoutes from './public.routes';
+// Import API route modules
+import authRoutes from './auth.routes';
+import usersRoutes from './users.routes';
+import publicRoutes from './public.routes';
+import directorsRoutes from './directors.routes';
 
 const router: Router = Router();
 
@@ -57,10 +58,11 @@ router.get('/', (req, res) => {
   });
 });
 
-// API routes (to be implemented)
-// router.use('/auth', authRoutes);
-// router.use('/users', usersRoutes);
-// router.use('/public', publicRoutes);
+// API routes
+router.use('/auth', authRoutes);
+router.use('/users', usersRoutes);
+router.use('/public', publicRoutes);
+router.use('/', directorsRoutes); // Directors routes include both /public and /admin paths
 
 // API 404 handler
 router.use('*', (req, res) => {

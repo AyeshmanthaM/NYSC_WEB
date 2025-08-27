@@ -98,4 +98,4 @@ uploads/
 .cache/
 
 # login page auto build file base 
-/public/admin-spa/
+/public/

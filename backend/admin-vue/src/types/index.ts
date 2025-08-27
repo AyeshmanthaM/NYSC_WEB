@@ -62,6 +62,7 @@ export interface UserFilters {
 export interface PaginatedResponse<T> {
   items: T[]
   page: number
+  limit: number
   totalPages: number
   total: number
   hasNext: boolean
@@ -91,3 +92,145 @@ export interface DashboardStats {
   totalContent: number
   recentActivity: ActivityLog[]
 }
+
+// Directors & Profiles Type Definitions
+
+export interface BaseDirector {
+  id: string
+  name: string
+  position: string
+  email: string
+  phone: string
+  image?: string
+  linkedin?: string
+  isActive: boolean
+  order: number
+  createdAt: string
+  updatedAt: string
+  updatedBy?: string
+}
+
+export interface Chairman extends BaseDirector {
+  title: string
+  description: string
+  tenure?: string
+  qualifications?: any[]
+  achievements?: any[]
+  vision?: string
+  keyInitiatives?: any[]
+}
+
+export interface BoardMember extends BaseDirector {
+  description: string
+  badge?: string
+}
+
+export interface Director extends BaseDirector {
+  department: string
+  description: string
+  specialization?: string
+  experience?: string
+  achievements?: any[]
+}
+
+export interface DeputyDirector extends BaseDirector {
+  department: string
+  description: string
+  specialization?: string
+  provinces?: string[]
+}
+
+export interface AssistantDirector extends BaseDirector {
+  department: string
+  region?: string
+  specialization?: string
+}
+
+export interface ProvincialDirector extends BaseDirector {
+  province: string
+  description: string
+  headquarters?: string
+  districts?: string[]
+  population?: string
+  centers?: number
+  achievements?: any[]
+}
+
+export interface ProvincialAssistant extends BaseDirector {
+  province: string
+  district: string
+  headquarters?: string
+  population?: string
+  centers?: number
+  specialization?: string
+}
+
+export interface YouthClubMember extends BaseDirector {
+  description: string
+  teamRole?: string
+  age?: number
+  skills?: string
+}
+
+export interface DirectorFilters {
+  search?: string
+  status?: 'active' | 'inactive' | 'all'
+  department?: string
+  province?: string
+  district?: string
+  sortBy?: string
+  sortOrder?: 'asc' | 'desc'
+  page?: number
+  limit?: number
+}
+
+export interface DirectorsOverview {
+  organizationStats: {
+    totalLeadership: number
+    provinces: number
+    districts: number
+    combinedExperience: string
+  }
+  hierarchy: {
+    boardMembers: number
+    chairman: number
+    directors: number
+    deputyDirectors: number
+    assistantDirectors: number
+    provincialDirectors: number
+    provincialAssistants: number
+    totalLevels: number
+  }
+  coverage: {
+    nationalReach: boolean
+    provincialCoverage: string
+    districtCoverage: string
+    youthCenters: string
+    annualBeneficiaries: string
+  }
+  keyFunctions: Array<{
+    level: string
+    function: string
+    description: string
+  }>
+}
+
+export type DirectorType = 
+  | 'chairman' 
+  | 'boardMember' 
+  | 'director' 
+  | 'deputyDirector' 
+  | 'assistantDirector' 
+  | 'provincialDirector' 
+  | 'provincialAssistant'
+  | 'youthClubMember'
+
+export type DirectorData = 
+  | Chairman 
+  | BoardMember 
+  | Director 
+  | DeputyDirector 
+  | AssistantDirector 
+  | ProvincialDirector 
+  | ProvincialAssistant
+  | YouthClubMember

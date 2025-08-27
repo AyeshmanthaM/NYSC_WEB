@@ -1,26 +1,26 @@
 <template>
-  <div class="card p-6">
-    <div class="flex items-center">
-      <div class="flex-shrink-0">
+  <div class="admin-stat-card">
+    <div class="admin-stat-content">
+      <div class="admin-stat-icon-wrapper">
         <div 
-          class="w-10 h-10 rounded-lg flex items-center justify-center"
+          class="admin-stat-icon-container"
           :class="iconBgClass"
         >
           <component 
             :is="iconComponent" 
-            class="w-5 h-5"
+            class="admin-stat-icon"
             :class="iconClass"
           />
         </div>
       </div>
-      <div class="ml-4 flex-1">
-        <div v-if="loading" class="animate-pulse">
-          <div class="h-4 bg-gray-200 rounded w-16 mb-1"></div>
-          <div class="h-6 bg-gray-200 rounded w-20"></div>
+      <div class="admin-stat-info">
+        <div v-if="loading" class="admin-stat-loading">
+          <div class="admin-stat-loading-title"></div>
+          <div class="admin-stat-loading-value"></div>
         </div>
         <div v-else>
-          <p class="text-sm text-gray-600">{{ title }}</p>
-          <p class="text-2xl font-bold text-gray-900">
+          <p class="admin-stat-title">{{ title }}</p>
+          <p class="admin-stat-value">
             {{ typeof value === 'number' ? formatNumber(value) : value }}
           </p>
         </div>
@@ -67,12 +67,12 @@ const iconComponent = computed(() => {
 
 const iconBgClass = computed(() => {
   const classes = {
-    blue: 'bg-blue-100',
-    green: 'bg-green-100',
-    purple: 'bg-purple-100',
-    emerald: 'bg-emerald-100',
-    yellow: 'bg-yellow-100',
-    red: 'bg-red-100'
+    blue: 'admin-stat-blue',
+    green: 'admin-stat-green',
+    purple: 'admin-stat-purple',
+    emerald: 'admin-stat-emerald',
+    yellow: 'admin-stat-yellow',
+    red: 'admin-stat-red'
   }
   return classes[props.color]
 })

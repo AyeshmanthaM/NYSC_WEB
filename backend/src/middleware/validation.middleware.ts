@@ -396,6 +396,11 @@ export const createValidationMiddleware = (validations: ValidationChain[]) => {
 };
 
 /**
+ * Alias for createValidationMiddleware for compatibility
+ */
+export const validateRequest = createValidationMiddleware;
+
+/**
  * Sanitization helpers
  */
 export const sanitizeHtml = (req: Request, res: Response, next: NextFunction) => {

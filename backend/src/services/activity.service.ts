@@ -318,4 +318,31 @@ export class ActivityService {
   }
 }
 
+// Compatibility method for directors controller
+const log = async (
+  userId: string,
+  action: string,
+  resource: string,
+  resourceId?: string,
+  metadata?: Record<string, any>,
+  ipAddress?: string,
+  userAgent?: string
+): Promise<void> => {
+  const activityService = new ActivityService();
+  await activityService.logActivity({
+    userId,
+    action,
+    resource,
+    resourceId,
+    metadata,
+    ipAddress,
+    userAgent
+  });
+};
+
+export const activityService = {
+  log,
+  ...new ActivityService()
+};
+
 export default new ActivityService();

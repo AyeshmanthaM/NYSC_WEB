@@ -4,6 +4,7 @@ import { Router } from 'express';
 import authRoutes from './auth.routes';
 import dashboardRoutes from './dashboard.routes';
 import userRoutes from './users.routes';
+import directorsRoutes from './directors.routes';
 
 // Import controllers for direct routes
 import adminAuthController from '@/controllers/admin/auth.controller';
@@ -123,5 +124,8 @@ router.use('/', dashboardRoutes);
 
 // User management routes (require ADMIN or SUPER_ADMIN role)
 router.use('/users', requireAdminSession, userRoutes);
+
+// Directors management routes (require EDITOR or higher role)
+router.use('/directors', directorsRoutes);
 
 export default router;

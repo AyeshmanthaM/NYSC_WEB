@@ -280,6 +280,390 @@ const swaggerOptions: swaggerJsdoc.Options = {
               }
             }
           }
+        },
+        // Directors schemas
+        ContactInfo: {
+          type: 'object',
+          properties: {
+            email: {
+              type: 'string',
+              format: 'email',
+              pattern: '^[a-zA-Z0-9._%+-]+@nysc\\.lk$',
+              example: 'director@nysc.lk'
+            },
+            phone: {
+              type: 'string',
+              pattern: '^\\+94 \\d{2} \\d{3} \\d{4}$',
+              example: '+94 11 234 5678'
+            },
+            linkedin: {
+              type: 'string',
+              format: 'uri',
+              example: 'https://linkedin.com/in/profile'
+            }
+          }
+        },
+        Chairman: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+              example: 'Hon. Pavithra Wanniarachchi'
+            },
+            title: {
+              type: 'string',
+              example: 'Chairman / Director General'
+            },
+            description: {
+              type: 'string',
+              example: 'Visionary leader with over 25 years of experience in youth development.'
+            },
+            image: {
+              type: 'string',
+              example: '/images/board/chairman.jpg'
+            },
+            contact: {
+              $ref: '#/components/schemas/ContactInfo'
+            },
+            tenure: {
+              type: 'string',
+              example: '2021 - Present'
+            },
+            qualifications: {
+              type: 'array',
+              items: {
+                type: 'string'
+              },
+              example: [
+                'Master of Public Administration - University of Colombo',
+                'Bachelor of Arts - University of Peradeniya'
+              ]
+            },
+            achievements: {
+              type: 'array',
+              items: {
+                type: 'string'
+              },
+              example: [
+                'Established 50+ new youth centers across Sri Lanka',
+                'Launched National Youth Skills Development Program'
+              ]
+            },
+            vision: {
+              type: 'string',
+              example: 'To create a vibrant ecosystem where every young person in Sri Lanka has access to opportunities.'
+            },
+            keyInitiatives: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  title: { type: 'string' },
+                  description: { type: 'string' }
+                }
+              }
+            }
+          }
+        },
+        BoardMember: {
+          type: 'object',
+          properties: {
+            id: {
+              type: 'integer',
+              example: 1
+            },
+            name: {
+              type: 'string',
+              example: 'Dr. John Doe'
+            },
+            position: {
+              type: 'string',
+              example: 'Board Member - Education Specialist'
+            },
+            description: {
+              type: 'string',
+              example: 'Distinguished educator with 30 years of experience.'
+            },
+            image: {
+              type: 'string',
+              example: '/images/board/member1.jpg'
+            },
+            contact: {
+              $ref: '#/components/schemas/ContactInfo'
+            },
+            badge: {
+              type: 'string',
+              enum: ['Chairman', 'Member', 'Secretary', 'Treasurer', 'Vice Chairman'],
+              example: 'Member'
+            }
+          }
+        },
+        Director: {
+          type: 'object',
+          properties: {
+            id: {
+              type: 'integer',
+              example: 1
+            },
+            name: {
+              type: 'string',
+              example: 'Dr. Manjula Perera'
+            },
+            position: {
+              type: 'string',
+              example: 'Director - Programs & Development'
+            },
+            department: {
+              type: 'string',
+              example: 'Programs & Development'
+            },
+            description: {
+              type: 'string',
+              example: 'Strategic leader overseeing all youth development programs.'
+            },
+            image: {
+              type: 'string',
+              example: '/images/directors/director1.jpg'
+            },
+            contact: {
+              $ref: '#/components/schemas/ContactInfo'
+            },
+            specialization: {
+              type: 'string',
+              example: 'Youth Development'
+            },
+            experience: {
+              type: 'string',
+              example: '18 years'
+            },
+            achievements: {
+              type: 'array',
+              items: {
+                type: 'string'
+              }
+            }
+          }
+        },
+        DeputyDirector: {
+          type: 'object',
+          properties: {
+            id: {
+              type: 'integer',
+              example: 1
+            },
+            name: {
+              type: 'string',
+              example: 'Mrs. Chamari Jayasekara'
+            },
+            position: {
+              type: 'string',
+              example: 'Deputy Director - Programs'
+            },
+            department: {
+              type: 'string',
+              example: 'Programs & Development'
+            },
+            description: {
+              type: 'string',
+              example: 'Program management specialist ensuring effective implementation.'
+            },
+            contact: {
+              type: 'object',
+              properties: {
+                email: { type: 'string', format: 'email' },
+                phone: { type: 'string' }
+              }
+            },
+            specialization: {
+              type: 'string',
+              example: 'Program Management'
+            },
+            provinces: {
+              type: 'array',
+              items: {
+                type: 'string',
+                enum: ['Western', 'Central', 'Southern', 'Northern', 'Eastern', 'North Western', 'North Central', 'Uva', 'Sabaragamuwa']
+              }
+            }
+          }
+        },
+        AssistantDirector: {
+          type: 'object',
+          properties: {
+            id: {
+              type: 'integer',
+              example: 1
+            },
+            name: {
+              type: 'string',
+              example: 'Ms. Ruvini Jayasinghe'
+            },
+            position: {
+              type: 'string',
+              example: 'Assistant Director - Youth Programs'
+            },
+            department: {
+              type: 'string',
+              example: 'Programs & Development'
+            },
+            region: {
+              type: 'string',
+              example: 'Western Province'
+            },
+            specialization: {
+              type: 'string',
+              example: 'Program Coordination'
+            },
+            contact: {
+              type: 'object',
+              properties: {
+                email: { type: 'string', format: 'email' },
+                phone: { type: 'string' }
+              }
+            }
+          }
+        },
+        ProvincialDirector: {
+          type: 'object',
+          properties: {
+            id: {
+              type: 'integer',
+              example: 1
+            },
+            name: {
+              type: 'string',
+              example: 'Mr. Ajith Ratnayake'
+            },
+            position: {
+              type: 'string',
+              example: 'Provincial Director - Western Province'
+            },
+            province: {
+              type: 'string',
+              example: 'Western'
+            },
+            headquarters: {
+              type: 'string',
+              example: 'Colombo'
+            },
+            districts: {
+              type: 'array',
+              items: {
+                type: 'string'
+              },
+              example: ['Colombo', 'Gampaha', 'Kalutara']
+            },
+            population: {
+              type: 'string',
+              example: '5.8M'
+            },
+            centers: {
+              type: 'integer',
+              example: 45
+            },
+            description: {
+              type: 'string',
+              example: 'Leading youth development initiatives in the most populous province.'
+            },
+            contact: {
+              type: 'object',
+              properties: {
+                email: { type: 'string', format: 'email' },
+                phone: { type: 'string' }
+              }
+            },
+            achievements: {
+              type: 'array',
+              items: {
+                type: 'string'
+              }
+            }
+          }
+        },
+        ProvincialAssistant: {
+          type: 'object',
+          properties: {
+            id: {
+              type: 'integer',
+              example: 1
+            },
+            name: {
+              type: 'string',
+              example: 'Ms. Rashika Perera'
+            },
+            position: {
+              type: 'string',
+              example: 'Provincial Assistant Director'
+            },
+            province: {
+              type: 'string',
+              example: 'Western'
+            },
+            district: {
+              type: 'string',
+              example: 'Colombo'
+            },
+            headquarters: {
+              type: 'string',
+              example: 'Colombo'
+            },
+            population: {
+              type: 'string',
+              example: '2.3M'
+            },
+            centers: {
+              type: 'integer',
+              example: 18
+            },
+            contact: {
+              type: 'object',
+              properties: {
+                email: { type: 'string', format: 'email' },
+                phone: { type: 'string' }
+              }
+            },
+            specialization: {
+              type: 'string',
+              example: 'Urban Programs'
+            }
+          }
+        },
+        DirectorsOverview: {
+          type: 'object',
+          properties: {
+            organizationStats: {
+              type: 'object',
+              properties: {
+                totalLeadership: { type: 'integer', example: 83 },
+                provinces: { type: 'integer', example: 9 },
+                districts: { type: 'integer', example: 25 },
+                combinedExperience: { type: 'string', example: '500+' }
+              }
+            },
+            hierarchy: {
+              type: 'object',
+              properties: {
+                boardMembers: { type: 'integer' },
+                chairman: { type: 'integer' },
+                directors: { type: 'integer' },
+                deputyDirectors: { type: 'integer' },
+                assistantDirectors: { type: 'integer' },
+                provincialDirectors: { type: 'integer' },
+                provincialAssistants: { type: 'integer' },
+                totalLevels: { type: 'integer', example: 6 }
+              }
+            },
+            coverage: {
+              type: 'object',
+              properties: {
+                nationalReach: { type: 'boolean', example: true },
+                provincialCoverage: { type: 'string', example: '100%' },
+                districtCoverage: { type: 'string', example: '100%' },
+                youthCenters: { type: 'string', example: '240+' },
+                annualBeneficiaries: { type: 'string', example: '500K+' }
+              }
+            }
+          }
         }
       },
       parameters: {
@@ -423,7 +807,89 @@ const swaggerOptions: swaggerJsdoc.Options = {
               }
             }
           }
+        },
+
+        // Error Response Schemas
+        ErrorResponse: {
+          type: 'object',
+          properties: {
+            success: {
+              type: 'boolean',
+              example: false
+            },
+            error: {
+              type: 'string',
+              example: 'Resource not found'
+            },
+            message: {
+              type: 'string',
+              example: 'The requested resource could not be found'
+            }
+          }
+        },
+
+        ValidationErrorResponse: {
+          type: 'object',
+          properties: {
+            success: {
+              type: 'boolean',
+              example: false
+            },
+            error: {
+              type: 'string',
+              example: 'Validation failed'
+            },
+            message: {
+              type: 'string',
+              example: 'Input validation failed'
+            },
+            details: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  field: {
+                    type: 'string',
+                    example: 'email'
+                  },
+                  message: {
+                    type: 'string',
+                    example: 'Invalid email format'
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        PaginationResponse: {
+          type: 'object',
+          properties: {
+            page: {
+              type: 'number',
+              example: 1
+            },
+            limit: {
+              type: 'number',
+              example: 10
+            },
+            total: {
+              type: 'number',
+              example: 100
+            },
+            pages: {
+              type: 'number',
+              example: 10
+            }
+          }
         }
+      }
+    },
+    securitySchemes: {
+      bearerAuth: {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT'
       }
     },
     tags: [
@@ -442,6 +908,14 @@ const swaggerOptions: swaggerJsdoc.Options = {
       {
         name: 'Dashboard',
         description: 'Dashboard and statistics'
+      },
+      {
+        name: 'Directors',
+        description: 'Directors and leadership management'
+      },
+      {
+        name: 'Public Directors',
+        description: 'Public access to directors information'
       },
       {
         name: 'Health',
