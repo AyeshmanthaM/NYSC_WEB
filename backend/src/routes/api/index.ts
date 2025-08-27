@@ -11,7 +11,40 @@ const router: Router = Router();
 // Apply API rate limiting to all API routes
 router.use(apiRateLimit);
 
-// API info endpoint
+/**
+ * @swagger
+ * /api:
+ *   get:
+ *     summary: Get API information
+ *     description: Returns basic information about the API including version, environment, and current timestamp
+ *     tags: [Public API]
+ *     responses:
+ *       200:
+ *         description: API information retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     name:
+ *                       type: string
+ *                       example: NYSC Sri Lanka Admin API
+ *                     version:
+ *                       type: string
+ *                       example: 1.0.0
+ *                     environment:
+ *                       type: string
+ *                       example: development
+ *                     timestamp:
+ *                       type: string
+ *                       format: date-time
+ */
 router.get('/', (req, res) => {
   res.json({
     success: true,

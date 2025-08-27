@@ -9,7 +9,33 @@ const prisma = new PrismaClient();
  * Dashboard API routes for Vue SPA
  */
 
-// Get dashboard statistics
+/**
+ * @swagger
+ * /admin/api/stats:
+ *   get:
+ *     summary: Get dashboard statistics
+ *     description: Retrieve dashboard statistics including counts of users, news, events, and programs
+ *     tags: [Dashboard]
+ *     security:
+ *       - sessionAuth: []
+ *     responses:
+ *       200:
+ *         description: Statistics retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   $ref: '#/components/schemas/DashboardStats'
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
 router.get('/stats', asyncHandler(async (req: Request, res: Response) => {
   const [
     totalUsers,

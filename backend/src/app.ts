@@ -33,6 +33,10 @@ import apiRoutes from '@/routes/api';
 
 // Import configuration
 import { logger } from '@/config/logger';
+import swaggerSpec from '@/config/swagger';
+
+// Import Swagger UI
+import swaggerUi from 'swagger-ui-express';
 
 // Type definitions are in src/types/express.d.ts
 
@@ -128,7 +132,35 @@ app.use('/assets', express.static(publicPath));
 // Security audit logging
 app.use(securityAuditLog);
 
-// Health check endpoint
+/**
+ * @swagger
+ * /health:
+ *   get:
+ *     summary: Health check
+ *     description: Check if the API is running and get basic system information
+ *     tags: [Health]
+ *     responses:
+ *       200:
+ *         description: Service is healthy
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: OK
+ *                 timestamp:
+ *                   type: string
+ *                   format: date-time
+ *                 environment:
+ *                   type: string
+ *                   example: development
+ *                 uptime:
+ *                   type: number
+ *                   description: Server uptime in seconds
+ *                   example: 1234.56
+ */
 app.get('/health', (req, res) => {
   res.json({
     status: 'OK',
@@ -137,6 +169,23 @@ app.get('/health', (req, res) => {
     uptime: process.uptime(),
   });
 });
+
+// Swagger UI documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  customCss: '.swagger-ui .topbar { display: none }',
+  customSiteTitle: 'NYSC Sri Lanka API Documentation',
+  customfavIcon: '/assets/favicon.ico',
+  swaggerOptions: {
+    persistAuthorization: true,
+    displayRequestDuration: true,
+    docExpansion: 'none',
+    filter: true,
+    showExtensions: true,
+    showCommonExtensions: true,
+    tagsSorter: 'alpha',
+    operationsSorter: 'alpha'
+  }
+}));
 
 // Serve Vue.js admin SPA static files BEFORE API routes to avoid conflicts
 const adminSpaPath = process.env.NODE_ENV === 'production'
