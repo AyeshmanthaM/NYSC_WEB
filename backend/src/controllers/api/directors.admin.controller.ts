@@ -2,10 +2,10 @@ import { Request, Response } from 'express';
 import { directorsService, PaginationParams } from '@/services/directors.service';
 import { asyncHandler } from '@/middleware/error.middleware';
 import { activityService } from '@/services/activity.service';
+import { uploadService } from '@/services/upload.service';
 import { AuthRequest } from '@/types/express';
 import multer from 'multer';
 import path from 'path';
-import fs from 'fs/promises';
 
 // Helper function to extract pagination params from request
 const getPaginationParams = (req: Request): PaginationParams => {
@@ -36,6 +36,38 @@ export const getChairman = asyncHandler(async (req: AuthRequest, res: Response) 
     success: true,
     data: chairman
   });
+});
+
+export const createChairman = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const updatedBy = req.user?.email || 'system';
+  
+  try {
+    const chairman = await directorsService.createChairman(req.body, updatedBy);
+
+    // Log activity
+    await activityService.log(req.user!.id, 'CREATE', 'CHAIRMAN', chairman.id, {
+      data: req.body
+    });
+
+    res.status(201).json({
+      success: true,
+      data: chairman,
+      message: 'Chairman created successfully'
+    });
+  } catch (error) {
+    if (error instanceof Error && (
+      error.message.includes('required') || 
+      error.message.includes('already exists')
+    )) {
+      res.status(400).json({
+        success: false,
+        error: 'Validation Error',
+        message: error.message
+      });
+      return;
+    }
+    throw error;
+  }
 });
 
 export const updateChairman = asyncHandler(async (req: AuthRequest, res: Response) => {
@@ -604,21 +636,11 @@ export const deleteProvincialAssistant = asyncHandler(async (req: AuthRequest, r
 });
 
 // Image Upload Configuration
-const storage = multer.diskStorage({
-  destination: async (req, file, cb) => {
-    const uploadPath = path.join(process.cwd(), 'public', 'images', 'directors');
-    await fs.mkdir(uploadPath, { recursive: true });
-    cb(null, uploadPath);
-  },
-  filename: (req, file, cb) => {
-    const uniqueName = `director-${Date.now()}-${Math.round(Math.random() * 1E9)}${path.extname(file.originalname)}`;
-    cb(null, uniqueName);
-  }
-});
-
 const upload = multer({
-  storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+  storage: multer.memoryStorage(), // Store in memory so we can use upload service
+  limits: { 
+    fileSize: parseInt(process.env.MAX_FILE_SIZE || '10485760') // Use env variable with fallback
+  },
   fileFilter: (req, file, cb) => {
     const allowedTypes = /jpeg|jpg|png|webp/;
     const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
@@ -646,26 +668,116 @@ export const uploadDirectorImage: any[] = [
     }
 
     const { type, id } = req.params;
-    const imageUrl = `/images/directors/${req.file.filename}`;
     const updatedBy = req.user?.email || 'system';
 
-    // Update the appropriate director type with the new image URL
-    let result;
+    try {
+      // Upload file using upload service
+      const uploadResult = await uploadService.uploadFile(req.file, {
+        directory: 'directors',
+        prefix: type,
+        allowedTypes: ['jpg', 'jpeg', 'png', 'webp'],
+        maxSize: 5 * 1024 * 1024 // 5MB for images
+      });
+
+      // Update the appropriate director type with the new image URL
+      let result;
+      switch (type) {
+        case 'chairman':
+          try {
+            result = await directorsService.updateChairman({ image: uploadResult.url }, updatedBy);
+          } catch (error) {
+            if (error instanceof Error && error.message.includes('required when creating')) {
+              res.status(400).json({
+                success: false,
+                error: 'Chairman record not found',
+                message: 'Cannot upload image for chairman. Please create chairman profile first with basic information (name, description, email, phone).'
+              });
+              return;
+            }
+            throw error;
+          }
+          break;
+        case 'board-member':
+          result = await directorsService.updateBoardMember(id, { image: uploadResult.url }, updatedBy);
+          break;
+        case 'director':
+          result = await directorsService.updateDirector(id, { image: uploadResult.url }, updatedBy);
+          break;
+        case 'deputy-director':
+          result = await directorsService.updateDeputyDirector(id, { image: uploadResult.url }, updatedBy);
+          break;
+        case 'provincial-director':
+          result = await directorsService.updateProvincialDirector(id, { image: uploadResult.url }, updatedBy);
+          break;
+        default:
+          res.status(400).json({
+            success: false,
+            error: 'Invalid director type',
+            message: 'Invalid director type specified'
+          });
+          return;
+      }
+
+      // Log activity with comprehensive upload details
+      await activityService.log(req.user!.id, 'UPDATE', type.toUpperCase(), id || 'chairman', {
+        action: 'image_upload',
+        uploadDetails: {
+          originalFilename: uploadResult.originalFilename,
+          storedFilename: uploadResult.filename,
+          imageUrl: uploadResult.url,
+          fileSize: uploadResult.size,
+          mimetype: uploadResult.mimetype,
+          uploadedAt: uploadResult.uploadedAt
+        }
+      });
+
+      // Clear cache
+      await directorsService.clearCache();
+
+      res.json({
+        success: true,
+        data: {
+          imageUrl: uploadResult.url,
+          originalFilename: uploadResult.originalFilename,
+          filename: uploadResult.filename,
+          size: uploadResult.size,
+          uploadedAt: uploadResult.uploadedAt
+        },
+        message: 'Image uploaded successfully'
+      });
+    } catch (error) {
+      res.status(400).json({
+        success: false,
+        error: 'Upload failed',
+        message: error instanceof Error ? error.message : 'Unknown upload error'
+      });
+    }
+  })
+];
+
+// Delete Director Image
+export const deleteDirectorImage = asyncHandler(async (req: AuthRequest, res: Response) => {
+  const { type, id } = req.params;
+  const updatedBy = req.user?.email || 'system';
+
+  try {
+    // First get the current image URL to delete the file
+    let currentData;
     switch (type) {
       case 'chairman':
-        result = await directorsService.updateChairman({ image: imageUrl }, updatedBy);
+        currentData = await directorsService.getChairman(false);
         break;
       case 'board-member':
-        result = await directorsService.updateBoardMember(id, { image: imageUrl }, updatedBy);
+        currentData = await directorsService.getBoardMemberById(id);
         break;
       case 'director':
-        result = await directorsService.updateDirector(id, { image: imageUrl }, updatedBy);
+        currentData = await directorsService.getDirectorById(id);
         break;
       case 'deputy-director':
-        result = await directorsService.updateDeputyDirector(id, { image: imageUrl }, updatedBy);
+        currentData = await directorsService.getDeputyDirectorById(id);
         break;
       case 'provincial-director':
-        result = await directorsService.updateProvincialDirector(id, { image: imageUrl }, updatedBy);
+        currentData = await directorsService.getProvincialDirectorById(id);
         break;
       default:
         res.status(400).json({
@@ -676,10 +788,48 @@ export const uploadDirectorImage: any[] = [
         return;
     }
 
+    // Delete physical file if image exists
+    let deletedFilePath: string | null = null;
+    if (currentData && currentData.image) {
+      try {
+        // Extract file path from URL (assuming URL format is /uploads/directors/filename.ext)
+        const urlPath = currentData.image;
+        if (urlPath.startsWith('/uploads/')) {
+          const filePath = urlPath.replace('/uploads/', 'uploads/');
+          await uploadService.deleteFile(filePath);
+          deletedFilePath = filePath;
+        }
+      } catch (deleteError) {
+        // Log the error but don't fail the operation
+        console.warn('Failed to delete physical file:', deleteError);
+      }
+    }
+
+    // Update the appropriate director type to remove the image
+    let result;
+    switch (type) {
+      case 'chairman':
+        result = await directorsService.updateChairman({ image: undefined }, updatedBy);
+        break;
+      case 'board-member':
+        result = await directorsService.updateBoardMember(id, { image: undefined }, updatedBy);
+        break;
+      case 'director':
+        result = await directorsService.updateDirector(id, { image: undefined }, updatedBy);
+        break;
+      case 'deputy-director':
+        result = await directorsService.updateDeputyDirector(id, { image: undefined }, updatedBy);
+        break;
+      case 'provincial-director':
+        result = await directorsService.updateProvincialDirector(id, { image: undefined }, updatedBy);
+        break;
+    }
+
     // Log activity
     await activityService.log(req.user!.id, 'UPDATE', type.toUpperCase(), id || 'chairman', {
-      action: 'image_upload',
-      imageUrl
+      action: 'image_delete',
+      deletedFilePath,
+      previousImageUrl: currentData?.image
     });
 
     // Clear cache
@@ -687,56 +837,15 @@ export const uploadDirectorImage: any[] = [
 
     res.json({
       success: true,
-      data: { imageUrl },
-      message: 'Image uploaded successfully'
+      message: 'Image deleted successfully'
     });
-  })
-];
-
-// Delete Director Image
-export const deleteDirectorImage = asyncHandler(async (req: AuthRequest, res: Response) => {
-  const { type, id } = req.params;
-  const updatedBy = req.user?.email || 'system';
-
-  // Update the appropriate director type to remove the image
-  let result;
-  switch (type) {
-    case 'chairman':
-      result = await directorsService.updateChairman({ image: undefined }, updatedBy);
-      break;
-    case 'board-member':
-      result = await directorsService.updateBoardMember(id, { image: undefined }, updatedBy);
-      break;
-    case 'director':
-      result = await directorsService.updateDirector(id, { image: undefined }, updatedBy);
-      break;
-    case 'deputy-director':
-      result = await directorsService.updateDeputyDirector(id, { image: undefined }, updatedBy);
-      break;
-    case 'provincial-director':
-      result = await directorsService.updateProvincialDirector(id, { image: undefined }, updatedBy);
-      break;
-    default:
-      res.status(400).json({
-        success: false,
-        error: 'Invalid director type',
-        message: 'Invalid director type specified'
-      });
-      return;
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: 'Delete failed',
+      message: error instanceof Error ? error.message : 'Unknown delete error'
+    });
   }
-
-  // Log activity
-  await activityService.log(req.user!.id, 'UPDATE', type.toUpperCase(), id || 'chairman', {
-    action: 'image_delete'
-  });
-
-  // Clear cache
-  await directorsService.clearCache();
-
-  res.json({
-    success: true,
-    message: 'Image deleted successfully'
-  });
 });
 
 // Directors Overview

@@ -66,24 +66,87 @@ class DirectorsService {
     return chairman;
   }
 
+  async createChairman(data: DirectorData, updatedBy: string) {
+    // Validate required fields
+    if (!data.name) {
+      throw new Error('Chairman name is required');
+    }
+    if (!data.description) {
+      throw new Error('Chairman description is required');
+    }
+    if (!data.email) {
+      throw new Error('Chairman email is required');
+    }
+    if (!data.phone) {
+      throw new Error('Chairman phone is required');
+    }
+
+    // Check if chairman already exists
+    const existingChairman = await prisma.chairman.findFirst({
+      where: { isActive: true }
+    });
+
+    if (existingChairman) {
+      throw new Error('Chairman already exists. Use update method instead.');
+    }
+
+    const chairman = await prisma.chairman.create({
+      data: {
+        name: data.name,
+        title: data.title || 'Chairman / Director General',
+        description: data.description,
+        email: data.email,
+        phone: data.phone,
+        image: data.image,
+        linkedin: data.linkedin,
+        tenure: data.tenure,
+        qualifications: data.qualifications || [],
+        achievements: data.achievements || [],
+        vision: data.vision,
+        keyInitiatives: data.keyInitiatives || [],
+        updatedBy
+      }
+    });
+
+    // Clear cache
+    await this.clearCache();
+    
+    return chairman;
+  }
+
   async updateChairman(data: Partial<DirectorData>, updatedBy: string) {
     const chairman = await prisma.chairman.findFirst({
       where: { isActive: true }
     });
 
     if (chairman) {
+      // Update existing chairman
       return await prisma.chairman.update({
         where: { id: chairman.id },
         data: { ...data, updatedBy }
       });
     } else {
+      // Create new chairman - ensure required fields are present
+      if (!data.name) {
+        throw new Error('Chairman name is required when creating a new chairman record');
+      }
+      if (!data.description) {
+        throw new Error('Chairman description is required when creating a new chairman record');
+      }
+      if (!data.email) {
+        throw new Error('Chairman email is required when creating a new chairman record');
+      }
+      if (!data.phone) {
+        throw new Error('Chairman phone is required when creating a new chairman record');
+      }
+
       return await prisma.chairman.create({
         data: {
-          name: data.name!,
+          name: data.name,
           title: data.title || 'Chairman / Director General',
-          description: data.description!,
-          email: data.email!,
-          phone: data.phone!,
+          description: data.description,
+          email: data.email,
+          phone: data.phone,
           image: data.image,
           linkedin: data.linkedin,
           tenure: data.tenure,

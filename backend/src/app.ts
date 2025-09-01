@@ -129,6 +129,18 @@ const publicPath = process.env.NODE_ENV === 'production'
 app.use('/admin/assets', express.static(publicPath));
 app.use('/assets', express.static(publicPath));
 
+// Serve uploaded files
+const uploadsPath = path.resolve(process.cwd(), process.env.UPLOAD_DIR || 'uploads');
+app.use('/uploads', express.static(uploadsPath, {
+  setHeaders: (res, path) => {
+    // Set appropriate headers for different file types
+    if (path.endsWith('.jpg') || path.endsWith('.jpeg') || path.endsWith('.png') || path.endsWith('.gif') || path.endsWith('.webp')) {
+      res.set('Cache-Control', 'public, max-age=86400'); // Cache images for 1 day
+    }
+    res.set('X-Content-Type-Options', 'nosniff');
+  }
+}));
+
 // Security audit logging
 app.use(securityAuditLog);
 

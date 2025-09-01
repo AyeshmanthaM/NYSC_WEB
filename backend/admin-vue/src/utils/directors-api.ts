@@ -294,7 +294,7 @@ export const youthClubApi = {
 // =============================
 
 export const imageUploadApi = {
-  async uploadImage(file: File, directorType: DirectorType, directorId?: string): Promise<{ url: string }> {
+  async uploadImage(file: File, directorType: DirectorType, directorId?: string): Promise<{ url: string; fileId: string }> {
     const formData = new FormData()
     formData.append('image', file)
     if (directorId) {
@@ -307,11 +307,15 @@ export const imageUploadApi = {
       }
     })
     
-    return handleApiResponse<{ url: string }>(response)
+    return handleApiResponse<{ url: string; fileId: string }>(response)
   },
 
   async deleteImage(directorType: DirectorType, directorId: string): Promise<void> {
     await directorsApi.delete(`/${directorType}/${directorId}/image`)
+  },
+
+  async deleteUploadedImage(fileId: string): Promise<void> {
+    await directorsApi.delete(`/uploads/${fileId}`)
   }
 }
 

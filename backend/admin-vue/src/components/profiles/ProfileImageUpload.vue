@@ -46,8 +46,13 @@
           {{ error }}
         </div>
         
-        <div v-else-if="!currentImage" class="text-sm text-gray-500">
+        <div v-else-if="!currentImage && !uploadedFileId" class="text-sm text-gray-500">
           No profile image uploaded
+        </div>
+        
+        <div v-else-if="uploadedFileId" class="text-sm text-green-600 flex items-center">
+          <CheckCircle class="w-4 h-4 mr-2" />
+          File ID: <span class="ml-1 font-mono text-green-700">{{ uploadedFileId }}</span>
         </div>
         
         <div v-else class="text-sm text-green-600 flex items-center">
@@ -78,16 +83,7 @@
             class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Upload class="w-4 h-4 mr-2" />
-            Choose Image
-          </button>
-          
-          <button
-            v-if="selectedFile && !uploading"
-            @click="uploadImage"
-            class="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 text-sm font-medium"
-          >
-            <Save class="w-4 h-4 mr-2" />
-            Upload
+            {{ uploading ? 'Uploading...' : 'Choose & Upload Image' }}
           </button>
         </div>
       </div>
@@ -141,7 +137,7 @@ interface Props {
 const props = defineProps<Props>()
 
 const emit = defineEmits<{
-  uploaded: [url: string]
+  uploaded: [data: { url: string; fileId: string }]
   removed: []
   error: [message: string]
 }>()
@@ -152,12 +148,13 @@ const previewImage = ref<string>()
 const uploading = ref(false)
 const uploadProgress = ref(0)
 const error = ref<string>()
+const uploadedFileId = ref<string>()
 
 const triggerFileInput = () => {
   fileInput.value?.click()
 }
 
-const handleFileSelect = (event: Event) => {
+const handleFileSelect = async (event: Event) => {
   const file = (event.target as HTMLInputElement).files?.[0]
   if (!file) return
 
@@ -167,6 +164,9 @@ const handleFileSelect = (event: Event) => {
   selectedFile.value = file
   createPreview(file)
   error.value = undefined
+
+  // Auto-upload immediately after selection
+  await uploadImage()
 }
 
 const validateFile = (file: File): boolean => {
@@ -217,7 +217,10 @@ const uploadImage = async () => {
     clearInterval(progressInterval)
     uploadProgress.value = 100
 
-    emit('uploaded', result.url)
+    // Store the file ID for display
+    uploadedFileId.value = result.fileId
+
+    emit('uploaded', { url: result.url, fileId: result.fileId })
     clearSelection()
     
   } catch (err: any) {

@@ -4,6 +4,7 @@ import { validateRequest } from '@/middleware/validation.middleware';
 import {
   // Chairman Management
   getChairman,
+  createChairman,
   updateChairman,
   
   // Board Members Management
@@ -194,6 +195,62 @@ router.get('/chairman', getChairman);
 /**
  * @swagger
  * /admin/api/directors/chairman:
+ *   post:
+ *     summary: Create chairman information
+ *     tags: [Directors Management]
+ *     security:
+ *       - sessionAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - description
+ *               - email
+ *               - phone
+ *             properties:
+ *               name:
+ *                 type: string
+ *               title:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               phone:
+ *                 type: string
+ *               linkedin:
+ *                 type: string
+ *               tenure:
+ *                 type: string
+ *               vision:
+ *                 type: string
+ *               qualifications:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               achievements:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               keyInitiatives:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *     responses:
+ *       201:
+ *         description: Chairman created successfully
+ *       400:
+ *         description: Validation error or chairman already exists
+ */
+router.post('/chairman', validateRequest(chairmanValidation), createChairman);
+
+/**
+ * @swagger
+ * /admin/api/directors/chairman:
  *   put:
  *     summary: Update chairman information
  *     tags: [Directors Management]
@@ -216,11 +273,29 @@ router.get('/chairman', getChairman);
  *                 type: string
  *               phone:
  *                 type: string
+ *               linkedin:
+ *                 type: string
+ *               tenure:
+ *                 type: string
+ *               vision:
+ *                 type: string
+ *               qualifications:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               achievements:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               keyInitiatives:
+ *                 type: array
+ *                 items:
+ *                   type: string
  *     responses:
  *       200:
  *         description: Chairman information updated successfully
  */
-router.put('/chairman', chairmanValidation, validateRequest, updateChairman);
+router.put('/chairman', validateRequest(chairmanValidation), updateChairman);
 
 // =============================
 // IMAGE MANAGEMENT ROUTES
@@ -351,59 +426,59 @@ router.delete('/:type/:id/delete-image', deleteDirectorImage);
 // =============================
 
 router.get('/board-members', getBoardMembers);
-router.get('/board-members/:id', idValidation, validateRequest, getBoardMemberById);
-router.post('/board-members', boardMemberValidation, validateRequest, createBoardMember);
-router.put('/board-members/:id', idValidation.concat(boardMemberValidation), validateRequest, updateBoardMember);
-router.delete('/board-members/:id', idValidation, validateRequest, deleteBoardMember);
+router.get('/board-members/:id', validateRequest(idValidation), getBoardMemberById);
+router.post('/board-members', validateRequest(boardMemberValidation), createBoardMember);
+router.put('/board-members/:id', validateRequest(idValidation.concat(boardMemberValidation)), updateBoardMember);
+router.delete('/board-members/:id', validateRequest(idValidation), deleteBoardMember);
 
 // =============================
 // DIRECTORS ROUTES
 // =============================
 
 router.get('/directors', getDirectors);
-router.get('/directors/:id', idValidation, validateRequest, getDirectorById);
-router.post('/directors', directorValidation, validateRequest, createDirector);
-router.put('/directors/:id', idValidation.concat(directorValidation), validateRequest, updateDirector);
-router.delete('/directors/:id', idValidation, validateRequest, deleteDirector);
+router.get('/directors/:id', validateRequest(idValidation), getDirectorById);
+router.post('/directors', validateRequest(directorValidation), createDirector);
+router.put('/directors/:id', validateRequest(idValidation.concat(directorValidation)), updateDirector);
+router.delete('/directors/:id', validateRequest(idValidation), deleteDirector);
 
 // =============================
 // DEPUTY DIRECTORS ROUTES
 // =============================
 
 router.get('/deputy-directors', getDeputyDirectors);
-router.get('/deputy-directors/:id', idValidation, validateRequest, getDeputyDirectorById);
-router.post('/deputy-directors', deputyDirectorValidation, validateRequest, createDeputyDirector);
-router.put('/deputy-directors/:id', idValidation.concat(deputyDirectorValidation), validateRequest, updateDeputyDirector);
-router.delete('/deputy-directors/:id', idValidation, validateRequest, deleteDeputyDirector);
+router.get('/deputy-directors/:id', validateRequest(idValidation), getDeputyDirectorById);
+router.post('/deputy-directors', validateRequest(deputyDirectorValidation), createDeputyDirector);
+router.put('/deputy-directors/:id', validateRequest(idValidation.concat(deputyDirectorValidation)), updateDeputyDirector);
+router.delete('/deputy-directors/:id', validateRequest(idValidation), deleteDeputyDirector);
 
 // =============================
 // ASSISTANT DIRECTORS ROUTES
 // =============================
 
 router.get('/assistant-directors', getAssistantDirectors);
-router.get('/assistant-directors/:id', idValidation, validateRequest, getAssistantDirectorById);
-router.post('/assistant-directors', assistantDirectorValidation, validateRequest, createAssistantDirector);
-router.put('/assistant-directors/:id', idValidation.concat(assistantDirectorValidation), validateRequest, updateAssistantDirector);
-router.delete('/assistant-directors/:id', idValidation, validateRequest, deleteAssistantDirector);
+router.get('/assistant-directors/:id', validateRequest(idValidation), getAssistantDirectorById);
+router.post('/assistant-directors', validateRequest(assistantDirectorValidation), createAssistantDirector);
+router.put('/assistant-directors/:id', validateRequest(idValidation.concat(assistantDirectorValidation)), updateAssistantDirector);
+router.delete('/assistant-directors/:id', validateRequest(idValidation), deleteAssistantDirector);
 
 // =============================
 // PROVINCIAL DIRECTORS ROUTES
 // =============================
 
 router.get('/provincial-directors', getProvincialDirectors);
-router.get('/provincial-directors/:id', idValidation, validateRequest, getProvincialDirectorById);
-router.post('/provincial-directors', provincialDirectorValidation, validateRequest, createProvincialDirector);
-router.put('/provincial-directors/:id', idValidation.concat(provincialDirectorValidation), validateRequest, updateProvincialDirector);
-router.delete('/provincial-directors/:id', idValidation, validateRequest, deleteProvincialDirector);
+router.get('/provincial-directors/:id', validateRequest(idValidation), getProvincialDirectorById);
+router.post('/provincial-directors', validateRequest(provincialDirectorValidation), createProvincialDirector);
+router.put('/provincial-directors/:id', validateRequest(idValidation.concat(provincialDirectorValidation)), updateProvincialDirector);
+router.delete('/provincial-directors/:id', validateRequest(idValidation), deleteProvincialDirector);
 
 // =============================
 // PROVINCIAL ASSISTANTS ROUTES
 // =============================
 
 router.get('/provincial-assistants', getProvincialAssistants);
-router.get('/provincial-assistants/:id', idValidation, validateRequest, getProvincialAssistantById);
-router.post('/provincial-assistants', provincialAssistantValidation, validateRequest, createProvincialAssistant);
-router.put('/provincial-assistants/:id', idValidation.concat(provincialAssistantValidation), validateRequest, updateProvincialAssistant);
-router.delete('/provincial-assistants/:id', idValidation, validateRequest, deleteProvincialAssistant);
+router.get('/provincial-assistants/:id', validateRequest(idValidation), getProvincialAssistantById);
+router.post('/provincial-assistants', validateRequest(provincialAssistantValidation), createProvincialAssistant);
+router.put('/provincial-assistants/:id', validateRequest(idValidation.concat(provincialAssistantValidation)), updateProvincialAssistant);
+router.delete('/provincial-assistants/:id', validateRequest(idValidation), deleteProvincialAssistant);
 
 export default router;

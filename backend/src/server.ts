@@ -2,6 +2,7 @@ import app from './app';
 import { logger } from '@/config/logger';
 import { prisma } from '@/config/database';
 import { connectRedis } from '@/config/redis';
+import { uploadService } from '@/services/upload.service';
 
 const PORT = process.env.PORT || 5000;
 
@@ -13,6 +14,10 @@ const startServer = async () => {
     // Connect to Redis first
     await connectRedis();
     logger.info('Connected to Redis');
+    
+    // Initialize upload directories
+    await uploadService.initialize();
+    logger.info('Upload service initialized');
     
     // Test database connection
     await prisma.$connect();
